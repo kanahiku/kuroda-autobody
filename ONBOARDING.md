@@ -200,7 +200,7 @@ Copy `.env.example` → `.env`. Set the same keys on Vercel (Production + Previe
 | `SANITY_REVALIDATE_SECRET` | Yes | `openssl rand -hex 32` — also paste on the Sanity webhook |
 | `ISR_BYPASS_TOKEN` | Yes | `openssl rand -hex 32` — Vercel ISR bypass |
 | `PUBLIC_FORM_ENDPOINT` | Yes | Worker `/submit` URL |
-| `PUBLIC_TURNSTILE_SITE_KEY` | Yes | Dummy `1x00000000000000000000AA` is fine locally |
+| `PUBLIC_TURNSTILE_SITE_KEY` | No | Production builds default to the Kuroda widget key in `src/lib/forms.ts`; dev uses the dummy `1x00000000000000000000AA`. Set only to override |
 | `PUBLIC_SITE_SLUG` | Yes | Must match D1 `sites.slug` and `site.formSlug` |
 | `SITE_URL` | Yes | Canonical URL, no trailing slash |
 | `GOOGLE_PLACES_API_KEY` | Optional | Empty skips Google reviews |
