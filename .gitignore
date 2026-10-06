@@ -29,3 +29,4 @@ studio/.env
 pnpm-lock.yaml
 
 .astro
+studio/.sanity/
