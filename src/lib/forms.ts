@@ -3,9 +3,7 @@ import { site } from '~/config/site';
 /** Public form config. Vercel env overrides these; production fallbacks keep the live site working without dashboard vars. */
 export const FORM_ENDPOINT =
   import.meta.env.PUBLIC_FORM_ENDPOINT ||
-  (import.meta.env.PROD
-    ? 'https://massic-forms.kanahiku.workers.dev/submit'
-    : 'http://localhost:8787/submit');
+  (import.meta.env.PROD ? 'https://massic-forms.kanahiku.workers.dev/submit' : 'http://localhost:8787/submit');
 
 const FORM_WORKER_ORIGIN = FORM_ENDPOINT.replace(/\/submit\/?$/, '');
 
