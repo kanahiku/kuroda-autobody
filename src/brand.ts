@@ -280,16 +280,6 @@ export const brand = {
     focusRing:    '0 0 0 3px #7DBFED',
   },
 
-  motif: {
-    /** No decorative motif overlay on this brand. All opacities are 0. */
-    heroOpacity: 0,
-    darkOpacity: 0,
-    greyOpacity: 0,
-    whiteOpacity: 0,
-    ctaOpacity: 0,
-    pageOpacity: 0,
-    ctaColor: '#061F52',
-  },
 } as const;
 
 export type Brand = typeof brand;
@@ -432,7 +422,7 @@ function ctaButtonVars(c: Brand['colors']): string {
 }
 
 function rootVars(b: Brand): string {
-  const { colors: c, fonts: f, radius: r, motif: m, type: t } = b;
+  const { colors: c, fonts: f, radius: r, type: t } = b;
   // `b` is also used directly below for b.shadows
   const accent = rgb(c.accent);
   const accentHover = rgb(c.accentHover);
@@ -552,7 +542,6 @@ function rootVars(b: Brand): string {
     --aw-color-bg-cta-end: ${rgb(c.ctaEnd)};
     --aw-color-text-tan: ${rgb(c.accentHover)};
     --aw-color-text-tan-body: ${rgb(c.tanBody)};
-    --aw-opacity-motif-page: ${m.pageOpacity};
     --aw-shadow-card-mist: 4px 4px 30px rgb(0 0 0 / 5%), 3px 3px 0 ${rgb(c.silver200)};
     --aw-color-nav-glass: ${rgb(c.navy, 0.06)};
 
@@ -643,17 +632,6 @@ function rootVars(b: Brand): string {
     --aw-color-bg-page-dark: ${rgb(c.navy)};
     --aw-color-bg-footer: ${rgb(c.footerBg)};
 
-    --aw-color-motif-hero: var(--aw-color-accent);
-    --aw-color-motif-dark: var(--aw-color-accent);
-    --aw-color-motif-grey: var(--aw-color-accent);
-    --aw-color-motif-white: var(--aw-color-accent);
-    --aw-color-motif-cta: ${rgb(m.ctaColor)};
-
-    --aw-opacity-motif-hero: ${m.heroOpacity};
-    --aw-opacity-motif-dark: ${m.darkOpacity};
-    --aw-opacity-motif-grey: ${m.greyOpacity};
-    --aw-opacity-motif-white: ${m.whiteOpacity};
-    --aw-opacity-motif-cta: ${m.ctaOpacity};
 
     --aw-shadow-card: 0 4px 24px rgb(8 41 108 / 8%), 0 1px 4px rgb(8 41 108 / 6%);
     --aw-shadow-header: 0 1px 0 ${rgb(c.silver200)};
@@ -719,7 +697,7 @@ function rootVars(b: Brand): string {
 }
 
 function darkVars(b: Brand): string {
-  const { colors: c, fonts: f, motif: m } = b;
+  const { colors: c, fonts: f } = b;
   const accent = rgb(c.accent);
 
   return `
@@ -762,17 +740,6 @@ function darkVars(b: Brand): string {
     --aw-color-btn-link: ${rgb(c.sky)};
     --aw-color-btn-link-hover: ${rgb(c.blueLight)};
 
-    --aw-color-motif-hero: var(--aw-color-accent);
-    --aw-color-motif-dark: var(--aw-color-accent);
-    --aw-color-motif-grey: var(--aw-color-accent);
-    --aw-color-motif-white: var(--aw-color-accent);
-    --aw-color-motif-cta: ${rgb(m.ctaColor)};
-
-    --aw-opacity-motif-hero: ${m.heroOpacity};
-    --aw-opacity-motif-dark: ${m.darkOpacity};
-    --aw-opacity-motif-grey: ${m.greyOpacity};
-    --aw-opacity-motif-white: ${m.whiteOpacity};
-    --aw-opacity-motif-cta: ${m.ctaOpacity};
   `.trim();
 }
 

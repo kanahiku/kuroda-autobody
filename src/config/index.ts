@@ -12,9 +12,6 @@
 export { site, siteHost, siteOrigin } from './site';
 export { CONTACT } from './contact';
 export { SOCIAL } from './social';
-export { THEME } from './theme';
-export type { CardVariant, SectionVariant, HeroVariant } from './theme';
-export { MOTIF, MOTIF_COLOR_VARS, MOTIF_OPACITY_VARS, motifFadeMask, parseMotifOpacity } from './motif';
 export {
   PRIMARY_CTA_LABEL,
   PRIMARY_CTA_HREF,

@@ -31,7 +31,6 @@
     "astro": "^7.2.0",
     "astro-icon": "^1.1.5",
     "astro-seo": "^1.1.0",
-    "limax": "4.2.3",
     "lodash.merge": "^4.6.2",
     "unpic": "^4.2.2"
   },
@@ -62,7 +61,6 @@
     "sharp": "^0.35.3",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.3",
-    "tsx": "^4.23.12",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.66.0"
   },

@@ -4,8 +4,7 @@
   "description": "Inventory of active reusable widgets. Restyle these after brand.ts and atoms; do not fork per page.",
   "sourceOfTruth": {
     "tokens": "src/brand.ts",
-    "buildDoc": "ONBOARDING.md",
-    "theme": "src/config/theme.ts"
+    "buildDoc": "ONBOARDING.md"
   },
   "atoms": [
     {

@@ -284,7 +284,7 @@ Local: `PUBLIC_FORM_ENDPOINT=http://localhost:8787/submit` and `npm run dev` ins
 2. Paste env vars. Deploy.
 3. Connect the Sanity webhook (section 7).
 4. Search Console: add the property. For the HTML tag method, paste the `content=` value into `site.analytics.googleSiteVerificationId`.
-5. `vercel.json` host list: add the real apex + `www` (replace `example.com`) so production can index.
+5. `vercel.json` host list is set to `kurodaautobody.com` + `www`. Change it (and `site.url`) if the production domain differs, otherwise production stays noindex.
 
 ### Custom domain
 

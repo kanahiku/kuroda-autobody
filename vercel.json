@@ -27,11 +27,11 @@
       "missing": [
         {
           "type": "host",
-          "value": "example.com"
+          "value": "kurodaautobody.com"
         },
         {
           "type": "host",
-          "value": "www.example.com"
+          "value": "www.kurodaautobody.com"
         }
       ],
       "headers": [
