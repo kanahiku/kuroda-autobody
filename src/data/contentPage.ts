@@ -2,7 +2,7 @@
  * Shape of a content page rendered by `ContentPageView` (src/components/templates).
  * Page copy lives in `src/data/*.ts` (collisionRepair, hadAnAccident, …) — one object per route.
  *
- * Fixed frame:  PageHero → blue band → `sections` → FAQs → related links → silver band → closing CTA.
+ * Fixed frame:  PageHero → blue band → `sections` → FAQs (optional) → related links → silver band → closing CTA.
  * `sections` is the only variable part: pick the blocks a page needs, in order.
  * Background surfaces alternate automatically (page / subtle) unless a block sets `surface`.
  * Buttons, closing-CTA subtitle and band placement come from the shared widgets' defaults.
@@ -57,10 +57,18 @@ export interface StepsSection {
 /** Photo + heading + paragraph(s) — HeritageStory. */
 export interface StorySection {
   type: 'story';
-  eyebrow: string;
+  /** Omit when the copy has no label above the heading. */
+  eyebrow?: string;
   headingLead: string;
   headingAccent: string;
   paragraphs: string[];
+  /** Optional pull quote under the paragraphs. */
+  quote?: string;
+  quoteAttribution?: string;
+  /** Accessible label for the grey photo placeholder. */
+  photoLabel?: string;
+  /** Photo on the right (desktop). */
+  isReversed?: boolean;
   surface?: Surface;
 }
 
@@ -83,9 +91,10 @@ export interface ContentPage {
   /** Hero eyebrow (usually the sitemap category). */
   eyebrow: string;
   /** H1 split: light-weight lead + gradient tail. */
-  hero: { titleLead: string; titleAccent?: string; body: string };
+  hero: { titleLead: string; titleAccent?: string; body: string | string[] };
   sections: ContentSection[];
-  faqs: { eyebrow: string; titleLead: string; titleStrong: string; items: { title: string; description: string }[] };
+  /** Omit when the copy has no FAQs. */
+  faqs?: { eyebrow: string; titleLead: string; titleStrong: string; items: { title: string; description: string }[] };
   /** "Explore …" link grid — `paths` resolve to sitemap labels. */
   related: { eyebrow: string; headingLead: string; headingStrong: string; paths: string[] };
   /** Closing CTA heading (subtitle + buttons are shared defaults). */

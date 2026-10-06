@@ -45,7 +45,7 @@ type Block = { kind: 'section'; section: ContentSection } | { kind: 'faqs' } | {
 
 const blocks: Block[] = [
   ...page.sections.map((section): Block => ({ kind: 'section', section })),
-  { kind: 'faqs' },
+  ...(page.faqs ? [{ kind: 'faqs' } as Block] : []),
   { kind: 'related' },
 ];
 
@@ -72,13 +72,15 @@ const body = blocks.map((block) => {
   {
     body.map(({ block, surface }) => {
       if (block.kind === 'faqs') {
+        const faqs = page.faqs;
+        if (!faqs) return null;
         return (
           <FAQs
             surface={surface}
-            eyebrow={page.faqs.eyebrow}
-            title={page.faqs.titleLead}
-            titleStrong={page.faqs.titleStrong}
-            items={page.faqs.items}
+            eyebrow={faqs.eyebrow}
+            title={faqs.titleLead}
+            titleStrong={faqs.titleStrong}
+            items={faqs.items}
           />
         );
       }
@@ -135,14 +137,16 @@ const body = blocks.map((block) => {
           return (
             <HeritageStory
               surface={surface}
-              eyebrow={s.eyebrow}
+              eyebrow={s.eyebrow ?? ''}
               headingLead={s.headingLead}
               headingAccent={s.headingAccent}
               paragraphs={s.paragraphs}
-              quote=""
+              quote={s.quote ?? ''}
+              quoteAttribution={s.quoteAttribution}
               stats={[]}
               caption=""
-              photoLabel={`${pageLabel} at Kuroda Autobody`}
+              isReversed={s.isReversed}
+              photoLabel={s.photoLabel ?? `${pageLabel} at Kuroda Autobody`}
             />
           );
         case 'quote':

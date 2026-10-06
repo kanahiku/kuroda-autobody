@@ -116,7 +116,7 @@
         "titleLead": "string — light-weight part",
         "titleAccent?": "string — semibold sky-gradient tail",
         "tagline?": "string",
-        "body?": "string",
+        "body?": "string | string[] — array renders several lede paragraphs",
         "ctaText / ctaHref?": "string",
         "secondaryCtaText / secondaryCtaHref?": "string",
         "photoLabel?": "string",
@@ -274,11 +274,11 @@
       "id": "P-30",
       "name": "Content page (data-driven)",
       "figmaNames": [],
-      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote) → FAQs → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
+      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote) → FAQs (optional) → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
       "component": "ContentPageView",
       "import": "~/components/templates/ContentPageView.astro",
       "props": {
-        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts and src/data/hadAnAccident.ts"
+        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts and ourStory.ts (/about/)"
       },
       "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
     },
@@ -313,9 +313,10 @@
         "caption?": "string",
         "stats?": "{ value, label }[]",
         "paragraphs?": "string[] — replaces body",
-        "photoLabel?": "string"
+        "photoLabel?": "string",
+        "isReversed?": "boolean — photo on the right from xl up (alternate on long story pages)"
       },
-      "notes": "Defaults hold the Kuroda copy from Figma. Pass quote=\"\", stats={[]} or caption=\"\" to drop those blocks (e.g. Post-Repair Walkthrough). Photo stays a grey box until client supplies assets."
+      "notes": "Defaults hold the Kuroda copy from Figma. Pass quote=\"\", stats={[]}, caption=\"\" or eyebrow=\"\" to drop those blocks (e.g. Post-Repair Walkthrough). Photo stays a grey box until client supplies assets."
     },
     {
       "id": "P-27",

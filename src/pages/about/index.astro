@@ -1,0 +1,7 @@
+---
+/** /about/ — Our Story. Copy lives in src/data/ourStory.ts (see contentPage.ts). */
+import ContentPageView from '~/components/templates/ContentPageView.astro';
+import { getContentPage } from '~/data/contentPages';
+---
+
+<ContentPageView page={getContentPage('/about/')} />

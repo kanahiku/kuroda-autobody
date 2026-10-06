@@ -24,7 +24,8 @@ export interface Props {
   titleAccent?: string;
   /** Optional all-caps tagline under the H1. */
   tagline?: string;
-  body?: string;
+  /** Lede. Pass an array for several short paragraphs. */
+  body?: string | string[];
   ctaText?: string;
   ctaHref?: string;
   secondaryCtaText?: string;
@@ -120,9 +121,11 @@ const {
 
       {
         body && (
-          <p class="mt-4 max-w-[540px] font-body text-[16px] leading-[1.55] text-on-dark-82 md:mt-5 md:text-[18px] md:leading-[30px]">
-            {body}
-          </p>
+          <div class="mt-4 flex max-w-[540px] flex-col gap-3 font-body text-[16px] leading-[1.55] text-on-dark-82 md:mt-5 md:gap-4 md:text-[18px] md:leading-[30px]">
+            {(Array.isArray(body) ? body : [body]).map((text) => (
+              <p>{text}</p>
+            ))}
+          </div>
         )
       }
 
