@@ -19,6 +19,8 @@ import PhaseTable from '~/components/widgets/PhaseTable.astro';
 import ProcessSteps from '~/components/widgets/ProcessSteps.astro';
 import HeritageStory from '~/components/widgets/HeritageStory.astro';
 import QuoteBand from '~/components/widgets/QuoteBand.astro';
+import ActionBand from '~/components/widgets/ActionBand.astro';
+import CredentialLogos from '~/components/widgets/CredentialLogos.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import TagGrid from '~/components/widgets/TagGrid.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
@@ -38,7 +40,7 @@ const metadata = {
 };
 
 const pageLabel = sitemapLabel(page.path);
-const relatedItems = page.related.paths.map((path) => ({ label: sitemapLabel(path), href: path }));
+const relatedItems = (page.related?.paths ?? []).map((path) => ({ label: sitemapLabel(path), href: path }));
 
 // Body = authored sections, then FAQs, then the related grid. Surfaces alternate unless pinned.
 type Block = { kind: 'section'; section: ContentSection } | { kind: 'faqs' } | { kind: 'related' };
@@ -46,14 +48,16 @@ type Block = { kind: 'section'; section: ContentSection } | { kind: 'faqs' } | {
 const blocks: Block[] = [
   ...page.sections.map((section): Block => ({ kind: 'section', section })),
   ...(page.faqs ? [{ kind: 'faqs' } as Block] : []),
-  { kind: 'related' },
+  ...(page.related ? [{ kind: 'related' } as Block] : []),
 ];
 
 let previous: 'page' | 'subtle' = 'subtle';
 const body = blocks.map((block) => {
-  const pinned = block.kind === 'section' ? block.section.surface : undefined;
+  // The navy ActionBand has its own surface and does not advance the page/subtle rhythm.
+  const ownSurface = block.kind === 'section' && block.section.type === 'action';
+  const pinned = block.kind === 'section' && 'surface' in block.section ? block.section.surface : undefined;
   const surface = pinned ?? (previous === 'page' ? 'subtle' : 'page');
-  previous = surface;
+  if (!ownSurface) previous = surface;
   return { block, surface };
 });
 ---
@@ -85,13 +89,15 @@ const body = blocks.map((block) => {
         );
       }
       if (block.kind === 'related') {
+        const related = page.related;
+        if (!related) return null;
         return (
           <TagGrid
             surface={surface}
             columns={3}
-            eyebrow={page.related.eyebrow}
-            headingLead={page.related.headingLead}
-            headingStrong={page.related.headingStrong}
+            eyebrow={related.eyebrow}
+            headingLead={related.headingLead}
+            headingStrong={related.headingStrong}
             items={relatedItems}
           />
         );
@@ -151,6 +157,29 @@ const body = blocks.map((block) => {
           );
         case 'quote':
           return <QuoteBand surface={surface} eyebrow={s.eyebrow} quote={s.quote} attribution={s.attribution} />;
+        case 'action':
+          return (
+            <ActionBand
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingStrong={s.headingStrong}
+              body={s.body}
+              ctaText={s.ctaText}
+              ctaHref={s.ctaHref}
+            />
+          );
+        case 'credentials':
+          return (
+            <CredentialLogos
+              surface={surface}
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingStrong={s.headingStrong}
+              paragraphs={s.paragraphs}
+              credentials={s.credentials}
+              linkText=""
+            />
+          );
       }
     })
   }

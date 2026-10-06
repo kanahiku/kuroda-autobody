@@ -16,6 +16,8 @@ export interface FeatureItem {
   icon: BrandIconName;
   title: string;
   description: string;
+  /** Makes the title a link (hub → child pages). */
+  href?: string;
 }
 
 /** Icon / title / description columns — FeatureColumns. */
@@ -81,7 +83,30 @@ export interface QuoteSection {
   surface?: Surface;
 }
 
-export type ContentSection = FeaturesSection | TableSection | StepsSection | StorySection | QuoteSection;
+/** Mid-page navy band with one button — ActionBand. */
+export interface ActionSection {
+  type: 'action';
+  eyebrow?: string;
+  headingLead: string;
+  headingStrong?: string;
+  body: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+/** Copy + credential logo row — CredentialLogos. Omit `logo` for a grey placeholder. */
+export interface CredentialsSection {
+  type: 'credentials';
+  eyebrow: string;
+  headingLead: string;
+  headingStrong?: string;
+  paragraphs: string[];
+  credentials: { name: string; descriptor?: string; logo?: string; logoW?: number; logoH?: number }[];
+  surface?: Surface;
+}
+
+export type ContentSection =
+  FeaturesSection | TableSection | StepsSection | StorySection | QuoteSection | ActionSection | CredentialsSection;
 
 export interface ContentPage {
   /** Route, e.g. `/collision-repair/dent-repair/` — must exist in src/data/sitemap.ts (label comes from there). */
@@ -95,8 +120,8 @@ export interface ContentPage {
   sections: ContentSection[];
   /** Omit when the copy has no FAQs. */
   faqs?: { eyebrow: string; titleLead: string; titleStrong: string; items: { title: string; description: string }[] };
-  /** "Explore …" link grid — `paths` resolve to sitemap labels. */
-  related: { eyebrow: string; headingLead: string; headingStrong: string; paths: string[] };
+  /** "Explore …" link grid — `paths` resolve to sitemap labels. Omit to end on the closing CTA. */
+  related?: { eyebrow: string; headingLead: string; headingStrong: string; paths: string[] };
   /** Closing CTA heading (subtitle + buttons are shared defaults). */
   cta: { title: string; titleStrong: string };
 }

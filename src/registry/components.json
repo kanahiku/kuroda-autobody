@@ -265,22 +265,39 @@
         "headingLead? / headingStrong?": "string — strong part renders semibold",
         "lede?": "string",
         "linkText? / linkHref?": "string — rendered with Button variant=underline",
-        "credentials?": "{ name, descriptor, logoW, logoH }[] — logo is a grey placeholder at logoW × logoH",
+        "paragraphs?": "string[] — multi-paragraph copy, replaces lede",
+        "surface?": "'page' | 'subtle' — default page",
+        "credentials?": "{ name, descriptor?, logo?, logoW?, logoH? }[] — omit logo for a grey placeholder tile",
         "linkText?": "string — pass \"\" to hide the link"
       },
-      "notes": "Logos are grey boxes until the client supplies assets. Uses the new Button variant=underline (Figma Text Link)."
+      "notes": "Also the `credentials` section type of ContentPageView. Uses the new Button variant=underline (Figma Text Link)."
     },
     {
       "id": "P-30",
       "name": "Content page (data-driven)",
       "figmaNames": [],
-      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote) → FAQs (optional) → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
+      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote | action | credentials) → FAQs (optional) → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
       "component": "ContentPageView",
       "import": "~/components/templates/ContentPageView.astro",
       "props": {
-        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts and ourStory.ts (/about/)"
+        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts, ourStory.ts (/about/) and collisionRepairHub.ts (/collision-repair/)"
       },
       "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
+    },
+    {
+      "id": "P-40",
+      "name": "Action band",
+      "figmaNames": [],
+      "shape": "Full-width navy band: eyebrow, two-weight heading, one paragraph and a single inverse button. No photo.",
+      "component": "ActionBand",
+      "import": "~/components/widgets/ActionBand.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead / headingStrong?": "string",
+        "body": "string",
+        "ctaText / ctaHref": "string"
+      },
+      "notes": "ContentPageView section type `action`. Always navy, so it does not advance the page/subtle surface rhythm. Use instead of the split CTABanner when a mid-page pointer needs no photo (e.g. warranty details on the Collision Repair hub)."
     },
     {
       "id": "P-38",
