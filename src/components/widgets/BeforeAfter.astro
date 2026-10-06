@@ -1,0 +1,125 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+/**
+ * BeforeAfter — Figma node 136:412 ("Before & After")
+ * White section: eyebrow + two-tone heading with a side paragraph, a wide
+ * before/after comparison (grey placeholders, divider + handle + tags),
+ * and three proof points with hairlines.
+ *
+ * Images: grey placeholders until client delivers assets (see images.mdc).
+ */
+export interface ProofPoint {
+  title: string;
+  description: string;
+  icon: 'document' | 'camera' | 'walk-around';
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingAccent?: string;
+  body?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  /** Divider position, % from the left. Figma: 50 */
+  position?: number;
+  points?: ProofPoint[];
+}
+
+const {
+  eyebrow = 'The Kuroda difference',
+  headingLead = "We don't just tell you it's repaired. ",
+  headingAccent = 'We show you.',
+  body = 'Every repair ends with a walk-around — your work order, before/after photos and every question answered. Proof, not promises.',
+  beforeLabel = 'Before',
+  afterLabel = 'After',
+  position = 50,
+  points = [
+    { title: 'Documented work', description: 'An annotated record of every repair.', icon: 'document' },
+    { title: 'Before & after photos', description: 'HD photos reviewed with you at delivery.', icon: 'camera' },
+    { title: 'A real walk-around', description: 'An unhurried handoff in natural light.', icon: 'walk-around' },
+  ],
+} = Astro.props;
+---
+
+<section class="w-full bg-surface-page">
+  <MaxWidthContainer class="flex flex-col gap-7 py-14 md:gap-10 md:py-16 xl:gap-14 xl:py-[120px]">
+    {/* ── Head: eyebrow + heading (left), paragraph (right) ── */}
+    <div class="flex flex-col gap-7 md:gap-6 xl:flex-row xl:items-end xl:gap-20">
+      <div class="flex min-w-0 flex-1 flex-col gap-1">
+        <p
+          class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
+        >
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          {eyebrow}
+        </p>
+        <h2
+          class="pt-3 font-display text-[30px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[44px] md:leading-[54px]"
+        >
+          {headingLead}<span class="font-semibold">{headingAccent}</span>
+        </h2>
+      </div>
+      <p
+        class="font-body text-[15px] leading-[1.55] text-body-80 md:text-[16px] md:leading-7 xl:w-[400px] xl:shrink-0 xl:text-[17px]"
+      >
+        {body}
+      </p>
+    </div>
+
+    {/* ── Comparison — grey placeholders, TODO: replace with before/after photos ── */}
+    <div
+      class="relative h-[240px] w-full overflow-hidden rounded-[4px] bg-placeholder-on-grey md:h-[580px]"
+      role="img"
+      aria-label={`${beforeLabel} and ${afterLabel} comparison`}
+    >
+      {/* Divider */}
+      <div
+        class="absolute inset-y-0 w-[2px] -translate-x-1/2 bg-white"
+        style={`left: ${position}%;`}
+        aria-hidden="true"
+      >
+      </div>
+
+      {/* Handle */}
+      <div
+        class="absolute top-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white font-body text-[16px] font-bold leading-none text-heading-full shadow-[0_4px_12px_rgba(8,41,108,0.25)] md:size-12 md:text-[18px]"
+        style={`left: ${position}%;`}
+        aria-hidden="true"
+      >
+        ‹ ›
+      </div>
+
+      {/* Tags */}
+      <span
+        class="absolute left-3 top-3 rounded-[2px] md:left-6 md:top-6 bg-surface-page px-3 py-[7px] font-body text-[10.5px] font-bold leading-none tracking-[1.47px] text-heading-full uppercase"
+      >
+        {beforeLabel}
+      </span>
+      <span
+        class="absolute right-3 top-3 rounded-[2px] md:right-6 md:top-6 bg-gradient-brand px-3 py-[7px] font-body text-[10.5px] font-bold leading-none tracking-[1.47px] text-on-dark uppercase"
+      >
+        {afterLabel}
+      </span>
+    </div>
+
+    {/* ── Proof points ── */}
+    <ul class="grid grid-cols-1 gap-0 md:grid-cols-3 md:gap-12">
+      {
+        points.map((p) => (
+          <li class="flex flex-col gap-2 border-t border-default-50 py-4 md:gap-[14px] md:pb-0 md:pt-6">
+            <div class="flex items-center gap-3">
+              <BrandIcon name={p.icon} />
+              <h3 class="font-display text-[14px] font-semibold leading-none tracking-[0.02em] text-heading-full uppercase">
+                {p.title}
+              </h3>
+            </div>
+            <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px] md:leading-[25px]">
+              {p.description}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </MaxWidthContainer>
+</section>

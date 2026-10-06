@@ -1,0 +1,141 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+/**
+ * RatingsBar — Figma node 136:267
+ * Navy band showing aggregate review scores from CARWISE, Google, and Yelp.
+ * Sits immediately below the hero Blue band.
+ *
+ * Platform logos: client PNGs in public/ratings/ (white, desktop export reused on mobile
+ * at a smaller size via CSS vars).
+ */
+
+const ratings = [
+  {
+    platform: 'CARWISE',
+    logo: '/ratings/carwise.png',
+    logoOpacity: 1,
+    logoSm: 18,
+    score: '4.9',
+    count: '5,416 verified surveys',
+    countSm: '5,416 surveys',
+    logoW: 30,
+    logoH: 34,
+    fullStars: 5,
+    partial: false,
+  },
+  {
+    platform: 'Google',
+    logo: '/ratings/google.png',
+    logoOpacity: 0.9,
+    logoSm: 20,
+    score: '4.6',
+    count: '182 reviews',
+    countSm: '182 reviews',
+    logoW: 30,
+    logoH: 30,
+    fullStars: 4,
+    partial: true,
+  },
+  {
+    platform: 'Yelp',
+    logo: '/ratings/yelp.png',
+    logoOpacity: 1,
+    logoSm: 15,
+    score: '4.5',
+    count: '180 reviews',
+    countSm: '180 reviews',
+    logoW: 27,
+    logoH: 37,
+    fullStars: 4,
+    partial: true,
+  },
+] as const;
+---
+
+<section class="w-full bg-surface-inverse">
+  <MaxWidthContainer>
+    {/* ── Three rating items — mobile: 3 equal columns (Figma 140:108) · desktop: 3 rows-in-a-row ── */}
+    <div class="flex items-start justify-between py-7 lg:items-center lg:py-[55px]">
+      {
+        ratings.map((r, i) => (
+          <>
+            {/* Vertical divider between items — desktop only */}
+            {i > 0 && <div class="hidden h-[64px] w-px shrink-0 bg-white/[0.14] lg:block" aria-hidden="true" />}
+
+            {/* Rating item — mobile: stacked + centred, hairline between columns */}
+            <div
+              class:list={[
+                'flex min-w-0 flex-1 flex-col items-center gap-[6px] lg:flex-row lg:justify-center lg:gap-5',
+                i > 0 && 'border-l border-white/[0.14] lg:border-l-0',
+              ]}
+            >
+              {/* Logo + score */}
+              <div class="flex items-center gap-2 lg:gap-5">
+                {/* Platform logo — one PNG for all breakpoints (mobile width via --logo-sm) */}
+                <img
+                  src={r.logo}
+                  alt=""
+                  aria-hidden="true"
+                  width={r.logoW}
+                  height={r.logoH}
+                  style={`--logo-w: ${r.logoW}px; --logo-sm: ${r.logoSm}px; opacity: ${r.logoOpacity};`}
+                  class="h-auto w-[var(--logo-sm)] shrink-0 lg:w-[var(--logo-w)]"
+                />
+
+                {/* Score — Unbounded Light · 28 mobile / 44 desktop, tracking -3% */}
+                <p class="shrink-0 font-display text-[28px] font-light leading-[normal] tracking-[-0.03em] text-on-dark lg:text-[44px]">
+                  {r.score}
+                </p>
+              </div>
+
+              {/* Meta: stars + platform name + count */}
+              <div class="flex flex-col items-center gap-[6px] lg:items-start">
+                {/* Stars — mobile 11.2px/gap 2.4 · desktop 14px/gap 3; fill icon-on-dark (#7CBFEE); partial star at 45% */}
+                <div
+                  class="flex items-start gap-[2.4px] lg:gap-[3px]"
+                  role="img"
+                  aria-label={`${r.score} out of 5 stars`}
+                >
+                  {Array.from({ length: r.fullStars }).map(() => (
+                    <svg
+                      class="size-[11.2px] shrink-0 text-icon-on-dark lg:size-[14px]"
+                      viewBox="0 0 14 14"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 1.45833L8.69167 5.01667L12.5417 5.48333L9.68333 8.16667L10.4417 12.0167L7 10.0917L3.55833 12.0167L4.31667 8.16667L1.45833 5.48333L5.30833 5.01667L7 1.45833Z" />
+                    </svg>
+                  ))}
+                  {r.partial && (
+                    <svg
+                      class="size-[11.2px] shrink-0 text-icon-on-dark opacity-45 lg:size-[14px]"
+                      viewBox="0 0 14 14"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 1.45833L8.69167 5.01667L12.5417 5.48333L9.68333 8.16667L10.4417 12.0167L7 10.0917L3.55833 12.0167L4.31667 8.16667L1.45833 5.48333L5.30833 5.01667L7 1.45833Z" />
+                    </svg>
+                  )}
+                </div>
+
+                {/* Platform name */}
+                <p class="font-body text-[12px] font-bold leading-[normal] text-on-dark lg:text-[14px]">{r.platform}</p>
+
+                {/* Review count — shorter copy on mobile */}
+                <p class="font-body text-[10.5px] leading-[normal] text-on-dark-60 lg:text-[13px]">
+                  <>
+                    <span class="lg:hidden">{r.countSm}</span>
+                    <span class="hidden lg:inline">{r.count}</span>
+                  </>
+                </p>
+              </div>
+            </div>
+          </>
+        ))
+      }
+    </div>
+
+    {/* Hairline separator — Figma: rgba(255,255,255,0.10) */}
+    <div class="hidden h-px w-full bg-white/10 md:block" aria-hidden="true"></div>
+  </MaxWidthContainer>
+</section>

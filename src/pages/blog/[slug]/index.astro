@@ -1,0 +1,112 @@
+---
+/**
+ * Blog article — /blog/[slug]/
+ * Rendered from a Sanity `blogPost`: hero (cover photo + meta) → TOC rail + article → more articles → CTA.
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BlogArticleBody from '~/components/blog/BlogArticleBody.astro';
+import BlogSidebar from '~/components/blog/BlogSidebar.astro';
+import BlogGrid from '~/components/widgets/BlogGrid.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import { getFormattedDate } from '~/utils/utils';
+import { getBlogPost, getBlogPosts } from '~/lib/content';
+import { getArticleToc, getReadingMinutes } from '~/lib/content/blogArticle';
+import { site } from '~/config/site';
+
+export const prerender = false;
+
+const slug = Astro.params.slug;
+const post = typeof slug === 'string' ? await getBlogPost(slug) : undefined;
+
+if (!post) {
+  Astro.response.status = 404;
+  return Astro.rewrite('/404');
+}
+
+const toc = getArticleToc(post);
+const readingMinutes = getReadingMinutes(post);
+const moreArticles = (await getBlogPosts()).filter((item) => item.slug !== post.slug).slice(0, 3);
+
+const metadata = {
+  title: `${post.title} | ${site.name}`,
+  description: post.excerpt,
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow={post.category ?? 'Blog'}
+    titleLead={post.title}
+    body={post.excerpt}
+    showCtas={false}
+    image={post.image?.src ? { src: post.image.src, alt: post.image.alt } : undefined}
+    photoLabel={post.title}
+  >
+    <p
+      class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-body text-[13px] font-medium leading-5 text-on-dark-82 md:mt-8"
+    >
+      <time datetime={post.publishDate}>{getFormattedDate(new Date(post.publishDate))}</time>
+      {
+        post.author && (
+          <>
+            <span aria-hidden="true">·</span>
+            <span>{post.author}</span>
+          </>
+        )
+      }
+      <span aria-hidden="true">·</span>
+      <span>{readingMinutes} min read</span>
+    </p>
+  </PageHero>
+
+  <GradientBand variant="blue" />
+
+  {/* ── Article ── */}
+  <section class="w-full bg-surface-page">
+    <MaxWidthContainer class="py-14 md:py-16 xl:py-[120px]">
+      <a
+        href="/blog/"
+        class="mb-10 inline-flex items-center gap-2 font-body text-[12px] font-bold uppercase leading-4 tracking-[1.2px] text-heading-full transition-colors hover:text-accent md:mb-14"
+      >
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          aria-hidden="true"
+          class="rotate-180 text-accent"
+        >
+          <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"></path>
+        </svg>
+        All Articles
+      </a>
+
+      <div class="lg:grid lg:grid-cols-[260px_minmax(0,1fr)] lg:items-start lg:gap-14 xl:gap-24">
+        <BlogSidebar toc={toc} tags={post.tags} />
+
+        <article class="min-w-0 max-w-[760px]">
+          <BlogSidebar variant="inline" toc={toc} />
+          <BlogArticleBody post={post} />
+        </article>
+      </div>
+    </MaxWidthContainer>
+  </section>
+
+  {
+    moreArticles.length > 0 && (
+      <BlogGrid
+        posts={moreArticles}
+        surface="subtle"
+        eyebrow="Keep Reading"
+        headingLead="More "
+        headingStrong="Articles"
+      />
+    )
+  }
+
+  <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" />
+</Layout>

@@ -1,0 +1,26 @@
+---
+/**
+ * Site wallpaper — both layers are position:fixed so they fill the
+ * viewport exactly and never move on scroll.
+ *
+ * Layer order (bottom -> top):
+ *   1. Fixed page color                                        z-index: -10
+ *   2. CSS-only subtle grid/noise layer                         z-index: -9
+ *   3. Section fills cover both layers                          z: auto
+ *
+ * Transparent sections punch through to show layers 1 + 2.
+ */
+---
+
+{/* Layer 1 — page color, fixed to viewport */}
+<div
+  class="pointer-events-none fixed inset-0 -z-10 bg-page"
+  aria-hidden="true"
+></div>
+
+{/* Layer 2 — CSS-only texture. No project-specific image asset. */}
+<div
+  class="pointer-events-none fixed inset-0 -z-[9] select-none opacity-[0.06]"
+  style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0); background-size: 32px 32px; color: var(--aw-color-text-heading);"
+  aria-hidden="true"
+/>

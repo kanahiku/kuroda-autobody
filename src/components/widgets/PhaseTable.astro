@@ -1,0 +1,118 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+/**
+ * PhaseTable — head + hairline-ruled data table (repair phases, approach comparisons).
+ * Section: head (eyebrow + two-weight heading | optional lede) above a table whose header
+ * row uses the eyebrow style and whose first column is an Unbounded row label.
+ * Below md the table is swapped for stacked rows where every value keeps its column label.
+ */
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  lead?: string;
+  /** Column headers — first is the row-label column. */
+  columns: string[];
+  /** Rows — each row has one cell per column. */
+  rows: string[][];
+  /** Background surface (default subtle / mist grey). */
+  surface?: 'subtle' | 'page';
+  id?: string;
+}
+
+const { eyebrow, headingLead = '', headingStrong, lead, columns, rows, surface = 'subtle', id } = Astro.props;
+---
+
+<section {...id ? { id } : {}} class:list={['w-full', surface === 'page' ? 'bg-surface-page' : 'bg-surface-subtle']}>
+  <MaxWidthContainer class="flex flex-col gap-7 py-14 md:gap-[56px] md:py-16 xl:py-[120px]">
+    {/* ── Head ── */}
+    <div class="flex flex-col gap-7 md:gap-8 xl:flex-row xl:items-start xl:gap-24">
+      <div class="flex flex-col gap-1 xl:w-[480px] xl:shrink-0">
+        {
+          eyebrow && (
+            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+              <span class="eyebrow-rule" aria-hidden="true" />
+              {eyebrow}
+            </p>
+          )
+        }
+        <h2
+          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+        >
+          {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
+        </h2>
+      </div>
+      {
+        lead && (
+          <p class="min-w-0 flex-1 font-body text-[15px] leading-[1.55] text-body-80 md:text-[16px] md:leading-7 lg:text-[17px] xl:pt-[34px]">
+            {lead}
+          </p>
+        )
+      }
+    </div>
+
+    {/* ── Table (md and up) ── */}
+    <table class="hidden w-full border-collapse text-left md:table">
+      <thead>
+        <tr class="border-t border-default-50">
+          {
+            columns.map((col, ci) => (
+              <th
+                scope="col"
+                class:list={[
+                  'py-4 font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase',
+                  ci === 0 ? 'w-[24%] pr-6' : 'px-6',
+                ]}
+              >
+                {col}
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((cells) => (
+            <tr class="border-t border-default-50 last:border-b">
+              {cells.map((cell, ci) =>
+                ci === 0 ? (
+                  <th
+                    scope="row"
+                    class="w-[24%] py-6 pr-6 text-left align-top font-display text-[17px] font-semibold leading-[1.3] tracking-[-0.01em] text-heading-full"
+                  >
+                    {cell}
+                  </th>
+                ) : (
+                  <td class="px-6 py-6 align-top font-body text-[15px] leading-[25px] text-body-78">{cell}</td>
+                )
+              )}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+
+    {/* ── Stacked rows (below md) — each cell carries its column label ── */}
+    <ul class="flex flex-col border-b border-default-50 md:hidden">
+      {
+        rows.map(([label, ...cells]) => (
+          <li class="flex flex-col gap-4 border-t border-default-50 py-5">
+            <h3 class="font-display text-[16px] font-semibold leading-[1.3] tracking-[-0.01em] text-heading-full">
+              {label}
+            </h3>
+            <dl class="flex flex-col gap-3">
+              {cells.map((cell, ci) => (
+                <div class="flex flex-col gap-1">
+                  <dt class="font-body text-[10.5px] font-bold leading-none tracking-[1.26px] text-accent uppercase">
+                    {columns[ci + 1]}
+                  </dt>
+                  <dd class="font-body text-[14px] leading-[1.5] text-body-78">{cell}</dd>
+                </div>
+              ))}
+            </dl>
+          </li>
+        ))
+      }
+    </ul>
+  </MaxWidthContainer>
+</section>

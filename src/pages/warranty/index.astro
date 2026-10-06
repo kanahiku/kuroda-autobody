@@ -1,0 +1,94 @@
+---
+/**
+ * /warranty/ — Limited Lifetime Warranty.
+ * Composed from homepage-system widgets only. Copy: Sitemap Content Plan V2.
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import FeatureColumns from '~/components/widgets/FeatureColumns.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import TagGrid from '~/components/widgets/TagGrid.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import { WHY_KURODA_RESOURCES } from '~/config/resources';
+
+const metadata = {
+  title: 'Limited Lifetime Warranty on Auto Repairs | Kuroda Autobody',
+  ignoreTitleTemplate: true,
+  description:
+    'Kuroda Autobody stands by our work with a Limited Lifetime Warranty on qualifying metalwork and refinishing repairs for as long as you own your vehicle.',
+};
+
+const faqs = [
+  {
+    title: 'What does the Kuroda Limited Lifetime Warranty cover?',
+    description:
+      'Our Limited Lifetime Warranty covers qualifying metalwork and refinishing repairs completed at our Waipahu facility.',
+  },
+  {
+    title: 'How long does the warranty last?',
+    description: 'The warranty remains valid for as long as you own the vehicle.',
+  },
+  {
+    title: 'Are all parts and mechanical repairs covered under this lifetime warranty?',
+    description:
+      'Qualifying metalwork and refinishing repairs are covered for as long as you own the vehicle. Other repairs and parts carry their own specific terms.',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Why Kuroda"
+    titleLead="Limited Lifetime Warranty "
+    titleAccent="in Waipahu"
+    body="When you choose Kuroda Autobody for your collision repair, we stand behind our craftsmanship. We provide a Limited Lifetime Warranty on qualifying metalwork and refinishing repairs for as long as you own your vehicle."
+    photoLabel="Kuroda Autobody technician inspecting a finished repair"
+  />
+
+  <GradientBand variant="blue" />
+
+  <FeatureColumns
+    eyebrow="Our craftsmanship"
+    headingLead="Standing Behind "
+    headingStrong="Our Work"
+    lead="Quality restoration requires precision and experienced technicians. Because we hold ourselves to rigorous standards, we protect our craftsmanship for the long haul:"
+    columns={3}
+    items={[
+      {
+        icon: 'shield',
+        title: 'Covered Repairs',
+        description: 'We provide a Limited Lifetime Warranty on qualifying metalwork and refinishing repairs.',
+      },
+      {
+        icon: 'clock',
+        title: 'Duration',
+        description: 'This protection remains in effect for as long as you own your vehicle.',
+      },
+      {
+        icon: 'claims',
+        title: 'Other Repairs and Parts',
+        description: 'Other repairs and parts carry specific terms.',
+      },
+    ]}
+  />
+
+  <FAQs eyebrow="Warranty FAQ" title="Frequently Asked Questions " titleStrong="About Our Warranty" items={faqs}>
+    <div slot="bg" class="size-full bg-surface-subtle"></div>
+  </FAQs>
+
+  <TagGrid
+    surface="page"
+    columns={3}
+    eyebrow="Why Kuroda"
+    headingLead="Explore Why Kuroda "
+    headingStrong="Resources"
+    items={WHY_KURODA_RESOURCES}
+  />
+
+  <CTABanner
+    variant="split"
+    title="Drive With "
+    titleStrong="Complete Confidence"
+  />
+</Layout>

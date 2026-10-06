@@ -1,0 +1,125 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+/**
+ * MapDirections — map + driving directions.
+ * Mist-grey section: eyebrow + two-weight heading, then an embedded map with a caption
+ * on the left and a lede, numbered direction rows and a CTA on the right
+ * (same split + row rhythm as FeatureListSplit).
+ */
+export interface Direction {
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  /** Embed URL for the map iframe. */
+  mapSrc: string;
+  mapTitle: string;
+  caption?: string;
+  lead?: string;
+  directions: Direction[];
+  ctaText?: string;
+  ctaHref?: string;
+  id?: string;
+}
+
+const {
+  eyebrow,
+  headingLead = '',
+  headingStrong,
+  mapSrc,
+  mapTitle,
+  caption,
+  lead,
+  directions,
+  ctaText,
+  ctaHref,
+  id,
+} = Astro.props;
+---
+
+<section {...id ? { id } : {}} class="w-full bg-surface-subtle">
+  <MaxWidthContainer class="py-14 md:pb-16 md:pt-16 lg:pb-[80px] xl:pt-[120px]">
+    {/* Eyebrow → heading: gap-1 rule */}
+    <div class="flex flex-col gap-1">
+      {
+        eyebrow && (
+          <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+            <span class="eyebrow-rule" aria-hidden="true" />
+            {eyebrow}
+          </p>
+        )
+      }
+      <h2
+        class="pt-3 font-display text-[30px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-[18px] md:text-[42px]"
+      >
+        {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
+      </h2>
+    </div>
+
+    <div
+      class="mt-7 grid grid-cols-1 gap-x-20 gap-y-7 md:mt-10 md:gap-y-4 xl:mt-[70px] xl:grid-cols-[minmax(0,660px)_minmax(0,1fr)] xl:grid-rows-[auto_auto]"
+    >
+      {/* ── Map (row 1, col 1) ── */}
+      <div class="aspect-[342/300] w-full bg-section-grey md:aspect-[660/500] xl:col-start-1 xl:row-start-1">
+        <iframe
+          src={mapSrc}
+          title={mapTitle}
+          class="size-full border-0"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+
+      {/* ── Caption (row 2, col 1) ── */}
+      {
+        caption && (
+          <p class="font-body text-[11px] leading-[normal] text-body-78 md:text-[12px] md:leading-none xl:col-start-1 xl:row-start-2">
+            {caption}
+          </p>
+        )
+      }
+
+      {/* ── Lede + numbered direction rows + CTA ── */}
+      <div class="flex min-w-0 flex-col xl:col-start-2 xl:row-span-2 xl:row-start-1">
+        {
+          lead && (
+            <p class="mb-6 font-body text-[15px] leading-[1.55] text-body-80 md:mb-8 md:text-[16px] md:leading-7 lg:text-[17px]">
+              {lead}
+            </p>
+          )
+        }
+        <ul class="flex flex-col border-b border-default-50">
+          {
+            directions.map((item, i) => (
+              <li class="relative flex flex-col gap-1.5 border-t border-default-50 py-5 pr-10 md:gap-[9px] md:py-7">
+                <h3 class="font-display text-[15px] font-semibold leading-[normal] text-heading-full md:text-[17px] md:leading-none">
+                  {item.title}
+                </h3>
+                <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px]">{item.description}</p>
+                <span
+                  class="absolute right-0 top-5 font-body text-[11px] font-bold leading-none tracking-[1.54px] text-body-55 md:top-[34px]"
+                  aria-hidden="true"
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        {
+          ctaText && ctaHref && (
+            <div class="mt-7 md:mt-10">
+              <a href={ctaHref} class="btn-primary" target="_blank" rel="noopener noreferrer">
+                {ctaText}
+              </a>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </MaxWidthContainer>
+</section>

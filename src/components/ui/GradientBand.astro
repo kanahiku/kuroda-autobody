@@ -1,0 +1,24 @@
+---
+/**
+ * GradientBand — 10px horizontal section divider band.
+ *
+ * Figma node 152:634 "Gradients & Bands":
+ *   variant="blue"   → Band · Blue   (below hero, above footer)
+ *   variant="silver" → Band · Silver (below services, above CTA)
+ *
+ * Always full-width, 10px tall. Pass class= to add margins/position overrides.
+ */
+export interface Props {
+  variant: 'blue' | 'silver';
+  class?: string;
+}
+
+const { variant, class: className } = Astro.props;
+---
+
+<div
+  class:list={['w-full shrink-0', className]}
+  style={`height: 10px; background: var(${variant === 'blue' ? '--gradient-band-blue' : '--gradient-band-silver'});`}
+  role="presentation"
+  aria-hidden="true"
+/>

@@ -1,0 +1,155 @@
+---
+/**
+ * Button atom — Kuroda Autobody design system.
+ *
+ * ┌─────────────┬─────────────────────────────────────────────────────────────┐
+ * │ variant     │ When to use                                                 │
+ * ├─────────────┼─────────────────────────────────────────────────────────────┤
+ * │ primary     │ Main CTA everywhere (brand gradient, white text)            │
+ * │ secondary   │ Secondary CTA on dark / navy surfaces (transparent + ring)  │
+ * │ ghost       │ Alt on dark surfaces (slightly more opaque ring than sec.)  │
+ * │ inverse     │ White btn on gradient / dark sections (navy text)           │
+ * │ outline     │ Navy border btn on light / white surfaces (navy text)       │
+ * │ link        │ Inline text link — no fill                                  │
+ * │ underline   │ Figma "Text Link": navy label, blue underline + → arrow     │
+ * └─────────────┴─────────────────────────────────────────────────────────────┘
+ *
+ * Sizes:
+ *   lg  → Figma "Default"  px=26 py=17  (standard page CTAs)
+ *   sm  → Figma "Small"    px=18 py=13  (navbar CTA only)
+ *   md  → legacy intermediate (kept for backward compat)
+ *
+ * States (CSS-only): :hover · :active (pressed) · :focus-visible (3px sky ring)
+ *
+ * Backward-compat aliases: 'ghost-dark' → ghost, 'ghost-light' → outline
+ *
+ * Usage:
+ *   <Button variant="primary"   text="Get a Free Estimate"  href="/contact" />
+ *   <Button variant="secondary" text="Learn More"           href="/about" />
+ *   <Button variant="ghost"     text="View Our Work"        href="/gallery" />
+ *   <Button variant="inverse"   text="Our Services"         href="/services" />
+ *   <Button variant="outline"   text="Contact Us"           href="/contact" />
+ *   <Button variant="link"      text="Read more"            href="/blog" />
+ *   <Button variant="primary"   size="sm" text="Schedule"  href="/contact" />
+ */
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
+import PhoneIcon from '~/components/ui/PhoneIcon.astro';
+import type { CallToAction } from '~/types';
+import CTANote from '~/components/ui/CTANote.astro';
+import { PRIMARY_CTA_NOTE } from '~/config/cta';
+
+export interface Props extends CallToAction {
+  /**
+   * Visual style of the button.
+   * primary    → brand gradient (use anywhere)
+   * secondary  → transparent + white border (on dark/navy)
+   * ghost      → transparent + white/60% border (on dark)
+   * inverse    → white fill, navy text (on dark / gradient sections)
+   * outline    → navy border, navy text (on light sections)
+   * link       → inline text link
+   * underline  → Figma Text Link (navy label, blue 1.5px underline, → arrow)
+   */
+  variant?: 'primary' | 'secondary' | 'ghost' | 'inverse' | 'outline' | 'link' | 'underline'
+    | 'ghost-dark' | 'ghost-light' | 'tertiary'; // backward-compat aliases
+
+  /**
+   * lg  → Figma "Default"  26px/17px   (default; use everywhere)
+   * sm  → Figma "Small"    18px/13px   (navbar CTA)
+   * md  → legacy intermediate
+   */
+  size?: 'lg' | 'md' | 'sm';
+}
+
+const {
+  variant = 'primary',
+  size = 'lg',
+  target,
+  text = Astro.slots.render('default'),
+  icon = '',
+  class: className = '',
+  type,
+  hideNote = false,
+  noteTone = 'light',
+  ...rest
+} = Astro.props;
+
+// Map Figma variant names → CSS utility classes (with backward-compat aliases).
+const variantClass: Record<string, string> = {
+  primary:      'btn-primary',
+  secondary:    'btn-secondary',
+  ghost:        'btn-ghost',
+  'ghost-dark': 'btn-ghost',       // backward compat
+  inverse:      'btn-inverse',
+  outline:      'btn-outline',
+  'ghost-light': 'btn-outline',    // backward compat
+  tertiary:     'btn-secondary',   // backward compat
+  link:         'btn-link',
+  underline:    'btn-underline',
+};
+
+// Size suffix — only applies to non-link variants.
+const sizeClass: Record<string, string> = {
+  lg: 'cta-lg',
+  md: 'cta-md',
+  sm: 'cta-sm',
+};
+
+const isPhoneIcon  = icon === 'tabler:phone' || icon === 'phone';
+const isArrowIcon  = /(?:arrow|chevron)/i.test(icon);
+const shouldRenderIcon = Boolean(icon) && (variant === 'link' || !isArrowIcon);
+const showNote     = variant === 'primary' && !hideNote && Boolean(PRIMARY_CTA_NOTE);
+const isNativeButton = type === 'button' || type === 'submit' || type === 'reset';
+
+const buttonClass = twMerge(
+  variantClass[variant] ?? 'btn-primary',
+  variant !== 'link' && variant !== 'underline' ? (sizeClass[size] ?? 'cta-lg') : '',
+  className,
+  showNote ? 'w-auto self-start' : '',
+);
+---
+
+{
+  showNote ? (
+    <div class="flex flex-col gap-1.5 w-full">
+      {isNativeButton ? (
+        <button type={type} class={buttonClass} {...rest}>
+          <Fragment set:html={text} />
+          {shouldRenderIcon && (isPhoneIcon ? (
+            <PhoneIcon class="ml-1 -mr-1.5 inline-block rtl:mr-1 rtl:-ml-1.5" />
+          ) : (
+            icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />
+          ))}
+        </button>
+      ) : (
+        <a class={buttonClass} {...(target ? { target, rel: 'noopener noreferrer' } : {})} {...rest}>
+          <Fragment set:html={text} />
+          {shouldRenderIcon && (isPhoneIcon ? (
+            <PhoneIcon class="ml-1 -mr-1.5 inline-block rtl:mr-1 rtl:-ml-1.5" />
+          ) : (
+            icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />
+          ))}
+        </a>
+      )}
+      <CTANote tone={noteTone} />
+    </div>
+  ) : isNativeButton ? (
+    <button type={type} class={buttonClass} {...rest}>
+      <Fragment set:html={text} />
+      {shouldRenderIcon && (isPhoneIcon ? (
+        <PhoneIcon class="ml-1 -mr-1.5 inline-block rtl:mr-1 rtl:-ml-1.5" />
+      ) : (
+        icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />
+      ))}
+    </button>
+  ) : (
+    <a class={buttonClass} {...(target ? { target, rel: 'noopener noreferrer' } : {})} {...rest}>
+      <Fragment set:html={text} />
+      {shouldRenderIcon && (isPhoneIcon ? (
+        <PhoneIcon class="ml-1 -mr-1.5 inline-block rtl:mr-1 rtl:-ml-1.5" />
+      ) : (
+        icon && <Icon name={icon} class="w-5 h-5 ml-1 -mr-1.5 rtl:mr-1 rtl:-ml-1.5 inline-block" />
+      ))}
+    </a>
+  )
+}

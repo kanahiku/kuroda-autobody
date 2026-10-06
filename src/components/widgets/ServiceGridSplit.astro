@@ -1,0 +1,110 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+/**
+ * ServiceGridSplit — Figma node 136:322 ("Services")
+ * Left: tall photo (grey placeholder) bleeding to the container edge + caption.
+ * Right: eyebrow, two-tone heading, 2-column grid of icon service items.
+ *
+ * Image: grey placeholder until client delivers the asset (see images.mdc).
+ */
+export interface ServiceItem {
+  title: string;
+  description: string;
+  icon: 'collision' | 'calibration' | 'paint' | 'alignment' | 'claims' | 'rental';
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingAccent?: string;
+  caption?: string;
+  figLabel?: string;
+  items?: ServiceItem[];
+}
+
+const {
+  eyebrow = 'Our services',
+  headingLead = 'Auto body & collision ',
+  headingAccent = 'services on Oʻahu.',
+  caption = 'Precision check — paint booth inspection.',
+  figLabel = 'FIG. 01',
+  items = [
+    { title: 'Collision repair', description: 'Structural, panel and frame repair.', icon: 'collision' },
+    { title: 'OEM calibration', description: 'Factory-standard ADAS calibration.', icon: 'calibration' },
+    { title: 'Paint & refinishing', description: 'Computer-matched OEM finishes.', icon: 'paint' },
+    { title: 'Unibody alignment', description: 'Precise measuring and alignment.', icon: 'alignment' },
+    { title: 'Insurance claims', description: 'We work with all carriers.', icon: 'claims' },
+    { title: 'Rental coordination', description: 'On-site Enterprise rentals.', icon: 'rental' },
+  ],
+} = Astro.props;
+---
+
+<section class="w-full bg-surface-page">
+  <MaxWidthContainer>
+    {
+      /*
+      Split: photo (left) stays INSIDE the container; copy column (right) sits flush
+      against the container's right edge. Columns scale 480 : 544 (Figma widths) so the
+      photo shrinks proportionally when space is tight; gap grows to 96px at 1280+.
+    */
+    }
+    <div
+      class="grid grid-cols-1 gap-7 py-14 lg:grid-cols-[minmax(0,480fr)_minmax(0,544fr)] lg:gap-x-12 lg:gap-y-0 lg:pb-[116px] lg:pt-[120px] xl:gap-x-24"
+    >
+      {/* ── Photo + caption (inside container, left aligned) ── */}
+      <figure class="order-2 flex flex-col lg:order-none">
+        {/* TODO: replace with <Image> when the precision-check photo is ready */}
+        <div class="aspect-[342/300] w-full bg-section-grey lg:aspect-[480/617]" role="img" aria-label={caption}></div>
+        <figcaption class="mt-7 flex flex-col gap-2 lg:mt-4">
+          <span class="font-body text-[11px] leading-[normal] text-body-78 lg:text-[12px] lg:leading-none"
+            >{caption}</span
+          >
+          <span
+            class="hidden font-body text-[11px] font-bold leading-none tracking-[1.54px] text-body-55 uppercase lg:block"
+          >
+            {figLabel}
+          </span>
+        </figcaption>
+      </figure>
+
+      {/* ── Copy + services grid ── */}
+      <div class="contents lg:flex lg:w-full lg:max-w-[544px] lg:flex-col lg:justify-self-end lg:pt-[30px]">
+        {/* Eyebrow → heading: gap-1 rule */}
+        <div class="order-1 flex flex-col gap-1 lg:order-none">
+          <p
+            class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
+          >
+            <span class="eyebrow-rule" aria-hidden="true"></span>
+            {eyebrow}
+          </p>
+          <h2
+            class="max-w-[544px] pt-3 font-display text-[30px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-[18px] md:text-[42px]"
+          >
+            {headingLead}<span class="font-semibold text-accent-role">{headingAccent}</span>
+          </h2>
+        </div>
+
+        <ul
+          class="order-3 grid grid-cols-1 gap-x-6 gap-y-0 sm:mt-9 sm:grid-cols-2 sm:gap-y-[77px] md:mt-[52px] lg:order-none xl:gap-x-10"
+        >
+          {
+            items.map((item) => (
+              <li class="border-t border-default-50">
+                <div class="flex items-start gap-4 py-[18px] sm:pb-0 sm:pt-[23px]">
+                  <BrandIcon name={item.icon} />
+                  <div class="flex flex-col gap-1 sm:gap-2 sm:pt-[3px]">
+                    <h3 class="font-body text-[15px] font-bold leading-[normal] text-heading-full sm:text-[16px] sm:leading-none">
+                      {item.title}
+                    </h3>
+                    <p class="font-body text-[14px] leading-[1.5] text-body-78 sm:text-[14.5px]">{item.description}</p>
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </MaxWidthContainer>
+</section>

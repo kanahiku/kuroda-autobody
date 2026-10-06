@@ -1,0 +1,113 @@
+---
+/**
+ * BlogCard — article teaser (Sanity `blogPost`).
+ *
+ * variant: light (default, on white / mist) · dark (on navy surfaces)
+ * layout:  stacked (default, grid card) · featured (wide, image left — used for the newest post)
+ *
+ * Cover photo comes from Sanity; posts without one keep the grey placeholder.
+ */
+import Image from '~/components/common/Image.astro';
+import { getFormattedDate } from '~/utils/utils';
+import { getBlogPermalink } from '~/lib/content';
+import type { BlogPost } from '~/lib/content/types';
+
+export interface Props {
+  post: BlogPost;
+  variant?: 'dark' | 'light';
+  layout?: 'stacked' | 'featured';
+}
+
+const { post, variant = 'light', layout = 'stacked' } = Astro.props;
+const href = getBlogPermalink(post.slug);
+const isDark = variant === 'dark';
+const isFeatured = layout === 'featured';
+---
+
+<a
+  href={href}
+  class:list={[
+    'group flex h-full flex-col gap-5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent',
+    isFeatured && 'md:grid md:grid-cols-[1.15fr_1fr] md:items-center md:gap-10 xl:gap-14',
+  ]}
+>
+  {/* Cover */}
+  <div class="relative w-full shrink-0 overflow-hidden bg-section-grey" style="aspect-ratio: 16 / 10;">
+    {/* TODO: placeholder stays until the post has a cover photo in Sanity */}
+    {
+      post.image?.src && (
+        <Image
+          src={post.image.src}
+          alt={post.image.alt || post.title}
+          width={960}
+          height={600}
+          widths={[480, 640, 960, 1200]}
+          sizes={isFeatured ? '(max-width: 768px) 100vw, 55vw' : '(max-width: 768px) 100vw, 33vw'}
+          layout="cover"
+          format="webp"
+          quality={78}
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          loading="lazy"
+        />
+      )
+    }
+  </div>
+
+  {/* Copy */}
+  <div class="flex flex-1 flex-col gap-3">
+    <p
+      class:list={[
+        'flex flex-wrap items-center gap-x-3 gap-y-1 font-body text-[11px] font-bold uppercase leading-4 tracking-[1.54px]',
+        isDark ? 'text-on-dark-accent' : 'text-accent',
+      ]}
+    >
+      {post.category && <span>{post.category}</span>}
+      <time datetime={post.publishDate} class:list={[isDark ? 'text-on-dark-82' : 'text-body-55']}>
+        {getFormattedDate(new Date(post.publishDate))}
+      </time>
+    </p>
+
+    <h3
+      class:list={[
+        'font-display font-light leading-[1.2] tracking-[-0.02em] transition-colors duration-150 group-hover:text-accent',
+        isFeatured ? 'text-[26px] md:text-[34px] md:leading-[1.15]' : 'text-[20px] md:text-[22px]',
+        isDark ? 'text-on-dark' : 'text-heading-full',
+      ]}
+    >
+      {post.title}
+    </h3>
+
+    {
+      post.excerpt && (
+        <p
+          class:list={[
+            'font-body text-[15px] leading-[1.6]',
+            isFeatured ? 'line-clamp-4 md:text-[16px] md:leading-7' : 'line-clamp-3',
+            isDark ? 'text-on-dark-82' : 'text-body-80',
+          ]}
+        >
+          {post.excerpt}
+        </p>
+      )
+    }
+
+    <span
+      class:list={[
+        'mt-auto flex items-center gap-2 pt-2 font-body text-[12px] font-bold uppercase leading-4 tracking-[1.2px]',
+        isDark ? 'text-on-dark' : 'text-heading-full',
+      ]}
+    >
+      Read article
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        aria-hidden="true"
+        class="shrink-0 text-accent transition-transform group-hover:translate-x-1"
+      >
+        <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"></path>
+      </svg>
+    </span>
+  </div>
+</a>

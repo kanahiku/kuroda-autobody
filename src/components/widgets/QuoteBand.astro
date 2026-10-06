@@ -1,0 +1,31 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import PullQuote from '~/components/ui/PullQuote.astro';
+/**
+ * QuoteBand — a single customer quote on its own band (PullQuote atom inside the site container).
+ * Optional eyebrow above. Surface follows the page rhythm (default subtle / mist grey).
+ */
+export interface Props {
+  quote: string;
+  attribution?: string;
+  eyebrow?: string;
+  surface?: 'subtle' | 'page';
+  id?: string;
+}
+
+const { quote, attribution, eyebrow, surface = 'subtle', id } = Astro.props;
+---
+
+<section {...id ? { id } : {}} class:list={['w-full', surface === 'page' ? 'bg-surface-page' : 'bg-surface-subtle']}>
+  <MaxWidthContainer class="flex flex-col gap-7 py-14 md:py-16 xl:py-[96px]">
+    {
+      eyebrow && (
+        <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+          <span class="eyebrow-rule" aria-hidden="true" />
+          {eyebrow}
+        </p>
+      )
+    }
+    <PullQuote class="max-w-[820px]" quote={quote} attribution={attribution} />
+  </MaxWidthContainer>
+</section>

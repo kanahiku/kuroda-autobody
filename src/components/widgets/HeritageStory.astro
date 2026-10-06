@@ -1,0 +1,137 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+import PullQuote from '~/components/ui/PullQuote.astro';
+/**
+ * HeritageStory — Figma node 136:444 ("Heritage 1938")
+ * Mist-grey section: archive photo (grey placeholder) + caption on the left;
+ * eyebrow, two-tone heading with gradient accent, lede, pull quote and
+ * three stats on the right.
+ *
+ * Variants by prop: pass `quote=""`, `stats={[]}` or `caption=""` to drop that block, and
+ * `paragraphs` for multi-paragraph copy (e.g. the Post-Repair Walkthrough).
+ *
+ * Image: grey placeholder until client delivers the asset (see images.mdc).
+ */
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingAccent?: string;
+  body?: string;
+  /** Extra paragraphs; when set they replace `body`. */
+  paragraphs?: string[];
+  /** Accessible label for the photo placeholder (defaults to `caption`). */
+  photoLabel?: string;
+  quote?: string;
+  quoteAttribution?: string;
+  caption?: string;
+  stats?: Stat[];
+  /** Background surface (default subtle / mist grey). */
+  surface?: 'subtle' | 'page';
+}
+
+const {
+  eyebrow = 'A legacy beyond the business.',
+  headingLead = 'Rooted in Hawaii. ',
+  headingAccent = '1938.',
+  body = 'Founded as a small service station in Aiea, now run by the third and fourth generations of the Kuroda family in Waipahu.',
+  paragraphs,
+  photoLabel,
+  quote = '“Do it right, treat people right, and treat every car as if our own family were driving it.”',
+  quoteAttribution = '— The Kuroda family principle',
+  caption = 'Our founding family service station in Aiea, 1938.',
+  stats = [
+    { value: '1938', label: 'Founded in Aiea' },
+    { value: 'WAIPIO', label: 'Modern business park' },
+    { value: '4TH GEN', label: 'Active leadership' },
+  ],
+  surface = 'subtle',
+} = Astro.props;
+---
+
+<section class:list={['w-full', surface === 'page' ? 'bg-surface-page' : 'bg-surface-subtle']}>
+  <MaxWidthContainer
+    class="flex flex-col gap-7 py-14 md:gap-12 md:py-16 xl:flex-row xl:items-start xl:gap-[88px] xl:py-[120px]"
+  >
+    {/* ── Archive photo + caption ── */}
+    <div class="flex flex-col gap-7 md:gap-4 xl:w-[470px] xl:shrink-0">
+      {/* TODO: replace with <Image> when the 1938 Aiea archive photo is ready */}
+      <div
+        class="aspect-[342/380] w-full rounded-[4px] bg-placeholder-on-grey md:aspect-[470/560]"
+        role="img"
+        aria-label={photoLabel ?? caption}
+      >
+      </div>
+      {
+        caption && (
+          <div class="flex items-start gap-[10px]">
+            <BrandIcon name="archive" class="mt-[3px]" />
+            <p class="font-body text-[13px] italic leading-5 text-body-70">{caption}</p>
+          </div>
+        )
+      }
+    </div>
+
+    {/* ── Story ── */}
+    <div class="flex min-w-0 flex-1 flex-col">
+      {/* Eyebrow → heading: gap-1 rule */}
+      <div class="flex flex-col gap-1">
+        <p
+          class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
+        >
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          {eyebrow}
+        </p>
+        <h2
+          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+        >
+          {headingLead}<span class="text-gradient-brand font-semibold">{headingAccent}</span>
+        </h2>
+      </div>
+
+      {
+        (paragraphs ?? [body]).map((text, i) => (
+          <p
+            class:list={[
+              'font-body text-[15px] leading-[1.55] text-body-80 md:text-[16px] md:leading-7 lg:text-[17px]',
+              i === 0 ? 'mt-7 md:mt-6' : 'mt-4',
+            ]}
+          >
+            {text}
+          </p>
+        ))
+      }
+
+      {/* Pull quote */}
+      {quote && <PullQuote class="mt-7 md:mt-9" quote={quote} attribution={quoteAttribution} />}
+
+      {/* Stats */}
+      {
+        stats.length > 0 && (
+          <dl class="mt-7 grid grid-cols-3 border-t border-default-50 md:mt-12">
+            {stats.map((s, i) => (
+              <div
+                class:list={[
+                  'flex min-w-0 flex-col gap-1.5 pt-5 sm:gap-2 sm:pt-6',
+                  i > 0 && 'sm:border-l sm:border-default-50 sm:pl-6',
+                ]}
+              >
+                <dt class="order-2 font-body text-[9.5px] font-bold leading-[normal] tracking-[0.12em] text-body-60 uppercase sm:text-[10.5px] sm:leading-none">
+                  {s.label}
+                </dt>
+                <dd class="order-1 font-display text-[20px] font-light leading-none tracking-[-0.02em] text-heading-full sm:text-[26px] md:text-[30px]">
+                  {s.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+    </div>
+  </MaxWidthContainer>
+</section>

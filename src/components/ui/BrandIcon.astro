@@ -1,0 +1,70 @@
+---
+/**
+ * BrandIcon — the client-supplied raster icon set (`public/icons/*.png`).
+ *
+ * One file per icon, used at every breakpoint (the old separate mobile exports
+ * were dropped). Width/height are the intrinsic pixel size, so each icon renders
+ * 1:1 by default; pass `class` to resize (e.g. `size-5`).
+ *
+ * Blue 28px icons sit on light surfaces; the `-24` light-blue icons sit on navy.
+ */
+export type BrandIconName =
+  | 'alignment'
+  | 'archive'
+  | 'calibration'
+  | 'camera'
+  | 'chat'
+  | 'check'
+  | 'claims'
+  | 'clock'
+  | 'collision'
+  | 'document'
+  | 'home-24'
+  | 'paint'
+  | 'rental'
+  | 'shield'
+  | 'shield-24'
+  | 'target-24'
+  | 'verified'
+  | 'walk-around';
+
+export interface Props {
+  name: BrandIconName;
+  class?: string;
+}
+
+/** Intrinsic pixel size of each exported PNG. */
+const SIZES: Record<BrandIconName, [number, number]> = {
+  alignment: [28, 28],
+  archive: [17, 14],
+  calibration: [28, 28],
+  camera: [20, 18],
+  chat: [28, 28],
+  check: [28, 28],
+  claims: [28, 28],
+  clock: [28, 28],
+  collision: [28, 28],
+  document: [18, 20],
+  'home-24': [24, 24],
+  paint: [28, 28],
+  rental: [28, 28],
+  shield: [28, 28],
+  'shield-24': [24, 24],
+  'target-24': [24, 24],
+  verified: [17, 17],
+  'walk-around': [13, 22],
+};
+
+const { name, class: className } = Astro.props;
+const [width, height] = SIZES[name];
+---
+
+<img
+  src={`/icons/${name}.png`}
+  width={width}
+  height={height}
+  alt=""
+  aria-hidden="true"
+  decoding="async"
+  class:list={['shrink-0 select-none', className]}
+/>

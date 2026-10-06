@@ -1,0 +1,100 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BlogCard from '~/components/ui/BlogCard.astro';
+import type { BlogPost } from '~/lib/content/types';
+/**
+ * BlogGrid — head (eyebrow + two-weight heading | lede) above a grid of BlogCards.
+ * Used by the blog listing and by "More articles" on each post; posts come from Sanity.
+ *
+ * `featured` renders the first post as a wide card and the rest in a 3-up grid.
+ * With no posts it shows the empty state (so the page works before the first article is published).
+ */
+export interface Props {
+  posts: BlogPost[];
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  lead?: string;
+  featured?: boolean;
+  /** Background surface (default page / white). */
+  surface?: 'page' | 'subtle';
+  emptyTitle?: string;
+  emptyBody?: string;
+  id?: string;
+}
+
+const {
+  posts,
+  eyebrow,
+  headingLead = '',
+  headingStrong,
+  lead,
+  featured = false,
+  surface = 'page',
+  emptyTitle = 'Articles Coming Soon',
+  emptyBody = 'New articles from our team will appear here as soon as they are published.',
+  id,
+} = Astro.props;
+
+const [first, ...rest] = posts;
+const showFeatured = featured && Boolean(first);
+const gridPosts = showFeatured ? rest : posts;
+const hasHead = Boolean(eyebrow || headingLead || headingStrong || lead);
+---
+
+<section {...id ? { id } : {}} class:list={['w-full', surface === 'subtle' ? 'bg-surface-subtle' : 'bg-surface-page']}>
+  <MaxWidthContainer class="flex flex-col gap-10 py-14 md:gap-[56px] md:py-16 xl:py-[120px]">
+    {/* ── Head ── */}
+    {
+      hasHead && (
+        <div class="flex flex-col gap-7 md:gap-8 xl:flex-row xl:items-start xl:gap-24">
+          <div class="flex flex-col gap-1 xl:w-[480px] xl:shrink-0">
+            {eyebrow && (
+              <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+                <span class="eyebrow-rule" aria-hidden="true" />
+                {eyebrow}
+              </p>
+            )}
+            <h2 class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]">
+              {headingLead}
+              {headingStrong && <span class="font-semibold">{headingStrong}</span>}
+            </h2>
+          </div>
+          {lead && (
+            <p class="min-w-0 flex-1 font-body text-[15px] leading-[1.55] text-body-80 md:text-[16px] md:leading-7 lg:text-[17px] xl:pt-[34px]">
+              {lead}
+            </p>
+          )}
+        </div>
+      )
+    }
+
+    {
+      posts.length === 0 ? (
+        <div class="flex flex-col gap-3 border-t border-default-50 pt-8 md:pt-10">
+          <p class="font-display text-[22px] font-light leading-[1.2] tracking-[-0.02em] text-heading-full md:text-[28px]">
+            {emptyTitle}
+          </p>
+          <p class="max-w-[560px] font-body text-[15px] leading-[1.6] text-body-80 md:text-[16px]">{emptyBody}</p>
+        </div>
+      ) : (
+        <>
+          {showFeatured && first && (
+            <div class="border-t border-default-50 pt-8 md:pt-10">
+              <BlogCard post={first} layout="featured" />
+            </div>
+          )}
+          {gridPosts.length > 0 && (
+            <ul class="grid grid-cols-1 gap-x-8 gap-y-12 border-t border-default-50 pt-8 sm:grid-cols-2 md:pt-10 lg:grid-cols-3">
+              {gridPosts.map((post) => (
+                <li>
+                  <BlogCard post={post} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )
+    }
+  </MaxWidthContainer>
+</section>

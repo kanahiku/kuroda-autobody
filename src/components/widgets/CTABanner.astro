@@ -1,0 +1,226 @@
+---
+/**
+ * CTABanner — page CTA closer.
+ *
+ * variant="center" (default) — centred dark banner with ornamental rules.
+ * variant="split"            — Figma 136:589 "Final CTA": diagonal Blue → Navy
+ *                              surface with chevron motif, copy + buttons + visit
+ *                              info on the left, 470px team photo (grey placeholder
+ *                              until the client supplies it) on the right.
+ *
+ * Split-only props: eyebrow, titleStrong, subtitle (body), address, hours,
+ * photoLabel, showBand. `title` is the light-weight lead; `titleStrong` the
+ * semibold tail.
+ *
+ * Split defaults come from `~/config/cta` + CONTACT: subtitle = CLOSING_CTA_SUBTITLE,
+ * buttons = Schedule an Estimate + Call (808) …. Pass them only to override.
+ */
+
+import Button from '~/components/ui/Button.astro';
+import Heading from '~/components/ui/Heading.astro';
+import Text from '~/components/ui/Text.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import { CONTACT } from '~/config/contact';
+import { CLOSING_CTA_SUBTITLE, PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
+
+export interface Props {
+  variant?: 'center' | 'split';
+  eyebrow?: string;
+  /** split: shorter eyebrow copy shown below md (Figma mobile). Falls back to `eyebrow`. */
+  eyebrowMobile?: string;
+  title: string;
+  /** split: semibold tail of the headline. */
+  titleStrong?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  secondaryCtaText?: string;
+  secondaryCtaHref?: string;
+  /** split: left cell of the visit-info row. */
+  address?: string;
+  /** split: right (bold) cell of the visit-info row. */
+  hours?: string;
+  /** split: accessible label for the photo placeholder. */
+  photoLabel?: string;
+  /** Render the silver divider band above the section (default true; set false when the page places it). */
+  showBand?: boolean;
+  disclaimer?: string;
+  id?: string;
+
+  /** @deprecated Legacy template props — accepted but ignored. */
+  showAfterHoursNote?: boolean;
+  /** @deprecated Legacy template prop — accepted but ignored. */
+  license?: string;
+  /** @deprecated Legacy template props — accepted but ignored. */
+  extraLines?: string[];
+}
+
+const {
+  variant = 'center',
+  eyebrow,
+  eyebrowMobile,
+  title,
+  titleStrong,
+  subtitle = variant === 'split' ? CLOSING_CTA_SUBTITLE : undefined,
+  ctaText = variant === 'split' ? SCHEDULE_CTA_LABEL : 'Request a Quote',
+  ctaHref = variant === 'split' ? PRIMARY_CTA_HREF : '/contact',
+  secondaryCtaText = variant === 'split' ? `CALL ${CONTACT.phone.display}` : undefined,
+  secondaryCtaHref = variant === 'split' ? CONTACT.phone.href : undefined,
+  address,
+  hours,
+  photoLabel = 'Kuroda Autobody team',
+  showBand = true,
+  id,
+} = Astro.props;
+const displayTitle = eyebrow ? `${eyebrow}: ${title}` : title;
+---
+
+{/* ── Band · Silver — Figma 152:653 · 10px divider above CTA ── */}
+{showBand && <GradientBand variant="silver" />}
+
+{
+  variant === 'split' ? (
+    <section {...(id ? { id } : {})} class="not-prose relative w-full overflow-hidden bg-gradient-cta-diagonal">
+      {/* ── Chevron motif — two translucent diagonal bands (Figma 136:590 / 136:591) ── */}
+      <svg
+        class="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
+        viewBox="0 0 1440 716"
+        preserveAspectRatio="none"
+        fill="white"
+        aria-hidden="true"
+      >
+        <polygon points="640,0 735,0 413,716 318,716" fill-opacity="0.07" />
+        <polygon points="545,0 590,0 268,716 223,716" fill-opacity="0.05" />
+      </svg>
+
+      {/*
+        Split inside the max-width container: copy (left, fluid) + team photo (right).
+        The photo stays within the container's right edge (never bleeds past the page
+        padding) and shrinks from 470px → 300px when space is tight.
+        Copy column — Figma 136:592: pt 112 · pb 96.
+      */}
+      <MaxWidthContainer class="relative z-[1] grid grid-cols-1 pb-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,300px)] lg:gap-x-12 lg:pb-0 xl:grid-cols-[minmax(0,1fr)_minmax(0,470px)] xl:gap-x-16">
+        <div class="flex min-w-0 flex-col pt-14 md:pt-16 lg:pb-24 xl:pt-28">
+          {/* Eyebrow (13px line) → 24px → heading */}
+          <div class="flex flex-col gap-1">
+            {eyebrow && (
+              <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-[13px] tracking-[1.54px] text-on-dark-85 uppercase">
+                <span class="block h-[2px] w-6 shrink-0 rounded-[1px] bg-white" aria-hidden="true" />
+                {eyebrowMobile ? (
+                  <>
+                    <span class="md:hidden">{eyebrowMobile}</span>
+                    <span class="hidden md:inline">{eyebrow}</span>
+                  </>
+                ) : (
+                  eyebrow
+                )}
+              </p>
+            )}
+            <h2 class="pt-4 font-display text-[32px] font-light leading-[1.12] tracking-[-0.02em] text-on-dark md:pt-5 md:text-[44px] md:leading-[52px] xl:text-[52px] xl:leading-[62px]">
+              {title}
+              {titleStrong && <span class="font-semibold">{titleStrong}</span>}
+            </h2>
+          </div>
+
+          {/* Heading → 24px → body (520 wide, 17/28) */}
+          {subtitle && (
+            <p class="mt-5 max-w-[520px] font-body text-[15px] leading-[1.55] text-on-dark-85 md:mt-6 md:text-[16px] md:leading-7 xl:text-[17px]">
+              {subtitle}
+            </p>
+          )}
+
+          {/* Body → 40px → buttons (12px gap) */}
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-start md:mt-10">
+            <Button variant="inverse" text={ctaText} href={ctaHref} hideNote={true} class="w-full sm:w-auto" />
+            {secondaryCtaText && secondaryCtaHref && (
+              <Button
+                variant="ghost"
+                text={secondaryCtaText}
+                href={secondaryCtaHref}
+                hideNote={true}
+                class="w-full sm:w-auto"
+              />
+            )}
+          </div>
+
+          {/* Buttons → 56px → visit info (rule, 24px pad, address | hours, 40px gap) */}
+          {(address || hours) && (
+            <div class="mt-5 flex flex-col gap-2 border-t border-on-dark-20 pt-5 font-body text-[13.5px] leading-[1.5] md:mt-14 md:flex-row md:items-start md:gap-10 md:pt-6 md:text-[14px] md:leading-[22px]">
+              {address && <p class="min-w-0 flex-1 text-on-dark-85">{address}</p>}
+              {hours && <p class="font-bold leading-[22px] text-on-dark md:shrink-0 md:whitespace-nowrap">{hours}</p>}
+            </div>
+          )}
+        </div>
+
+        {/* ── Team photo — grey placeholder, inside the container, flush with its right edge ── */}
+        {/* TODO: replace with <Image> when the team photo is ready */}
+        <div class="hidden w-full bg-section-grey lg:block" role="img" aria-label={photoLabel} />
+      </MaxWidthContainer>
+
+      {/* Mobile: photo runs full-bleed under the copy (Figma 142:155 · 390 × 360) */}
+      <div class="relative z-[1] h-[360px] w-full bg-section-grey lg:hidden" role="img" aria-label={photoLabel} />
+    </section>
+  ) : (
+    <section
+      {...(id ? { id } : {})}
+      class="not-prose relative w-full overflow-hidden bg-section-dark py-20 md:py-32 xl:py-40"
+    >
+      {/* ── Decorative motif overlay ── */}
+      <div
+        class="pointer-events-none absolute inset-0 opacity-20"
+        style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0); background-size: 28px 28px; color: var(--aw-color-bg-page);"
+        aria-hidden="true"
+      />
+
+      <MaxWidthContainer class="relative z-[1] flex flex-col items-center gap-8 text-center">
+        {/* ── Top ornamental rule ── */}
+        <div class="flex w-full max-w-xs items-center gap-4">
+          <div class="h-px flex-1 bg-page/20" />
+          <span class="font-script text-[22px] leading-none text-accent" aria-hidden="true">
+            ✦
+          </span>
+          <div class="h-px flex-1 bg-page/20" />
+        </div>
+
+        <div class="flex w-full flex-col items-center gap-6">
+          {/* ── Display headline — h1 scale, full visual weight ── */}
+          <Heading variant="h1" color="inherit" class="max-w-3xl text-balance text-page">
+            {displayTitle}
+          </Heading>
+
+          {/* ── Subtitle ── */}
+          {subtitle && (
+            <Text variant="body-lg" class="max-w-lg text-balance text-page/55">
+              {subtitle}
+            </Text>
+          )}
+
+          {/* ── CTAs ── */}
+          <div class="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
+            <Button variant="primary" text={ctaText} href={ctaHref} hideNote={true} class="w-full sm:w-auto" />
+            {secondaryCtaText && secondaryCtaHref && (
+              <Button
+                variant="ghost"
+                tone="dark"
+                text={secondaryCtaText}
+                href={secondaryCtaHref}
+                hideNote={true}
+                class="w-full sm:w-auto"
+              />
+            )}
+          </div>
+        </div>
+
+        {/* ── Bottom ornamental rule ── */}
+        <div class="flex w-full max-w-xs items-center gap-4">
+          <div class="h-px flex-1 bg-page/20" />
+          <span class="font-script text-[22px] leading-none text-accent" aria-hidden="true">
+            ✦
+          </span>
+          <div class="h-px flex-1 bg-page/20" />
+        </div>
+      </MaxWidthContainer>
+    </section>
+  )
+}

@@ -1,0 +1,87 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+/**
+ * DetailRows — facts list (address, phone, hours…).
+ * White section: head (eyebrow + two-weight heading + optional lede) on the left,
+ * hairline-ruled label / value rows on the right. No images.
+ */
+export interface Row {
+  label: string;
+  value: string;
+  /** Optional link wrapping the value (maps, tel:, mailto:). */
+  href?: string;
+  /** Optional small line under the value. */
+  note?: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  lead?: string;
+  rows: Row[];
+  id?: string;
+}
+
+const { eyebrow, headingLead = '', headingStrong, lead, rows, id } = Astro.props;
+---
+
+<section {...id ? { id } : {}} class="w-full bg-surface-page">
+  <MaxWidthContainer
+    class="flex flex-col gap-7 py-14 md:gap-12 md:py-16 xl:flex-row xl:items-start xl:gap-24 xl:py-[120px]"
+  >
+    {/* ── Head ── */}
+    <div class="flex flex-col xl:w-[480px] xl:shrink-0">
+      <div class="flex flex-col gap-1">
+        {
+          eyebrow && (
+            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+              <span class="eyebrow-rule" aria-hidden="true" />
+              {eyebrow}
+            </p>
+          )
+        }
+        <h2
+          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+        >
+          {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
+        </h2>
+      </div>
+      {
+        lead && (
+          <p class="mt-7 font-body text-[15px] leading-[1.55] text-body-80 md:mt-6 md:text-[16px] md:leading-7 lg:text-[17px]">
+            {lead}
+          </p>
+        )
+      }
+    </div>
+
+    {/* ── Rows ── */}
+    <dl class="flex min-w-0 flex-1 flex-col border-b border-default-50">
+      {
+        rows.map((row) => (
+          <div class="grid grid-cols-1 gap-1.5 border-t border-default-50 py-5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-6 md:py-6">
+            <dt class="font-body text-[10.5px] font-bold leading-[normal] tracking-[0.12em] text-body-60 uppercase sm:pt-[6px]">
+              {row.label}
+            </dt>
+            <dd class="flex flex-col gap-1.5">
+              {row.href ? (
+                <a
+                  href={row.href}
+                  class="font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full transition-colors duration-150 hover:text-accent md:text-[18px] md:leading-[30px]"
+                >
+                  {row.value}
+                </a>
+              ) : (
+                <p class="font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full md:text-[18px] md:leading-[30px]">
+                  {row.value}
+                </p>
+              )}
+              {row.note && <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px]">{row.note}</p>}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </MaxWidthContainer>
+</section>

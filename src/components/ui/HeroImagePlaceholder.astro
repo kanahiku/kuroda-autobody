@@ -1,0 +1,45 @@
+---
+import { site } from '~/config/site';
+
+export interface Props {
+  label?: string;
+  fill?: boolean;
+  /** Hide the visible word when a parent draws its own label over an overlay. */
+  hideLabel?: boolean;
+  /** Pin the word to the top of the frame when copy sits over the lower half. */
+  align?: 'center' | 'start';
+  class?: string;
+  style?: string;
+}
+
+const {
+  label = `${site.name} photo placeholder`,
+  fill = false,
+  hideLabel = false,
+  align = 'center',
+  class: className = '',
+  style,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    'flex flex-col items-center gap-3 bg-section-grey text-center text-heading/45',
+    align === 'start' ? 'justify-start pt-16' : 'justify-center',
+    fill
+      ? 'w-full h-full max-w-none rounded-none'
+      : 'mx-auto rounded-md w-full max-w-[500px] h-full aspect-square',
+    className,
+  ]}
+  style={style}
+  role="img"
+  aria-label={label}
+>
+  {
+    !hideLabel && (
+      <span class="px-4 font-display text-[15px] font-semibold uppercase leading-none tracking-[0.14em]">
+        Placeholder
+      </span>
+    )
+  }
+</div>

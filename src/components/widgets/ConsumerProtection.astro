@@ -1,0 +1,123 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+/**
+ * ConsumerProtection — Figma node 136:475
+ * White section: head (eyebrow + two-weight heading | legal lead + note)
+ * above a 3-up row of numbered steps with gradient-outlined numerals.
+ * No images.
+ */
+export interface Step {
+  number: string;
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  lead?: string;
+  note?: string;
+  steps?: Step[];
+}
+
+const {
+  eyebrow = 'Hawaii consumer protection',
+  headingLead = 'Your car. ',
+  headingStrong = 'Your repair shop.',
+  lead = 'Under Hawaii law, you have the absolute legal right to choose where your vehicle is repaired — even if your insurer suggests another shop.',
+  note = 'Simply tell your adjuster you choose Kuroda.',
+  steps = [
+    {
+      number: '01',
+      title: 'Request Kuroda',
+      description: 'Tell your claims rep you choose Kuroda Auto Body.',
+    },
+    {
+      number: '02',
+      title: 'We handle the adjuster',
+      description: 'Estimates, photos and supplements, handled directly with your carrier.',
+    },
+    {
+      number: '03',
+      title: 'Factory spec repairs',
+      description: 'Returned to OEM specifications, backed by our Limited Lifetime Warranty.',
+    },
+  ],
+} = Astro.props;
+---
+
+<section class="w-full bg-surface-page">
+  <MaxWidthContainer class="flex flex-col gap-7 py-14 md:gap-[72px] md:py-16 xl:py-[120px]">
+    {/* ── Head ── */}
+    <div class="flex flex-col gap-7 md:gap-8 xl:flex-row xl:items-start xl:gap-24">
+      <div class="flex flex-col gap-1 xl:w-[480px] xl:shrink-0">
+        <p
+          class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
+        >
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          {eyebrow}
+        </p>
+        <h2
+          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+        >
+          {headingLead}<span class="font-semibold">{headingStrong}</span>
+        </h2>
+      </div>
+
+      <div class="flex min-w-0 flex-1 flex-col gap-7 md:gap-5 xl:pt-[34px]">
+        <p
+          class="font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full md:text-[18px] md:leading-[30px]"
+        >
+          {lead}
+        </p>
+        <p class="font-body text-[15px] leading-[1.5] text-body-80 md:text-[16px] md:leading-[27px]">{note}</p>
+      </div>
+    </div>
+
+    {/* ── Steps ── */}
+    <ol class="grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-12">
+      {
+        steps.map((s, i) => (
+          <li class="flex flex-col gap-2.5 md:gap-4">
+            {/* Outlined numeral — gradient stroke, no fill (Figma "Step") */}
+            <span class="sr-only">{s.number}</span>
+            <svg
+              class="-mb-[2.5px] h-[58.5px] w-auto self-start overflow-visible font-display md:mb-0 md:h-[92px]"
+              viewBox="0 0 170 92"
+              fill="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id={`step-stroke-${i}`} x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" style="stop-color: var(--color-brand-blue)" />
+                  <stop offset="1" style="stop-color: var(--color-brand-navy)" />
+                </linearGradient>
+              </defs>
+              <text
+                x="0"
+                y="76"
+                font-size="88"
+                font-weight="300"
+                letter-spacing="-3.52"
+                fill="none"
+                stroke={`url(#step-stroke-${i})`}
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              >
+                {s.number}
+              </text>
+            </svg>
+            <div class="h-0 w-full border-t border-default-50" aria-hidden="true" />
+            <h3 class="font-display text-[14px] font-semibold leading-[normal] tracking-[0.02em] text-heading-full uppercase md:text-[15px]">
+              {s.title}
+            </h3>
+            <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px] md:leading-[25px]">
+              {s.description}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </MaxWidthContainer>
+</section>

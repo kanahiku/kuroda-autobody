@@ -1,0 +1,70 @@
+---
+/**
+ * LegalPageView — the one template for Privacy Policy, Terms and Accessibility.
+ * PageHero (no buttons) → plain text sections → CTABanner. Copy lives in `src/data/legalPages.ts`.
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import Heading from '~/components/ui/Heading.astro';
+import Text from '~/components/ui/Text.astro';
+import { CONTACT } from '~/config/contact';
+import type { LegalPage } from '~/data/legalPages';
+
+export interface Props {
+  page: LegalPage;
+}
+
+const { page } = Astro.props;
+
+const metadata = {
+  title: page.seoTitle,
+  description: page.metaDescription,
+  ignoreTitleTemplate: true,
+};
+
+const linkClass = 'text-accent underline-offset-4 transition-colors hover:underline';
+---
+
+<Layout metadata={metadata}>
+  <PageHero eyebrow="Legal" titleLead={page.titleLead} titleAccent={page.titleAccent} showCtas={false} />
+
+  <section class="w-full bg-surface-page">
+    <MaxWidthContainer class="py-14 md:py-16 xl:py-[120px]">
+      <div class="flex max-w-3xl flex-col gap-10 md:gap-14">
+        {
+          page.sections.map((section) => (
+            <section class="flex flex-col gap-3">
+              {section.heading && <Heading variant="h4">{section.heading}</Heading>}
+              <Text>
+                {section.body}
+                {section.showContact && (
+                  <>
+                    {' '}
+                    Call{' '}
+                    <a href={CONTACT.phone.href} class={linkClass}>
+                      {CONTACT.phone.display}
+                    </a>
+                    {CONTACT.email && (
+                      <>
+                        {' '}
+                        or email{' '}
+                        <a href={`mailto:${CONTACT.email}`} class={linkClass}>
+                          {CONTACT.email}
+                        </a>
+                      </>
+                    )}
+                    .
+                  </>
+                )}
+              </Text>
+            </section>
+          ))
+        }
+      </div>
+    </MaxWidthContainer>
+  </section>
+
+  <CTABanner variant="split" title={page.cta.title} titleStrong={page.cta.titleStrong} />
+</Layout>

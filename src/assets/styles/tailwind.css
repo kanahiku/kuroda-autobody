@@ -1,0 +1,1281 @@
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+
+@variant dark (&:where(.dark, .dark *));
+
+@custom-variant intersect (&:not([no-intersect]));
+
+/* Disable faux-bold/italic. Headings/buttons/eyebrows = Unbounded; body/labels = Lato. */
+@layer base {
+  html {
+    font-synthesis: none;
+  }
+}
+
+@theme {
+  --color-primary: var(--aw-color-primary);
+  --color-secondary: var(--aw-color-secondary);
+  --color-accent: var(--aw-color-accent);
+  --color-accent-hover: var(--aw-color-accent-hover);
+  --color-default: var(--aw-color-text-default);
+  --color-muted: var(--aw-color-text-muted);
+  --color-heading: var(--aw-color-text-heading);
+  --color-eyebrow: var(--aw-color-text-eyebrow);
+  --color-page: var(--aw-color-bg-page);
+  --color-banner: var(--aw-color-bg-banner);
+  --color-banner-line: var(--aw-color-banner-line);
+  --color-banner-text: var(--aw-color-banner-text);
+  --color-banner-dot: var(--aw-color-banner-dot);
+  --color-banner-note: var(--aw-color-banner-note);
+  --color-nav-cta: var(--aw-color-nav-cta);
+  --color-page-end: var(--aw-color-bg-page-end);
+  --color-card: var(--aw-color-bg-card);
+  --color-section-grey: var(--aw-color-bg-section-grey);
+  --color-section-dark: var(--aw-color-bg-section-dark);
+  --color-footer: var(--aw-color-bg-footer);
+  --color-cta: var(--aw-color-bg-cta);
+  --color-cta-end: var(--aw-color-bg-cta-end);
+  --color-tan: var(--aw-color-text-tan);
+  --color-tan-body: var(--aw-color-text-tan-body);
+  --max-width-container: var(--aw-layout-max-width, 1440px);
+
+  --font-sans:
+    var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif: var(--aw-font-serif, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--aw-font-heading, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--aw-font-script, cursive), cursive;
+  --font-rough: var(--aw-font-rough, ui-sans-serif), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: var(--aw-shadow-card);
+  --shadow-header: var(--aw-shadow-header);
+
+  /* Figma radius tokens — node 153:1678 */
+  --radius:      var(--aw-radius-md, 4px);   /* = radius/md */
+  --radius-xs:   var(--aw-radius-xs, 2px);   /* tags */
+  --radius-sm:   var(--aw-radius-sm, 3px);   /* pager dots */
+  --radius-md:   var(--aw-radius-md, 4px);   /* buttons · cards · menu toggle */
+  --radius-lg:   var(--aw-radius-lg, 6px);   /* compat alias */
+  --radius-xl:   var(--aw-radius-xl, 8px);   /* compat alias */
+  --radius-2xl:  var(--aw-radius-xl, 8px);
+  --radius-3xl:  var(--aw-radius-xl, 8px);
+  --radius-4xl:  var(--aw-radius-xl, 8px);
+  --radius-full: var(--aw-radius-full, 9999px); /* slider handle */
+  --radius-hero: var(--aw-radius-hero, 0px);
+
+  --animate-fade: fadeInUp 1s both;
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/** Max width only (no padding) — driven by brand.layout.maxWidth. */
+@utility max-w-container {
+  max-width: var(--aw-layout-max-width, 1440px);
+}
+
+/** Horizontal page padding — driven by brand.layout.paddingX / paddingXMobile. */
+@utility px-container {
+  padding-inline: var(--aw-layout-padding-x-mobile, 20px);
+  @media (width >= 48rem) {
+    padding-inline: var(--aw-layout-padding-x, 64px);
+  }
+}
+
+/** Page content frame = max-w-container + px-container, centred.
+ *  Do NOT use directly — render <MaxWidthContainer> (src/components/ui/MaxWidthContainer.astro).
+ *  All values live in src/brand.ts → `layout`. */
+@utility site-frame {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--aw-layout-max-width, 1440px);
+  padding-inline: var(--aw-layout-padding-x-mobile, 20px);
+  @media (width >= 48rem) {
+    padding-inline: var(--aw-layout-padding-x, 64px);
+  }
+}
+
+/* ── Font-family utilities ──────────────────────────────────────────────────
+   Semantic names: use font-display for Barlow Condensed, font-body for Work Sans.
+   font-heading / font-rough / font-script are kept as aliases so any existing
+   component usage stays valid — they all resolve via the same CSS variables.
+─────────────────────────────────────────────────────────────────────────── */
+
+/**
+ * Unbounded — headings and display text.
+ * Default weight is Light (300); card titles / CTAs add font-semibold.
+ */
+@utility font-display {
+  font-family: var(--font-heading);
+  font-weight: 300;
+}
+
+/** Lato — body copy, labels, captions */
+@utility font-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+/* Aliases — map to the two real faces above */
+@utility font-heading {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+/** Aliases font-body (Lato). */
+@utility font-script {
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+/** Aliases font-display (Unbounded). */
+@utility font-rough {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+/**
+ * Display — 64px desktop / 38px mobile. Unbounded Light. Hero/banner sizes.
+ * var(--type-font-size-display)
+ */
+@utility text-display {
+  font-size: var(--aw-text-display-mobile);
+  line-height: var(--aw-leading-display);
+  letter-spacing: var(--aw-tracking-display);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-display);
+  }
+}
+
+/**
+ * H1 — 52px desktop / 32px mobile. Unbounded Light.
+ * var(--type-font-size-h1)
+ */
+@utility text-h1 {
+  font-size: var(--aw-text-h1-mobile);
+  line-height: var(--aw-leading-h1);
+  letter-spacing: var(--aw-tracking-h1);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-h1);
+  }
+}
+
+/**
+ * H2 — 48px desktop / 34px mobile. Unbounded Light.
+ * var(--type-font-size-h2)
+ */
+@utility text-h2 {
+  font-size: var(--aw-text-h2-mobile);
+  line-height: var(--aw-leading-h2);
+  letter-spacing: var(--aw-tracking-h2);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-h2);
+  }
+}
+
+/**
+ * H3 — 42px desktop / 30px mobile. Unbounded Light.
+ * var(--type-font-size-h3)
+ */
+@utility text-h3 {
+  font-size: var(--aw-text-h3-mobile);
+  line-height: var(--aw-leading-h3);
+  letter-spacing: var(--aw-tracking-h3);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-h3);
+  }
+}
+
+/**
+ * H4 / Title Card — 17px desktop / 15px mobile. Unbounded SemiBold.
+ * var(--type-font-size-title-card)
+ */
+@utility text-h4 {
+  font-size: var(--aw-text-h4-mobile);
+  line-height: var(--aw-leading-h4);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-h4);
+  }
+}
+
+/**
+ * Numeric Rating — 44px desktop / 28px mobile. Unbounded Light.
+ * var(--type-font-size-numeric-rating) — star rating counts, review averages.
+ */
+@utility text-numeric-rating {
+  font-size: var(--aw-text-numeric-rating-mobile);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-numeric-rating);
+  }
+}
+
+@utility text-body {
+  font-size: var(--aw-text-body-mobile);
+  line-height: var(--aw-leading-body);
+  letter-spacing: var(--aw-tracking-body);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-body);
+  }
+}
+
+@utility text-body-lg {
+  font-size: var(--aw-text-body-lg-mobile);
+  line-height: var(--aw-leading-body);
+  letter-spacing: var(--aw-tracking-body-lg);
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-body-lg);
+  }
+}
+
+/**
+ * Eyebrow label — Lato Bold, uppercase, wide tracking.
+ * Figma: Label/Eyebrow → Lato Bold 700, 11px, tracking 14% (1.54px).
+ */
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--aw-text-eyebrow-mobile);
+  letter-spacing: var(--aw-tracking-eyebrow);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-eyebrow);
+  }
+}
+
+/**
+ * Footer / section labels — Lato Bold, uppercase.
+ * Figma: Label/Footer Heading → Lato Bold 700, 11px, tracking 12%.
+ */
+@utility type-label {
+  font-family: var(--font-sans);
+  font-size: var(--aw-text-label-mobile);
+  letter-spacing: var(--aw-tracking-label);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-label);
+  }
+}
+
+/**
+ * Large stat / step number — Unbounded Light, massive display.
+ * Figma: Numeric/Step → Unbounded Light 300, 88px desktop / 56px mobile, tracking -4%.
+ * var(--type-font-size-numeric-step)
+ */
+@utility type-ticker {
+  font-family: var(--font-heading);
+  font-size: var(--aw-text-ticker-mobile);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-ticker);
+  }
+}
+
+/**
+ * Pull-quote — Unbounded Regular, refined editorial weight.
+ * Figma: Quote/Pull → Unbounded Regular 400, 18px desktop / 16px mobile, tracking -1%.
+ * var(--type-font-size-quote)
+ */
+@utility type-quote {
+  font-family: var(--font-heading);
+  font-size: var(--aw-text-quote-mobile);
+  font-weight: 400;
+  line-height: var(--aw-leading-quote);
+  letter-spacing: -0.01em;
+  @media (min-width: 768px) {
+    font-size: var(--aw-text-quote);
+  }
+}
+
+@utility text-small {
+  font-size: var(--aw-text-small);
+  line-height: var(--aw-leading-small);
+}
+
+@utility bg-surface {
+  background-color: var(--aw-color-bg-card);
+}
+
+@utility bg-card {
+  background-color: var(--aw-color-bg-card);
+}
+
+@utility bg-nav-glass {
+  background-color: var(--aw-color-nav-glass);
+}
+
+@utility bg-page {
+  background-color: var(--aw-color-bg-page);
+}
+
+@utility bg-page-end {
+  background-color: var(--aw-color-bg-page-end);
+}
+
+/* Solid fallback on <html>. Cream, not blueberry — Chrome drops compositor
+   layers when a tab is backgrounded, and the html color is what you see
+   for a beat on return. Blueberry read as a blank blue screen. */
+@utility bg-wash-end {
+  background-color: var(--aw-color-bg-page);
+}
+
+@utility bg-dark {
+  background-color: var(--aw-color-bg-page-dark);
+}
+
+@utility bg-light {
+  background-color: var(--aw-color-bg-page);
+}
+
+@utility bg-section-white {
+  background-color: var(--aw-color-bg-section-white);
+}
+
+@utility bg-section-grey {
+  background-color: var(--aw-color-bg-section-grey);
+}
+
+@utility bg-section-dark {
+  background-color: var(--aw-color-bg-section-dark);
+}
+
+@utility bg-card-dark {
+  background-color: var(--aw-color-bg-card-dark);
+}
+
+@utility bg-card-light {
+  background-color: var(--aw-color-bg-card-light);
+}
+
+@utility bg-feature-card {
+  background-color: var(--aw-color-bg-feature-card);
+}
+
+@utility bg-cta {
+  background-color: var(--aw-color-bg-cta);
+}
+
+@utility shadow-card-mist {
+  box-shadow: var(--aw-shadow-card-mist);
+}
+
+/* ── Figma elevation tokens — node 153:1678 ─────────────────────────── */
+/** Shadow/Soft: 0 4px 16px rgba(0,0,0,0.18) — homepage cards */
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+/** Shadow/Sticky Header: 0 4px 20px rgba(8,41,108,0.10) — scrolled navbar */
+@utility shadow-sticky-header {
+  box-shadow: var(--shadow-sticky-header);
+}
+
+/** Shadow/Card Hover: 0 12px 32px -4px rgba(8,41,108,0.14) — card hover */
+@utility shadow-card-hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+/** Focus/Ring: 0 0 0 3px #7DBFED — keyboard focus ring */
+@utility shadow-focus-ring {
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* ── Figma radius utilities ──────────────────────────────────────────── */
+/** radius/xs · 2px — tags */
+@utility rounded-xs {
+  border-radius: var(--radius-xs);
+}
+
+/** radius/sm · 3px — pager dots */
+@utility rounded-sm-brand {
+  border-radius: var(--radius-sm);
+}
+
+/** radius/md · 4px — buttons, cards, menu toggle */
+@utility rounded-md-brand {
+  border-radius: var(--radius-md);
+}
+
+/** radius/full · 9999px — slider handles, pills */
+@utility rounded-full-brand {
+  border-radius: var(--radius-full);
+}
+
+@utility text-card-heading-dark {
+  color: var(--aw-color-card-heading-dark);
+}
+
+@utility text-card-body-dark {
+  color: var(--aw-color-card-body-dark);
+}
+
+@utility text-card-link-dark {
+  color: var(--aw-color-card-link-dark);
+}
+
+@utility text-card-heading-light {
+  color: var(--aw-color-card-heading-light);
+}
+
+@utility text-card-body-light {
+  color: var(--aw-color-card-body-light);
+}
+
+@utility text-card-link-light {
+  color: var(--aw-color-card-link-light);
+}
+
+@utility border-card-dark {
+  border-color: var(--aw-color-card-border-dark);
+}
+
+@utility border-card-light {
+  border-color: var(--aw-color-card-border-light);
+}
+
+/* ── Outlined card (white bg + subtle border — clean/modern) ── */
+@utility bg-card-outlined {
+  background-color: var(--aw-color-bg-card-outlined);
+}
+
+@utility border-card-outlined {
+  border-color: var(--aw-color-card-border-outlined);
+}
+
+@utility text-card-heading-outlined {
+  color: var(--aw-color-card-heading-outlined);
+}
+
+@utility text-card-body-outlined {
+  color: var(--aw-color-card-body-outlined);
+}
+
+@utility text-card-link-outlined {
+  color: var(--aw-color-card-link-outlined);
+}
+
+/* ── Glass card (frosted semi-transparent — for dark sections) ── */
+@utility bg-card-glass {
+  background-color: var(--aw-color-bg-card-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@utility border-card-glass {
+  border-color: var(--aw-color-card-border-glass);
+}
+
+@utility text-card-heading-glass {
+  color: var(--aw-color-card-heading-glass);
+}
+
+@utility text-card-body-glass {
+  color: var(--aw-color-card-body-glass);
+}
+
+@utility text-card-link-glass {
+  color: var(--aw-color-card-link-glass);
+}
+
+@utility text-page {
+  color: var(--aw-color-text-page);
+}
+
+@utility text-heading {
+  color: var(--aw-color-text-heading);
+}
+
+@utility text-muted {
+  color: var(--aw-color-text-muted);
+}
+
+@utility text-headline-light {
+  color: var(--aw-color-headline-light);
+}
+
+@utility text-headline-dark {
+  color: var(--aw-color-headline-dark);
+}
+
+@utility text-headline-subtitle-light {
+  color: var(--aw-color-headline-subtitle-light);
+}
+
+@utility text-headline-subtitle-dark {
+  color: var(--aw-color-headline-subtitle-dark);
+}
+
+@utility text-timeline-step-light {
+  color: var(--aw-color-timeline-step-light);
+}
+
+@utility text-timeline-icon-light {
+  color: var(--aw-color-timeline-icon-light);
+}
+
+@utility text-timeline-icon-dark {
+  color: var(--aw-color-timeline-icon-dark);
+}
+
+@utility border-timeline-icon-border-light {
+  border-color: var(--aw-color-timeline-icon-border-light);
+}
+
+@utility border-timeline-icon-border-dark {
+  border-color: var(--aw-color-timeline-icon-border-dark);
+}
+
+@utility bg-timeline-icon-bg-light {
+  background-color: var(--aw-color-timeline-icon-bg-light);
+}
+
+@utility bg-timeline-icon-bg-dark {
+  background-color: var(--aw-color-timeline-icon-bg-dark);
+}
+
+@utility text-timeline-title-light {
+  color: var(--aw-color-timeline-title-light);
+}
+
+@utility text-timeline-title-dark {
+  color: var(--aw-color-timeline-title-dark);
+}
+
+@utility text-timeline-desc-light {
+  color: var(--aw-color-timeline-desc-light);
+}
+
+@utility text-timeline-desc-dark {
+  color: var(--aw-color-timeline-desc-dark);
+}
+
+/* Testimonials utilities */
+@utility bg-testimonial-card-light {
+  background-color: var(--aw-color-testimonial-card-bg-light);
+}
+
+@utility bg-testimonial-card-dark {
+  background-color: var(--aw-color-testimonial-card-bg-dark);
+}
+
+@utility border-testimonial-card-light {
+  border-color: var(--aw-color-testimonial-card-border-light);
+}
+
+@utility border-testimonial-card-dark {
+  border-color: var(--aw-color-testimonial-card-border-dark);
+}
+
+@utility text-testimonial-light {
+  color: var(--aw-color-testimonial-text-light);
+}
+
+@utility text-testimonial-dark {
+  color: var(--aw-color-testimonial-text-dark);
+}
+
+@utility text-testimonial-name-light {
+  color: var(--aw-color-testimonial-name-light);
+}
+
+@utility text-testimonial-name-dark {
+  color: var(--aw-color-testimonial-name-dark);
+}
+
+@utility text-testimonial-job-light {
+  color: var(--aw-color-testimonial-job-light);
+}
+
+@utility text-testimonial-job-dark {
+  color: var(--aw-color-testimonial-job-dark);
+}
+
+@utility border-testimonial-hr-light {
+  border-color: var(--aw-color-testimonial-hr-light);
+}
+
+@utility border-testimonial-hr-dark {
+  border-color: var(--aw-color-testimonial-hr-dark);
+}
+
+/* FAQ utilities */
+@utility border-faq-light {
+  border-color: var(--aw-color-faq-border-light);
+}
+
+@utility border-faq-dark {
+  border-color: var(--aw-color-faq-border-dark);
+}
+
+@utility text-faq-question-light {
+  color: var(--aw-color-faq-question-light);
+}
+
+@utility text-faq-question-dark {
+  color: var(--aw-color-faq-question-dark);
+}
+
+@utility text-faq-answer-light {
+  color: var(--aw-color-faq-answer-light);
+}
+
+@utility text-faq-answer-dark {
+  color: var(--aw-color-faq-answer-dark);
+}
+
+@utility border-faq-toggle-light {
+  border-color: var(--aw-color-faq-toggle-border-light);
+}
+
+@utility border-faq-toggle-dark {
+  border-color: var(--aw-color-faq-toggle-border-dark);
+}
+
+@utility text-faq-toggle-light {
+  color: var(--aw-color-faq-toggle-text-light);
+}
+
+@utility text-faq-toggle-dark {
+  color: var(--aw-color-faq-toggle-text-dark);
+}
+
+/* Projects Section utilities */
+@utility bg-projects-card-light {
+  background-color: var(--aw-color-projects-card-bg-light);
+}
+
+@utility bg-projects-card-dark {
+  background-color: var(--aw-color-projects-card-bg-dark);
+}
+
+@utility border-projects-card-light {
+  border-color: var(--aw-color-projects-card-border-light);
+}
+
+@utility border-projects-card-dark {
+  border-color: var(--aw-color-projects-card-border-dark);
+}
+
+@utility text-projects-title-light {
+  color: var(--aw-color-projects-title-light);
+}
+
+@utility text-projects-title-dark {
+  color: var(--aw-color-projects-title-dark);
+}
+
+@utility text-projects-desc-light {
+  color: var(--aw-color-projects-desc-light);
+}
+
+@utility text-projects-desc-dark {
+  color: var(--aw-color-projects-desc-dark);
+}
+
+@utility card {
+  @apply rounded-lg border border-white/16 shadow-card;
+}
+
+/* Site-wide CTA hover — used by Button.astro via btn / btn-* utilities.
+   Color tokens per variant; motion (200ms ease + 1px lift) is shared. */
+/**
+ * ─── Button system — Kuroda Autobody (Figma nodes 158:142 + 165:105) ──────────
+ *
+ * Sizes:
+ *   cta-lg  → Figma "Default"  26px/17px  (all page CTAs)
+ *   cta-sm  → Figma "Small"   18px/13px  (navbar CTA only)
+ *   cta-md  → legacy intermediate (kept for backward compat)
+ *
+ * Variants:
+ *   btn-primary    Brand gradient Blue→Navy  · white text         · any surface
+ *   btn-secondary  Transparent + white/55% border                · dark surface
+ *   btn-ghost      Transparent + white/60% border (more opaque)  · dark surface
+ *   btn-inverse    White fill · navy text                        · dark/gradient surface
+ *   btn-outline    Transparent + navy border · navy text         · light surface
+ *   btn-link       Inline text link, no fill
+ *
+ * States (all via CSS pseudo-classes; no JS needed):
+ *   default · :hover · :active (pressed) · :focus-visible (3px sky ring)
+ *
+ * Backward-compat aliases kept: btn-ghost-dark, btn-ghost-light, btn-tertiary
+ */
+
+/** CTA padding sizes — px horiz / py vert (from Figma spacing tokens). */
+@utility cta-lg {
+  /* Figma "Default": px=26 py=17 */
+  padding: 17px 26px;
+}
+@utility cta-md {
+  /* Legacy intermediate */
+  padding: 12px 20px;
+}
+@utility cta-sm {
+  /* Figma "Small" (navbar): px=18 py=13 */
+  padding: 13px 18px;
+}
+
+/**
+ * btn — shared base for all filled/outline button styles.
+ * Font: Lato Bold 12px, ALL CAPS, tracking 10% (≈1.2px at 12px).
+ * Radius: 4px (--aw-radius).
+ * No border or background here — each variant sets its own.
+ */
+@utility btn {
+  @apply cta-lg inline-flex items-center justify-center font-body font-bold uppercase text-center leading-none cursor-pointer whitespace-nowrap;
+  font-size: var(--aw-text-button); /* 12px */
+  letter-spacing: 0.1em;
+  border-radius: var(--aw-radius); /* 4px */
+  border: 1px solid transparent; /* reserve layout space; overridden per-variant */
+  transition-property: background, background-color, color, border-color, box-shadow, transform;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover    { transform: translateY(-1px); }
+  &:active   { transform: translateY(0); transition-duration: 80ms; }
+  &:focus-visible { outline: none; } /* focus ring applied per-variant */
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: background, background-color, color, border-color, box-shadow;
+    &:hover, &:active { transform: none; }
+  }
+}
+
+/**
+ * btn-primary — Brand gradient (Blue → Navy).
+ * Default:       linear-gradient(#047bc1 → #08296c), white text
+ * Hover:         lighter gradient (#1a8fd6 → #0b4f9e)
+ * Pressed/Active: solid navy-pressed #061f52
+ * Focus:         default gradient + 3px sky ring
+ */
+@utility btn-primary {
+  @apply btn;
+  background: linear-gradient(90deg, #047bc1 0%, #08296c 100%);
+  background-origin: border-box; /* gradient spans the transparent 1px border → no tiled edge line */
+  color: var(--color-text-on-dark);
+  border-color: transparent;
+  &:hover {
+    background: linear-gradient(90deg, #1a8fd6 0%, #0b4f9e 100%);
+    background-origin: border-box;
+    color: var(--color-text-on-dark);
+  }
+  &:active {
+    background: var(--color-action-primary-pressed);
+    background-origin: border-box;
+    color: var(--color-text-on-dark);
+  }
+  &:focus-visible {
+    background: linear-gradient(90deg, #047bc1 0%, #08296c 100%);
+    background-origin: border-box;
+    box-shadow: 0 0 0 3px var(--color-action-focus-ring);
+    color: var(--color-text-on-dark);
+  }
+}
+
+/**
+ * btn-secondary — Transparent with white 55% border. Use on dark/navy surfaces.
+ * Default:       transparent bg + white/55% border, white text
+ * Hover:         white/10% bg + solid white border
+ * Pressed:       white/18% bg + solid white border
+ * Focus:         transparent + 2px sky border (no bg)
+ */
+@utility btn-secondary {
+  @apply btn;
+  background: transparent;
+  color: var(--color-text-on-dark);
+  border-width: 1px;
+  border-color: var(--color-border-on-dark-55);
+  &:hover {
+    background: var(--color-surface-on-dark-4, rgba(255, 255, 255, 0.10));
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: var(--color-border-on-dark);
+    color: var(--color-text-on-dark);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: var(--color-border-on-dark);
+    color: var(--color-text-on-dark);
+  }
+  &:focus-visible {
+    background: transparent;
+    border-width: 2px;
+    border-color: var(--color-action-focus-ring);
+    box-shadow: none;
+    color: var(--color-text-on-dark);
+  }
+}
+
+/**
+ * btn-ghost — Transparent with white 60% border. Use on dark surfaces.
+ * Identical interaction states to Secondary; default border is slightly more opaque.
+ */
+@utility btn-ghost {
+  @apply btn;
+  background: transparent;
+  color: var(--color-text-on-dark);
+  border-width: 1px;
+  border-color: var(--color-border-on-dark-60);
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    border-color: var(--color-border-on-dark);
+    color: var(--color-text-on-dark);
+  }
+  &:active {
+    background-color: rgba(255, 255, 255, 0.18);
+    border-color: var(--color-border-on-dark);
+    color: var(--color-text-on-dark);
+  }
+  &:focus-visible {
+    background: transparent;
+    border-width: 2px;
+    border-color: var(--color-action-focus-ring);
+    box-shadow: none;
+    color: var(--color-text-on-dark);
+  }
+}
+
+/**
+ * btn-inverse — White fill, navy text. Use on dark/gradient sections.
+ * Default:  white bg, navy (heading) text
+ * Hover:    mist bg (#E6EDF5), navy text
+ * Pressed:  mist bg, blue accent text
+ * Focus:    white bg + 3px sky ring, navy text
+ */
+@utility btn-inverse {
+  @apply btn;
+  background: var(--color-surface-page);
+  color: var(--color-text-heading);
+  border-color: transparent;
+  &:hover {
+    background: var(--color-action-inverse-hover);
+    color: var(--color-text-heading);
+  }
+  &:active {
+    background: var(--color-action-inverse-hover);
+    color: var(--color-text-accent);
+  }
+  &:focus-visible {
+    background: var(--color-surface-page);
+    box-shadow: 0 0 0 3px var(--color-action-focus-ring);
+    color: var(--color-text-heading);
+  }
+}
+
+/**
+ * btn-outline — Navy border, navy text. Use on light/white surfaces.
+ * Default:  transparent + navy border + navy text
+ * Hover:    fills solid navy bg, white text
+ * Pressed:  navy-pressed bg (#061f52), white text
+ * Focus:    transparent + 2px sky border, navy text
+ */
+@utility btn-outline {
+  @apply btn;
+  background: transparent;
+  color: var(--color-text-heading);
+  border-width: 1px;
+  border-color: var(--color-border-strong);
+  &:hover {
+    background: var(--color-surface-inverse);
+    color: var(--color-text-on-dark);
+    border-color: var(--color-surface-inverse);
+  }
+  &:active {
+    background: var(--color-action-primary-pressed);
+    color: var(--color-text-on-dark);
+    border-color: var(--color-action-primary-pressed);
+  }
+  &:focus-visible {
+    background: transparent;
+    color: var(--color-text-heading);
+    border-width: 2px;
+    border-color: var(--color-action-focus-ring);
+    box-shadow: none;
+  }
+}
+
+@utility btn-link {
+  /* Link/Label: Lato Bold 700, 11.5px, tracking 12% */
+  @apply inline-flex items-center font-body font-bold text-[11.5px] tracking-[0.12em] cursor-pointer uppercase;
+  color: var(--color-text-accent);
+  text-decoration: none;
+  transition-property: color;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  &:hover {
+    color: var(--color-action-primary-hover);
+    text-decoration: none;
+  }
+}
+
+/**
+ * btn-underline — Figma "Text Link" (node 159:88).
+ * Lato Bold 11.5px, tracking 12%, navy label, 1.5px blue underline,
+ * 10px gap to a blue → arrow. Hover: label turns blue, arrow nudges 4px.
+ */
+@utility btn-underline {
+  @apply inline-flex items-center gap-[10px] border-b-[1.5px] pb-[6px] font-body font-bold text-[11.5px] leading-none tracking-[0.12em] cursor-pointer uppercase;
+  color: var(--color-text-heading);
+  border-bottom-color: var(--color-text-accent);
+  text-decoration: none;
+  transition: color 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  &::after {
+    content: '→';
+    font-size: 14px;
+    letter-spacing: 0;
+    color: var(--color-text-accent);
+    transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  &:hover {
+    color: var(--color-text-accent);
+    text-decoration: none;
+  }
+  &:hover::after {
+    transform: translateX(4px);
+  }
+}
+
+/* ── Backward-compat aliases ────────────────────────────────────────── */
+@utility btn-ghost-dark  { @apply btn-ghost; }
+@utility btn-ghost-light { @apply btn-outline; }
+@utility btn-tertiary    { @apply btn-secondary; }
+
+@utility tag-pill {
+  @apply inline-flex items-center rounded-full bg-primary/20 border border-primary/30 px-2.5 py-0.5 font-display font-normal text-[11px] md:text-[12px] leading-[18px] text-primary dark:bg-primary/20 dark:border-white/20 dark:text-white/80;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  min-width: 220px;
+  padding: 0;
+  overflow: visible;
+  background: var(--aw-color-bg-card);
+  border: 1px solid color-mix(in srgb, var(--aw-color-text-heading) 10%, transparent);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 8%);
+}
+
+.dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 16px;
+  font-family: var(--aw-font-sans);
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--aw-color-text-heading);
+  white-space: nowrap;
+}
+
+/* ── Second-level (right-side flyout) ───────────────────────────── */
+
+/* The sub-parent item needs overflow visible so the flyout can escape */
+.dropdown-menu li.sub-dropdown {
+  position: relative;
+}
+
+.sub-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  z-index: 60;
+  min-width: 220px;
+  padding: 0;
+  background: var(--aw-color-bg-card);
+  border: 1px solid color-mix(in srgb, var(--aw-color-text-heading) 10%, transparent);
+  box-shadow: 8px 12px 32px rgb(0 0 0 / 8%);
+}
+
+.sub-dropdown-menu a {
+  display: block;
+  padding: 7px 16px;
+  font-family: var(--aw-font-sans);
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--aw-color-text-heading);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .dropdown.expanded > .dropdown-menu {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Hover-only on desktop. :focus / :focus-within would pin the menu
+     open after a click on the parent nav link. Keyboard still works via
+     :focus-visible on the trigger (Tab), not mouse-click focus. */
+  .dropdown:hover > .dropdown-menu,
+  .dropdown:has(:focus-visible) > .dropdown-menu {
+    display: block;
+  }
+
+  /* Second-level flyout — show when hovering the sub-dropdown item */
+  .sub-dropdown:hover > .sub-dropdown-menu,
+  .sub-dropdown:has(:focus-visible) > .sub-dropdown-menu {
+    display: block;
+  }
+
+  /* Ensure the primary dropdown stays open while the flyout is being used */
+  .dropdown:has(.sub-dropdown:hover) > .dropdown-menu {
+    display: block;
+  }
+}
+
+/* Active nav link — top-level */
+nav > ul > li > a.aw-link-active,
+nav > ul > li > a.aw-link-active:hover,
+nav > ul > li > span.aw-link-active,
+nav > ul > li > div > a.aw-link-active,
+nav > ul > li > div > a.aw-link-active:hover,
+nav > ul > li > div > span.aw-link-active,
+nav > ul > li > div > button.aw-link-active {
+  color: var(--aw-color-accent);
+  font-weight: 700;
+}
+
+[data-nav='embedded'] nav a.aw-link-active,
+[data-nav='embedded'] nav a.aw-link-active:hover {
+  color: var(--aw-color-bg-cta);
+  text-shadow: 2px 2px 4px rgb(0 0 0 / 10%);
+}
+
+[data-mobile-panel] a.aw-link-active,
+[data-mobile-panel] a.aw-link-active:hover {
+  background-color: rgb(255 255 255 / 10%);
+  color: var(--aw-color-bg-cta);
+}
+
+/* Dropdown option hover */
+.dropdown-menu a:hover {
+  background-color: var(--aw-color-bg-section-grey);
+  color: var(--aw-color-text-heading);
+}
+
+/* Active nav link — inside dropdown */
+.dropdown-menu a.aw-link-active {
+  color: var(--aw-color-accent);
+  font-weight: 600;
+}
+.dropdown-menu a.aw-link-active:hover {
+  background-color: var(--aw-color-bg-section-grey);
+  color: var(--aw-color-accent);
+}
+.dark .dropdown-menu a.aw-link-active {
+  color: var(--aw-color-accent);
+}
+
+/* Active / hover states — inside sub-dropdown flyout */
+.sub-dropdown-menu a:hover {
+  background-color: var(--aw-color-bg-section-grey);
+  color: var(--aw-color-text-heading);
+}
+.sub-dropdown-menu a.aw-link-active {
+  color: var(--aw-color-accent);
+  font-weight: 600;
+}
+.sub-dropdown-menu a.aw-link-active:hover {
+  background-color: var(--aw-color-bg-section-grey);
+  color: var(--aw-color-accent);
+}
+
+/* Highlight the sub-parent row when its flyout is open */
+.sub-dropdown:hover > a,
+.sub-dropdown:has(:focus-visible) > a {
+  background-color: var(--aw-color-bg-section-grey);
+}
+
+[astro-icon].icon-light > * {
+  stroke-width: 1.2;
+}
+
+[astro-icon].icon-bold > * {
+  stroke-width: 2.4;
+}
+
+[data-aw-toggle-menu] path {
+  @apply transition;
+}
+[data-aw-toggle-menu].expanded g > path:first-child {
+  @apply -rotate-45 translate-y-[15px] translate-x-[-3px];
+}
+[data-aw-toggle-menu].expanded g > path:last-child {
+  @apply rotate-45 translate-y-[-8px] translate-x-[14px];
+}
+
+/* Linked-card hover: color-only, matching site hyperlink behavior. */
+@utility card-link {
+  @apply no-underline transition-colors duration-200;
+}
+
+.dd *:first-child {
+  margin-top: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Kuroda semantic color role utilities  (Figma node 152:248 — "Color roles")
+   Use these in components — never raw hex. Mirrors the Figma --color-* vars.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Surface backgrounds */
+@utility bg-surface-page        { background-color: var(--color-surface-page); }
+@utility bg-surface-subtle      { background-color: var(--color-surface-subtle); }
+@utility bg-surface-inverse     { background-color: var(--color-surface-inverse); }
+@utility bg-surface-accent      { background-color: var(--color-surface-accent); }
+@utility bg-surface-hero-tint   { background-color: var(--color-surface-hero-tint); }
+@utility bg-on-dark-4           { background-color: var(--color-surface-on-dark-4); }
+@utility bg-on-dark-5           { background-color: var(--color-surface-on-dark-5); }
+@utility bg-on-dark-7           { background-color: var(--color-surface-on-dark-7); }
+
+/* Text — light-surface */
+@utility text-body-full         { color: var(--color-text-body); }
+@utility text-body-55           { color: var(--color-text-body-55); }
+@utility text-body-60           { color: var(--color-text-body-60); }
+@utility text-body-70           { color: var(--color-text-body-70); }
+@utility text-body-78           { color: var(--color-text-body-78); }
+@utility text-body-80           { color: var(--color-text-body-80); }
+@utility text-heading-full      { color: var(--color-text-heading); }
+@utility text-heading-80        { color: var(--color-text-heading-80); }
+@utility text-accent-role       { color: var(--color-text-accent); }
+
+/* Text — dark-surface (on navy / hero / inverse sections) */
+@utility text-on-dark           { color: var(--color-text-on-dark); }
+@utility text-on-dark-55        { color: var(--color-text-on-dark-55); }
+@utility text-on-dark-60        { color: var(--color-text-on-dark-60); }
+@utility text-on-dark-70        { color: var(--color-text-on-dark-70); }
+@utility text-on-dark-72        { color: var(--color-text-on-dark-72); }
+@utility text-on-dark-82        { color: var(--color-text-on-dark-82); }
+@utility text-on-dark-85        { color: var(--color-text-on-dark-85); }
+@utility text-on-dark-accent    { color: var(--color-text-on-dark-accent); }
+
+/* Icon colors */
+@utility text-icon-default      { color: var(--color-icon-default); }
+@utility text-icon-on-dark      { color: var(--color-icon-on-dark); }
+@utility text-icon-on-dark-alt  { color: var(--color-icon-on-dark-alt); }
+
+/* Border — light-surface */
+@utility border-accent-role     { border-color: var(--color-border-accent); }
+@utility border-default-role    { border-color: var(--color-border-default); }
+@utility border-default-35      { border-color: var(--color-border-default-35); }
+@utility border-default-40      { border-color: var(--color-border-default-40); }
+@utility border-default-50      { border-color: var(--color-border-default-50); }
+@utility border-default-60      { border-color: var(--color-border-default-60); }
+@utility border-strong-role     { border-color: var(--color-border-strong); }
+@utility border-strong-25       { border-color: var(--color-border-strong-25); }
+
+/* Border — dark-surface */
+@utility border-on-dark         { border-color: var(--color-border-on-dark); }
+@utility border-on-dark-10      { border-color: var(--color-border-on-dark-10); }
+@utility border-on-dark-12      { border-color: var(--color-border-on-dark-12); }
+@utility border-on-dark-14      { border-color: var(--color-border-on-dark-14); }
+@utility border-on-dark-15      { border-color: var(--color-border-on-dark-15); }
+@utility border-on-dark-18      { border-color: var(--color-border-on-dark-18); }
+@utility border-on-dark-20      { border-color: var(--color-border-on-dark-20); }
+@utility border-on-dark-55      { border-color: var(--color-border-on-dark-55); }
+@utility border-on-dark-60      { border-color: var(--color-border-on-dark-60); }
+
+/* Action / focus */
+@utility ring-focus-role        { outline-color: var(--color-action-focus-ring); }
+@utility bg-inverse-hover       { background-color: var(--color-action-inverse-hover); }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Kuroda gradient utilities  (Figma node 152:634 — "Gradients & Bands")
+   ───────────────────────────────────────────────────────────────────────── */
+
+/** Brand gradient (Blue → Navy) — buttons, eyebrow rule, CTA surfaces */
+@utility bg-gradient-brand {
+  background: var(--gradient-brand);
+}
+
+/** Band · Blue — 10px section divider, below hero / above footer */
+@utility bg-band-blue {
+  background: var(--gradient-band-blue);
+}
+
+/** Band · Silver — 10px section divider, below services / above CTA */
+@utility bg-band-silver {
+  background: var(--gradient-band-silver);
+}
+
+/** Hero · Fade left — dark navy fade over the left side of photography */
+@utility bg-hero-fade-left {
+  background: var(--gradient-hero-fade-left);
+}
+
+/** Hero · Fade bottom — navy vignette rising from the bottom of hero */
+@utility bg-hero-fade-bottom {
+  background: var(--gradient-hero-fade-bottom);
+}
+
+/** Hero · Fade mobile — photo → navy melt for the stacked mobile hero */
+@utility bg-hero-fade-mobile {
+  background: var(--gradient-hero-fade-mobile);
+}
+
+/** Hero · Fade top — light navy shadow pressing down from the top */
+@utility bg-hero-fade-top {
+  background: var(--gradient-hero-fade-top);
+}
+
+/** Brand gradient, top → bottom — vertical rules (pull quote) */
+@utility bg-gradient-brand-vertical {
+  background: var(--gradient-brand-vertical);
+}
+
+/** Diagonal Blue → Navy surface — final CTA (Figma 136:589) */
+@utility bg-gradient-cta-diagonal {
+  background: var(--gradient-cta-diagonal);
+}
+
+/** Brand gradient clipped to text — accent words in headings on light surfaces */
+@utility text-gradient-brand {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/** Image placeholder for use on mist-grey sections (mist/100 — visible against mist/50) */
+@utility bg-placeholder-on-grey {
+  background-color: var(--color-action-inverse-hover);
+}
+
+/** Hero headline gradient — sky-blue gradient for the bold span in the H1 */
+@utility text-gradient-hero-headline {
+  background: var(--gradient-hero-headline);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/**
+  * Eyebrow rule — 24 × 2px horizontal gradient bar that precedes eyebrow text.
+ * Figma node 152:637 · Brand gradient left→right.
+ * Usage: <span class="eyebrow-rule" aria-hidden="true"></span>
+ */
+@utility eyebrow-rule {
+  display: block;
+  width: 24px;
+  height: 2px;
+  flex-shrink: 0;
+  background: var(--gradient-brand);
+  border-radius: 1px;
+}

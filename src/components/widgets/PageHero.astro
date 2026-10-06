@@ -1,0 +1,149 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import Image from '~/components/common/Image.astro';
+import { CONTACT } from '~/config/contact';
+import { PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
+/**
+ * PageHero — interior-page hero, same design language as the homepage hero.
+ * Navy surface, photo (grey placeholder) on the right with the three Kuroda fade
+ * overlays, eyebrow rule, Unbounded two-tone H1, lede and the two standard CTAs.
+ * Shorter than the homepage hero (no credentials bar).
+ *
+ * Buttons default to the sitewide pair (Schedule an Estimate + Call) — pass ctaText / secondaryCtaText
+ * only to override them.
+ *
+ * Image: grey placeholder until the client delivers the asset (see images.mdc). CMS-driven pages
+ * (blog articles) pass `image` to show the cover photo instead. Anything inside the slot renders
+ * under the body copy (e.g. article meta).
+ */
+export interface Props {
+  eyebrow?: string;
+  /** Light-weight lead of the H1. */
+  titleLead: string;
+  /** Semibold sky-gradient tail of the H1. */
+  titleAccent?: string;
+  /** Optional all-caps tagline under the H1. */
+  tagline?: string;
+  body?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  secondaryCtaText?: string;
+  secondaryCtaHref?: string;
+  /** Hide both buttons (e.g. on the contact page, where the form is the call to action). */
+  showCtas?: boolean;
+  /** CMS cover photo. Omit to keep the grey placeholder. */
+  image?: { src: string; alt?: string };
+  /** Accessible label for the photo placeholder. */
+  photoLabel?: string;
+}
+
+const {
+  eyebrow,
+  titleLead,
+  titleAccent,
+  tagline,
+  body,
+  ctaText = SCHEDULE_CTA_LABEL,
+  ctaHref = PRIMARY_CTA_HREF,
+  secondaryCtaText = `CALL ${CONTACT.phone.display}`,
+  secondaryCtaHref = CONTACT.phone.href,
+  showCtas = true,
+  image,
+  photoLabel = 'Kuroda Autobody',
+} = Astro.props;
+---
+
+<section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[560px]">
+  {/* Photo — right side, starts ~200px from left on desktop */}
+  {/* TODO: replace the placeholder with <Image> when the photo is ready */}
+  <div
+    class="absolute inset-x-0 top-0 h-[300px] overflow-hidden bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
+    role={image?.src ? undefined : 'img'}
+    aria-label={image?.src ? undefined : photoLabel}
+  >
+    {
+      image?.src && (
+        <Image
+          src={image.src}
+          alt={image.alt || photoLabel}
+          width={1240}
+          height={560}
+          widths={[640, 960, 1240, 1600]}
+          sizes="100vw"
+          layout="cover"
+          format="webp"
+          quality={72}
+          class="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+      )
+    }
+  </div>
+
+  {/* Gradient overlays — same stack as the homepage hero */}
+  <div class="absolute inset-x-0 top-0 z-[1] h-[300px] bg-hero-fade-mobile md:hidden" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-left md:block" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-bottom md:block" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-top md:block" aria-hidden="true"></div>
+
+  <MaxWidthContainer class="relative z-[2] flex flex-col md:min-h-[560px]">
+    <div class="flex flex-1 flex-col pb-10 pt-[240px] md:justify-center md:py-24">
+      {
+        eyebrow && (
+          <div class="flex items-center gap-2">
+            <span class="block h-[2px] w-[16px] shrink-0 rounded-[1px] bg-gradient-brand" aria-hidden="true" />
+            <p class="font-body text-[10.5px] font-bold uppercase leading-[13px] tracking-[1.26px] text-on-dark">
+              {eyebrow}
+            </p>
+          </div>
+        )
+      }
+
+      <div class:list={[eyebrow && 'mt-4 md:mt-8']}>
+        <h1
+          class="font-display text-[32px] font-light leading-[1.12] tracking-[-0.03em] md:max-w-[760px] md:text-[48px] md:leading-[58px]"
+        >
+          <span class="text-on-dark">{titleLead}</span>{
+            titleAccent && <span class="text-gradient-hero-headline font-semibold">{titleAccent}</span>
+          }
+        </h1>
+      </div>
+
+      {
+        tagline && (
+          <p class="mt-5 font-display text-[12px] font-normal uppercase leading-[normal] tracking-[0.08em] text-on-dark-accent md:mt-7 md:text-[14px] md:leading-none">
+            {tagline}
+          </p>
+        )
+      }
+
+      {
+        body && (
+          <p class="mt-4 max-w-[540px] font-body text-[16px] leading-[1.55] text-on-dark-82 md:mt-5 md:text-[18px] md:leading-[30px]">
+            {body}
+          </p>
+        )
+      }
+
+      {
+        showCtas && (ctaText || secondaryCtaText) && (
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-10">
+            {ctaText && ctaHref && (
+              <a href={ctaHref} class="btn-primary">
+                {ctaText}
+              </a>
+            )}
+            {secondaryCtaText && secondaryCtaHref && (
+              <a href={secondaryCtaHref} class="btn-secondary">
+                {secondaryCtaText}
+              </a>
+            )}
+          </div>
+        )
+      }
+
+      <slot />
+    </div>
+  </MaxWidthContainer>
+</section>

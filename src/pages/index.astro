@@ -1,0 +1,192 @@
+---
+/**
+ * Homepage — Figma node 136:196 (Desktop · Oct 5)
+ * Sections: Hero · Ratings · Services · Why Kuroda · Before/After ·
+ *           Heritage · Consumer Protection · Reviews · Certifications · CTA
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import RatingsBar from '~/components/widgets/RatingsBar.astro';
+import ServiceGridSplit from '~/components/widgets/ServiceGridSplit.astro';
+import FeatureListSplit from '~/components/widgets/FeatureListSplit.astro';
+import BeforeAfter from '~/components/widgets/BeforeAfter.astro';
+import HeritageStory from '~/components/widgets/HeritageStory.astro';
+import ConsumerProtection from '~/components/widgets/ConsumerProtection.astro';
+import ReviewsColumns from '~/components/widgets/ReviewsColumns.astro';
+import CredentialLogos from '~/components/widgets/CredentialLogos.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+import { CONTACT } from '~/config/contact';
+import { PRIMARY_CTA_HREF } from '~/config/cta';
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+
+const meta = {
+  title: "Kuroda Autobody | Collision Repair · Waipahu, Oʻahu",
+  description:
+    "Family-owned collision repair in Waipahu since 1938. I-CAR Gold Class certified, OEM calibration, Limited Lifetime Warranty. Schedule your estimate today.",
+};
+---
+
+<Layout metadata={meta}>
+  {/* ═══════════════════════════════════════════════════════════
+      HERO — Figma node 136:217 · h=776 · Navy + photo + overlays
+  ════════════════════════════════════════════════════════════ */}
+  <section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[776px]">
+
+    {/* Photo placeholder — right side, starts ~200px from left on desktop */}
+    <div
+      class="absolute inset-x-0 top-0 h-[460px] bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
+      aria-hidden="true"
+    ></div>
+
+    {/* Gradient overlays (Figma node 136:219–221) */}
+    <div class="absolute inset-x-0 top-0 z-[1] h-[470px] bg-hero-fade-mobile md:hidden" aria-hidden="true"></div>
+    <div class="absolute inset-0 z-[1] hidden bg-hero-fade-left md:block" aria-hidden="true"></div>
+    <div class="absolute inset-0 z-[1] hidden bg-hero-fade-bottom md:block" aria-hidden="true"></div>
+    <div class="absolute inset-0 z-[1] hidden bg-hero-fade-top md:block" aria-hidden="true"></div>
+
+    {/* Main content layout */}
+    <MaxWidthContainer class="relative z-[2] flex flex-col md:min-h-[776px]">
+
+      {/* Copy column — Figma: pt-96, pb-72 */}
+      <div class="flex flex-1 flex-col pb-8 pt-[300px] md:pb-[72px] md:pt-24">
+
+        {/* Eyebrow — Small / Dark (Figma: 10.5px Lato Bold, 1.26px tracking) */}
+        <div class="flex items-center gap-2">
+          <span
+            class="block h-[2px] w-[16px] shrink-0 rounded-[1px] bg-gradient-brand"
+            aria-hidden="true"
+          ></span>
+          <p class="font-body text-[10.5px] font-bold uppercase leading-[13px] tracking-[1.26px] text-on-dark">
+            COLLISION REPAIR · WAIPAHU
+          </p>
+        </div>
+
+        {/* 40px spacer */}
+        <div class="h-4 md:h-10" aria-hidden="true"></div>
+
+        {/* H1 — Unbounded Light 64px + SemiBold sky-gradient span */}
+        <h1 class="font-display font-light text-[38px] leading-[1.08] tracking-[-0.03em] md:w-[709px] md:text-[64px] md:leading-[74px]">
+          <span class="text-on-dark">Accidents are hard enough. </span><span class="text-gradient-hero-headline font-semibold">Repairs shouldn&rsquo;t be.</span>
+        </h1>
+
+        {/* 28px spacer */}
+        <div class="h-5 md:h-7" aria-hidden="true"></div>
+
+        {/* Tagline — Unbounded Regular 14px, sky accent */}
+        <p class="font-display font-normal text-[12px] uppercase leading-[normal] tracking-[0.08em] text-on-dark-accent md:text-[14px] md:leading-none">
+          DO IT RIGHT. TREAT PEOPLE RIGHT.
+        </p>
+
+        {/* 20px spacer */}
+        <div class="h-3 md:h-5" aria-hidden="true"></div>
+
+        {/* Lead body — Lato Regular 18px, leading 30px */}
+        <p class="max-w-[540px] font-body text-[16px] leading-[1.55] text-on-dark-82 md:text-[18px] md:leading-[30px]">
+          Expert collision repair in Waipahu since {CONTACT.established}, backed by a Limited Lifetime Warranty.
+        </p>
+
+        {/* 40px spacer */}
+        <div class="h-7 md:h-10" aria-hidden="true"></div>
+
+        {/* Buttons — gap-12 (Figma: gap-[var(--space-12,12px)]) */}
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a
+            href={PRIMARY_CTA_HREF}
+            class="btn-primary"
+          >
+            SCHEDULE AN ESTIMATE
+          </a>
+          <a
+            href={CONTACT.phone.href}
+            class="btn-secondary"
+          >
+            CALL KURODA {CONTACT.phone.display}
+          </a>
+        </div>
+      </div>
+
+      {/* ── Credentials bar (Figma node 136:242) — border-t, pt-28, pb-72 ── */}
+      <div class="border-t border-on-dark-18 pb-10 pt-6 md:pb-[72px] md:pt-7">
+        <div class="grid grid-cols-2 gap-x-0 gap-y-4 lg:flex lg:gap-0">
+
+          {/* Trust item 1 — I-CAR Gold Class */}
+          <div class="flex items-center gap-[10px] lg:flex-1 lg:gap-3">
+            <img src="/oem/icar-gold-class-inline.png" alt="" aria-hidden="true" width="58" height="30" class="h-[30px] w-[58px] shrink-0" />
+            <p class="font-body text-[12.5px] font-medium leading-[normal] text-on-dark md:text-[14px] md:leading-none">I-CAR Gold Class</p>
+          </div>
+
+          {/* Trust item 2 — OEM certified calibration */}
+          <div class="flex items-center gap-[10px] lg:flex-1 lg:gap-3">
+            <BrandIcon name="target-24" />
+            <p class="font-body text-[12.5px] font-medium leading-[normal] text-on-dark md:text-[14px] md:leading-none">OEM certified calibration</p>
+          </div>
+
+          {/* Trust item 3 — Limited Lifetime Warranty */}
+          <div class="flex items-center gap-[10px] lg:flex-1 lg:gap-3">
+            <BrandIcon name="shield-24" />
+            <p class="font-body text-[12.5px] font-medium leading-[normal] text-on-dark md:text-[14px] md:leading-none">Limited Lifetime Warranty</p>
+          </div>
+
+          {/* Trust item 4 — Family-owned since 1938 */}
+          <div class="flex items-center gap-[10px] lg:flex-1 lg:gap-3">
+            <BrandIcon name="home-24" />
+            <p class="font-body text-[12.5px] font-medium leading-[normal] text-on-dark md:text-[14px] md:leading-none">Family-owned since {CONTACT.established}</p>
+          </div>
+
+        </div>
+      </div>
+
+    </MaxWidthContainer>
+  </section>
+
+  {/* ── Band · Blue — Figma 159:109 · 10px divider below hero ── */}
+  <GradientBand variant="blue" />
+
+  {/* ── Ratings bar — Figma node 136:267 ── */}
+  <RatingsBar />
+
+  {/* ── Services split — Figma node 136:322 ── */}
+  <ServiceGridSplit />
+
+  {/* ── Band · Silver — Figma 159:110 · 10px divider below services ── */}
+  <GradientBand variant="silver" />
+
+  {/* ── Why Kuroda — Figma node 136:376 ── */}
+  <FeatureListSplit />
+
+  {/* ── Before & After — Figma node 136:412 ── */}
+  <BeforeAfter />
+
+  {/* ── Heritage 1938 — Figma node 136:444 ── */}
+  <HeritageStory />
+
+  {/* ── Consumer protection — Figma node 136:475 ── */}
+  <ConsumerProtection />
+
+  {/* ── Reviews — Figma node 136:501 ── */}
+  <ReviewsColumns />
+
+  {/* ── OEM certifications — Figma node 136:534 ── */}
+  <CredentialLogos />
+
+  {/* ── Band · Silver ── */}
+  <GradientBand variant="silver" />
+
+  {/* ── Final CTA — Figma node 136:589 ── */}
+  <CTABanner
+    variant="split"
+    showBand={false}
+    eyebrow="Estimates • Claims assistance • Lifetime warranty"
+    eyebrowMobile="Estimates • Claims • Warranty"
+    title="Ready to get your car "
+    titleStrong="repaired right?"
+    subtitle="Visit us at Gentry Waipio Business Park or call for an honest estimate."
+    ctaText="SCHEDULE AN ESTIMATE"
+    ctaHref={PRIMARY_CTA_HREF}
+    secondaryCtaText={`CALL KURODA: ${CONTACT.phone.display}`}
+    secondaryCtaHref={CONTACT.phone.href}
+    address={`${CONTACT.address.street}, ${CONTACT.address.cityLine} (${CONTACT.address.landmark})`}
+    hours="Monday – Friday: 7:00 AM – 5:00 PM"
+  />
+</Layout>

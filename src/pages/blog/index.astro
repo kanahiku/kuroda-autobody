@@ -1,0 +1,43 @@
+---
+/**
+ * Blog — /blog/
+ * Every article comes from Sanity (`blogPost`): publish one in the Studio and it appears here.
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import BlogGrid from '~/components/widgets/BlogGrid.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import { getBlogPosts } from '~/lib/content';
+import { CONTACT } from '~/config/contact';
+import { site } from '~/config/site';
+
+export const prerender = false;
+
+const posts = await getBlogPosts();
+
+const description = `Collision repair guidance, insurance claim tips and repair insights from the ${site.name} team in ${CONTACT.address.city}, Oʻahu.`;
+
+const metadata = {
+  title: `Blog | ${site.name}`,
+  description,
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Blog"
+    titleLead="Repair Guidance "
+    titleAccent="& Insights"
+    body={description}
+    showCtas={false}
+    photoLabel={`${site.name} blog`}
+  />
+
+  <GradientBand variant="blue" />
+
+  <BlogGrid posts={posts} featured />
+
+  <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" />
+</Layout>

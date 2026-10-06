@@ -1,0 +1,107 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import { renderInline } from '~/lib/inline';
+/**
+ * ProcessSteps — long ordered process (5+ steps).
+ * White section: head (eyebrow + two-weight heading + lede) on the left, a hairline-ruled
+ * ordered list on the right — gradient-outlined numeral, caps title, body per step
+ * (same numeral treatment as ConsumerProtection, stacked as rows). No images.
+ */
+export interface Step {
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  lead?: string;
+  steps: Step[];
+  /** Background surface (default page / white). */
+  surface?: 'page' | 'subtle';
+  id?: string;
+}
+
+const { eyebrow, headingLead = '', headingStrong, lead, steps, surface = 'page', id } = Astro.props;
+const uid = `proc-${Math.random().toString(36).slice(2, 7)}`;
+---
+
+<section {...id ? { id } : {}} class:list={['w-full', surface === 'subtle' ? 'bg-surface-subtle' : 'bg-surface-page']}>
+  <MaxWidthContainer
+    class="flex flex-col gap-7 py-14 md:gap-12 md:py-16 xl:flex-row xl:items-start xl:gap-24 xl:py-[120px]"
+  >
+    {/* ── Head ── */}
+    <div class="flex flex-col xl:w-[480px] xl:shrink-0">
+      <div class="flex flex-col gap-1">
+        {
+          eyebrow && (
+            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+              <span class="eyebrow-rule" aria-hidden="true" />
+              {eyebrow}
+            </p>
+          )
+        }
+        <h2
+          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+        >
+          {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
+        </h2>
+      </div>
+      {
+        lead && (
+          <p
+            class="mt-7 font-body text-[15px] leading-[1.55] text-body-80 md:mt-6 md:text-[16px] md:leading-7 lg:text-[17px]"
+            set:html={renderInline(lead)}
+          />
+        )
+      }
+    </div>
+
+    {/* ── Steps ── */}
+    <ol class="flex min-w-0 flex-1 flex-col border-b border-default-50">
+      {
+        steps.map((step, i) => (
+          <li class="grid grid-cols-[76px_minmax(0,1fr)] items-start gap-4 border-t border-default-50 py-6 md:grid-cols-[104px_minmax(0,1fr)] md:gap-8 md:py-8">
+            {/* Outlined numeral — gradient stroke, no fill */}
+            <span class="sr-only">{`Step ${i + 1}`}</span>
+            <svg
+              class="h-[40px] w-auto self-start overflow-visible font-display md:h-[60px]"
+              viewBox="0 0 104 60"
+              fill="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id={`${uid}-${i}`} x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" style="stop-color: var(--color-brand-blue)" />
+                  <stop offset="1" style="stop-color: var(--color-brand-navy)" />
+                </linearGradient>
+              </defs>
+              <text
+                x="0"
+                y="50"
+                font-size="56"
+                font-weight="300"
+                letter-spacing="-2.24"
+                fill="none"
+                stroke={`url(#${uid}-${i})`}
+                stroke-width="1.25"
+                stroke-linejoin="round"
+              >
+                {String(i + 1).padStart(2, '0')}
+              </text>
+            </svg>
+            <div class="flex flex-col gap-2 md:gap-3 md:pt-[6px]">
+              <h3 class="font-display text-[14px] font-semibold leading-[normal] tracking-[0.02em] text-heading-full uppercase md:text-[15px]">
+                {step.title}
+              </h3>
+              <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px] md:leading-[25px]">
+                {step.description}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </MaxWidthContainer>
+</section>

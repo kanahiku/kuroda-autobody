@@ -1,0 +1,110 @@
+---
+/**
+ * BlogArticleBody — renders a Sanity article body (portable text → `contentBlocks`) in document order.
+ * Handles: paragraphs, blockquotes, H2/H3, bullet + numbered lists, images, tables, callouts.
+ * Inline marks (bold, italic, links) arrive as HTML and are styled by the wrapper's `[&_x]` variants.
+ */
+import ComparisonTable from '~/components/ui/ComparisonTable.astro';
+import PullQuote from '~/components/ui/PullQuote.astro';
+import BlogArticleImage from '~/components/blog/BlogArticleImage.astro';
+import { getArticleHeadings } from '~/lib/content/blogArticle';
+import type { BlogPost } from '~/lib/content/types';
+
+export interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+const headingIds = new Map(getArticleHeadings(post).map((heading) => [heading._key, heading.id]));
+
+const calloutLabel = {
+  tip: 'Tip',
+  info: 'Good to Know',
+  warning: 'Heads Up',
+  note: 'Note',
+} as const;
+
+const paragraph = 'mt-5 font-body text-[16px] leading-[1.75] text-body-80 first:mt-0 md:text-[17px]';
+---
+
+<div
+  class="min-w-0 [&_a]:font-semibold [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-heading-full [&_strong]:font-semibold [&_strong]:text-heading-full"
+>
+  {
+    post.contentBlocks.map((block) => {
+      if (block._type === 'heading' && block.level === 2) {
+        return (
+          <h2
+            id={headingIds.get(block._key)}
+            class="mt-12 scroll-mt-28 font-display text-[26px] font-light leading-[1.15] tracking-[-0.02em] text-heading-full first:mt-0 md:mt-16 md:text-[34px]"
+          >
+            {block.text}
+          </h2>
+        );
+      }
+
+      if (block._type === 'heading') {
+        return (
+          <h3 class="mt-8 font-display text-[19px] font-semibold leading-[1.25] tracking-[-0.01em] text-heading-full md:text-[22px]">
+            {block.text}
+          </h3>
+        );
+      }
+
+      if (block._type === 'image') {
+        return <BlogArticleImage image={block.image} caption={block.caption} />;
+      }
+
+      if (block._type === 'list') {
+        const isOrdered = block.listType === 'number';
+        const Tag = isOrdered ? 'ol' : 'ul';
+        return (
+          <Tag class="mt-5 flex flex-col gap-3">
+            {block.items.map((item, index) => (
+              <li class="flex items-start gap-4 font-body text-[16px] leading-[1.7] text-body-80 md:text-[17px]">
+                {isOrdered ? (
+                  <span class="min-w-6 shrink-0 font-display text-[15px] font-semibold leading-[1.7] text-accent tabular-nums">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                ) : (
+                  <span class="mt-[0.7em] size-[7px] shrink-0 bg-accent" aria-hidden="true" />
+                )}
+                <span set:html={item.html} />
+              </li>
+            ))}
+          </Tag>
+        );
+      }
+
+      if (block._type === 'table') {
+        return (
+          <figure class="mt-8">
+            <ComparisonTable
+              featureLabel={block.headerRow[0]}
+              columns={block.headerRow.slice(1)}
+              rows={block.rows.map((row) => ({ feature: row.cells[0], values: row.cells.slice(1) }))}
+              caption={block.caption}
+            />
+          </figure>
+        );
+      }
+
+      if (block._type === 'callout') {
+        return (
+          <aside class="mt-8 flex flex-col gap-2 border-l-2 border-accent bg-surface-subtle px-5 py-5 md:px-7 md:py-6">
+            <p class="font-body text-[11px] font-bold uppercase leading-none tracking-[1.54px] text-accent">
+              {calloutLabel[block.calloutType]}
+            </p>
+            <p class="font-body text-[15px] leading-[1.7] text-body-80 md:text-[16px]">{block.text}</p>
+          </aside>
+        );
+      }
+
+      if (block.quote) {
+        return <PullQuote class="my-8" quote={block.text} />;
+      }
+
+      return <p class={paragraph} set:html={block.html} />;
+    })
+  }
+</div>

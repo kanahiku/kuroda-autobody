@@ -1,0 +1,155 @@
+---
+/**
+ * ContentPageView — the one template behind every copy-driven interior page
+ * (/collision-repair/<service>/, /had-an-accident/<topic>/, …).
+ *
+ * Copy comes from a `ContentPage` object (src/data/contentPage.ts); this file only picks the
+ * shared widget for each block. Nothing page-specific lives here or in the route files.
+ *
+ *   PageHero → blue band → sections[] → FAQs → related TagGrid → CTABanner (renders its own silver band)
+ *
+ * Surfaces alternate page / subtle down the page (a block can pin one with `surface`).
+ * Hero buttons and the closing CTA's subtitle + buttons are the widgets' sitewide defaults.
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import FeatureColumns from '~/components/widgets/FeatureColumns.astro';
+import PhaseTable from '~/components/widgets/PhaseTable.astro';
+import ProcessSteps from '~/components/widgets/ProcessSteps.astro';
+import HeritageStory from '~/components/widgets/HeritageStory.astro';
+import QuoteBand from '~/components/widgets/QuoteBand.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import TagGrid from '~/components/widgets/TagGrid.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import type { ContentPage, ContentSection } from '~/data/contentPage';
+import { sitemapLabel } from '~/lib/sitemap';
+
+export interface Props {
+  page: ContentPage;
+}
+
+const { page } = Astro.props;
+
+const metadata = {
+  title: page.seoTitle,
+  ignoreTitleTemplate: true,
+  description: page.metaDescription,
+};
+
+const pageLabel = sitemapLabel(page.path);
+const relatedItems = page.related.paths.map((path) => ({ label: sitemapLabel(path), href: path }));
+
+// Body = authored sections, then FAQs, then the related grid. Surfaces alternate unless pinned.
+type Block = { kind: 'section'; section: ContentSection } | { kind: 'faqs' } | { kind: 'related' };
+
+const blocks: Block[] = [
+  ...page.sections.map((section): Block => ({ kind: 'section', section })),
+  { kind: 'faqs' },
+  { kind: 'related' },
+];
+
+let previous: 'page' | 'subtle' = 'subtle';
+const body = blocks.map((block) => {
+  const pinned = block.kind === 'section' ? block.section.surface : undefined;
+  const surface = pinned ?? (previous === 'page' ? 'subtle' : 'page');
+  previous = surface;
+  return { block, surface };
+});
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow={page.eyebrow}
+    titleLead={page.hero.titleLead}
+    titleAccent={page.hero.titleAccent}
+    body={page.hero.body}
+    photoLabel={`${pageLabel} at Kuroda Autobody in Waipahu`}
+  />
+
+  <GradientBand variant="blue" />
+
+  {
+    body.map(({ block, surface }) => {
+      if (block.kind === 'faqs') {
+        return (
+          <FAQs
+            surface={surface}
+            eyebrow={page.faqs.eyebrow}
+            title={page.faqs.titleLead}
+            titleStrong={page.faqs.titleStrong}
+            items={page.faqs.items}
+          />
+        );
+      }
+      if (block.kind === 'related') {
+        return (
+          <TagGrid
+            surface={surface}
+            columns={3}
+            eyebrow={page.related.eyebrow}
+            headingLead={page.related.headingLead}
+            headingStrong={page.related.headingStrong}
+            items={relatedItems}
+          />
+        );
+      }
+      const s = block.section;
+      switch (s.type) {
+        case 'features':
+          return (
+            <FeatureColumns
+              surface={surface}
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingStrong={s.headingStrong}
+              lead={s.lead}
+              columns={s.columns ?? 2}
+              items={s.items}
+            />
+          );
+        case 'table':
+          return (
+            <PhaseTable
+              surface={surface}
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingStrong={s.headingStrong}
+              lead={s.lead}
+              columns={s.columns}
+              rows={s.rows}
+            />
+          );
+        case 'steps':
+          return (
+            <ProcessSteps
+              surface={surface}
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingStrong={s.headingStrong}
+              lead={s.lead}
+              steps={s.steps}
+            />
+          );
+        case 'story':
+          return (
+            <HeritageStory
+              surface={surface}
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingAccent={s.headingAccent}
+              paragraphs={s.paragraphs}
+              quote=""
+              stats={[]}
+              caption=""
+              photoLabel={`${pageLabel} at Kuroda Autobody`}
+            />
+          );
+        case 'quote':
+          return <QuoteBand surface={surface} eyebrow={s.eyebrow} quote={s.quote} attribution={s.attribution} />;
+      }
+    })
+  }
+
+  <CTABanner variant="split" title={page.cta.title} titleStrong={page.cta.titleStrong} />
+</Layout>

@@ -1,0 +1,165 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+/**
+ * ReviewsColumns — Figma node 136:501 ("Reviews")
+ * Mist-grey section: head (eyebrow + two-weight heading, note bottom-right)
+ * above a hairline-bordered 3-up row of platform review quotes that share
+ * vertical dividers. No images.
+ */
+export interface Review {
+  platform: string;
+  count: string;
+  quote: string;
+  source: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  note?: string;
+  reviews?: Review[];
+}
+
+const {
+  eyebrow = 'Honest feedback from local drivers',
+  headingLead = 'What our ',
+  headingStrong = 'customers say.',
+  note = 'Independent ratings from every verified platform.',
+  reviews = [
+    {
+      platform: 'Google verified',
+      count: '182 reviews',
+      quote:
+        '“Kuroda Auto Body made an unfortunate situation simple. Honest communication, spotless repair, and they guided me through everything.”',
+      source: 'Independent Google score',
+    },
+    {
+      platform: 'Yelp reviews',
+      count: '180 reviews',
+      quote:
+        '“Third time our family has had work done here over 20 years. Always fair, professional, and the paint match is undetectable.”',
+      source: 'Independent Yelp score',
+    },
+    {
+      platform: 'Carwise verified',
+      count: '5,416 reviews',
+      quote:
+        '“Over 5,000 verified post-repair customer surveys. Consistently praised for customer service, flawless finish, and walking through every detail.”',
+      source: 'Verified insurance surveys',
+    },
+  ],
+} = Astro.props;
+---
+
+<section class="w-full bg-surface-subtle">
+  <MaxWidthContainer class="flex flex-col gap-7 py-14 md:gap-16 md:py-16 xl:py-[120px]">
+    {/* ── Head ── */}
+    <div class="flex flex-col gap-7 md:gap-6 xl:flex-row xl:items-end xl:gap-24">
+      <div class="flex min-w-0 flex-1 flex-col gap-1">
+        <p
+          class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
+        >
+          <span class="eyebrow-rule" aria-hidden="true"></span>
+          {eyebrow}
+        </p>
+        <h2
+          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+        >
+          {headingLead}<span class="font-semibold">{headingStrong}</span>
+        </h2>
+      </div>
+      <p
+        class="font-body text-[15px] leading-[1.5] text-body-80 md:text-[16px] md:leading-[27px] xl:w-[420px] xl:shrink-0"
+      >
+        {note}
+      </p>
+    </div>
+
+    {/* ── Scores — mobile: swipe carousel of bordered cards · desktop: hairline columns ── */}
+    <ul
+      data-reviews-track
+      class="-mb-4 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mb-0 md:grid md:snap-none md:grid-cols-[calc((100%-160px)/3+40px)_calc((100%-160px)/3+80px)_minmax(0,1fr)] md:items-start md:gap-0 md:overflow-visible md:border-y md:border-default-50 md:pb-0"
+    >
+      {
+        reviews.map((r, i) => (
+          <li
+            class:list={[
+              'flex w-[290px] shrink-0 snap-start flex-col gap-[18px] rounded-[4px] border border-default-35 bg-surface-page p-6 md:w-auto md:snap-align-none md:gap-5 md:rounded-none md:border-0 md:bg-transparent md:p-0 md:py-10',
+              i > 0 && 'md:border-l md:border-default-50',
+              i === 0 && 'md:pr-10',
+              i === 1 && 'md:px-10',
+              i === reviews.length - 1 && i > 0 && 'md:pl-10 md:pr-0',
+            ]}
+          >
+            <div class="flex items-center justify-between gap-4">
+              <p class="font-body text-[11px] font-bold leading-none tracking-[1.54px] text-heading-full uppercase">
+                {r.platform}
+              </p>
+              <p class="font-body text-[12px] leading-none text-body-60 md:text-[13px]">{r.count}</p>
+            </div>
+            <blockquote class="font-display text-[16px] font-normal leading-[1.5] text-heading-full md:text-[18px]">
+              {r.quote}
+            </blockquote>
+            <p class="flex items-center gap-2 font-body text-[10.5px] font-bold leading-none tracking-[1.26px] text-heading-80 uppercase">
+              <BrandIcon name="verified" />
+              {r.source}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+
+    {/* Pager — mobile only; active dot stretches to 20px in brand blue (Figma 159:138) */}
+    <div class="flex items-start gap-[6px] md:hidden" data-reviews-pager aria-hidden="true">
+      {
+        reviews.map((_, i) => (
+          <span
+            data-dot
+            class:list={[
+              'h-[6px] rounded-[3px] transition-all duration-200',
+              i === 0 ? 'w-5 bg-accent' : 'w-[6px] bg-[var(--color-border-default-60)]',
+            ]}
+          />
+        ))
+      }
+    </div>
+  </MaxWidthContainer>
+</section>
+
+<script>
+  // Mobile swipe carousel: highlight the pager dot for the card nearest the left edge.
+  const initReviewsPager = () => {
+    document.querySelectorAll<HTMLElement>('[data-reviews-track]').forEach((track) => {
+      const pager = track.parentElement?.querySelector<HTMLElement>('[data-reviews-pager]');
+      if (!pager || track.dataset.pagerReady) return;
+      track.dataset.pagerReady = 'true';
+      const dots = Array.from(pager.querySelectorAll<HTMLElement>('[data-dot]'));
+      const update = () => {
+        const cards = Array.from(track.children) as HTMLElement[];
+        const left = track.scrollLeft;
+        let active = 0;
+        let best = Infinity;
+        cards.forEach((card, i) => {
+          const d = Math.abs(card.offsetLeft - track.offsetLeft - left);
+          if (d < best) {
+            best = d;
+            active = i;
+          }
+        });
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 2) active = cards.length - 1;
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('w-5', i === active);
+          dot.classList.toggle('bg-accent', i === active);
+          dot.classList.toggle('w-[6px]', i !== active);
+          dot.classList.toggle('bg-[var(--color-border-default-60)]', i !== active);
+        });
+      };
+      track.addEventListener('scroll', update, { passive: true });
+      update();
+    });
+  };
+  initReviewsPager();
+  document.addEventListener('astro:page-load', initReviewsPager);
+</script>

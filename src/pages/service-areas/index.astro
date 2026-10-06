@@ -1,0 +1,129 @@
+---
+/**
+ * /service-areas/ — Service areas hub.
+ * Composed from homepage-system widgets only. Copy: Sitemap Content Plan V2.
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import FeatureColumns from '~/components/widgets/FeatureColumns.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+
+const metadata = {
+  title: 'Auto Body Shop Serving Oahu Communities | Kuroda Autobody',
+  ignoreTitleTemplate: true,
+  description:
+    'Kuroda Autobody provides expert collision repair from our Waipahu facility in Gentry Waipio Business Park, serving drivers throughout Oahu.',
+};
+
+const faqs = [
+  {
+    title: 'Do you have other shop locations on Oahu?',
+    description:
+      'No. All of our repair work, estimates, and customer service are centralized at our 28,000-square-foot facility in the Gentry Waipio Business Park in Waipahu to ensure consistent, high-quality standards.',
+  },
+  {
+    title: 'Do I need to live nearby to bring my vehicle to Kuroda?',
+    description:
+      'Not at all. Drivers from all over Oahu regularly make the drive to our Waipahu shop because of our long-standing reputation, warranty coverage, and on-site rental car availability.',
+  },
+  {
+    title: 'Can you help coordinate my insurance claim if I live outside Waipahu?',
+    description:
+      'Yes. We work with insurance companies for customers across the entire island, helping manage estimates, approvals, and supplemental paperwork regardless of where you live.',
+  },
+  {
+    title: 'How do I get to your shop from other parts of the island?',
+    description:
+      'Our facility is conveniently situated right off major routes like the H-1 and H-2 freeways in the Gentry Waipio Business Park, making it straightforward to reach from West, Central, and urban Oahu.',
+  },
+  {
+    title: 'Can I arrange a rental car if I am coming from another community?',
+    description:
+      'Yes. We coordinate convenient on-site rental car pickup directly on our lot, allowing you to transition smoothly into temporary transportation no matter which part of the island you are coming from.',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow="Service areas"
+    titleLead="Auto Body Shop Serving "
+    titleAccent="Drivers Across Oahu"
+    body="Kuroda Autobody proudly provides expert collision repair, insurance coordination, and on-site rental vehicle pickup for drivers throughout Oahu. Centrally located in the Gentry Waipio Business Park, our shop is easily accessible for motorists looking for trusted craftsmanship and personal service."
+    photoLabel="Kuroda Autobody shop, Gentry Waipio Business Park"
+  />
+
+  <GradientBand variant="blue" />
+
+  <FeatureColumns
+    eyebrow="Across the island"
+    headingLead="Auto Body Care "
+    headingStrong="for Oahu Motorists"
+    lead="Drivers from across the island choose our Waipahu facility for complete collision and auto body care, including:"
+    items={[
+      {
+        icon: 'collision',
+        title: 'Collision & Body Repair',
+        description:
+          'Restoring minor dents, damaged panels, and major collision damage with strict attention to fit and finish.',
+      },
+      {
+        icon: 'alignment',
+        title: 'Structural & Frame Repair',
+        description:
+          'Using advanced 3D electronic measuring to restore vehicle frames to precise factory specifications.',
+      },
+      {
+        icon: 'paint',
+        title: 'Auto Paint & Refinishing',
+        description:
+          'Delivering a smooth, seamless finish using eco-friendly waterborne paint and computerized color-matching.',
+      },
+      {
+        icon: 'calibration',
+        title: 'Diagnostics & ADAS',
+        description: 'Performing vehicle diagnostic scans and coordinating required sensor and camera calibrations.',
+      },
+    ]}
+  />
+
+  <FeatureColumns
+    surface="subtle"
+    eyebrow="Regional service areas"
+    headingLead="Explore Our "
+    headingStrong="Regional Service Areas"
+    lead="We regularly serve communities across Central, West, and urban Oahu, providing dedicated support for local drivers:"
+    items={[
+      {
+        icon: 'clock',
+        title: 'Mililani & Koa Ridge',
+        description: 'Convenient access down the H-2 freeway for Central Oahu drivers.',
+        href: '/service-areas/mililani/',
+      },
+      {
+        icon: 'check',
+        title: 'Pearl City & Aiea',
+        description: 'Honoring our deep historical roots in Aiea while serving neighboring communities.',
+        href: '/service-areas/pearl-city-aiea/',
+      },
+    ]}
+    note="For complete directions, hours, and map details, visit our"
+    noteLinkText="Location Page"
+    noteLinkHref="/location/"
+  />
+
+  <FAQs
+    eyebrow="Service areas FAQ"
+    title="Frequently Asked Questions "
+    titleStrong="About Our Service Areas"
+    items={faqs}
+  />
+
+  <CTABanner
+    variant="split"
+    title="Plan Your "
+    titleStrong="Visit"
+  />
+</Layout>

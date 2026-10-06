@@ -1,0 +1,113 @@
+---
+/**
+ * FAQs — accordion widget, Kuroda design system (same type, tokens and hairlines as the homepage).
+ *
+ * White section: head (eyebrow + two-weight heading + optional lede) on the left, hairline-ruled
+ * native <details> accordion on the right. Surface can be swapped with `<div slot="bg">`.
+ */
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import type { Faqs } from '~/types';
+
+export interface Props extends Faqs {
+  /** Eyebrow label above the heading (falls back to `tagline`). */
+  eyebrow?: string;
+  /** Semibold tail of the heading; `title` is the light-weight lead. */
+  titleStrong?: string;
+  /** Background surface (default page / white). `<div slot="bg">` still overrides. */
+  surface?: 'page' | 'subtle';
+  /** @deprecated Dark editorial mode was removed with the old design system — accepted but ignored. */
+  isDark?: boolean;
+}
+
+const {
+  title = '',
+  titleStrong,
+  subtitle = '',
+  tagline = '',
+  eyebrow,
+  surface = 'page',
+  items = [],
+  id,
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+
+const label = eyebrow ?? tagline;
+---
+
+<section
+  {...id ? { id } : {}}
+  class:list={['relative w-full', surface === 'subtle' ? 'bg-surface-subtle' : 'bg-surface-page']}
+  aria-label="Frequently asked questions"
+>
+  {
+    bg && (
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <Fragment set:html={bg} />
+      </div>
+    )
+  }
+
+  <MaxWidthContainer
+    class="relative flex flex-col gap-7 py-14 md:gap-12 md:py-16 xl:flex-row xl:items-start xl:gap-24 xl:py-[120px]"
+  >
+    {/* ── Head ── */}
+    <div class="flex flex-col xl:w-[480px] xl:shrink-0">
+      <div class="flex flex-col gap-1">
+        {
+          label && (
+            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+              <span class="eyebrow-rule" aria-hidden="true" />
+              {label}
+            </p>
+          )
+        }
+        {
+          title && (
+            <h2 class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]">
+              {title}
+              {titleStrong && <span class="font-semibold">{titleStrong}</span>}
+            </h2>
+          )
+        }
+      </div>
+      {
+        subtitle && (
+          <p class="mt-7 font-body text-[15px] leading-[1.55] text-body-80 md:mt-6 md:text-[16px] md:leading-7 lg:text-[17px]">
+            {subtitle}
+          </p>
+        )
+      }
+    </div>
+
+    {/* ── Accordion ── */}
+    <div class="min-w-0 flex-1 border-b border-default-50">
+      {
+        items.map(({ title: question, description }) => (
+          <details class="group border-t border-default-50" name="faq-accordion">
+            <summary class="flex cursor-pointer list-none select-none items-start justify-between gap-6 py-5 md:py-6">
+              <h3 class="font-display text-[16px] font-normal leading-[1.4] tracking-[-0.01em] text-heading-full md:text-[18px] md:leading-[28px]">
+                {question}
+              </h3>
+              <span class="relative mt-[7px] block size-3 shrink-0 text-accent md:mt-[9px]" aria-hidden="true">
+                <span class="absolute left-0 top-1/2 h-[1.5px] w-full -translate-y-1/2 bg-current" />
+                <span class="absolute left-1/2 top-0 h-full w-[1.5px] -translate-x-1/2 bg-current transition-transform duration-200 group-open:scale-y-0" />
+              </span>
+            </summary>
+            <div class="pb-6 pr-9 md:pb-7">
+              <p
+                class="font-body text-[14px] leading-[1.55] text-body-78 md:text-[15px] md:leading-[25px]"
+                set:html={description}
+              />
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </MaxWidthContainer>
+</section>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

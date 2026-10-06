@@ -1,0 +1,101 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+/**
+ * FeatureListSplit — Figma node 136:376 ("Why Kuroda")
+ * Mist-grey section: eyebrow + full-width two-tone heading, then a photo
+ * (grey placeholder) on the left and four numbered feature rows on the right.
+ *
+ * Image: grey placeholder until client delivers the asset (see images.mdc).
+ */
+export interface FeatureItem {
+  title: string;
+  description: string;
+  icon: 'shield' | 'clock' | 'chat' | 'check';
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingAccent?: string;
+  caption?: string;
+  items?: FeatureItem[];
+}
+
+const {
+  eyebrow = 'Why drivers choose Kuroda',
+  headingLead = 'Less stress. Fewer questions. ',
+  headingAccent = "A car that's right again.",
+  caption = 'Our Waipahu shop, Gentry Waipio Business Park.',
+  items = [
+    { title: 'Repaired right', description: 'Backed by a written Limited Lifetime Warranty.', icon: 'shield' },
+    { title: 'Kept moving', description: 'Realistic timing and efficient repairs.', icon: 'clock' },
+    { title: 'Personal service', description: 'Daily updates from your estimator.', icon: 'chat' },
+    { title: 'Easy experience', description: 'Insurance, rentals and paperwork handled.', icon: 'check' },
+  ],
+} = Astro.props;
+---
+
+<section class="w-full bg-surface-subtle">
+  <MaxWidthContainer class="py-14 md:pb-16 md:pt-16 lg:pb-[80px] xl:pt-[120px]">
+    {/* Eyebrow → heading: gap-1 rule */}
+    <div class="flex flex-col gap-1">
+      <p
+        class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
+      >
+        <span class="eyebrow-rule" aria-hidden="true"></span>
+        {eyebrow}
+      </p>
+      <h2
+        class="pt-3 font-display text-[30px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-[18px] md:text-[42px]"
+      >
+        {headingLead}<span class="font-semibold">{headingAccent}</span>
+      </h2>
+    </div>
+
+    <div
+      class="mt-7 grid grid-cols-1 gap-x-20 gap-y-7 md:mt-10 md:gap-y-4 xl:mt-[70px] xl:grid-cols-[minmax(0,660px)_minmax(0,1fr)] xl:grid-rows-[auto_auto]"
+    >
+      {/* ── Photo (row 1, col 1) ── */}
+      {/* TODO: replace with <Image> when the shop-floor photo is ready */}
+      <div
+        class="aspect-[342/240] w-full bg-placeholder-on-grey md:aspect-[660/500] xl:col-start-1 xl:row-start-1"
+        role="img"
+        aria-label={caption}
+      >
+      </div>
+
+      {/* ── Caption (row 2, col 1) ── */}
+      <p
+        class="font-body text-[11px] leading-[normal] text-body-78 md:text-[12px] md:leading-none xl:col-start-1 xl:row-start-2"
+      >
+        {caption}
+      </p>
+
+      {/* ── Numbered feature rows — stretch to the photo's height on desktop ── */}
+      <ul
+        class="flex flex-col md:mt-6 md:border-b md:border-default-50 xl:col-start-2 xl:row-start-1 xl:mt-0 xl:grid xl:grid-rows-4"
+      >
+        {
+          items.map((item, i) => (
+            <li class="relative flex items-start gap-4 border-t border-default-50 py-5 md:gap-5 md:py-7 xl:pt-[29px] xl:pb-0">
+              <BrandIcon name={item.icon} />
+              <div class="flex flex-col gap-1.5 pr-8 md:gap-[9px]">
+                <h3 class="font-display text-[15px] font-semibold leading-[normal] text-heading-full md:text-[17px] md:leading-none">
+                  {item.title}
+                </h3>
+                <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px]">{item.description}</p>
+              </div>
+              <span
+                class="absolute right-0 top-5 font-body text-[11px] font-bold leading-none tracking-[1.54px] text-body-55 md:top-[34px]"
+                aria-hidden="true"
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </MaxWidthContainer>
+</section>

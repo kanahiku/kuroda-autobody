@@ -1,0 +1,41 @@
+---
+description: One MaxWidthContainer wrapper controls page max-width and side padding site-wide
+alwaysApply: true
+---
+
+# Layout — one container for the whole site
+
+Every page and section wraps its content in **`<MaxWidthContainer>`**
+(`src/components/ui/MaxWidthContainer.astro`). Max width and horizontal padding are defined **once**
+in `src/brand.ts` → `layout`:
+
+```ts
+layout: { maxWidth: '1440px', paddingX: '64px', paddingXMobile: '20px' }
+```
+
+They are emitted as `--aw-layout-max-width`, `--aw-layout-padding-x`, `--aw-layout-padding-x-mobile`
+and consumed by the `site-frame`, `max-w-container` and `px-container` utilities in `tailwind.css`.
+Change the container for the entire site by editing `brand.layout` only.
+
+## Use it
+
+```astro
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+---
+<section class="bg-surface-page">
+  <MaxWidthContainer class="flex flex-col gap-12 py-16 xl:py-[120px]">…</MaxWidthContainer>
+</section>
+```
+
+- Background / full-bleed surfaces go on the outer `<section>`; the container holds the content.
+- `class` takes layout + vertical spacing only (`flex`, `grid`, `gap-*`, `py-*`, `relative`, `z-*`).
+- Other tag? `<MaxWidthContainer as="header">`. Extra attrs (`id`, `style`, `data-*`) are forwarded.
+- Utilities `max-w-container` / `px-container` carry the same width/padding if a wrapper element is unavoidable.
+
+## Do not
+
+- Write `class="site-frame"` on a raw element, or hand-roll `mx-auto max-w-*  px-*` wrappers.
+- Hardcode `max-w-[1120px]`, `px-16`, `px-[80px]`, `1440px` to size a page container.
+- Compensate with `-ml-*` / `w-[calc(100%+…)]` to bleed past the container — keep content inside it.
+- Add per-page padding variants; if the design changes, change `brand.layout`.

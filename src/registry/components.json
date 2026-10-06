@@ -1,0 +1,423 @@
+{
+  "version": 2,
+  "name": "kuroda-autobody-patterns",
+  "description": "Inventory of active reusable widgets. Restyle these after brand.ts and atoms; do not fork per page.",
+  "sourceOfTruth": {
+    "tokens": "src/brand.ts",
+    "buildDoc": "ONBOARDING.md",
+    "theme": "src/config/theme.ts"
+  },
+  "atoms": [
+    {
+      "id": "A-00",
+      "name": "MaxWidthContainer",
+      "figmaNames": ["Page frame", "Content container", "Layout / Container"],
+      "shape": "Centred wrapper element: max-width + horizontal padding, both read from brand.layout",
+      "component": "MaxWidthContainer",
+      "import": "~/components/ui/MaxWidthContainer.astro",
+      "props": {
+        "as": "HTML tag to render (default div)",
+        "class": "layout/spacing utilities only (flex, grid, gap, py-*, relative, z-*) — never max-w-* or px-*",
+        "...attrs": "id, style, data-*, aria-* are forwarded"
+      },
+      "notes": "Wrap the content of EVERY section and page in this. Max width + side padding are controlled once in src/brand.ts → layout (maxWidth, paddingX, paddingXMobile). Backgrounds go on the surrounding <section>, not on the container."
+    },
+    {
+      "id": "A-01",
+      "name": "Button",
+      "figmaNames": ["Button / Primary", "Button / Ghost", "CTA Primary", "Button / Secondary", "Button / Link"],
+      "shape": "Single button atom with variant + tone props",
+      "component": "Button",
+      "import": "~/components/ui/Button.astro",
+      "props": {
+        "variant": "primary | ghost | secondary | link",
+        "tone": "dark (default) | light — only applies when variant=ghost",
+        "size": "lg (default, 16×40) | md (8×24) | sm (8×16)"
+      },
+      "notes": "primary = filled accent (terracotta), cream type. ghost tone=dark = cream outline on photos/dark. ghost tone=light = dark outline on light sections. link = inline accent text link. Font: Barlow Condensed 14px."
+    },
+    {
+      "id": "A-02",
+      "name": "Heading",
+      "figmaNames": [
+        "Heading / H1",
+        "Heading / H2",
+        "Heading / H3",
+        "Heading / H4",
+        "Section Title",
+        "Eyebrow",
+        "Label / Eyebrow"
+      ],
+      "shape": "All heading levels and the eyebrow label — one component",
+      "component": "Heading",
+      "import": "~/components/ui/Heading.astro",
+      "props": {
+        "variant": "h1 | h2 | h3 | h4 | eyebrow",
+        "color": "default | white | muted | inherit",
+        "as": "optional semantic-element override",
+        "html": "string (set:html shorthand)"
+      },
+      "notes": "Barlow Condensed for h1–h4 and eyebrow. Sizes from brand.ts type{}. color=white renders the warm off-white page color. color=default = near-black heading token."
+    },
+    {
+      "id": "A-03",
+      "name": "Text",
+      "figmaNames": ["Body Text", "Paragraph", "Body / Large", "Body / Small", "Caption", "Button Label"],
+      "shape": "All body and UI text — one component",
+      "component": "Text",
+      "import": "~/components/ui/Text.astro",
+      "props": {
+        "variant": "body-lg | body | small | caption | button",
+        "color": "default | muted | white | inherit",
+        "as": "optional semantic-element override",
+        "html": "string (set:html shorthand)"
+      },
+      "notes": "Work Sans for all body variants. button variant uses Barlow Condensed (display font). color=white renders the warm off-white page color."
+    },
+    {
+      "id": "A-13",
+      "name": "BrandIcon",
+      "figmaNames": ["Icon/*"],
+      "shape": "Client PNG icon rendered 1:1 from public/icons",
+      "component": "BrandIcon",
+      "import": "~/components/ui/BrandIcon.astro",
+      "props": {
+        "name": "BrandIconName — alignment, archive, calibration, camera, chat, check, claims, clock, collision, document, home-24, paint, rental, shield, shield-24, target-24, verified, walk-around",
+        "class": "string — resize, e.g. size-5"
+      },
+      "notes": "One file for all breakpoints. Never inline SVG glyphs in widgets."
+    }
+  ],
+  "patterns": [
+    {
+      "id": "P-37",
+      "name": "Process steps",
+      "figmaNames": ["Seven Steps", "Process"],
+      "shape": "White section: head (eyebrow + two-weight heading + lede) left; hairline-ruled ordered list right — gradient-outlined numeral, caps title, body per step.",
+      "component": "ProcessSteps",
+      "import": "~/components/widgets/ProcessSteps.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingStrong?": "string",
+        "lead?": "string",
+        "steps": "{ title, description }[]",
+        "surface?": "'page' | 'subtle'"
+      },
+      "notes": "For 5+ step processes. Use ConsumerProtection for the 3-up step row."
+    },
+    {
+      "id": "P-32",
+      "name": "Page hero",
+      "figmaNames": ["Hero (interior)"],
+      "shape": "Navy hero matching the homepage: photo placeholder right with the three Kuroda fade overlays, eyebrow rule, Unbounded two-tone H1, lede and the two standard CTAs. Shorter than the homepage hero, no credentials bar.",
+      "component": "PageHero",
+      "import": "~/components/widgets/PageHero.astro",
+      "props": {
+        "eyebrow?": "string",
+        "titleLead": "string — light-weight part",
+        "titleAccent?": "string — semibold sky-gradient tail",
+        "tagline?": "string",
+        "body?": "string",
+        "ctaText / ctaHref?": "string",
+        "secondaryCtaText / secondaryCtaHref?": "string",
+        "photoLabel?": "string",
+        "image": "{src, alt}? — CMS cover photo (blog); omit for the grey placeholder",
+        "showCtas": "boolean — hide both buttons (contact, legal, blog)",
+        "slot": "default slot renders under the body (e.g. article meta)"
+      },
+      "notes": "Hero for every interior page. Photo stays a grey placeholder until the client supplies assets."
+    },
+    {
+      "id": "P-33",
+      "name": "Detail rows",
+      "figmaNames": ["Facts list"],
+      "shape": "White section: head (eyebrow + two-weight heading + lede) left; hairline-ruled label / value rows right (address, phone, hours).",
+      "component": "DetailRows",
+      "import": "~/components/widgets/DetailRows.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingStrong?": "string",
+        "lead?": "string",
+        "rows": "{ label, value, href?, note? }[]"
+      },
+      "notes": "Use for any label/value facts list."
+    },
+    {
+      "id": "P-34",
+      "name": "Map + directions",
+      "figmaNames": ["Map and Driving Directions"],
+      "shape": "Mist-grey section: heading, embedded map + caption left, lede + numbered direction rows + CTA right.",
+      "component": "MapDirections",
+      "import": "~/components/widgets/MapDirections.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingStrong?": "string",
+        "mapSrc / mapTitle": "string",
+        "caption?": "string",
+        "lead?": "string",
+        "directions": "{ title, description }[]",
+        "ctaText / ctaHref?": "string"
+      },
+      "notes": "Map is a real embed (CONTACT.address.mapsEmbedSrc), not a photo placeholder."
+    },
+    {
+      "id": "P-35",
+      "name": "Feature columns",
+      "figmaNames": ["Icon points"],
+      "shape": "White section: head (eyebrow + two-weight heading | lede) above a hairline-ruled grid of icon / title / description items.",
+      "component": "FeatureColumns",
+      "import": "~/components/widgets/FeatureColumns.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingStrong?": "string",
+        "lead?": "string",
+        "items": "{ title, description, icon: BrandIconName, href? }[] — href turns the title into an arrow link",
+        "columns?": "2 | 3",
+        "surface?": "'page' | 'subtle'",
+        "note? / noteLinkText? / noteLinkHref?": "string — closing sentence under the grid with an inline link"
+      },
+      "notes": "Unlinked icon points on a light surface. Icons come from BrandIcon."
+    },
+    {
+      "id": "P-36",
+      "name": "Tag grid",
+      "figmaNames": ["Communities", "Areas"],
+      "shape": "Mist-grey section: head (eyebrow + two-weight heading | lede) above a numbered 4-up grid of Unbounded Light labels with top hairlines; optional links.",
+      "component": "TagGrid",
+      "import": "~/components/widgets/TagGrid.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingStrong?": "string",
+        "lead?": "string",
+        "items": "{ label, href? }[]",
+        "surface?": "'subtle' | 'page'",
+        "columns?": "3 | 4"
+      },
+      "notes": "Short label lists: communities, areas, brands."
+    },
+    {
+      "id": "P-12",
+      "name": "FAQ accordion",
+      "figmaNames": ["FAQ", "FAQs", "Accordion", "Questions"],
+      "shape": "White section: head (eyebrow + two-weight heading) left, hairline-ruled <details> accordion right (homepage design system)",
+      "component": "FAQs",
+      "import": "~/components/widgets/FAQs.astro",
+      "props": {
+        "eyebrow?": "string",
+        "title": "string — light-weight lead",
+        "titleStrong?": "string — semibold tail",
+        "subtitle?": "string",
+        "items": "{ title, description }[]"
+      }
+    },
+    {
+      "id": "P-13",
+      "name": "Final CTA banner",
+      "figmaNames": ["CTA", "CTA Banner", "Contact Banner", "Get Started", "Free Quote", "Final CTA"],
+      "figmaNode": "136:589 (variant=split)",
+      "shape": "Page-ending conversion banner. variant=center: centred dark card with ornamental rules. variant=split: diagonal Blue → Navy surface with chevron motif, eyebrow + two-weight h2 + body + inverse/ghost buttons + address/hours row on the left, 470px team photo (grey placeholder) on the right.",
+      "component": "CTABanner",
+      "import": "~/components/widgets/CTABanner.astro",
+      "props": {
+        "variant?": "'center' | 'split'",
+        "eyebrow?": "string",
+        "eyebrowMobile?": "string — split only, shorter eyebrow copy shown below md (Figma mobile)",
+        "title": "string — light-weight lead",
+        "titleStrong?": "string — split only, semibold tail",
+        "subtitle?": "string",
+        "ctaText / ctaHref": "string — inverse button in split",
+        "secondaryCtaText / secondaryCtaHref?": "string — ghost button in split",
+        "address? / hours?": "string — split visit-info row",
+        "photoLabel?": "string",
+        "showBand?": "boolean — render the silver band above (default true)"
+      },
+      "notes": "One per page, always last section before Footer. Homepage places the silver GradientBand itself and passes showBand={false}."
+    },
+    {
+      "id": "P-17",
+      "name": "Site header",
+      "figmaNames": ["Header", "Navigation", "Nav"],
+      "shape": "Fixed top nav with logo + links + CTA",
+      "component": "Header",
+      "import": "~/components/widgets/Header.astro",
+      "notes": "Shared chrome. Do not fork per page."
+    },
+    {
+      "id": "P-25",
+      "name": "Ratings bar",
+      "figmaNames": ["Ratings"],
+      "figmaNode": "136:267",
+      "shape": "Navy band showing aggregate review scores (logo placeholder + big score + stars + platform + count) for three review platforms, separated by thin vertical dividers, with a hairline at the bottom.",
+      "component": "RatingsBar",
+      "import": "~/components/widgets/RatingsBar.astro",
+      "props": {},
+      "notes": "Data is hardcoded from Figma (CARWISE 4.9, Google 4.6, Yelp 4.5). Logo placeholders must stay grey boxes until client delivers brand assets."
+    },
+    {
+      "id": "P-31",
+      "name": "Credential logos",
+      "figmaNames": ["OEM Certifications", "Credential Tile"],
+      "figmaNode": "136:534",
+      "shape": "White section: head row (eyebrow, two-weight heading, lede | underline text link) above a 6-up row of credential tiles (110px logo slot, Unbounded name, caption) with hairline dividers; 2-column grid on mobile with the text link moved below the grid.",
+      "component": "CredentialLogos",
+      "import": "~/components/widgets/CredentialLogos.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingStrong?": "string — strong part renders semibold",
+        "lede?": "string",
+        "linkText? / linkHref?": "string — rendered with Button variant=underline",
+        "credentials?": "{ name, descriptor, logoW, logoH }[] — logo is a grey placeholder at logoW × logoH",
+        "linkText?": "string — pass \"\" to hide the link"
+      },
+      "notes": "Logos are grey boxes until the client supplies assets. Uses the new Button variant=underline (Figma Text Link)."
+    },
+    {
+      "id": "P-30",
+      "name": "Content page (data-driven)",
+      "figmaNames": [],
+      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote) → FAQs → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
+      "component": "ContentPageView",
+      "import": "~/components/templates/ContentPageView.astro",
+      "props": {
+        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts and src/data/hadAnAccident.ts"
+      },
+      "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
+    },
+    {
+      "id": "P-38",
+      "name": "Quote band",
+      "figmaNames": [],
+      "shape": "Section with an optional eyebrow and a single PullQuote (gradient vertical rule, Unbounded quote, eyebrow-style attribution).",
+      "component": "QuoteBand",
+      "import": "~/components/widgets/QuoteBand.astro",
+      "props": {
+        "quote": "string",
+        "attribution?": "string",
+        "eyebrow?": "string",
+        "surface?": "'subtle' | 'page' — default subtle"
+      },
+      "notes": "Atom: ~/components/ui/PullQuote.astro (also used inside HeritageStory)."
+    },
+    {
+      "id": "P-28",
+      "name": "Heritage story",
+      "figmaNames": ["Heritage 1938"],
+      "figmaNode": "136:444",
+      "shape": "Mist-grey section: archive photo (grey placeholder, 470×560) with icon caption on the left; eyebrow, two-tone heading with gradient accent, lede, pull quote with vertical gradient rule, and a 3-up stats row with dividers on the right.",
+      "component": "HeritageStory",
+      "import": "~/components/widgets/HeritageStory.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead? / headingAccent?": "string — accent renders with text-gradient-brand",
+        "body?": "string",
+        "quote? / quoteAttribution?": "string",
+        "caption?": "string",
+        "stats?": "{ value, label }[]",
+        "paragraphs?": "string[] — replaces body",
+        "photoLabel?": "string"
+      },
+      "notes": "Defaults hold the Kuroda copy from Figma. Pass quote=\"\", stats={[]} or caption=\"\" to drop those blocks (e.g. Post-Repair Walkthrough). Photo stays a grey box until client supplies assets."
+    },
+    {
+      "id": "P-27",
+      "name": "Before & after",
+      "figmaNames": ["Before & After"],
+      "figmaNode": "136:412",
+      "shape": "White section: eyebrow + two-tone heading with side paragraph; full-width before/after comparison (grey placeholder, centre divider, round handle, Before/After tags); three proof points (icon + Unbounded title + line) with hairlines on top.",
+      "component": "BeforeAfter",
+      "import": "~/components/widgets/BeforeAfter.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead?": "string — light-weight part",
+        "headingAccent?": "string — semibold part",
+        "body?": "string",
+        "beforeLabel? / afterLabel?": "string",
+        "position?": "number — divider position in %, default 50",
+        "points?": "{ title, description, icon: document|camera|walk }[]"
+      },
+      "notes": "Static comparison for now. Make the divider draggable once real before/after photos exist. Comparison stays a grey box until then."
+    },
+    {
+      "id": "P-26",
+      "name": "Feature list split",
+      "figmaNames": ["Why Kuroda"],
+      "figmaNode": "136:376",
+      "shape": "Mist-grey section: eyebrow + full-width two-tone heading; below, a photo (grey placeholder) with caption on the left and four numbered icon/title/description rows (hairline on top, index number at right) on the right, rows matching the photo height.",
+      "component": "FeatureListSplit",
+      "import": "~/components/widgets/FeatureListSplit.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead?": "string — light-weight part",
+        "headingAccent?": "string — semibold part",
+        "caption?": "string",
+        "items?": "{ title, description, icon: shield|clock|chat|check }[]"
+      },
+      "notes": "Defaults hold the Kuroda copy from Figma. Photo stays a grey box (bg-placeholder-on-grey) until client supplies assets."
+    },
+    {
+      "id": "P-24",
+      "name": "Service grid split",
+      "figmaNames": ["Services"],
+      "figmaNode": "136:322",
+      "shape": "Tall photo (grey placeholder, bleeds to container edge) with caption on the left; eyebrow, two-tone heading and a 2-column grid of icon + title + description items (hairline on top) on the right.",
+      "component": "ServiceGridSplit",
+      "import": "~/components/widgets/ServiceGridSplit.astro",
+      "props": {
+        "eyebrow?": "string",
+        "headingLead?": "string — navy light-weight part",
+        "headingAccent?": "string — blue semibold part",
+        "caption?": "string",
+        "figLabel?": "string",
+        "items?": "{ title, description, icon: collision|calibration|paint|alignment|claims|rental }[]"
+      },
+      "notes": "Defaults hold the Kuroda copy from Figma. Photo must stay a grey box until the client supplies assets."
+    },
+    {
+      "id": "P-18",
+      "name": "Site footer",
+      "figmaNames": ["Footer"],
+      "shape": "Footer band with logo, link columns, legal links, copyright",
+      "component": "Footer",
+      "import": "~/components/widgets/Footer.astro",
+      "notes": "Shared chrome. Do not fork per page."
+    },
+    {
+      "id": "P-29",
+      "name": "Phase / comparison table",
+      "figmaNames": ["Phase table", "Comparison table"],
+      "shape": "Eyebrow + heading + optional lead above a real <table> on md+ that collapses to stacked label/value rows on mobile",
+      "component": "PhaseTable",
+      "import": "~/components/widgets/PhaseTable.astro",
+      "props": {
+        "eyebrow": "string",
+        "headingLead": "string",
+        "headingStrong": "string",
+        "lead": "string?",
+        "columns": "string[]",
+        "rows": "string[][] — first cell is the row header",
+        "surface": "'subtle'|'page'"
+      },
+      "notes": "Use for any label → multi-column facts. Do not hand-roll tables in pages."
+    },
+    {
+      "id": "P-39",
+      "name": "Blog grid",
+      "figmaNames": ["Blog listing", "More articles"],
+      "shape": "Optional head (eyebrow + two-weight heading | lede) above a hairline-ruled grid of BlogCards; first post can render as a wide featured card; empty state when there are no posts",
+      "component": "BlogGrid",
+      "import": "~/components/widgets/BlogGrid.astro",
+      "props": {
+        "posts": "BlogPost[] — from getBlogPosts() (Sanity)",
+        "eyebrow": "string?",
+        "headingLead": "string?",
+        "headingStrong": "string?",
+        "lead": "string?",
+        "featured": "boolean — first post as wide card",
+        "surface": "'page'|'subtle'",
+        "emptyTitle": "string?",
+        "emptyBody": "string?"
+      },
+      "notes": "The only place articles are listed (blog index, 'More articles' on a post). Cards are BlogCard — never hand-roll article markup."
+    }
+  ]
+}

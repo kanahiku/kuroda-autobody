@@ -1,0 +1,29 @@
+---
+/**
+ * PullQuote — gradient vertical rule + Unbounded quote + eyebrow-style attribution.
+ * Shared by HeritageStory (family principle) and QuoteBand (customer quote).
+ */
+export interface Props {
+  quote: string;
+  attribution?: string;
+  class?: string;
+}
+
+const { quote, attribution, class: className } = Astro.props;
+---
+
+<div class:list={['flex gap-6', className]}>
+  <div class="w-[3px] shrink-0 self-stretch bg-gradient-brand-vertical" aria-hidden="true"></div>
+  <blockquote class="flex min-w-0 flex-1 flex-col gap-[14px]">
+    <p class="font-display text-[17px] font-normal leading-8 tracking-[-0.01em] text-heading-full md:text-[20px]">
+      {quote}
+    </p>
+    {
+      attribution && (
+        <footer class="font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+          {attribution}
+        </footer>
+      )
+    }
+  </blockquote>
+</div>

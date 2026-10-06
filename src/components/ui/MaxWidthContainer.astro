@@ -1,0 +1,35 @@
+---
+/**
+ * MaxWidthContainer — THE page content wrapper.
+ *
+ * Every page and section puts its content inside this component. Max width and
+ * horizontal padding come from `brand.layout` in src/brand.ts (CSS vars
+ * --aw-layout-max-width / --aw-layout-padding-x[-mobile]), so changing the
+ * container for the whole site is a one-line edit there.
+ *
+ * Usage:
+ *   <section class="bg-surface-page">
+ *     <MaxWidthContainer class="flex flex-col gap-12 py-16 xl:py-[120px]">…</MaxWidthContainer>
+ *   </section>
+ *
+ * - Pass layout/spacing utilities via `class` (flex, grid, gap, py-*, relative, z-*).
+ * - Do NOT set max-w-* or px-* on it — that would fork the standard. Need a
+ *   narrower inner column? Nest a plain element with its own max-w inside.
+ * - Any extra attribute (id, style, data-*, aria-*) is forwarded to the element.
+ * - Backgrounds belong on the surrounding <section> so they stay full-bleed.
+ */
+import type { HTMLTag } from 'astro/types';
+
+export interface Props {
+  /** Rendered element. Default: div. */
+  as?: HTMLTag;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { as: Tag = 'div', class: className = '', ...attrs } = Astro.props;
+---
+
+<Tag class:list={['site-frame', className]} {...attrs}>
+  <slot />
+</Tag>

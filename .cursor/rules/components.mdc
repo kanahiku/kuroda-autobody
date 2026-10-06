@@ -1,0 +1,120 @@
+---
+description: Variant-first rule — add a prop before adding a file. One component per visual pattern.
+alwaysApply: true
+---
+
+# Component reuse — variant-first rule
+
+Figma build order: design system → atoms → sections → pages.
+
+**Before creating any component**, check `src/registry/components.json` and `src/components/`. If the shape already exists and you only need a small visual difference (color, size, layout flip, dark/light), add a **prop** to the existing file. Never create a second file for the same visual pattern.
+
+---
+
+## Decision tree — variant or new file?
+
+```
+Does a component with this visual shape already exist?
+│
+├─ YES → Is the difference only color, dark/light, size, or copy?
+│        ├─ YES → Add/extend a prop (variant, isDark, size, tone…). Do NOT create a new file.
+│        └─ NO  → Is the structure meaningfully different (new DOM shape, different layout)?
+│                 ├─ YES → Create ONE new component. Register it in components.json.
+│                 └─ NO  → It's still a variant. Add a prop.
+│
+└─ NO → Create ONE new component. Register it. Never paste one-off markup into a page file.
+```
+
+---
+
+## Atoms (`src/components/ui/`) — existing variant props
+
+| Component | Existing variants / props to use |
+|---|---|
+| `Button` | `variant`: primary / ghost / secondary / link · `tone`: dark / light · `size`: lg / md / sm |
+| `Heading` | `variant`: h1 / h2 / h3 / h4 / eyebrow · `color`: default / white / muted / inherit |
+| `Text` | `variant`: body-lg / body / small / caption / button · `color`: default / muted / white / inherit |
+| `Card` | `variant`: bordered / dark / outlined / glass |
+| `BlogCard` | `variant`: dark / light · `layout`: stacked / featured |
+
+**Do not** add a second Button, a page-specific heading component, or a `DarkCard.astro` alongside `Card.astro`.
+Extend the prop surface of the existing file instead.
+
+---
+
+## Sections (`src/components/widgets/`) — one widget per pattern
+
+| Pattern | Widget | Key props |
+|---|---|---|
+| Interior page hero (homepage design system) | `PageHero` | eyebrow, titleLead, titleAccent, body, ctaText/ctaHref, secondaryCtaText/secondaryCtaHref, showCtas, image (CMS cover), default slot |
+| Whole copy-driven page (hero → sections → FAQs → related → CTA) | `ContentPageView` | page: `ContentPage` from `src/data/*.ts` |
+| Single customer quote band | `QuoteBand` (atom `PullQuote`) | quote, attribution, eyebrow |
+| Label / value data table | `PhaseTable` | columns, rows |
+| Facts list (label / value rows) | `DetailRows` | eyebrow, headingLead, headingStrong, lead, rows |
+| Map + directions | `MapDirections` | mapSrc, mapTitle, caption, lead, directions, ctaText/ctaHref |
+| Icon / title / description columns | `FeatureColumns` | eyebrow, headingLead, headingStrong, lead, items, columns |
+| Numbered label grid (communities, areas) | `TagGrid` | eyebrow, headingLead, headingStrong, lead, items |
+| Dark CTA closer | `CTABanner` | heading, note |
+| FAQ accordion | `FAQs` | eyebrow, title, titleStrong, items · `<div slot="bg">` controls surface color |
+| Blog listing / more articles (Sanity) | `BlogGrid` | posts, eyebrow, headingLead/Strong, lead, featured, surface |
+
+
+If Figma's FAQ (or hero, CTA…) looks slightly different on one page, **restyle that widget and pass the difference as a prop**.
+Do not create `HomeFAQ.astro`, `ServicesCTA.astro`, `AboutHero.astro`, etc.
+
+---
+
+## Content pages — data, not files
+
+Interior pages whose copy comes from a content doc (Collision Repair services, Had an Accident topics, …) render through **one** template, `ContentPageView`:
+
+- Copy lives in `src/data/<group>.ts` as `ContentPage` objects (shape in `src/data/contentPage.ts`). Add a page = add an object there plus a 3-line route file `<ContentPageView page={getContentPage('/route/')} />`.
+- Do **not** write page-specific markup, a per-group template, or repeat FAQ / CTA wiring in route files.
+- `PageHero` and the split `CTABanner` default to the sitewide buttons, closing subtitle and silver band (`src/config/cta.ts`, `CONTACT`). Pass those props only to override (e.g. the homepage CTA).
+- Need a section the template lacks? Add one new section `type` + widget, register it, then reuse it everywhere.
+
+---
+
+## Surface / background — use `slot="bg"` or `isDark`, not a new component
+
+When the same section needs a different background on different pages, pass the surface inline:
+
+```astro
+<!-- ✅ correct — one FAQs widget, surface swapped via slot -->
+<FAQs title="…" items={faqs}>
+  <div slot="bg" class="absolute inset-0 bg-card"></div>
+</FAQs>
+
+<!-- ✅ correct — dark vs light toggle via prop -->
+<CTABanner isDark={false} heading="…" />
+
+<!-- ❌ wrong — new file just to change background color -->
+<ServiceFAQs title="…" items={faqs} />
+<LightCTABanner heading="…" />
+```
+
+---
+
+## Registering new components
+
+Any genuinely new visual shape (different DOM structure, not just different styles) → create **one** file, then add an entry to `src/registry/components.json`:
+
+```json
+{
+  "id": "P-XX",
+  "name": "Human-readable name",
+  "figmaNames": ["Figma frame or component name"],
+  "shape": "One-sentence description of the DOM shape",
+  "component": "ComponentName",
+  "import": "~/components/widgets/ComponentName.astro",
+  "props": { "propName": "type — description" },
+  "notes": "When to use vs the nearest existing pattern"
+}
+```
+
+---
+
+## Layout and card rules
+
+- Do **not** pick a layout (band vs grid vs cards) based on item count. Figma decides the layout.
+- Cards with a link or button: `flex flex-col h-full` on the card · `flex-1` on the body · `mt-auto` on the CTA → links line up regardless of copy length.
