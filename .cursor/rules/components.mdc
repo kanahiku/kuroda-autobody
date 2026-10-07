@@ -46,7 +46,7 @@ Extend the prop surface of the existing file instead.
 
 | Pattern | Widget | Key props |
 |---|---|---|
-| Interior page hero (homepage design system) | `PageHero` | eyebrow, titleLead, titleAccent, body, ctaText/ctaHref, secondaryCtaText/secondaryCtaHref, showCtas, image (CMS cover), default slot |
+| Interior page hero (homepage design system) | `PageHero` | eyebrow, titleLead, titleAccent, body, ctaText/ctaHref, secondaryCtaText/secondaryCtaHref, showCtas, image (CMS cover), default slot, `aside` slot (card replacing the photo, e.g. EstimateForm) |
 | Whole copy-driven page (hero → sections → FAQs (optional) → related → CTA) | `ContentPageView` | page: `ContentPage` from `src/data/*.ts` |
 | Mid-page navy band with one button (no photo) | `ActionBand` | eyebrow, headingLead/Strong, body, ctaText/ctaHref · section type `action` |
 | Page of customer review cards | `ReviewWall` | reviews, eyebrow/headingLead/Strong (optional), surface · section type `reviews` |

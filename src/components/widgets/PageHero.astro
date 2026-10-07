@@ -15,6 +15,9 @@ import { PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
  * Image: grey placeholder until the client delivers the asset (see images.mdc). CMS-driven pages
  * (blog articles) pass `image` to show the cover photo instead. Anything inside the slot renders
  * under the body copy (e.g. article meta).
+ *
+ * `<div slot="aside">` swaps the photo for a right-hand card (e.g. the estimate form on /contact/): copy on
+ * the left, the aside on the right from lg up, stacked below the copy on smaller screens.
  */
 export interface Props {
   eyebrow?: string;
@@ -52,44 +55,60 @@ const {
   image,
   photoLabel = 'Kuroda Autobody',
 } = Astro.props;
+
+const hasAside = Astro.slots.has('aside');
 ---
 
-<section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[560px]">
-  {/* Photo — right side, starts ~200px from left on desktop */}
-  {/* TODO: replace the placeholder with <Image> when the photo is ready */}
-  <div
-    class="absolute inset-x-0 top-0 h-[300px] overflow-hidden bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
-    role={image?.src ? undefined : 'img'}
-    aria-label={image?.src ? undefined : photoLabel}
+<section class:list={['relative w-full overflow-hidden bg-surface-inverse', !hasAside && 'md:min-h-[560px]']}>
+  {
+    !hasAside && (
+      <Fragment>
+        {/* Photo — right side, starts ~200px from left on desktop */}
+        {/* TODO: replace the placeholder with <Image> when the photo is ready */}
+        <div
+          class="absolute inset-x-0 top-0 h-[300px] overflow-hidden bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
+          role={image?.src ? undefined : 'img'}
+          aria-label={image?.src ? undefined : photoLabel}
+        >
+          {image?.src && (
+            <Image
+              src={image.src}
+              alt={image.alt || photoLabel}
+              width={1240}
+              height={560}
+              widths={[640, 960, 1240, 1600]}
+              sizes="100vw"
+              layout="cover"
+              format="webp"
+              quality={72}
+              class="absolute inset-0 h-full w-full object-cover"
+              loading="eager"
+              fetchpriority="high"
+            />
+          )}
+        </div>
+
+        {/* Gradient overlays — same stack as the homepage hero */}
+        <div class="absolute inset-x-0 top-0 z-[1] h-[300px] bg-hero-fade-mobile md:hidden" aria-hidden="true" />
+        <div class="absolute inset-0 z-[1] hidden bg-hero-fade-left md:block" aria-hidden="true" />
+        <div class="absolute inset-0 z-[1] hidden bg-hero-fade-bottom md:block" aria-hidden="true" />
+        <div class="absolute inset-0 z-[1] hidden bg-hero-fade-top md:block" aria-hidden="true" />
+      </Fragment>
+    )
+  }
+
+  <MaxWidthContainer
+    class:list={[
+      'relative z-[2] flex flex-col',
+      hasAside ? 'lg:flex-row lg:items-center lg:gap-12 xl:gap-16' : 'md:min-h-[560px]',
+    ]}
   >
-    {
-      image?.src && (
-        <Image
-          src={image.src}
-          alt={image.alt || photoLabel}
-          width={1240}
-          height={560}
-          widths={[640, 960, 1240, 1600]}
-          sizes="100vw"
-          layout="cover"
-          format="webp"
-          quality={72}
-          class="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
-          fetchpriority="high"
-        />
-      )
-    }
-  </div>
-
-  {/* Gradient overlays — same stack as the homepage hero */}
-  <div class="absolute inset-x-0 top-0 z-[1] h-[300px] bg-hero-fade-mobile md:hidden" aria-hidden="true"></div>
-  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-left md:block" aria-hidden="true"></div>
-  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-bottom md:block" aria-hidden="true"></div>
-  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-top md:block" aria-hidden="true"></div>
-
-  <MaxWidthContainer class="relative z-[2] flex flex-col md:min-h-[560px]">
-    <div class="flex flex-1 flex-col pb-10 pt-[240px] md:justify-center md:py-24">
+    <div
+      class:list={[
+        'flex min-w-0 flex-1 flex-col',
+        hasAside ? 'pb-8 pt-12 md:pb-10 md:pt-16 lg:py-16' : 'pb-10 pt-[240px] md:justify-center md:py-24',
+      ]}
+    >
       {
         eyebrow && (
           <div class="flex items-center gap-2">
@@ -148,5 +167,13 @@ const {
 
       <slot />
     </div>
+
+    {
+      hasAside && (
+        <div class="pb-12 md:pb-16 lg:w-[460px] lg:shrink-0 lg:py-16 xl:w-[560px]">
+          <slot name="aside" />
+        </div>
+      )
+    }
   </MaxWidthContainer>
 </section>

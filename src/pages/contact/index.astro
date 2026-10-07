@@ -1,7 +1,8 @@
 ---
 /**
  * /contact/ — location, hours, map, phone, and the estimate request form.
- * Composed from shared widgets only (PageHero, DetailRows, MapDirections, ActionBand, EstimateForm).
+ * Composed from shared widgets only (PageHero with the EstimateForm in its aside slot, DetailRows, MapDirections, ActionBand).
+ * The form sits in the first fold; the navy band's button scrolls back up to #estimate.
  * Copy: client content doc "Auto Body & Collision Repair in Waipio".
  */
 import Layout from '~/layouts/PageLayout.astro';
@@ -31,7 +32,9 @@ const mapTitle = `Map of Kuroda Auto Body, ${CONTACT.address.oneLiner}`;
     body="Kuroda Auto Body is conveniently located in Gentry Waipio Business Park, just off the freeway and easily accessible from Aiea, Pearl City, Waipahu, Mililani and communities throughout Central and West Oahu."
     photoLabel="Kuroda Auto Body, Gentry Waipio Business Park"
     showCtas={false}
-  />
+  >
+    <EstimateForm slot="aside" />
+  </PageHero>
 
   <GradientBand variant="blue" />
 
@@ -64,6 +67,4 @@ const mapTitle = `Map of Kuroda Auto Body, ${CONTACT.address.oneLiner}`;
     ctaText="Schedule an Estimate"
     ctaHref="#estimate"
   />
-
-  <EstimateForm />
 </Layout>

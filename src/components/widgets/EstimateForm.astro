@@ -1,12 +1,11 @@
 ---
-import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import { CONTACT } from '~/config/contact';
 import { collisionRepairPages } from '~/data/collisionRepair';
 import { sitemapLabel } from '~/lib/sitemap';
 import { FORM_ENDPOINT, SITE_SLUG, TURNSTILE_SITE_KEY } from '~/lib/forms';
 /**
  * EstimateForm — "Request an Estimate" lead form (Name, Phone, Email, Vehicle, services, details).
- * White section: two-weight heading on the left, form on the right. Posts to the shared forms worker
+ * White card (meant for the `aside` slot of PageHero): two-weight heading above the form. Posts to the shared forms worker
  * (src/lib/forms.ts) with a Cloudflare Turnstile check; the client script below binds #contact-form.
  * Service checkboxes mirror the Collision Repair pages in the sitemap.
  */
@@ -26,43 +25,39 @@ const fieldClass =
 const labelClass = 'mb-2 block font-body text-[13px] font-bold leading-none text-heading-full';
 ---
 
-<section id={id} class="w-full scroll-mt-24 bg-surface-page">
-  <MaxWidthContainer
-    class="flex flex-col gap-7 py-14 md:gap-12 md:py-16 xl:flex-row xl:items-start xl:gap-24 xl:py-[120px]"
-  >
-    {/* ── Head ── */}
-    <div class="flex flex-col gap-1 xl:w-[480px] xl:shrink-0">
-      {
-        eyebrow && (
-          <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
-            <span class="eyebrow-rule" aria-hidden="true" />
-            {eyebrow}
-          </p>
-        )
-      }
-      <h2
-        class:list={[
-          'font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:text-[48px] md:leading-[58px]',
-          eyebrow && 'pt-3 md:pt-4',
-        ]}
-      >
-        {headingLead}<span class="font-semibold">{headingStrong}</span>
-      </h2>
-    </div>
-
-    {/* ── Form ── */}
-    <form
-      id="contact-form"
-      data-endpoint={FORM_ENDPOINT}
-      data-site={SITE_SLUG}
-      data-turnstile-sitekey={TURNSTILE_SITE_KEY}
-      data-phone={CONTACT.phone.display}
-      class="flex min-w-0 flex-1 flex-col gap-6"
-      enctype="multipart/form-data"
+<div id={id} class="scroll-mt-24 rounded-[4px] bg-surface-page p-6 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)] md:p-8">
+  <div class="mb-6 flex flex-col gap-1">
+    {
+      eyebrow && (
+        <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+          <span class="eyebrow-rule" aria-hidden="true" />
+          {eyebrow}
+        </p>
+      )
+    }
+    <h2
+      class:list={[
+        'font-display text-[26px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:text-[32px]',
+        eyebrow && 'pt-3',
+      ]}
     >
-      {/* Honeypot */}
-      <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+      {headingLead}<span class="font-semibold">{headingStrong}</span>
+    </h2>
+  </div>
 
+  <form
+    id="contact-form"
+    data-endpoint={FORM_ENDPOINT}
+    data-site={SITE_SLUG}
+    data-turnstile-sitekey={TURNSTILE_SITE_KEY}
+    data-phone={CONTACT.phone.display}
+    class="flex flex-col gap-4"
+    enctype="multipart/form-data"
+  >
+    {/* Honeypot */}
+    <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
       <div>
         <label for="name" class={labelClass}>Name <span class="text-accent">*</span></label>
         <input
@@ -75,86 +70,78 @@ const labelClass = 'mb-2 block font-body text-[13px] font-bold leading-none text
           class={fieldClass}
         />
       </div>
-
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <label for="phone" class={labelClass}>Phone <span class="text-accent">*</span></label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            required
-            autocomplete="tel"
-            placeholder={CONTACT.phone.display}
-            class={fieldClass}
-          />
-        </div>
-        <div>
-          <label for="email" class={labelClass}>Email <span class="text-accent">*</span></label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            autocomplete="email"
-            placeholder="you@example.com"
-            class={fieldClass}
-          />
-        </div>
+      <div>
+        <label for="phone" class={labelClass}>Phone <span class="text-accent">*</span></label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          required
+          autocomplete="tel"
+          placeholder={CONTACT.phone.display}
+          class={fieldClass}
+        />
       </div>
-
+      <div>
+        <label for="email" class={labelClass}>Email <span class="text-accent">*</span></label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+          class={fieldClass}
+        />
+      </div>
       <div>
         <label for="vehicle" class={labelClass}>Vehicle <span class="text-accent">*</span></label>
         <input type="text" id="vehicle" name="vehicle" required placeholder="Year, make and model" class={fieldClass} />
       </div>
+    </div>
 
-      <fieldset class="flex flex-col gap-3">
-        <legend class={labelClass}>
-          What do you need? <span class="font-normal text-body-60">(Select all that apply)</span>
-        </legend>
-        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {
-            services.map((service) => (
-              <label class="flex cursor-pointer items-start gap-2.5 font-body text-[15px] text-heading-full">
-                <input
-                  type="checkbox"
-                  name="services"
-                  value={service}
-                  class="mt-0.5 size-4 shrink-0 rounded-none accent-accent"
-                />
-                <span>{service}</span>
-              </label>
-            ))
-          }
-        </div>
-      </fieldset>
-
-      <div>
-        <label for="message" class={labelClass}>Tell Us What Happened</label>
-        <textarea
-          id="message"
-          name="message"
-          rows={5}
-          placeholder="Describe the damage and anything else we should know."
-          class={fieldClass}></textarea>
+    <fieldset class="flex flex-col gap-3">
+      <legend class={labelClass}>
+        What do you need? <span class="font-normal text-body-60">(Select all that apply)</span>
+      </legend>
+      <div class="grid grid-cols-1 gap-x-4 gap-y-2.5 sm:grid-cols-2">
+        {
+          services.map((service) => (
+            <label class="flex cursor-pointer items-start gap-2.5 font-body text-[14px] leading-[1.35] text-heading-full">
+              <input
+                type="checkbox"
+                name="services"
+                value={service}
+                class="mt-0.5 size-4 shrink-0 rounded-none accent-accent"
+              />
+              <span>{service}</span>
+            </label>
+          ))
+        }
       </div>
+    </fieldset>
 
-      {/* Turnstile bot check */}
-      <div data-turnstile></div>
+    <div>
+      <label for="message" class={labelClass}>Tell Us What Happened</label>
+      <textarea
+        id="message"
+        name="message"
+        rows={3}
+        placeholder="Describe the damage and anything else we should know."
+        class={fieldClass}></textarea>
+    </div>
 
-      <div>
-        <button type="submit" class="btn-primary cta-lg disabled:opacity-60">Request Estimate</button>
-      </div>
+    {/* Turnstile bot check */}
+    <div data-turnstile></div>
 
-      <p
-        id="form-status"
-        class="hidden text-left text-[14px] font-medium text-body-78 md:text-[15px]"
-        aria-live="polite"
-      >
-      </p>
-    </form>
-  </MaxWidthContainer>
-</section>
+    <div>
+      <button type="submit" class="btn-primary cta-lg w-full disabled:opacity-60 sm:w-auto">Request Estimate</button>
+    </div>
+
+    <p id="form-status" class="hidden text-left text-[14px] font-medium text-body-78 md:text-[15px]" aria-live="polite">
+    </p>
+  </form>
+</div>
 
 <script is:inline>
   function asText(value) {
