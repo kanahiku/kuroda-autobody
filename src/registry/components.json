@@ -122,8 +122,7 @@
         "photoLabel?": "string",
         "image": "{src, alt}? — CMS cover photo (blog); omit for the grey placeholder",
         "showCtas": "boolean — hide both buttons (contact, legal, blog)",
-        "slot": "default slot renders under the body (e.g. article meta)",
-        "slot=aside": "right-hand card that replaces the photo (copy left, aside right from lg up) — e.g. <EstimateForm slot=\"aside\" /> on /contact/"
+        "slot": "default slot renders under the body (e.g. article meta)"
       },
       "notes": "Hero for every interior page. Photo stays a grey placeholder until the client supplies assets."
     },
@@ -320,14 +319,15 @@
       "id": "P-42",
       "name": "Estimate request form",
       "figmaNames": [],
-      "shape": "White rounded card: two-weight heading above the lead form (name, phone, email, vehicle, service checkboxes, details, Turnstile, submit). Self-contained client script posts to the shared forms worker.",
+      "shape": "White section: two-weight heading left, lead form right (name, phone, email, vehicle, service checkboxes, details, Turnstile, submit). Self-contained client script posts to the shared forms worker.",
       "component": "EstimateForm",
       "import": "~/components/widgets/EstimateForm.astro",
       "props": {
         "eyebrow? / headingLead? / headingStrong?": "string — default \"Request an Estimate\"",
+        "surface?": "'page' | 'subtle' — default page",
         "id?": "string — anchor, default `estimate` (ActionBand/CTAs link to #estimate)"
       },
-      "notes": "White card for PageHero's aside slot so the form sits in the first fold of /contact/. Keep the form id `contact-form` and the `data-*` attributes: the inline script and src/lib/forms.ts depend on them. The script must stay plain JavaScript (is:inline ships as-is, so no TypeScript syntax)."
+      "notes": "Own section directly under the PageHero on /contact/. Keep the form id `contact-form` and the `data-*` attributes: the inline script and src/lib/forms.ts depend on them. The script must stay plain JavaScript (is:inline ships as-is, so no TypeScript syntax)."
     },
     {
       "id": "P-38",
