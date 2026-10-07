@@ -49,6 +49,7 @@ Extend the prop surface of the existing file instead.
 | Interior page hero (homepage design system) | `PageHero` | eyebrow, titleLead, titleAccent, body, ctaText/ctaHref, secondaryCtaText/secondaryCtaHref, showCtas, image (CMS cover), default slot |
 | Whole copy-driven page (hero → sections → FAQs (optional) → related → CTA) | `ContentPageView` | page: `ContentPage` from `src/data/*.ts` |
 | Mid-page navy band with one button (no photo) | `ActionBand` | eyebrow, headingLead/Strong, body, ctaText/ctaHref · section type `action` |
+| Page of customer review cards | `ReviewWall` | reviews, eyebrow/headingLead/Strong (optional), surface · section type `reviews` |
 | Single customer quote band | `QuoteBand` (atom `PullQuote`) | quote, attribution, eyebrow |
 | Label / value data table | `PhaseTable` | columns, rows |
 | Facts list (label / value rows) | `DetailRows` | eyebrow, headingLead, headingStrong, lead, rows |

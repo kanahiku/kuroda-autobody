@@ -1,0 +1,7 @@
+---
+/** /reviews/ — copy lives in src/data/reviews.ts (see contentPage.ts). */
+import ContentPageView from '~/components/templates/ContentPageView.astro';
+import { getContentPage } from '~/data/contentPages';
+---
+
+<ContentPageView page={getContentPage('/reviews/')} />

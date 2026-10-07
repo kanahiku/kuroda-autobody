@@ -277,11 +277,11 @@
       "id": "P-30",
       "name": "Content page (data-driven)",
       "figmaNames": [],
-      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote | action | credentials) → FAQs (optional) → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
+      "shape": "Whole interior page from one data object: PageHero → blue band → sections[] (features | table | steps | story | quote | action | credentials | reviews) → FAQs (optional) → related TagGrid → CTABanner (own silver band). Surfaces alternate page/subtle automatically.",
       "component": "ContentPageView",
       "import": "~/components/templates/ContentPageView.astro",
       "props": {
-        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts, hadAnAccidentHub.ts (/had-an-accident/), ourStory.ts (/about/) and collisionRepairHub.ts (/collision-repair/)"
+        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts, hadAnAccidentHub.ts (/had-an-accident/), reviews.ts (/reviews/), ourStory.ts (/about/) and collisionRepairHub.ts (/collision-repair/)"
       },
       "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
     },
@@ -299,6 +299,20 @@
         "ctaText / ctaHref": "string"
       },
       "notes": "ContentPageView section type `action`. Always navy, so it does not advance the page/subtle surface rhythm. Use instead of the split CTABanner when a mid-page pointer needs no photo (e.g. warranty details on the Collision Repair hub)."
+    },
+    {
+      "id": "P-41",
+      "name": "Review wall",
+      "figmaNames": [],
+      "shape": "Section of bordered white quote cards (Unbounded quote, hairline, reviewer name + source line) in a masonry flow: 1 column mobile, 2 tablet, 3 desktop. Optional eyebrow + two-weight head.",
+      "component": "ReviewWall",
+      "import": "~/components/widgets/ReviewWall.astro",
+      "props": {
+        "reviews": "{ quote, name, detail? }[]",
+        "eyebrow? / headingLead? / headingStrong?": "string — head is omitted when none is given",
+        "surface?": "'subtle' | 'page' — default subtle (cards are white)"
+      },
+      "notes": "ContentPageView section type `reviews`. For a page-full of customer quotes (/reviews/). The 3-up platform summary on the homepage stays ReviewsColumns."
     },
     {
       "id": "P-38",

@@ -105,8 +105,25 @@ export interface CredentialsSection {
   surface?: Surface;
 }
 
+/** Customer quote cards — ReviewWall. Head is optional (the hero can carry the title). */
+export interface ReviewsSection {
+  type: 'reviews';
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  reviews: { quote: string; name: string; detail?: string }[];
+  surface?: Surface;
+}
+
 export type ContentSection =
-  FeaturesSection | TableSection | StepsSection | StorySection | QuoteSection | ActionSection | CredentialsSection;
+  | FeaturesSection
+  | TableSection
+  | StepsSection
+  | StorySection
+  | QuoteSection
+  | ActionSection
+  | CredentialsSection
+  | ReviewsSection;
 
 export interface FaqItem {
   title: string;

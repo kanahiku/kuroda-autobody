@@ -4,6 +4,7 @@ import { collisionRepairPages } from '~/data/collisionRepair';
 import { hadAnAccidentHubPages } from '~/data/hadAnAccidentHub';
 import { hadAnAccidentPages } from '~/data/hadAnAccident';
 import { collisionRepairHubPages } from '~/data/collisionRepairHub';
+import { reviewPages } from '~/data/reviews';
 import { ourStoryPages } from '~/data/ourStory';
 
 export const contentPages: ContentPage[] = [
@@ -12,6 +13,7 @@ export const contentPages: ContentPage[] = [
   ...hadAnAccidentPages,
   ...hadAnAccidentHubPages,
   ...ourStoryPages,
+  ...reviewPages,
 ];
 
 export function getContentPage(path: string): ContentPage {

@@ -1,0 +1,72 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+/**
+ * ReviewWall — a full page of customer quotes as bordered cards in a masonry flow
+ * (1 column mobile · 2 tablet · 3 desktop; card heights follow the copy, so there are no orphan gaps).
+ * Each card: quote (Unbounded) + hairline + reviewer name and source line. No images.
+ * The optional head (eyebrow + two-weight heading) is omitted when the hero already carries the title.
+ */
+export interface ReviewItem {
+  quote: string;
+  /** Reviewer, e.g. "John M." */
+  name: string;
+  /** Vehicle / platform / date line, e.g. "Mazda owner, Carwise Review". */
+  detail?: string;
+}
+
+export interface Props {
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  reviews: ReviewItem[];
+  /** Cards are white, so `subtle` (default) lets them stand out. */
+  surface?: 'page' | 'subtle';
+  id?: string;
+}
+
+const { eyebrow, headingLead, headingStrong, reviews, surface = 'subtle', id } = Astro.props;
+const hasHead = Boolean(eyebrow || headingLead);
+---
+
+<section {...id ? { id } : {}} class:list={['w-full', surface === 'subtle' ? 'bg-surface-subtle' : 'bg-surface-page']}>
+  <MaxWidthContainer class="flex flex-col gap-8 py-14 md:gap-12 md:py-16 xl:py-[120px]">
+    {
+      hasHead && (
+        <div class="flex flex-col gap-1">
+          {eyebrow && (
+            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+              <span class="eyebrow-rule" aria-hidden="true" />
+              {eyebrow}
+            </p>
+          )}
+          {headingLead && (
+            <h2 class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]">
+              {headingLead}
+              {headingStrong && <span class="font-semibold">{headingStrong}</span>}
+            </h2>
+          )}
+        </div>
+      )
+    }
+
+    <ul class="columns-1 gap-5 md:columns-2 md:gap-6 xl:columns-3">
+      {
+        reviews.map((r) => (
+          <li class="mb-5 break-inside-avoid md:mb-6">
+            <figure class="flex flex-col gap-6 rounded-[4px] border border-default-35 bg-surface-page p-6 md:p-8">
+              <blockquote class="font-display text-[16px] font-normal leading-[1.5] text-heading-full md:text-[18px]">
+                {r.quote}
+              </blockquote>
+              <figcaption class="flex flex-col gap-2 border-t border-default-50 pt-5">
+                <span class="font-body text-[11px] font-bold leading-none tracking-[1.54px] text-heading-full uppercase">
+                  {r.name}
+                </span>
+                {r.detail && <span class="font-body text-[13px] leading-[1.4] text-body-60">{r.detail}</span>}
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </MaxWidthContainer>
+</section>

@@ -19,6 +19,7 @@ import PhaseTable from '~/components/widgets/PhaseTable.astro';
 import ProcessSteps from '~/components/widgets/ProcessSteps.astro';
 import HeritageStory from '~/components/widgets/HeritageStory.astro';
 import QuoteBand from '~/components/widgets/QuoteBand.astro';
+import ReviewWall from '~/components/widgets/ReviewWall.astro';
 import ActionBand from '~/components/widgets/ActionBand.astro';
 import CredentialLogos from '~/components/widgets/CredentialLogos.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
@@ -161,6 +162,16 @@ const body = blocks.map((block) => {
           );
         case 'quote':
           return <QuoteBand surface={surface} eyebrow={s.eyebrow} quote={s.quote} attribution={s.attribution} />;
+        case 'reviews':
+          return (
+            <ReviewWall
+              surface={surface}
+              eyebrow={s.eyebrow}
+              headingLead={s.headingLead}
+              headingStrong={s.headingStrong}
+              reviews={s.reviews}
+            />
+          );
         case 'action':
           return (
             <ActionBand
