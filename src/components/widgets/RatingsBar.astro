@@ -7,49 +7,38 @@ import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
  *
  * Platform logos: client PNGs in public/ratings/ (white, desktop export reused on mobile
  * at a smaller size via CSS vars).
+ *
+ * Reusable on any page as a bare `<RatingsBar />`: the numbers come from the one site-wide Sanity
+ * `ratingsBar` document (fallback in src/data/ratings.ts). Pass `items` only to override.
  */
+import { getRatingsContent } from '~/lib/content';
+import type { RatingItem } from '~/data/ratings';
 
-const ratings = [
-  {
-    platform: 'CARWISE',
-    logo: '/ratings/carwise.png',
-    logoOpacity: 1,
-    logoSm: 18,
-    score: '4.9',
-    count: '5,416 verified surveys',
-    countSm: '5,416 surveys',
-    logoW: 30,
-    logoH: 34,
-    fullStars: 5,
-    partial: false,
-  },
-  {
-    platform: 'Google',
-    logo: '/ratings/google.png',
-    logoOpacity: 0.9,
-    logoSm: 20,
-    score: '4.6',
-    count: '182 reviews',
-    countSm: '182 reviews',
-    logoW: 30,
-    logoH: 30,
-    fullStars: 4,
-    partial: true,
-  },
-  {
-    platform: 'Yelp',
-    logo: '/ratings/yelp.png',
-    logoOpacity: 1,
-    logoSm: 15,
-    score: '4.5',
-    count: '180 reviews',
-    countSm: '180 reviews',
-    logoW: 27,
-    logoH: 37,
-    fullStars: 4,
-    partial: true,
-  },
-] as const;
+export interface Props {
+  /** Override the site-wide numbers (rarely needed). */
+  items?: RatingItem[];
+}
+
+/** Platform artwork (logo files in /public/ratings) — design assets, not copy. */
+const PLATFORMS = {
+  carwise: { name: 'CARWISE', logo: '/ratings/carwise.png', logoOpacity: 1, logoSm: 18, logoW: 30, logoH: 34 },
+  google: { name: 'Google', logo: '/ratings/google.png', logoOpacity: 0.9, logoSm: 20, logoW: 30, logoH: 30 },
+  yelp: { name: 'Yelp', logo: '/ratings/yelp.png', logoOpacity: 1, logoSm: 15, logoW: 27, logoH: 37 },
+} as const;
+
+const items = Astro.props.items ?? (await getRatingsContent()).items;
+
+const ratings = items.map((item) => {
+  const stars = Math.round(Number.parseFloat(item.score) * 2) / 2;
+  return {
+    ...PLATFORMS[item.platform],
+    score: item.score,
+    count: item.count,
+    countSm: item.countMobile,
+    fullStars: Math.floor(stars),
+    partial: stars % 1 !== 0,
+  };
+});
 ---
 
 <section class="w-full bg-surface-inverse">
@@ -119,7 +108,7 @@ const ratings = [
                 </div>
 
                 {/* Platform name */}
-                <p class="font-body text-[12px] font-bold leading-[normal] text-on-dark lg:text-[14px]">{r.platform}</p>
+                <p class="font-body text-[12px] font-bold leading-[normal] text-on-dark lg:text-[14px]">{r.name}</p>
 
                 {/* Review count — shorter copy on mobile */}
                 <p class="font-body text-[10.5px] leading-[normal] text-on-dark-60 lg:text-[13px]">

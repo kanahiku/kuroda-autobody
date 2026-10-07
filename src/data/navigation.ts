@@ -9,14 +9,18 @@
  * "view all" links, no duplicate parent links. A category without a slug (e.g. "Why Kuroda")
  * is a label-only dropdown parent.
  *
- * Placement is the only decision made in this file: Home is the logo, Online Estimate is the
- * header button (destination still pending), and Reviews, Contact, Blog and Legal & Utility
+ * Placement is the only decision made in this file: Home is the logo, the header button is the
+ * sitewide "Schedule an Estimate", and Reviews, Contact, Blog and Legal & Utility
  * live in the footer only (the header has no room for them).
  * The header phone link comes from CONTACT in Header.astro.
+ *
+ * This is the built-in fallback for the Sanity `siteNavigation` document (src/lib/content/navigation.ts):
+ * the Studio is seeded from it (scripts/seed-pages.mjs) and the site renders it whenever Sanity is empty.
+ * Relative `.ts` imports only, so the seed script can load it under plain Node. Texts may use `{tokens}`
+ * (e.g. `{year}`, see src/lib/content/tokens.ts).
  */
-import type { FooterLink, NavigationContent, NavLink, NavSubLink } from '~/lib/content/types';
-import { CONTACT, SOCIAL } from '~/config';
-import { getCategory, getChildPages, normalizePath, type SitemapNode } from '~/lib/sitemap';
+import type { FooterLink, NavigationContent, NavLink, NavSubLink } from '../lib/content/types';
+import { getCategory, getChildPages, normalizePath, type SitemapNode } from '../lib/sitemap.ts';
 
 const hrefOf = (node: SitemapNode): string => normalizePath(node.slug!);
 
@@ -90,11 +94,18 @@ export const navigationData: NavigationContent = {
   header: {
     links: headerLinks,
     actions: [],
+    cta: { text: 'Schedule an Estimate', href: '/contact/' },
   },
   footer: {
     links: footerColumns,
     secondaryLinks: utilityLinks,
-    socialLinks: SOCIAL.nav as unknown as NavigationContent['footer']['socialLinks'],
-    footNote: `&copy; ${new Date().getFullYear()} ${CONTACT.businessName}. All rights reserved.`,
+    tagline: 'Family-owned collision repair in Waipahu, Oʻahu since {established}.',
+    footNote: '© {year} Kuroda Auto Body, Inc. All rights reserved.',
+    visit: { title: 'VISIT US', mobileTitle: 'LOCATION & HOURS.', linkText: 'Our Location' },
+    family: {
+      eyebrow: 'OUR FAMILY OF COMPANIES.',
+      name: 'Capitol Auto Service',
+      description: 'Comprehensive mechanical, safety checks & automotive maintenance in Oahu.',
+    },
   },
 };

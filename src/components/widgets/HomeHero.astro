@@ -1,0 +1,138 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import BrandIcon from '~/components/ui/BrandIcon.astro';
+import { CONTACT } from '~/config/contact';
+import { PRIMARY_CTA_HREF } from '~/config/cta';
+/**
+ * HomeHero — Figma node 136:217 ("Hero")
+ * Navy hero: eyebrow, two-weight H1 (normal lead + gradient accent), tagline, lead body, two buttons,
+ * and a 4-item credentials bar. Photo (right) is a grey placeholder until the client delivers it.
+ *
+ * Different DOM from `PageHero` (full-bleed photo with fades + trust bar), so it is its own widget.
+ * All copy comes from props (Sanity `homePage.hero`); button destinations come from `~/config`.
+ */
+export interface TrustItem {
+  icon: 'icar' | 'target' | 'shield' | 'home';
+  text: string;
+}
+
+export interface Props {
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  tagline: string;
+  body: string;
+  primaryCtaText: string;
+  /** Phone number is appended from CONTACT: "CALL KURODA (808) …". */
+  callLabel: string;
+  /** Accessible description of the (placeholder) hero photo. */
+  imageAlt: string;
+  trustItems: TrustItem[];
+}
+
+const { eyebrow, headingLead, headingAccent, tagline, body, primaryCtaText, callLabel, imageAlt, trustItems } =
+  Astro.props;
+
+const trustIcon = { target: 'target-24', shield: 'shield-24', home: 'home-24' } as const;
+---
+
+<section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[776px]">
+  {/* Photo placeholder — right side, starts ~200px from left on desktop */}
+  {/* TODO: replace with <Image> when the hero photo is ready */}
+  <div
+    class="absolute inset-x-0 top-0 h-[460px] bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
+    role="img"
+    aria-label={imageAlt}
+  >
+  </div>
+
+  {/* Gradient overlays (Figma node 136:219–221) */}
+  <div class="absolute inset-x-0 top-0 z-[1] h-[470px] bg-hero-fade-mobile md:hidden" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-left md:block" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-bottom md:block" aria-hidden="true"></div>
+  <div class="absolute inset-0 z-[1] hidden bg-hero-fade-top md:block" aria-hidden="true"></div>
+
+  {/* Main content layout */}
+  <MaxWidthContainer class="relative z-[2] flex flex-col md:min-h-[776px]">
+    {/* Copy column — Figma: pt-96, pb-72 */}
+    <div class="flex flex-1 flex-col pb-8 pt-[300px] md:pb-[72px] md:pt-24">
+      {/* Eyebrow — Small / Dark (Figma: 10.5px Lato Bold, 1.26px tracking) */}
+      <div class="flex items-center gap-2">
+        <span class="block h-[2px] w-[16px] shrink-0 rounded-[1px] bg-gradient-brand" aria-hidden="true"></span>
+        <p class="font-body text-[10.5px] font-bold uppercase leading-[13px] tracking-[1.26px] text-on-dark">
+          {eyebrow}
+        </p>
+      </div>
+
+      {/* 40px spacer */}
+      <div class="h-4 md:h-10" aria-hidden="true"></div>
+
+      {/* H1 — Unbounded Light 64px + SemiBold sky-gradient span */}
+      <h1
+        class="font-display font-light text-[38px] leading-[1.08] tracking-[-0.03em] md:w-[709px] md:text-[64px] md:leading-[74px]"
+      >
+        <span class="text-on-dark">{headingLead.trim()} </span><span class="text-gradient-hero-headline font-semibold"
+          >{headingAccent}</span
+        >
+      </h1>
+
+      {/* 28px spacer */}
+      <div class="h-5 md:h-7" aria-hidden="true"></div>
+
+      {/* Tagline — Unbounded Regular 14px, sky accent */}
+      <p
+        class="font-display font-normal text-[12px] uppercase leading-[normal] tracking-[0.08em] text-on-dark-accent md:text-[14px] md:leading-none"
+      >
+        {tagline}
+      </p>
+
+      {/* 20px spacer */}
+      <div class="h-3 md:h-5" aria-hidden="true"></div>
+
+      {/* Lead body — Lato Regular 18px, leading 30px */}
+      <p class="max-w-[540px] font-body text-[16px] leading-[1.55] text-on-dark-82 md:text-[18px] md:leading-[30px]">
+        {body}
+      </p>
+
+      {/* 40px spacer */}
+      <div class="h-7 md:h-10" aria-hidden="true"></div>
+
+      {/* Buttons — gap-12 */}
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a href={PRIMARY_CTA_HREF} class="btn-primary">
+          {primaryCtaText}
+        </a>
+        <a href={CONTACT.phone.href} class="btn-secondary">
+          {callLabel}{' '}{CONTACT.phone.display}
+        </a>
+      </div>
+    </div>
+
+    {/* ── Credentials bar (Figma node 136:242) — border-t, pt-28, pb-72 ── */}
+    <div class="border-t border-on-dark-18 pb-10 pt-6 md:pb-[72px] md:pt-7">
+      <div class="grid grid-cols-2 gap-x-0 gap-y-4 lg:flex lg:gap-0">
+        {
+          trustItems.map((item) => (
+            <div class="flex items-center gap-[10px] lg:flex-1 lg:gap-3">
+              {item.icon === 'icar' ? (
+                <img
+                  src="/oem/icar-gold-class-inline.png"
+                  alt=""
+                  aria-hidden="true"
+                  width="58"
+                  height="30"
+                  class="h-[30px] w-[58px] shrink-0"
+                />
+              ) : (
+                <BrandIcon name={trustIcon[item.icon]} />
+              )}
+              <p class="font-body text-[12.5px] font-medium leading-[normal] text-on-dark md:text-[14px] md:leading-none">
+                {item.text}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </MaxWidthContainer>
+</section>

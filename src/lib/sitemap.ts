@@ -4,7 +4,8 @@
  * Routes, header dropdowns, footer columns and the generic page template all
  * derive from the same tree, so adding a page = regenerating the workbook data.
  */
-import { sitemap, type SitemapNode } from '~/data/sitemap';
+// Relative `.ts` import (not `~/`) so the Sanity seed script can load this file under plain Node.
+import { sitemap, type SitemapNode } from '../data/sitemap.ts';
 
 /**
  * Pages the workbook marks ON HOLD (batch "Batch 2") are included in routes, nav and
@@ -80,4 +81,10 @@ export function sitemapLabel(path: string): string {
   const node = flatten(sitemap).find((item) => item.slug && normalizePath(item.slug) === target);
   if (!node) throw new Error(`Route "${path}" is not in src/data/sitemap.ts`);
   return node.label;
+}
+
+/** True when `path` is a route in src/data/sitemap.ts, regardless of batch / hold status. */
+export function isSitemapPath(path: string): boolean {
+  const target = normalizePath(path);
+  return flatten(sitemap).some((item) => item.slug && normalizePath(item.slug) === target);
 }

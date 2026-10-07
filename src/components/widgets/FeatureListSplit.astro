@@ -15,25 +15,16 @@ export interface FeatureItem {
 }
 
 export interface Props {
-  eyebrow?: string;
-  headingLead?: string;
-  headingAccent?: string;
-  caption?: string;
-  items?: FeatureItem[];
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  caption: string;
+  /** Accessible description of the (placeholder) photo. */
+  imageAlt: string;
+  items: FeatureItem[];
 }
 
-const {
-  eyebrow = 'Why drivers choose Kuroda',
-  headingLead = 'Less stress. Fewer questions. ',
-  headingAccent = "A car that's right again.",
-  caption = 'Our Waipahu shop, Gentry Waipio Business Park.',
-  items = [
-    { title: 'Repaired right', description: 'Backed by a written Limited Lifetime Warranty.', icon: 'shield' },
-    { title: 'Kept moving', description: 'Realistic timing and efficient repairs.', icon: 'clock' },
-    { title: 'Personal service', description: 'Daily updates from your estimator.', icon: 'chat' },
-    { title: 'Easy experience', description: 'Insurance, rentals and paperwork handled.', icon: 'check' },
-  ],
-} = Astro.props;
+const { eyebrow, headingLead, headingAccent, caption, imageAlt, items } = Astro.props;
 ---
 
 <section class="w-full bg-surface-subtle">
@@ -61,7 +52,7 @@ const {
       <div
         class="aspect-[342/240] w-full bg-placeholder-on-grey md:aspect-[660/500] xl:col-start-1 xl:row-start-1"
         role="img"
-        aria-label={caption}
+        aria-label={imageAlt}
       >
       </div>
 

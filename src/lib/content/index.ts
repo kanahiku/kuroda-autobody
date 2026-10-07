@@ -1,10 +1,16 @@
-import type { BlogPost } from './types';
+import type { BlogPost, Testimonial } from './types';
 import { isSanityConfigured } from '../sanity/client';
-import { getSanityBlogPost, getSanityBlogPosts, getSanityBlogPostSlugs } from './sanity';
+import {
+  getSanityBlogPost,
+  getSanityBlogPosts,
+  getSanityBlogPostSlugs,
+  getSanityFeaturedTestimonials,
+  getSanityTestimonials,
+} from './sanity';
 import { getSitemapRoutes, normalizePath } from '../sitemap';
 
 /**
- * Sanity holds only the blog (`blogPost`).
+ * Sanity holds the blog (`blogPost`) and the customer testimonials (`testimonial`).
  * Every other page is composed from local data in `src/data/` — no CMS images or page copy.
  */
 
@@ -54,4 +60,35 @@ export async function getBlogPost(slug: string): Promise<BlogPost | undefined> {
   return undefined;
 }
 
-export type { BlogPost };
+/**
+ * Testimonials for /reviews/. Returns [] when Sanity is unconfigured or unreachable so the caller
+ * can fall back to the copy in `src/data/reviews.ts`.
+ */
+export async function getTestimonials(): Promise<Testimonial[]> {
+  if (!isSanityConfigured) return [];
+  try {
+    return await getSanityTestimonials();
+  } catch (error) {
+    console.warn('Sanity testimonials unavailable.', error);
+  }
+  return [];
+}
+
+/** Three testimonials for the homepage ("Show on homepage" first). [] → caller keeps its built-in copy. */
+export async function getFeaturedTestimonials(limit = 3): Promise<Testimonial[]> {
+  if (!isSanityConfigured) return [];
+  try {
+    return await getSanityFeaturedTestimonials(limit);
+  } catch (error) {
+    console.warn('Sanity featured testimonials unavailable.', error);
+  }
+  return [];
+}
+
+export { getHomeContent } from './home';
+export { getContentPageContent } from './contentPage';
+export { getContactContent } from './contact';
+export { getLocationContent } from './location';
+export { getRatingsContent } from './ratings';
+
+export type { BlogPost, Testimonial };

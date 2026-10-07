@@ -27,6 +27,7 @@ import TagGrid from '~/components/widgets/TagGrid.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
 import type { ContentPage, ContentSection } from '~/data/contentPage';
 import { sitemapLabel } from '~/lib/sitemap';
+import { getTestimonials } from '~/lib/content';
 
 export interface Props {
   page: ContentPage;
@@ -39,6 +40,11 @@ const metadata = {
   ignoreTitleTemplate: true,
   description: page.metaDescription,
 };
+
+// `reviews` sections with `source: 'sanity'` pull the Studio's testimonials; the section's own
+// `reviews` array is the fallback when Sanity has none.
+const needsTestimonials = page.sections.some((s) => s.type === 'reviews' && s.source === 'sanity');
+const testimonials = needsTestimonials ? await getTestimonials() : [];
 
 const pageLabel = sitemapLabel(page.path);
 const relatedItems = (page.related?.paths ?? []).map((path) => ({ label: sitemapLabel(path), href: path }));
@@ -69,7 +75,7 @@ const body = blocks.map((block) => {
     titleLead={page.hero.titleLead}
     titleAccent={page.hero.titleAccent}
     body={page.hero.body}
-    photoLabel={`${pageLabel} at Kuroda Autobody in Waipahu`}
+    photoLabel={page.hero.photoLabel ?? `${pageLabel} at Kuroda Autobody in Waipahu`}
   />
 
   <GradientBand variant="blue" />
@@ -119,6 +125,9 @@ const body = blocks.map((block) => {
               lead={s.lead}
               columns={s.columns ?? 2}
               items={s.items}
+              note={s.note}
+              noteLinkText={s.noteLinkText}
+              noteLinkHref={s.noteLinkHref}
             />
           );
         case 'table':
@@ -154,8 +163,8 @@ const body = blocks.map((block) => {
               paragraphs={s.paragraphs}
               quote={s.quote ?? ''}
               quoteAttribution={s.quoteAttribution}
-              stats={[]}
-              caption=""
+              stats={s.stats ?? []}
+              caption={s.caption ?? ''}
               isReversed={s.isReversed}
               photoLabel={s.photoLabel ?? `${pageLabel} at Kuroda Autobody`}
             />
@@ -169,7 +178,7 @@ const body = blocks.map((block) => {
               eyebrow={s.eyebrow}
               headingLead={s.headingLead}
               headingStrong={s.headingStrong}
-              reviews={s.reviews}
+              reviews={s.source === 'sanity' && testimonials.length > 0 ? testimonials : s.reviews}
             />
           );
         case 'action':
@@ -199,5 +208,14 @@ const body = blocks.map((block) => {
     })
   }
 
-  <CTABanner variant="split" title={page.cta.title} titleStrong={page.cta.titleStrong} />
+  <CTABanner
+    variant="split"
+    title={page.cta.title}
+    titleStrong={page.cta.titleStrong}
+    subtitle={page.cta.subtitle}
+    ctaText={page.cta.ctaText}
+    ctaHref={page.cta.ctaHref}
+    secondaryCtaText={page.cta.secondaryCtaText}
+    secondaryCtaHref={page.cta.secondaryCtaHref}
+  />
 </Layout>

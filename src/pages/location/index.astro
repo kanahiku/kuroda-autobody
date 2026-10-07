@@ -2,7 +2,11 @@
 /**
  * /location/ — Shop location, hours, map and driving directions.
  * Composed from homepage-system widgets only (PageHero, DetailRows, MapDirections,
- * FeatureColumns, TagGrid, FAQs, CTABanner). Copy: Sitemap Content Plan V2.
+ * FeatureColumns, TagGrid, FAQs, CTABanner).
+ *
+ * All copy comes from Sanity's `locationPage` document (merged over the built-in fallback in
+ * src/data/location.ts) via getLocationContent(). The phone, fax, address and map come from site config
+ * (`~/config/contact`); layout and section order stay in code.
  */
 import Layout from '~/layouts/PageLayout.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
@@ -14,136 +18,88 @@ import TagGrid from '~/components/widgets/TagGrid.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
 import { CONTACT } from '~/config/contact';
+import { getLocationContent } from '~/lib/content';
+
+const page = await getLocationContent();
 
 const metadata = {
-  title: 'Auto Body Shop in Waipahu & Waipio | Kuroda Autobody',
+  title: page.seo.title,
   ignoreTitleTemplate: true,
-  description:
-    'Visit Kuroda Autobody in Gentry Waipio Business Park, Waipahu. Serving Oahu with collision repair, on-site rental pickup, and easy freeway access.',
+  description: page.seo.description,
 };
 
-const address = `94-518 Puahi Street, ${CONTACT.address.cityLine}`;
+/** Headings are two fields (lead + accent); the lead gets its single trailing space here. */
+const lead = (text: string) => `${text.trim()} `;
 
-const faqs = [
-  {
-    title: 'Where is Kuroda Autobody located?',
-    description: `We are located at 94-518 Puahi Street in the Gentry Waipio Business Park, ${CONTACT.address.cityLine}.`,
-  },
-  {
-    title: 'Do I need an appointment to visit the shop?',
-    description:
-      'Yes. Estimates and vehicle inspections are handled by appointment so our team can dedicate proper time to your vehicle.',
-  },
-  {
-    title: 'Can I pick up a rental car directly at your shop?',
-    description:
-      'Yes. Rental vehicles are parked right on our lot, allowing for convenient on-site pickup and drop-off during your repair.',
-  },
-  {
-    title: 'What are your business hours?',
-    description: 'We are open Monday through Friday from 7:00 AM to 5:00 PM, and closed on Saturday and Sunday.',
-  },
-  {
-    title: 'How do I contact the shop?',
-    description: `You can reach our team by phone at ${CONTACT.phone.display} or by fax at ${CONTACT.fax.display}.`,
-  },
-];
+const ROW_LINKS = {
+  none: undefined,
+  directions: CONTACT.address.mapsDirectionsHref,
+  phone: CONTACT.phone.href,
+} as const;
 ---
 
 <Layout metadata={metadata}>
   <PageHero
-    eyebrow="Location & directions"
-    titleLead="Kuroda Autobody Location & Directions "
-    titleAccent="in Waipahu"
-    body="Kuroda Autobody operates out of a 28,000-square-foot facility in the Gentry Waipio Business Park, providing collision repair and insurance coordination for drivers across Oahu."
-    photoLabel="Kuroda Autobody shop, Gentry Waipio Business Park"
+    eyebrow={page.hero.eyebrow}
+    titleLead={lead(page.hero.headingLead)}
+    titleAccent={page.hero.headingAccent}
+    body={page.hero.body}
+    photoLabel={page.hero.imageAlt}
   />
 
   <GradientBand variant="blue" />
 
   <DetailRows
-    eyebrow="Gentry Waipio Business Park"
-    headingLead="Shop Location "
-    headingStrong="and Hours"
-    rows={[
-      { label: 'Shop address', value: address, href: CONTACT.address.mapsDirectionsHref },
-      { label: 'Business park', value: CONTACT.address.landmark },
-      { label: 'Phone', value: CONTACT.phone.display, href: CONTACT.phone.href },
-      { label: 'Fax', value: CONTACT.fax.display },
-      {
-        label: 'Hours',
-        value: 'Monday through Friday, 7:00 AM to 5:00 PM',
-        note: 'Closed Saturday and Sunday. Estimates are by appointment.',
-      },
-    ]}
+    eyebrow={page.details.eyebrow}
+    headingLead={lead(page.details.headingLead)}
+    headingStrong={page.details.headingAccent}
+    rows={page.details.rows.map(({ link, ...row }) => ({ ...row, href: ROW_LINKS[link] }))}
   />
 
   <MapDirections
-    eyebrow="Easy freeway access"
-    headingLead="Map and "
-    headingStrong="Driving Directions"
+    eyebrow={page.map.eyebrow}
+    headingLead={lead(page.map.headingLead)}
+    headingStrong={page.map.headingAccent}
     mapSrc={CONTACT.address.mapsEmbedSrc}
-    mapTitle={`Map of Kuroda Autobody, ${address}`}
-    caption={`Kuroda Autobody, ${address}.`}
-    lead="Our Waipahu location offers easy access for drivers traveling from throughout Central and West Oahu:"
-    directions={[
-      {
-        title: 'From the H-1 Freeway',
-        description:
-          'Take the exit toward Waikele/Waipahu, transition toward the Gentry Waipio Business Park area, and turn onto Puahi Street.',
-      },
-      {
-        title: 'From the H-2 Freeway',
-        description:
-          'Head toward the Waipio/Mililani interchange, connect down toward the business park, and locate our facility on Puahi Street.',
-      },
-    ]}
-    ctaText="GET DIRECTIONS"
+    mapTitle={page.map.mapTitle}
+    caption={page.map.caption}
+    lead={page.map.lead}
+    directions={page.map.directions}
+    ctaText={page.map.ctaText}
     ctaHref={CONTACT.address.mapsDirectionsHref}
   />
 
   <FeatureColumns
-    eyebrow="On-site rentals"
-    headingLead="Vehicle Drop-Off, Parking, "
-    headingStrong="and On-Site Rentals"
-    lead="Arriving at our shop for your estimate or repair is structured for efficiency:"
-    items={[
-      {
-        icon: 'shield',
-        title: 'Secure Parking',
-        description: 'Pull directly into our designated customer parking area upon arrival.',
-      },
-      {
-        icon: 'rental',
-        title: 'On-Site Rentals',
-        description:
-          'Rental vehicles are parked right on our lot. If you need temporary transportation while your car is in the shop, we coordinate on-site pickup so you can transition smoothly without extra travel.',
-      },
-    ]}
+    eyebrow={page.features.eyebrow}
+    headingLead={lead(page.features.headingLead)}
+    headingStrong={page.features.headingAccent}
+    lead={page.features.lead}
+    items={page.features.items}
   />
 
   <TagGrid
-    eyebrow="Serving Oahu"
-    headingLead="Communities We Serve "
-    headingStrong="Across Oahu"
-    lead="While our shop is anchored in Waipahu, we serve drivers throughout the island, including:"
-    items={[
-      { label: 'Waipahu' },
-      { label: 'Waipio' },
-      { label: 'Waikele' },
-      { label: 'Aiea' },
-      { label: 'Pearl City' },
-      { label: 'Mililani' },
-      { label: 'Koa Ridge' },
-      { label: 'Central and West Oahu' },
-    ]}
+    eyebrow={page.communities.eyebrow}
+    headingLead={lead(page.communities.headingLead)}
+    headingStrong={page.communities.headingAccent}
+    lead={page.communities.lead}
+    items={page.communities.items}
   />
 
-  <FAQs eyebrow="Location FAQ" title="Frequently Asked Questions " titleStrong="About Our Location" items={faqs} />
+  <FAQs
+    eyebrow={page.faqs.eyebrow}
+    title={lead(page.faqs.headingLead)}
+    titleStrong={page.faqs.headingAccent}
+    items={page.faqs.items.map(({ question, answer }) => ({ title: question, description: answer }))}
+  />
 
   <CTABanner
     variant="split"
-    title="Plan Your "
-    titleStrong="Visit"
+    title={lead(page.cta.headingLead)}
+    titleStrong={page.cta.headingAccent}
+    subtitle={page.cta.description}
+    ctaText={page.cta.ctaOne.text}
+    ctaHref={page.cta.ctaOne.href}
+    secondaryCtaText={page.cta.ctaTwo.text}
+    secondaryCtaHref={page.cta.ctaTwo.href}
   />
 </Layout>

@@ -17,6 +17,9 @@ export const CONTACT = {
   /** Human-readable hours — shown in utility bar. */
   hoursDisplay: 'MON–FRI 7AM–5PM',
 
+  /** Same hours spelled out — shown in the footer's "Visit Us" column. */
+  hoursLine: 'Monday – Friday: 7:00 AM – 5:00 PM',
+
   /** Contractor license shown in footer or legal copy (set null if none). */
   license: null,
 

@@ -39,23 +39,25 @@ export interface FooterColumn {
   links: FooterLink[];
 }
 
-export interface SocialLink {
-  ariaLabel: string;
-  icon: string;
-  href: string;
-}
-
 export interface NavigationContent {
   header: {
     links: NavLink[];
     actions: { variant?: string; text?: string; href?: string }[];
     phone?: NavPhone;
+    /** The header's main button (desktop bar + mobile menu). */
+    cta: { text: string; href: string };
   };
   footer: {
+    /** Link columns, left to right; "Visit Us" is the last column and is not part of this list. */
     links: FooterColumn[];
+    /** Legal bar links. */
     secondaryLinks: FooterLink[];
-    socialLinks: SocialLink[];
+    /** Short blurb under the footer logo. */
+    tagline: string;
+    /** Copyright line. */
     footNote: string;
+    visit: { title: string; mobileTitle: string; linkText: string };
+    family: { eyebrow: string; name: string; description: string };
   };
 }
 
@@ -77,6 +79,15 @@ export interface PageHero {
   image?: ContentImage;
   imageMobile?: ContentImage;
   imagePlaceholder?: string;
+}
+
+/** A customer testimonial as stored in Sanity (`testimonial`), shown on /reviews/. */
+export interface Testimonial {
+  quote: string;
+  /** Reviewer, e.g. "John M." */
+  name: string;
+  /** Vehicle / platform / date line, e.g. "Mazda owner, Carwise Review". */
+  detail?: string;
 }
 
 /** A blog article as stored in Sanity (`blogPost`). Listing queries omit `contentBlocks`. */

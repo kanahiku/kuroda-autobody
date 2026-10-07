@@ -8,49 +8,24 @@ import BrandIcon from '~/components/ui/BrandIcon.astro';
  * vertical dividers. No images.
  */
 export interface Review {
+  /** Header label — a platform ("Google verified") or a reviewer name when fed from Sanity. */
   platform: string;
-  count: string;
+  /** Right-hand header note, e.g. "182 reviews". Omit to hide. */
+  count?: string;
   quote: string;
-  source: string;
+  /** Verified footer line, e.g. "Independent Google score" or "Carwise Review". Omit to hide. */
+  source?: string;
 }
 
 export interface Props {
-  eyebrow?: string;
-  headingLead?: string;
-  headingStrong?: string;
-  note?: string;
-  reviews?: Review[];
+  eyebrow: string;
+  headingLead: string;
+  headingStrong: string;
+  note: string;
+  reviews: Review[];
 }
 
-const {
-  eyebrow = 'Honest feedback from local drivers',
-  headingLead = 'What our ',
-  headingStrong = 'customers say.',
-  note = 'Independent ratings from every verified platform.',
-  reviews = [
-    {
-      platform: 'Google verified',
-      count: '182 reviews',
-      quote:
-        '“Kuroda Auto Body made an unfortunate situation simple. Honest communication, spotless repair, and they guided me through everything.”',
-      source: 'Independent Google score',
-    },
-    {
-      platform: 'Yelp reviews',
-      count: '180 reviews',
-      quote:
-        '“Third time our family has had work done here over 20 years. Always fair, professional, and the paint match is undetectable.”',
-      source: 'Independent Yelp score',
-    },
-    {
-      platform: 'Carwise verified',
-      count: '5,416 reviews',
-      quote:
-        '“Over 5,000 verified post-repair customer surveys. Consistently praised for customer service, flawless finish, and walking through every detail.”',
-      source: 'Verified insurance surveys',
-    },
-  ],
-} = Astro.props;
+const { eyebrow, headingLead, headingStrong, note, reviews } = Astro.props;
 ---
 
 <section class="w-full bg-surface-subtle">
@@ -97,15 +72,17 @@ const {
               <p class="font-body text-[11px] font-bold leading-none tracking-[1.54px] text-heading-full uppercase">
                 {r.platform}
               </p>
-              <p class="font-body text-[12px] leading-none text-body-60 md:text-[13px]">{r.count}</p>
+              {r.count && <p class="font-body text-[12px] leading-none text-body-60 md:text-[13px]">{r.count}</p>}
             </div>
             <blockquote class="font-display text-[16px] font-normal leading-[1.5] text-heading-full md:text-[18px]">
               {r.quote}
             </blockquote>
-            <p class="flex items-center gap-2 font-body text-[10.5px] font-bold leading-none tracking-[1.26px] text-heading-80 uppercase">
-              <BrandIcon name="verified" />
-              {r.source}
-            </p>
+            {r.source && (
+              <p class="flex items-center gap-2 font-body text-[10.5px] font-bold leading-none tracking-[1.26px] text-heading-80 uppercase">
+                <BrandIcon name="verified" />
+                {r.source}
+              </p>
+            )}
           </li>
         ))
       }

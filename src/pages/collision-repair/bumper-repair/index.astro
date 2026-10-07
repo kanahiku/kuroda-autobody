@@ -1,7 +1,12 @@
 ---
-/** /collision-repair/bumper-repair/ — copy lives in src/data (see contentPage.ts). */
+/**
+ * /collision-repair/bumper-repair/ — copy lives in Sanity's `contentPage` document, merged over the built-in page in
+ * src/data/ by getContentPageContent().
+ */
 import ContentPageView from '~/components/templates/ContentPageView.astro';
-import { getContentPage } from '~/data/contentPages';
+import { getContentPageContent } from '~/lib/content';
+
+const page = await getContentPageContent('/collision-repair/bumper-repair/');
 ---
 
-<ContentPageView page={getContentPage('/collision-repair/bumper-repair/')} />
+<ContentPageView page={page} />

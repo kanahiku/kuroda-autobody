@@ -29,6 +29,10 @@ export interface FeaturesSection {
   lead?: string;
   columns?: 2 | 3;
   items: FeatureItem[];
+  /** Closing sentence under the grid; `noteLinkText` renders as an inline link before the final period. */
+  note?: string;
+  noteLinkText?: string;
+  noteLinkHref?: string;
   surface?: Surface;
 }
 
@@ -71,6 +75,10 @@ export interface StorySection {
   photoLabel?: string;
   /** Photo on the right (desktop). */
   isReversed?: boolean;
+  /** Caption under the photo. */
+  caption?: string;
+  /** Up to three headline numbers beside the copy. */
+  stats?: { value: string; label: string }[];
   surface?: Surface;
 }
 
@@ -105,12 +113,17 @@ export interface CredentialsSection {
   surface?: Surface;
 }
 
-/** Customer quote cards — ReviewWall. Head is optional (the hero can carry the title). */
+/**
+ * Customer quote cards — ReviewWall. Head is optional (the hero can carry the title).
+ * With `source: 'sanity'` the cards come from the Studio's Testimonials; `reviews` is then only the
+ * fallback shown if Sanity is unconfigured, unreachable or has no testimonials yet.
+ */
 export interface ReviewsSection {
   type: 'reviews';
   eyebrow?: string;
   headingLead?: string;
   headingStrong?: string;
+  source?: 'sanity';
   reviews: { quote: string; name: string; detail?: string }[];
   surface?: Surface;
 }
@@ -140,7 +153,13 @@ export interface ContentPage {
   /** Hero eyebrow (usually the sitemap category). */
   eyebrow: string;
   /** H1 split: light-weight lead + gradient tail. */
-  hero: { titleLead: string; titleAccent?: string; body: string | string[] };
+  hero: {
+    titleLead: string;
+    titleAccent?: string;
+    body: string | string[];
+    /** Accessible label for the grey hero photo placeholder (default: the page name). */
+    photoLabel?: string;
+  };
   sections: ContentSection[];
   /** Omit when the copy has no FAQs. */
   faqs?: {
@@ -154,8 +173,19 @@ export interface ContentPage {
   };
   /** "Explore …" link grid — `paths` resolve to sitemap labels. Omit to end on the closing CTA. */
   related?: { eyebrow: string; headingLead: string; headingStrong: string; paths: string[] };
-  /** Closing CTA heading (subtitle + buttons are shared defaults). */
-  cta: { title: string; titleStrong: string };
+  /**
+   * Closing CTA. Only the heading is required; the description and the two buttons default to the sitewide
+   * ones (src/config/cta.ts, CONTACT) — set them to override.
+   */
+  cta: {
+    title: string;
+    titleStrong: string;
+    subtitle?: string;
+    ctaText?: string;
+    ctaHref?: string;
+    secondaryCtaText?: string;
+    secondaryCtaHref?: string;
+  };
 }
 
 /** What each page file supplies — group-level fields (eyebrow, related) are added by the data module. */

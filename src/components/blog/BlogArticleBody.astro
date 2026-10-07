@@ -28,7 +28,7 @@ const paragraph = 'mt-5 font-body text-[16px] leading-[1.75] text-body-80 first:
 ---
 
 <div
-  class="min-w-0 [&_a]:font-semibold [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-heading-full [&_strong]:font-semibold [&_strong]:text-heading-full"
+  class="min-w-0 [&_a]:font-semibold [&_a]:text-accent [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-heading-full [&_strong]:font-semibold [&_strong]:text-heading-full [&_code]:rounded-sm [&_code]:bg-surface-subtle [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-[0.9em] [&_code]:text-heading-full"
 >
   {
     post.contentBlocks.map((block) => {
@@ -58,16 +58,30 @@ const paragraph = 'mt-5 font-body text-[16px] leading-[1.75] text-body-80 first:
       if (block._type === 'list') {
         const isOrdered = block.listType === 'number';
         const Tag = isOrdered ? 'ol' : 'ul';
+        // Numbering restarts at every nesting level (1, 2 … then 1, 2 under item 2).
+        const counters: number[] = [];
+        const rows = block.items.map((item) => {
+          const level = Math.max(1, item.level ?? 1);
+          counters.length = level;
+          counters[level - 1] = (counters[level - 1] ?? 0) + 1;
+          return { item, level, number: counters[level - 1] };
+        });
         return (
           <Tag class="mt-5 flex flex-col gap-3">
-            {block.items.map((item, index) => (
-              <li class="flex items-start gap-4 font-body text-[16px] leading-[1.7] text-body-80 md:text-[17px]">
+            {rows.map(({ item, level, number }) => (
+              <li
+                class="flex items-start gap-4 font-body text-[16px] leading-[1.7] text-body-80 md:text-[17px]"
+                style={level > 1 ? `margin-left: ${(level - 1) * 28}px` : undefined}
+              >
                 {isOrdered ? (
                   <span class="min-w-6 shrink-0 font-display text-[15px] font-semibold leading-[1.7] text-accent tabular-nums">
-                    {String(index + 1).padStart(2, '0')}
+                    {String(number).padStart(2, '0')}
                   </span>
                 ) : (
-                  <span class="mt-[0.7em] size-[7px] shrink-0 bg-accent" aria-hidden="true" />
+                  <span
+                    class:list={['mt-[0.7em] size-[7px] shrink-0', level > 1 ? 'border border-accent' : 'bg-accent']}
+                    aria-hidden="true"
+                  />
                 )}
                 <span set:html={item.html} />
               </li>

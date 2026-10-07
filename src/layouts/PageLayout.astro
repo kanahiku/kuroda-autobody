@@ -2,7 +2,7 @@
 import Layout from '~/layouts/Layout.astro';
 import Header from '~/components/widgets/Header.astro';
 import Footer from '~/components/widgets/Footer.astro';
-import { navigationData } from '~/data/navigation';
+import { getNavigationContent } from '~/lib/content/navigation';
 import { CONTACT } from '~/config/contact';
 
 import type { MetaData } from '~/types';
@@ -12,18 +12,19 @@ export interface Props {
 }
 
 const { metadata } = Astro.props;
-const footer = navigationData.footer;
+const { header, footer } = await getNavigationContent();
 ---
 
 <Layout metadata={metadata}>
   <slot name="announcement" />
   <slot name="header">
     <Header
-        links={navigationData.header.links}
-        actions={navigationData.header.actions}
-        phone={{ text: CONTACT.phone.display, href: CONTACT.phone.href }}
-        isSticky
-      />
+      links={header.links}
+      actions={header.actions}
+      cta={header.cta}
+      phone={{ text: CONTACT.phone.display, href: CONTACT.phone.href }}
+      isSticky
+    />
   </slot>
   <div>
     <main>
@@ -33,8 +34,10 @@ const footer = navigationData.footer;
       <Footer
         links={footer.links}
         secondaryLinks={footer.secondaryLinks}
-        socialLinks={footer.socialLinks}
+        tagline={footer.tagline}
         footNote={footer.footNote}
+        visit={footer.visit}
+        family={footer.family}
       />
     </slot>
   </div>

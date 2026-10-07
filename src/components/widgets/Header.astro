@@ -29,6 +29,8 @@ export interface Props {
   links?: Array<MenuLink>;
   actions?: Array<CallToAction>;
   phone?: { text: string; href: string };
+  /** Main button next to the phone number (desktop bar and mobile menu). */
+  cta?: { text: string; href: string };
   isSticky?: boolean;
   isDark?: boolean;
   isFullWidth?: boolean;
@@ -44,6 +46,7 @@ const {
   links = [],
   actions = [],
   phone,
+  cta = { text: 'Schedule an Estimate', href: '/contact/' },
   isSticky = false,
   isDark = false,
   isFullWidth = false,
@@ -188,7 +191,7 @@ const navBgStyle = '';
             {CONTACT.phone.display}
           </a>
           {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
-          <Button variant="primary" size="sm" href="/contact/" text="Schedule an Estimate" />
+          <Button variant="primary" size="sm" href={cta.href} text={cta.text} />
         </div>
       </MaxWidthContainer>
 
@@ -296,7 +299,7 @@ const navBgStyle = '';
         >
           {CONTACT.phone.display}
         </a>
-        <Button variant="primary" size="sm" href="/contact/" text="Schedule an Estimate" class="w-full justify-center" />
+        <Button variant="primary" size="sm" href={cta.href} text={cta.text} class="w-full justify-center" />
       </div>
       </div>
     </div>

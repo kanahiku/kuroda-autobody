@@ -1,6 +1,6 @@
 import { sanityClient } from '../sanity/client';
 import { resolveContentImage, type SanityImageFields } from '../sanity/image';
-import type { BlogContentBlock, BlogPost, ContentImage } from './types';
+import type { BlogContentBlock, BlogPost, ContentImage, Testimonial } from './types';
 
 type FetchedImage = ContentImage & SanityImageFields;
 
@@ -290,4 +290,46 @@ const BLOG_POST_SLUGS_QUERY = /* groq */ `
 export async function getSanityBlogPostSlugs(): Promise<string[]> {
   const slugs = await sanityClient.fetch<string[]>(BLOG_POST_SLUGS_QUERY);
   return (slugs ?? []).filter((slug): slug is string => typeof slug === 'string' && slug.length > 0);
+}
+
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+
+const TESTIMONIALS_QUERY = /* groq */ `
+  *[_type == "testimonial" && defined(quote) && defined(name)] | order(order asc, _createdAt asc) {
+    quote,
+    name,
+    detail
+  }
+`;
+
+export async function getSanityTestimonials(): Promise<Testimonial[]> {
+  const items = await sanityClient.fetch<Array<Partial<Testimonial> | null>>(TESTIMONIALS_QUERY);
+  return (items ?? [])
+    .filter((item): item is Partial<Testimonial> => Boolean(item?.quote?.trim() && item?.name?.trim()))
+    .map((item) => ({
+      quote: item.quote!.trim(),
+      name: item.name!.trim(),
+      ...(item.detail?.trim() ? { detail: item.detail.trim() } : {}),
+    }));
+}
+
+/** The homepage trio: ticked "Show on homepage" first, then the top of the display order. */
+const FEATURED_TESTIMONIALS_QUERY = /* groq */ `
+  *[_type == "testimonial" && defined(quote) && defined(name)]
+    | order(coalesce(featured, false) desc, order asc, _createdAt asc)[0...$limit] {
+    quote,
+    name,
+    detail
+  }
+`;
+
+export async function getSanityFeaturedTestimonials(limit = 3): Promise<Testimonial[]> {
+  const items = await sanityClient.fetch<Array<Partial<Testimonial> | null>>(FEATURED_TESTIMONIALS_QUERY, { limit });
+  return (items ?? [])
+    .filter((item): item is Partial<Testimonial> => Boolean(item?.quote?.trim() && item?.name?.trim()))
+    .map((item) => ({
+      quote: item.quote!.trim(),
+      name: item.name!.trim(),
+      ...(item.detail?.trim() ? { detail: item.detail.trim() } : {}),
+    }));
 }

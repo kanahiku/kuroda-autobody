@@ -9,7 +9,9 @@
  *   Family of Companies — Capitol Auto Service (full-width row)
  *   Legal bar           — copyright + utility links (Legal & Utility category)
  *
- * Props are kept backward-compatible so PageLayout.astro needs no changes.
+ * All words (tagline, link columns, "Visit Us" labels, family block, copyright, legal links) come from the Sanity
+ * `siteNavigation` document via PageLayout.astro, with the built-in copy in src/data/navigation.ts as fallback.
+ * Address, hours and phone stay in src/config/contact.ts.
  */
 import { getHomePermalink } from '~/utils/permalinks';
 import GradientBand from '~/components/ui/GradientBand.astro';
@@ -33,31 +35,30 @@ interface NavColumn {
 export interface Props {
   links?: NavColumn[];
   secondaryLinks?: NavLink[];
-  /** @deprecated — unused in Kuroda design; accepted for compat. */
-  socialLinks?: unknown[];
-  /** @deprecated — unused in Kuroda design; accepted for compat. */
+  /** Short blurb under the logo. */
+  tagline?: string;
+  /** Copyright line. */
   footNote?: string;
+  /** "Visit Us" column labels. */
+  visit?: { title: string; mobileTitle: string; linkText: string };
+  /** "Our Family of Companies" row. */
+  family?: { eyebrow: string; name: string; description: string };
 }
 
-const { links = [], secondaryLinks = [] } = Astro.props;
+const {
+  links = [],
+  secondaryLinks = [],
+  tagline = '',
+  footNote = '',
+  visit = { title: 'VISIT US', mobileTitle: 'LOCATION & HOURS.', linkText: 'Our Location' },
+  family,
+} = Astro.props;
 
 const locationHref = '/location/';
 
 /* Build address one-liner from config */
 const { street, city, state, zip, landmark } = CONTACT.address;
 const addressLine = `${street}, ${city}, ${state} ${zip} (${landmark})`;
-
-/* Legal links — use secondaryLinks from nav data, else fall back to Figma copy */
-const legalLinks: NavLink[] =
-  secondaryLinks.length > 0
-    ? secondaryLinks
-    : [
-        { text: 'Privacy Policy', href: '/privacy-policy/' },
-        { text: 'Terms', href: '/terms/' },
-        { text: 'Accessibility', href: '/accessibility/' },
-      ];
-
-const year = new Date().getFullYear();
 ---
 
 {/* ── Band · Blue — Figma 152:648 · 10px gradient divider above footer ── */}
@@ -75,7 +76,7 @@ const year = new Date().getFullYear();
           <Logo variant="white" class="h-12 md:h-[72px]" />
         </a>
         <p class="font-body text-[14px] leading-[1.55] text-on-dark-72 md:max-w-[280px] md:leading-[23px]">
-          Family-owned collision repair in Waipahu, O&#x02BB;ahu since {CONTACT.established}.
+          {tagline}
         </p>
       </div>
 
@@ -111,19 +112,17 @@ const year = new Date().getFullYear();
         class="order-1 flex flex-col gap-2.5 border-t border-white/[0.15] pt-5 md:order-none md:gap-3.5 md:border-t-0 md:pt-0"
       >
         <p class="type-eyebrow text-on-dark-55">
-          <span class="md:hidden">LOCATION &amp; HOURS.</span><span class="hidden md:inline">VISIT US</span>
+          <span class="md:hidden">{visit.mobileTitle}</span><span class="hidden md:inline">{visit.title}</span>
         </p>
         <div class="hidden h-px w-full bg-white/[0.15] md:block" aria-hidden="true"></div>
         <a
           href={locationHref}
           class="hidden font-body text-[14px] font-bold leading-[22px] text-on-dark-85 transition-opacity hover:text-on-dark md:block"
         >
-          Our Location
+          {visit.linkText}
         </a>
         <p class="font-body text-[14px] leading-[1.5] text-on-dark-85 md:leading-[22px]">{addressLine}</p>
-        <p class="font-body text-[14px] leading-[22px] text-on-dark-85">
-          Monday &ndash; Friday: 7:00 AM &ndash; 5:00 PM
-        </p>
+        <p class="font-body text-[14px] leading-[22px] text-on-dark-85">{CONTACT.hoursLine}</p>
         <a
           href={CONTACT.phone.href}
           class="font-display text-[16px] font-semibold leading-[24px] text-on-dark transition-opacity hover:opacity-80 focus-visible:underline focus-visible:outline-none"
@@ -134,15 +133,15 @@ const year = new Date().getFullYear();
     </div>
 
     {/* ═══ Our Family of Companies ═══════════════════════════════════════ */}
-    <div
-      class="flex flex-col gap-2.5 border-t border-white/[0.15] pt-5 md:flex-row md:items-baseline md:gap-10 md:pt-8"
-    >
-      <p class="type-eyebrow shrink-0 text-on-dark-55">OUR FAMILY OF COMPANIES.</p>
-      <p class="font-display text-[15px] font-semibold leading-[22px] text-on-dark">Capitol Auto Service</p>
-      <p class="font-body text-[14px] leading-[1.5] text-on-dark-72 md:leading-[22px]">
-        Comprehensive mechanical, safety checks &amp; automotive maintenance in Oahu.
-      </p>
-    </div>
+    {
+      family && (
+        <div class="flex flex-col gap-2.5 border-t border-white/[0.15] pt-5 md:flex-row md:items-baseline md:gap-10 md:pt-8">
+          <p class="type-eyebrow shrink-0 text-on-dark-55">{family.eyebrow}</p>
+          <p class="font-display text-[15px] font-semibold leading-[22px] text-on-dark">{family.name}</p>
+          <p class="font-body text-[14px] leading-[1.5] text-on-dark-72 md:leading-[22px]">{family.description}</p>
+        </div>
+      )
+    }
 
     {/* ═══ Legal bar ══════════════════════════════════════════════════════ */}
     <div
@@ -150,13 +149,13 @@ const year = new Date().getFullYear();
     >
       {/* Copyright */}
       <p class="font-body text-[11.5px] leading-[normal] text-on-dark-55 sm:text-[12px] sm:leading-none">
-        &copy; {year} Kuroda Auto Body, Inc. All rights reserved.
+        {footNote}
       </p>
 
       {/* Legal links */}
       <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 md:gap-x-7" aria-label="Legal">
         {
-          legalLinks.map(({ text, href }) =>
+          secondaryLinks.map(({ text, href }) =>
             href ? (
               <a
                 href={href}

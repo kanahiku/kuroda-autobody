@@ -1,9 +1,8 @@
 /**
  * Had an Accident? hub (/had-an-accident/) — copy from the client's content doc.
  * Rendered by `ContentPageView`. The FAQ is grouped into the doc's five categories;
- * answers that end in a button carry a `cta`. No related-links grid (not in the doc).
+ * answers that end in a button carry a `cta`. `{directionsHref}` is filled in from site config (see lib/content/tokens.ts). No related-links grid (not in the doc).
  */
-import { CONTACT } from '~/config/contact';
 import type { ContentPage } from '~/data/contentPage';
 
 export const hadAnAccidentHubPages: ContentPage[] = [
@@ -237,7 +236,7 @@ export const hadAnAccidentHubPages: ContentPage[] = [
               title: 'Where is Kuroda Auto Body located?',
               description:
                 'Kuroda Auto Body is located in Gentry Waipio Business Park at 94-518 Puahi Street, Waipahu, HI 96797. The shop is conveniently located just off the freeway and serves customers from throughout Oahu.',
-              cta: { text: 'Get Directions', href: CONTACT.address.mapsDirectionsHref },
+              cta: { text: 'Get Directions', href: '{directionsHref}' },
             },
             {
               title: 'What are Kuroda Auto Body’s hours?',

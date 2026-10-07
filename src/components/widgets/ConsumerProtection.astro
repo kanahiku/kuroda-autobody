@@ -13,38 +13,15 @@ export interface Step {
 }
 
 export interface Props {
-  eyebrow?: string;
-  headingLead?: string;
-  headingStrong?: string;
-  lead?: string;
-  note?: string;
-  steps?: Step[];
+  eyebrow: string;
+  headingLead: string;
+  headingStrong: string;
+  lead: string;
+  note: string;
+  steps: Step[];
 }
 
-const {
-  eyebrow = 'Hawaii consumer protection',
-  headingLead = 'Your car. ',
-  headingStrong = 'Your repair shop.',
-  lead = 'Under Hawaii law, you have the absolute legal right to choose where your vehicle is repaired — even if your insurer suggests another shop.',
-  note = 'Simply tell your adjuster you choose Kuroda.',
-  steps = [
-    {
-      number: '01',
-      title: 'Request Kuroda',
-      description: 'Tell your claims rep you choose Kuroda Auto Body.',
-    },
-    {
-      number: '02',
-      title: 'We handle the adjuster',
-      description: 'Estimates, photos and supplements, handled directly with your carrier.',
-    },
-    {
-      number: '03',
-      title: 'Factory spec repairs',
-      description: 'Returned to OEM specifications, backed by our Limited Lifetime Warranty.',
-    },
-  ],
-} = Astro.props;
+const { eyebrow, headingLead, headingStrong, lead, note, steps } = Astro.props;
 ---
 
 <section class="w-full bg-surface-page">

@@ -51,7 +51,7 @@ Do not put client details in `src/config.yaml` (that file is framework plumbing)
 | `src/config/social.ts` | Profile URLs |
 | `src/config/cta.ts` | Button label + optional note |
 | `src/config/schema/business.ts` | Schema extras only (`businessType`, `priceRange`, credentials) |
-| `src/data/navigation.ts` | Header / footer links (legal links are added automatically) |
+| `src/data/navigation.ts` | Built-in header / footer content (derived from the sitemap); the fallback for the Sanity `siteNavigation` document |
 | `src/assets/images/logo.webp` | Logo |
 | `public/favicon*` | Favicons |
 | `.env` | Sanity, Turnstile, Places, Yelp, ISR secrets |
@@ -147,7 +147,7 @@ For each Figma page frame, top to bottom:
 3. Match backgrounds, spacing, image side, and item counts from the frame.
 4. Copy and images come from Figma or CMS fields filled to match it.
 
-Any route in `src/data/sitemap.ts` that has no page file returns the 404 page — build the page to publish it. Pages are local code/data, not CMS documents; Sanity holds only the blog and review testimonials.
+Any route in `src/data/sitemap.ts` that has no page file returns the 404 page — build the page to publish it. The homepage, `/location/`, `/contact/` (form fields stay in code), `/about/`, the Collision Repair pages (`/collision-repair/` + its 7 services) the Had an Accident pages (`/had-an-accident/` + its 6 topics) the Why Kuroda pages (`/repair-process/`, `/warranty/`, `/certifications/`) and the Service Areas pages (`/service-areas/` + Mililani and Pearl City & Aiea) are Sanity documents (`homePage`, `locationPage`, `contentPage-…`, merged over the built-in fallbacks in `src/data/`); other pages are still local code/data. Sanity also holds the blog and review testimonials.
 
 Always-on routes (restyle, do not delete): `/contact`, `/reviews`, `/blog`, `/privacy-policy`, `/terms`, `/accessibility`.
 
@@ -157,7 +157,7 @@ Always-on routes (restyle, do not delete): `/contact`, `/reviews`, `/blog`, `/pr
 
 | System | Where |
 |---|---|
-| Sanity (blog + testimonials) | `studio/`, `src/lib/content/`, `/api/revalidate` |
+| Sanity (homepage + blog + testimonials) | `studio/`, `src/lib/content/`, `/api/revalidate` |
 | Forms → Resend | `/contact` → Cloudflare Worker (`services/forms/`) → Resend |
 | Turnstile | `PUBLIC_TURNSTILE_SITE_KEY` on the form; Worker secret `TURNSTILE_SECRET` |
 | GTM | `site.analytics.googleTagManagerId` → `Layout.astro` |
@@ -224,7 +224,7 @@ GTM and Search Console are **not** env vars — they go in `src/config/site.ts`.
 2. Fill `.env` and `studio/.env`.
 3. `npm run studio` and confirm it connects.
 4. The Studio exposes two document types only: `blogPost` and `testimonial`. Create blog posts / testimonials there.
-5. Do not put page copy, navigation or photography in Sanity — those live in `src/data/`, `src/config/` and `public/`.
+5. Page copy for the homepage, `/location/`, `/contact/`, `/about/`, the Collision Repair, Had an Accident, Why Kuroda and Service Areas pages and the shared ratings bar and the site-wide header & footer (`siteNavigation`: menu, dropdowns, flyouts, main button, footer tagline / columns / labels / legal links; mapping in `src/lib/content/navigationDoc.ts`, loader `getNavigationContent()` used by `PageLayout.astro`; link pickers list every sitemap page via `studio/schemas/pageOptions.ts`) live in Sanity documents (`homePage`, `locationPage`, `contactPage`, `contentPage-…`, `ratingsBar`, `siteNavigation`). Address, hours and phone in the footer / utility bar stay in `src/config/contact.ts`. The closing call to action is the same five fields on every page (heading normal text, heading gradient text, description, CTA one, CTA two — label + link each; `ctaCopy()` in `studio/schemas/fields.ts`). Text can contain `{phone}`, `{phoneHref}`, `{fax}`, `{cityLine}`, `{landmark}`, `{addressLine}`, `{hoursLine}`, `{established}`, `{year}` and `{directionsHref}` — filled in from `src/config/contact.ts` (`src/lib/content/tokens.ts`). Copy-driven interior pages share one `contentPage` document type (one doc per route, id `contentPage-<route>`; mapping in `src/lib/content/contentPageDoc.ts`, loader `getContentPageContent(path)`): to move another page over, add any block kinds it needs (reviews …) to `studio/schemas/documents/contentPage.ts` + `contentPageDoc.ts` (`EDITABLE_SECTION_TYPES`), add its data list to `scripts/seed-pages.mjs`, add a sidebar line in `studio/structure.ts`, and have its route call `getContentPageContent`. Seed them once with `node --env-file=.env scripts/seed-pages.mjs`; each page's built-in fallback copy stays in `src/data/<page>.ts`. Other page copy and photography still live in `src/data/`, `src/config/` and `public/`.
 
 Webhook (instant publish, no rebuild):
 

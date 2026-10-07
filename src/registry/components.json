@@ -252,8 +252,10 @@
       "shape": "Navy band showing aggregate review scores (logo placeholder + big score + stars + platform + count) for three review platforms, separated by thin vertical dividers, with a hairline at the bottom.",
       "component": "RatingsBar",
       "import": "~/components/widgets/RatingsBar.astro",
-      "props": {},
-      "notes": "Data is hardcoded from Figma (CARWISE 4.9, Google 4.6, Yelp 4.5). Logo placeholders must stay grey boxes until client delivers brand assets."
+      "props": {
+        "items?": "{ platform: 'carwise'|'google'|'yelp', score, count, countMobile }[] — override only; by default the widget loads the site-wide numbers itself"
+      },
+      "notes": "Reusable anywhere as a bare <RatingsBar />. Numbers come from the one site-wide Sanity `ratingsBar` document (getRatingsContent(), fallback in src/data/ratings.ts) — edit once, every page updates. Platform logos are the client PNGs in public/ratings/."
     },
     {
       "id": "P-31",
@@ -285,7 +287,7 @@
       "props": {
         "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts, hadAnAccidentHub.ts (/had-an-accident/), reviews.ts (/reviews/), ourStory.ts (/about/) and collisionRepairHub.ts (/collision-repair/)"
       },
-      "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
+      "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. A page whose copy is editable in Sanity (`/about/`, document `contentPage-about`) gets its `page` from `await getContentPageContent(path)` (src/lib/content/contentPage.ts) instead of `getContentPage(path)` — same shape, Sanity merged over the built-in copy. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
     },
     {
       "id": "P-40",
@@ -314,7 +316,7 @@
         "eyebrow? / headingLead? / headingStrong?": "string — head is omitted when none is given",
         "surface?": "'subtle' | 'page' — default subtle (cards are white)"
       },
-      "notes": "ContentPageView section type `reviews`. For a page-full of customer quotes (/reviews/). The 3-up platform summary on the homepage stays ReviewsColumns."
+      "notes": "ContentPageView section type `reviews`. For a page-full of customer quotes (/reviews/). Section field `source: 'sanity'` makes ContentPageView fill the cards from the Studio's Testimonials (`testimonial` docs, ordered by `order`), falling back to the section's `reviews`. The 3-up platform summary on the homepage stays ReviewsColumns."
     },
     {
       "id": "P-42",
@@ -466,6 +468,21 @@
         "emptyBody": "string?"
       },
       "notes": "The only place articles are listed (blog index, 'More articles' on a post). Cards are BlogCard — never hand-roll article markup."
+    },
+    {
+      "id": "P-43",
+      "name": "Home hero",
+      "figmaNames": ["Hero"],
+      "shape": "Full-bleed navy hero: eyebrow, two-weight H1 (normal lead + gradient accent), tagline, lead body, primary + call buttons over a grey photo placeholder with left/top/bottom fades, and a 4-item credentials bar underneath.",
+      "component": "HomeHero",
+      "import": "~/components/widgets/HomeHero.astro",
+      "props": {
+        "eyebrow / headingLead / headingAccent / tagline / body": "string — all copy comes from Sanity `homePage.hero` (fallback in src/data/home.ts)",
+        "primaryCtaText / callLabel": "string — destinations come from ~/config (PRIMARY_CTA_HREF, CONTACT.phone)",
+        "imageAlt": "string — accessible label of the placeholder photo",
+        "trustItems": "{ icon: 'icar'|'target'|'shield'|'home', text }[] — exactly 4"
+      },
+      "notes": "Homepage only. Interior pages use PageHero. Homepage widgets (RatingsBar, ServiceGridSplit, FeatureListSplit, BeforeAfter, ConsumerProtection, ReviewsColumns) have no built-in copy: pass every prop from getHomeContent()."
     }
   ]
 }

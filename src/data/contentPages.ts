@@ -6,6 +6,8 @@ import { hadAnAccidentPages } from '~/data/hadAnAccident';
 import { collisionRepairHubPages } from '~/data/collisionRepairHub';
 import { reviewPages } from '~/data/reviews';
 import { ourStoryPages } from '~/data/ourStory';
+import { whyKurodaPages } from '~/data/whyKuroda';
+import { serviceAreaPages } from '~/data/serviceAreas';
 
 export const contentPages: ContentPage[] = [
   ...collisionRepairPages,
@@ -14,6 +16,8 @@ export const contentPages: ContentPage[] = [
   ...hadAnAccidentHubPages,
   ...ourStoryPages,
   ...reviewPages,
+  ...whyKurodaPages,
+  ...serviceAreaPages,
 ];
 
 export function getContentPage(path: string): ContentPage {

@@ -16,31 +16,21 @@ export interface ProofPoint {
 }
 
 export interface Props {
-  eyebrow?: string;
-  headingLead?: string;
-  headingAccent?: string;
-  body?: string;
-  beforeLabel?: string;
-  afterLabel?: string;
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  body: string;
+  beforeLabel: string;
+  afterLabel: string;
+  /** Accessible description of the (placeholder) comparison photo. */
+  imageAlt: string;
   /** Divider position, % from the left. Figma: 50 */
   position?: number;
-  points?: ProofPoint[];
+  points: ProofPoint[];
 }
 
-const {
-  eyebrow = 'The Kuroda difference',
-  headingLead = "We don't just tell you it's repaired. ",
-  headingAccent = 'We show you.',
-  body = 'Every repair ends with a walk-around — your work order, before/after photos and every question answered. Proof, not promises.',
-  beforeLabel = 'Before',
-  afterLabel = 'After',
-  position = 50,
-  points = [
-    { title: 'Documented work', description: 'An annotated record of every repair.', icon: 'document' },
-    { title: 'Before & after photos', description: 'HD photos reviewed with you at delivery.', icon: 'camera' },
-    { title: 'A real walk-around', description: 'An unhurried handoff in natural light.', icon: 'walk-around' },
-  ],
-} = Astro.props;
+const { eyebrow, headingLead, headingAccent, body, beforeLabel, afterLabel, imageAlt, position = 50, points } =
+  Astro.props;
 ---
 
 <section class="w-full bg-surface-page">
@@ -71,7 +61,7 @@ const {
     <div
       class="relative h-[240px] w-full overflow-hidden rounded-[4px] bg-placeholder-on-grey md:h-[580px]"
       role="img"
-      aria-label={`${beforeLabel} and ${afterLabel} comparison`}
+      aria-label={imageAlt}
     >
       {/* Divider */}
       <div

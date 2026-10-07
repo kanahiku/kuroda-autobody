@@ -1,7 +1,12 @@
 ---
-/** /about/ — Our Story. Copy lives in src/data/ourStory.ts (see contentPage.ts). */
+/**
+ * /about/ — Our Story. Copy lives in Sanity's `contentPage` document (id `contentPage-about`), merged over the
+ * built-in page in src/data/ourStory.ts (see contentPage.ts) by getContentPageContent().
+ */
 import ContentPageView from '~/components/templates/ContentPageView.astro';
-import { getContentPage } from '~/data/contentPages';
+import { getContentPageContent } from '~/lib/content';
+
+const page = await getContentPageContent('/about/');
 ---
 
-<ContentPageView page={getContentPage('/about/')} />
+<ContentPageView page={page} />

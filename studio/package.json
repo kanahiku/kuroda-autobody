@@ -9,6 +9,7 @@
     "manage": "sanity manage"
   },
   "dependencies": {
+    "@sanity/ui": "^2",
     "@sanity/vision": "^3",
     "react": "^18",
     "react-dom": "^18",

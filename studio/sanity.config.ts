@@ -3,7 +3,7 @@ import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 
 import { schemaTypes } from './schemas';
-import { structure } from './structure';
+import { singletonTypes, structure } from './structure';
 
 // Set SANITY_STUDIO_PROJECT_ID / SANITY_STUDIO_DATASET in studio/.env (see studio/.env.example).
 export default defineConfig({
@@ -17,5 +17,15 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+  },
+
+  document: {
+    // Singletons (homepage) are not offered under "New document" and can't be duplicated or deleted.
+    newDocumentOptions: (prev, { creationContext }) =>
+      creationContext.type === 'global' ? prev.filter((item) => !singletonTypes.has(item.templateId)) : prev,
+    actions: (prev, { schemaType }) =>
+      singletonTypes.has(schemaType)
+        ? prev.filter(({ action }) => action && !['unpublish', 'delete', 'duplicate'].includes(action))
+        : prev,
   },
 });

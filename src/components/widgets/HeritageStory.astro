@@ -8,7 +8,7 @@ import PullQuote from '~/components/ui/PullQuote.astro';
  * eyebrow, two-tone heading with gradient accent, lede, pull quote and
  * three stats on the right.
  *
- * Variants by prop: pass `quote=""`, `stats={[]}`, `caption=""` or `eyebrow=""` to drop that block,
+ * Variants by prop: leave out (or pass empty) `quote`, `stats`, `caption` or `eyebrow` to drop that block,
  * `paragraphs` for multi-paragraph copy (e.g. the Post-Repair Walkthrough), and `isReversed` to put the
  * photo on the right from `xl` up (alternate it on long pages like Our Story).
  *
@@ -20,9 +20,11 @@ export interface Stat {
 }
 
 export interface Props {
+  /** Omit (or pass "") to drop the label above the heading. */
   eyebrow?: string;
-  headingLead?: string;
-  headingAccent?: string;
+  headingLead: string;
+  headingAccent: string;
+  /** Single-paragraph copy — or pass `paragraphs` for several. */
   body?: string;
   /** Extra paragraphs; when set they replace `body`. */
   paragraphs?: string[];
@@ -39,20 +41,16 @@ export interface Props {
 }
 
 const {
-  eyebrow = 'A legacy beyond the business.',
-  headingLead = 'Rooted in Hawaii. ',
-  headingAccent = '1938.',
-  body = 'Founded as a small service station in Aiea, now run by the third and fourth generations of the Kuroda family in Waipahu.',
+  eyebrow = '',
+  headingLead,
+  headingAccent,
+  body = '',
   paragraphs,
   photoLabel,
-  quote = '“Do it right, treat people right, and treat every car as if our own family were driving it.”',
-  quoteAttribution = '— The Kuroda family principle',
-  caption = 'Our founding family service station in Aiea, 1938.',
-  stats = [
-    { value: '1938', label: 'Founded in Aiea' },
-    { value: 'WAIPIO', label: 'Modern business park' },
-    { value: '4TH GEN', label: 'Active leadership' },
-  ],
+  quote = '',
+  quoteAttribution,
+  caption = '',
+  stats = [],
   surface = 'subtle',
   isReversed = false,
 } = Astro.props;

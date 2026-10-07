@@ -1,7 +1,12 @@
 ---
-/** /had-an-accident/insurance-claims/ — copy lives in src/data (see contentPage.ts). */
+/**
+ * /had-an-accident/insurance-claims/ — copy lives in Sanity's `contentPage` document, merged over the built-in page in
+ * src/data/ by getContentPageContent().
+ */
 import ContentPageView from '~/components/templates/ContentPageView.astro';
-import { getContentPage } from '~/data/contentPages';
+import { getContentPageContent } from '~/lib/content';
+
+const page = await getContentPageContent('/had-an-accident/insurance-claims/');
 ---
 
-<ContentPageView page={getContentPage('/had-an-accident/insurance-claims/')} />
+<ContentPageView page={page} />

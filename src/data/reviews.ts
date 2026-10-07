@@ -1,6 +1,7 @@
 /**
  * Reviews (/reviews/) — quotes from the client's content doc, verbatim and in the doc's order.
- * Rendered by `ContentPageView` with the `reviews` section (ReviewWall). Hero carries the title, so the
+ * The page renders the Sanity testimonials (`source: 'sanity'`); the quotes here are the original
+ * seed and the fallback if Sanity is unreachable. Rendered by `ContentPageView` with the `reviews` section (ReviewWall). Hero carries the title, so the
  * section has no head. `detail` is everything after the reviewer's name in the doc's attribution line.
  */
 import type { ContentPage } from '~/data/contentPage';
@@ -21,6 +22,8 @@ export const reviewPages: ContentPage[] = [
       {
         type: 'reviews',
         surface: 'subtle',
+        // Live cards come from Sanity (`testimonial`); the list below is the fallback + seed copy.
+        source: 'sanity',
         reviews: [
           {
             quote:

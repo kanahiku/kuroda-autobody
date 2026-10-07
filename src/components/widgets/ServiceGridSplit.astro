@@ -15,29 +15,17 @@ export interface ServiceItem {
 }
 
 export interface Props {
-  eyebrow?: string;
-  headingLead?: string;
-  headingAccent?: string;
-  caption?: string;
-  figLabel?: string;
-  items?: ServiceItem[];
+  eyebrow: string;
+  headingLead: string;
+  headingAccent: string;
+  caption: string;
+  figLabel: string;
+  /** Accessible description of the (placeholder) photo. */
+  imageAlt: string;
+  items: ServiceItem[];
 }
 
-const {
-  eyebrow = 'Our services',
-  headingLead = 'Auto body & collision ',
-  headingAccent = 'services on Oʻahu.',
-  caption = 'Precision check — paint booth inspection.',
-  figLabel = 'FIG. 01',
-  items = [
-    { title: 'Collision repair', description: 'Structural, panel and frame repair.', icon: 'collision' },
-    { title: 'OEM calibration', description: 'Factory-standard ADAS calibration.', icon: 'calibration' },
-    { title: 'Paint & refinishing', description: 'Computer-matched OEM finishes.', icon: 'paint' },
-    { title: 'Unibody alignment', description: 'Precise measuring and alignment.', icon: 'alignment' },
-    { title: 'Insurance claims', description: 'We work with all carriers.', icon: 'claims' },
-    { title: 'Rental coordination', description: 'On-site Enterprise rentals.', icon: 'rental' },
-  ],
-} = Astro.props;
+const { eyebrow, headingLead, headingAccent, caption, figLabel, imageAlt, items } = Astro.props;
 ---
 
 <section class="w-full bg-surface-page">
@@ -55,7 +43,7 @@ const {
       {/* ── Photo + caption (inside container, left aligned) ── */}
       <figure class="order-2 flex flex-col lg:order-none">
         {/* TODO: replace with <Image> when the precision-check photo is ready */}
-        <div class="aspect-[342/300] w-full bg-section-grey lg:aspect-[480/617]" role="img" aria-label={caption}></div>
+        <div class="aspect-[342/300] w-full bg-section-grey lg:aspect-[480/617]" role="img" aria-label={imageAlt}></div>
         <figcaption class="mt-7 flex flex-col gap-2 lg:mt-4">
           <span class="font-body text-[11px] leading-[normal] text-body-78 lg:text-[12px] lg:leading-none"
             >{caption}</span

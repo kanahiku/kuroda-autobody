@@ -1,7 +1,12 @@
 ---
-/** /collision-repair/ — hub page. Copy lives in src/data/collisionRepairHub.ts (see contentPage.ts). */
+/**
+ * /collision-repair/ — copy lives in Sanity's `contentPage` document, merged over the built-in page in
+ * src/data/ by getContentPageContent().
+ */
 import ContentPageView from '~/components/templates/ContentPageView.astro';
-import { getContentPage } from '~/data/contentPages';
+import { getContentPageContent } from '~/lib/content';
+
+const page = await getContentPageContent('/collision-repair/');
 ---
 
-<ContentPageView page={getContentPage('/collision-repair/')} />
+<ContentPageView page={page} />
