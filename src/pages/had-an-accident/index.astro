@@ -1,0 +1,7 @@
+---
+/** /had-an-accident/ — hub page. Copy lives in src/data/hadAnAccidentHub.ts (see contentPage.ts). */
+import ContentPageView from '~/components/templates/ContentPageView.astro';
+import { getContentPage } from '~/data/contentPages';
+---
+
+<ContentPageView page={getContentPage('/had-an-accident/')} />

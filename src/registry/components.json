@@ -206,7 +206,8 @@
         "title": "string — light-weight lead",
         "titleStrong?": "string — semibold tail",
         "subtitle?": "string",
-        "items": "{ title, description }[]"
+        "items": "{ title, description, callToAction? }[] — callToAction renders an outline button under the answer",
+        "groups?": "{ title, items }[] — titled categories of questions; replaces items (long FAQ pages)"
       }
     },
     {
@@ -280,7 +281,7 @@
       "component": "ContentPageView",
       "import": "~/components/templates/ContentPageView.astro",
       "props": {
-        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts, ourStory.ts (/about/) and collisionRepairHub.ts (/collision-repair/)"
+        "page": "ContentPage — see src/data/contentPage.ts; copy in src/data/collisionRepair.ts, hadAnAccident.ts, hadAnAccidentHub.ts (/had-an-accident/), ourStory.ts (/about/) and collisionRepairHub.ts (/collision-repair/)"
       },
       "notes": "Use for every copy-driven page (Collision Repair services, Had an Accident topics, future groups). New page = add an object to the group's data file + a 3-line route file calling getContentPage(path). Never add per-page markup. Hero buttons and the closing-CTA subtitle/buttons are shared defaults of PageHero / CTABanner (src/config/cta.ts). `**bold**` in leads and feature descriptions renders as <strong>."
     },

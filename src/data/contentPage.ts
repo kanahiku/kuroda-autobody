@@ -108,6 +108,13 @@ export interface CredentialsSection {
 export type ContentSection =
   FeaturesSection | TableSection | StepsSection | StorySection | QuoteSection | ActionSection | CredentialsSection;
 
+export interface FaqItem {
+  title: string;
+  description: string;
+  /** Outline button under the answer. */
+  cta?: { text: string; href: string };
+}
+
 export interface ContentPage {
   /** Route, e.g. `/collision-repair/dent-repair/` — must exist in src/data/sitemap.ts (label comes from there). */
   path: string;
@@ -119,7 +126,15 @@ export interface ContentPage {
   hero: { titleLead: string; titleAccent?: string; body: string | string[] };
   sections: ContentSection[];
   /** Omit when the copy has no FAQs. */
-  faqs?: { eyebrow: string; titleLead: string; titleStrong: string; items: { title: string; description: string }[] };
+  faqs?: {
+    eyebrow: string;
+    titleLead: string;
+    titleStrong: string;
+    /** Flat list… */
+    items?: FaqItem[];
+    /** …or titled categories (long FAQ pages). One of the two is required. */
+    groups?: { title: string; items: FaqItem[] }[];
+  };
   /** "Explore …" link grid — `paths` resolve to sitemap labels. Omit to end on the closing CTA. */
   related?: { eyebrow: string; headingLead: string; headingStrong: string; paths: string[] };
   /** Closing CTA heading (subtitle + buttons are shared defaults). */

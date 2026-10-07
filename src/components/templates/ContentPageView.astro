@@ -84,7 +84,11 @@ const body = blocks.map((block) => {
             eyebrow={faqs.eyebrow}
             title={faqs.titleLead}
             titleStrong={faqs.titleStrong}
-            items={faqs.items}
+            items={faqs.items?.map(({ cta, ...item }) => ({ ...item, callToAction: cta }))}
+            groups={faqs.groups?.map((g) => ({
+              title: g.title,
+              items: g.items.map(({ cta, ...item }) => ({ ...item, callToAction: cta })),
+            }))}
           />
         );
       }
