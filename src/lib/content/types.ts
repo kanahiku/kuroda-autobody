@@ -1,3 +1,5 @@
+import type { CallToAction } from '~/types';
+
 // ─── Shared primitives ────────────────────────────────────────────────────────
 
 export interface ContentImage {
@@ -42,7 +44,7 @@ export interface FooterColumn {
 export interface NavigationContent {
   header: {
     links: NavLink[];
-    actions: { variant?: string; text?: string; href?: string }[];
+    actions: CallToAction[];
     phone?: NavPhone;
     /** The header's main button (desktop bar + mobile menu). */
     cta: { text: string; href: string };

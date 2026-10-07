@@ -1,0 +1,153 @@
+---
+/**
+ * Mobile navigation list used inside the header's slide-down panel.
+ *
+ * accordion (default): parents with children become <details> accordions (two levels deep).
+ * accordion={false}: every item is a flat link (used by the embedded hero header).
+ *
+ * The parent link navigates; the chevron toggles (handled in src/scripts/aw-header.ts).
+ */
+import { isPathActive } from '~/utils/permalinks';
+import type { NavLink, NavSubLink } from '~/lib/content/types';
+
+export interface Props {
+  links?: NavLink[];
+  accordion?: boolean;
+}
+
+const { links = [], accordion = true } = Astro.props;
+
+const mobileLinkClass =
+  'flex items-center px-3 py-3 font-body font-bold text-[14px] leading-none text-heading uppercase transition-colors hover:bg-section-grey/40';
+const chevronPath = 'M6 9l6 6 6-6';
+
+const isActive = (href?: string) => isPathActive(href, Astro.url);
+
+const items = links.map((link) => {
+  const nested: NavSubLink[] = link.columns?.length ? link.columns.flatMap((col) => col.links) : (link.links ?? []);
+  const isDropdown = accordion && Boolean(link.links?.length || link.columns?.length);
+  return { text: link.text, href: link.href, isDropdown, nested };
+});
+---
+
+<nav aria-label="Mobile navigation">
+  <ul class="flex flex-col">
+    {
+      items.map(({ text, href, isDropdown, nested }) =>
+        isDropdown ? (
+          <li>
+            <details>
+              <summary class="flex cursor-pointer list-none items-center">
+                {/* Tappable parent link — occupies most of the row; if no href, render a non-nav span */}
+                {href ? (
+                  <a class:list={[mobileLinkClass, 'flex-1']} href={href} data-mobile-parent-link>
+                    {text}
+                  </a>
+                ) : (
+                  <span class:list={[mobileLinkClass, 'flex-1 cursor-default select-none']}>{text}</span>
+                )}
+                {/* Chevron-only toggle zone — tapping this toggles the accordion */}
+                <span
+                  class="mobile-chevron-toggle flex size-10 shrink-0 items-center justify-center text-heading/50"
+                  aria-hidden="true"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="size-3.5 transition-transform duration-200 [[open]_&]:rotate-180"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d={chevronPath} />
+                  </svg>
+                </span>
+              </summary>
+              <ul class="mb-1 ml-2 flex flex-col border-l border-heading/10 pl-2">
+                {nested.map((child) =>
+                  child.links?.length ? (
+                    /* Second-level accordion for items with grandchildren */
+                    <li>
+                      <details>
+                        <summary class="flex cursor-pointer list-none items-center">
+                          <a
+                            class:list={[
+                              mobileLinkClass,
+                              'flex-1 py-2.5 text-[15px]',
+                              { 'aw-link-active': isActive(child.href) },
+                            ]}
+                            href={child.href}
+                            data-mobile-parent-link
+                          >
+                            {child.text}
+                          </a>
+                          <span
+                            class="mobile-chevron-toggle flex size-9 shrink-0 items-center justify-center text-heading/40"
+                            aria-hidden="true"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="size-3 transition-transform duration-200 [[open]_&]:rotate-180"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <path d={chevronPath} />
+                            </svg>
+                          </span>
+                        </summary>
+                        <ul class="mb-1 ml-2 flex flex-col border-l border-heading/10 pl-2">
+                          {child.links.map((grandchild) => (
+                            <li>
+                              <a
+                                class:list={[
+                                  mobileLinkClass,
+                                  'py-2 text-[14px]',
+                                  { 'aw-link-active': isActive(grandchild.href) },
+                                ]}
+                                href={grandchild.href}
+                              >
+                                {grandchild.text}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    </li>
+                  ) : (
+                    <li>
+                      <a
+                        class:list={[mobileLinkClass, 'py-2.5 text-[15px]', { 'aw-link-active': isActive(child.href) }]}
+                        href={child.href}
+                      >
+                        {child.text}
+                      </a>
+                    </li>
+                  )
+                )}
+              </ul>
+            </details>
+          </li>
+        ) : (
+          <li>
+            <a class:list={[mobileLinkClass, { 'aw-link-active': isActive(href) }]} href={href}>
+              {text}
+            </a>
+          </li>
+        )
+      )
+    }
+  </ul>
+</nav>
+
+<style>
+  /* Hide the native disclosure marker on every accordion summary (Safari/WebKit). */
+  nav :global(summary)::-webkit-details-marker {
+    display: none;
+  }
+</style>

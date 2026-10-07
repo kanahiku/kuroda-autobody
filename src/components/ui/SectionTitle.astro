@@ -1,0 +1,26 @@
+---
+/**
+ * SectionTitle atom — the section `h2`: light-weight lead + semibold tail (Figma 34px mobile / 48px desktop).
+ * Sits under an <Eyebrow> inside a `flex flex-col gap-1` head; pass `class="pt-3 md:pt-4"` for the gap
+ * below the eyebrow (see eyebrow-spacing rule).
+ *
+ * accent: render the tail with the brand gradient text instead of solid heading colour.
+ */
+export interface Props {
+  lead?: string;
+  strong?: string;
+  accent?: boolean;
+  class?: string;
+}
+
+const { lead, strong, accent = false, class: className } = Astro.props;
+---
+
+<h2
+  class:list={[
+    'font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:text-[48px] md:leading-[58px]',
+    className,
+  ]}
+>
+  {lead}{strong && <span class:list={['font-semibold', accent && 'text-gradient-brand']}>{strong}</span>}
+</h2>

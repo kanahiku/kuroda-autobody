@@ -84,118 +84,142 @@ function spansToHtml(children: SanitySpan[] | undefined, markDefs: SanityMarkDef
     .join('');
 }
 
+type ListType = 'bullet' | 'number';
+type PendingList = {
+  listType: ListType;
+  startKey: string;
+  items: { _key: string; html: string; level: number }[];
+};
+
+const CALLOUT_TYPES = ['tip', 'info', 'warning', 'note'] as const;
+type CalloutType = (typeof CALLOUT_TYPES)[number];
+
+function imageBlockToContent(block: SanityPortableBlock, key: string): BlogContentBlock | null {
+  const image = resolveContentImage({
+    src: block.src,
+    alt: block.alt,
+    crop: block.crop,
+    hotspot: block.hotspot,
+    asset: block.asset,
+  });
+  if (!image?.src) return null;
+  const caption = typeof block.caption === 'string' ? block.caption.trim() : '';
+  return { _type: 'image', _key: key, image, ...(caption ? { caption } : {}) };
+}
+
+function tableBlockToContent(block: SanityPortableBlock, key: string): BlogContentBlock | null {
+  const headerRow = (block.headerRow ?? []).filter(Boolean);
+  if (headerRow.length < 2) return null;
+  return {
+    _type: 'table',
+    _key: key,
+    ...(block.caption ? { caption: block.caption } : {}),
+    headerRow,
+    rows: (block.rows ?? []).map((row, ri) => ({
+      _key: row._key || `row-${ri}`,
+      cells: row.cells ?? [],
+    })),
+  };
+}
+
+function calloutBlockToContent(block: SanityPortableBlock, key: string): BlogContentBlock | null {
+  if (!block.text?.trim()) return null;
+  const calloutType: CalloutType = CALLOUT_TYPES.includes(block.calloutType as CalloutType)
+    ? (block.calloutType as CalloutType)
+    : 'note';
+  return { _type: 'callout', _key: key, calloutType, text: block.text.trim() };
+}
+
+/**
+ * Self-contained blocks (image / table / callout).
+ * Returns `undefined` when the block is not one of those types, `null` when it is but has no usable content.
+ */
+function atomicBlockToContent(block: SanityPortableBlock, key: string): BlogContentBlock | null | undefined {
+  switch (block._type) {
+    case 'image':
+      return imageBlockToContent(block, key);
+    case 'table':
+      return tableBlockToContent(block, key);
+    case 'callout':
+      return calloutBlockToContent(block, key);
+    default:
+      return undefined;
+  }
+}
+
+function headingLevel(style: string | undefined): 2 | 3 | null {
+  if (style === 'h1' || style === 'h2') return 2;
+  if (style === 'h3' || style === 'h4') return 3;
+  return null;
+}
+
+function paragraphToContent(block: SanityPortableBlock, key: string, text: string, html: string): BlogContentBlock {
+  return {
+    _type: 'paragraph',
+    _key: key,
+    text,
+    html,
+    ...(block.style === 'blockquote' ? { quote: true } : {}),
+  };
+}
+
+/** Collects blocks in order, merging consecutive list items of the same type into one list block. */
+class BlockCollector {
+  readonly blocks: BlogContentBlock[] = [];
+  private pending: PendingList | null = null;
+
+  /** Ends any open list, then appends `block` (when there is one). */
+  push(block: BlogContentBlock | null): void {
+    this.flushList();
+    if (block) this.blocks.push(block);
+  }
+
+  addListItem(listType: ListType, startKey: string, item: PendingList['items'][number]): void {
+    if (this.pending?.listType !== listType) {
+      this.flushList();
+      this.pending = { listType, startKey, items: [] };
+    }
+    this.pending.items.push(item);
+  }
+
+  flushList(): void {
+    if (!this.pending) return;
+    const { listType, startKey, items } = this.pending;
+    this.blocks.push({ _type: 'list', _key: `list-${startKey}`, listType, items });
+    this.pending = null;
+  }
+}
+
 function portableTextToContentBlocks(body: SanityPortableBlock[] | null | undefined): BlogContentBlock[] {
   if (!Array.isArray(body)) return [];
 
-  const result: BlogContentBlock[] = [];
-
-  // Buffer for consecutive list items of the same type
-  let listBuffer: { _key: string; html: string; level: number }[] = [];
-  let listType: 'bullet' | 'number' | null = null;
-  let listStartKey = '';
-
-  function flushList() {
-    if (!listBuffer.length || !listType) return;
-    result.push({ _type: 'list', _key: `list-${listStartKey}`, listType, items: listBuffer });
-    listBuffer = [];
-    listType = null;
-    listStartKey = '';
-  }
+  const collector = new BlockCollector();
 
   body.forEach((block, index) => {
     const key = block._key || `block-${index}`;
 
-    // ── Image ─────────────────────────────────────────────────────────────────
-    if (block._type === 'image') {
-      flushList();
-      const image = resolveContentImage({
-        src: block.src,
-        alt: block.alt,
-        crop: block.crop,
-        hotspot: block.hotspot,
-        asset: block.asset,
-      });
-      if (!image?.src) return;
-      const caption = typeof block.caption === 'string' ? block.caption.trim() : '';
-      result.push({ _type: 'image', _key: key, image, ...(caption ? { caption } : {}) });
-      return;
-    }
+    const atomic = atomicBlockToContent(block, key);
+    if (atomic !== undefined) return collector.push(atomic);
 
-    // ── Table ─────────────────────────────────────────────────────────────────
-    if (block._type === 'table') {
-      flushList();
-      const headerRow = (block.headerRow ?? []).filter(Boolean);
-      if (headerRow.length < 2) return;
-      result.push({
-        _type: 'table',
-        _key: key,
-        ...(block.caption ? { caption: block.caption } : {}),
-        headerRow,
-        rows: (block.rows ?? []).map((row, ri) => ({
-          _key: row._key || `row-${ri}`,
-          cells: row.cells ?? [],
-        })),
-      });
-      return;
-    }
-
-    // ── Callout ───────────────────────────────────────────────────────────────
-    if (block._type === 'callout') {
-      flushList();
-      if (!block.text?.trim()) return;
-      const calloutType = (['tip', 'info', 'warning', 'note'] as const).includes(
-        block.calloutType as 'tip' | 'info' | 'warning' | 'note'
-      )
-        ? (block.calloutType as 'tip' | 'info' | 'warning' | 'note')
-        : 'note';
-      result.push({ _type: 'callout', _key: key, calloutType, text: block.text.trim() });
-      return;
-    }
-
-    // ── Standard block ────────────────────────────────────────────────────────
     if (block._type !== 'block') return;
 
     const text = portableBlockText(block).trim();
     if (!text) return;
 
+    const level = headingLevel(block.style);
+    if (level) return collector.push({ _type: 'heading', _key: key, level, text });
+
     const html = spansToHtml(block.children, block.markDefs) || escapeHtml(text);
 
-    // Headings
-    if (block.style === 'h1' || block.style === 'h2') {
-      flushList();
-      result.push({ _type: 'heading', _key: key, level: 2, text });
-      return;
-    }
-    if (block.style === 'h3' || block.style === 'h4') {
-      flushList();
-      result.push({ _type: 'heading', _key: key, level: 3, text });
-      return;
-    }
-
-    // List items
     if (block.listItem === 'bullet' || block.listItem === 'number') {
-      if (listType !== block.listItem) {
-        flushList();
-        listType = block.listItem;
-        listStartKey = key;
-      }
-      listBuffer.push({ _key: key, html, level: block.level ?? 1 });
-      return;
+      return collector.addListItem(block.listItem, key, { _key: key, html, level: block.level ?? 1 });
     }
 
-    // Paragraph / blockquote
-    flushList();
-    result.push({
-      _type: 'paragraph',
-      _key: key,
-      text,
-      html,
-      ...(block.style === 'blockquote' ? { quote: true } : {}),
-    });
+    collector.push(paragraphToContent(block, key, text, html));
   });
 
-  flushList();
-  return result;
+  collector.flushList();
+  return collector.blocks;
 }
 
 function normalizeBlogPost(post: SanityBlogPost): BlogPost {

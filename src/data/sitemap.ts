@@ -117,7 +117,11 @@ export const sitemap: SitemapNode[] = [
             slug: '/blog/what-happens-after-car-accident/',
             batch: 'Batch 3',
           },
-          { label: 'Is My Car Safe to Drive After an Accident?', slug: '/blog/safe-to-drive-after-accident/', batch: 'Batch 3' },
+          {
+            label: 'Is My Car Safe to Drive After an Accident?',
+            slug: '/blog/safe-to-drive-after-accident/',
+            batch: 'Batch 3',
+          },
           {
             label: 'Why a Minor Accident Can Need ADAS Calibration',
             slug: '/blog/adas-calibration-after-minor-accident/',

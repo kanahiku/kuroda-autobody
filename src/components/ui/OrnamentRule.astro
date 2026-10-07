@@ -1,0 +1,16 @@
+---
+/**
+ * OrnamentRule — hairline · ✦ · hairline divider. Used above and below the centred CTABanner.
+ */
+export interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['flex w-full max-w-xs items-center gap-4', className]}>
+  <div class="h-px flex-1 bg-page/20"></div>
+  <span class="font-script text-[22px] leading-none text-accent" aria-hidden="true">✦</span>
+  <div class="h-px flex-1 bg-page/20"></div>
+</div>

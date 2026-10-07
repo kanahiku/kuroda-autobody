@@ -1,5 +1,6 @@
 ---
 import { twMerge } from 'tailwind-merge';
+import { site } from '~/config/site';
 
 /**
  * Kuroda Autobody logo — client-supplied PNGs in `public/brand/`.
@@ -25,7 +26,7 @@ const src = `/brand/logo-${layout}-${variant === 'white' ? 'white' : 'color'}.pn
 
 <img
   src={src}
-  alt="Kuroda Autobody"
+  alt={site.name}
   width={width}
   height={height}
   class={twMerge('h-11 w-auto object-contain', className)}

@@ -13,11 +13,4 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<Image
-  src={icon}
-  alt=""
-  width={18}
-  height={18}
-  class={twMerge('size-[18px] shrink-0', className)}
-  aria-hidden="true"
-/>
+<Image src={icon} alt="" width={18} height={18} class={twMerge('size-[18px] shrink-0', className)} aria-hidden="true" />

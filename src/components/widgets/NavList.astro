@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { trimSlash } from '~/utils/permalinks';
+import { isPathActive as isActive } from '~/utils/permalinks';
 import type { NavLink } from '~/lib/content/types';
 
 export interface Props {
@@ -10,13 +10,7 @@ export interface Props {
 
 const { links = [], class: className = '' } = Astro.props;
 
-const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
-const isPathActive = (href?: string) => {
-  if (!href) return false;
-  const hrefPath = `/${trimSlash(new URL(href, Astro.url).pathname)}`;
-  if (hrefPath === '/') return currentPath === '/';
-  return currentPath === hrefPath || currentPath.startsWith(`${hrefPath}/`);
-};
+const isPathActive = (href?: string) => isActive(href, Astro.url);
 const hasActiveDescendant = (items?: NavLink[]): boolean => {
   if (!items?.length) return false;
   return items.some((item) => isPathActive(item.href) || hasActiveDescendant(item.links));
@@ -140,7 +134,7 @@ const navLinkClass =
     right: 0;
     bottom: -8px;
     height: 2px;
-    background: linear-gradient(90deg, #047bc1 0%, #08296c 100%);
+    background: var(--gradient-brand);
     border-radius: 1px;
   }
 </style>

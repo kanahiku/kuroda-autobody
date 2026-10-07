@@ -21,7 +21,7 @@ export const business: BusinessSchema = {
     postalCode: CONTACT.address.zip,
     addressCountry: CONTACT.address.country,
   },
-  openingHoursSpecification: CONTACT.hours as BusinessSchema['openingHoursSpecification'],
+  openingHoursSpecification: CONTACT.hours.map((spec) => ({ ...spec, dayOfWeek: [...spec.dayOfWeek] })),
   description: site.description,
   hasCredential: [],
   memberOf: null,

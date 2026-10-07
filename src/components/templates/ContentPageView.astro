@@ -4,12 +4,12 @@
  * (/collision-repair/<service>/, /had-an-accident/<topic>/, …).
  *
  * Copy comes from a `ContentPage` object (src/data/contentPage.ts); this file only picks the
- * shared widget for each block. Nothing page-specific lives here or in the route files.
+ * shared widget for each block. Nothing page-specific lives here.
  *
- *   PageHero → blue band → sections[] → FAQs → related TagGrid → CTABanner (renders its own silver band)
+ *   PageHero → blue band → sections[] → FAQs → related TagGrid → CTABanner (own silver band)
  *
- * Surfaces alternate page / subtle down the page (a block can pin one with `surface`).
- * Hero buttons and the closing CTA's subtitle + buttons are the widgets' sitewide defaults.
+ * Surfaces alternate page / subtle (a block can pin one with `surface`; see src/lib/pageBlocks.ts).
+ * Hero buttons and the closing CTA are the widgets' sitewide defaults.
  */
 import Layout from '~/layouts/PageLayout.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
@@ -25,7 +25,9 @@ import CredentialLogos from '~/components/widgets/CredentialLogos.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import TagGrid from '~/components/widgets/TagGrid.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
-import type { ContentPage, ContentSection } from '~/data/contentPage';
+import type { ContentPage } from '~/data/contentPage';
+import { placeBlocks, toFaqWidgetItems } from '~/lib/pageBlocks';
+import { site } from '~/config/site';
 import { sitemapLabel } from '~/lib/sitemap';
 import { getTestimonials } from '~/lib/content';
 
@@ -35,38 +37,16 @@ export interface Props {
 
 const { page } = Astro.props;
 
-const metadata = {
-  title: page.seoTitle,
-  ignoreTitleTemplate: true,
-  description: page.metaDescription,
-};
+const metadata = { title: page.seoTitle, ignoreTitleTemplate: true, description: page.metaDescription };
 
-// `reviews` sections with `source: 'sanity'` pull the Studio's testimonials; the section's own
-// `reviews` array is the fallback when Sanity has none.
+// `reviews` sections with `source: 'sanity'` use Studio testimonials; the section's own `reviews` is the fallback.
 const needsTestimonials = page.sections.some((s) => s.type === 'reviews' && s.source === 'sanity');
 const testimonials = needsTestimonials ? await getTestimonials() : [];
 
 const pageLabel = sitemapLabel(page.path);
 const relatedItems = (page.related?.paths ?? []).map((path) => ({ label: sitemapLabel(path), href: path }));
 
-// Body = authored sections, then FAQs, then the related grid. Surfaces alternate unless pinned.
-type Block = { kind: 'section'; section: ContentSection } | { kind: 'faqs' } | { kind: 'related' };
-
-const blocks: Block[] = [
-  ...page.sections.map((section): Block => ({ kind: 'section', section })),
-  ...(page.faqs ? [{ kind: 'faqs' } as Block] : []),
-  ...(page.related ? [{ kind: 'related' } as Block] : []),
-];
-
-let previous: 'page' | 'subtle' = 'subtle';
-const body = blocks.map((block) => {
-  // The navy ActionBand has its own surface and does not advance the page/subtle rhythm.
-  const ownSurface = block.kind === 'section' && block.section.type === 'action';
-  const pinned = block.kind === 'section' && 'surface' in block.section ? block.section.surface : undefined;
-  const surface = pinned ?? (previous === 'page' ? 'subtle' : 'page');
-  if (!ownSurface) previous = surface;
-  return { block, surface };
-});
+const body = placeBlocks(page);
 ---
 
 <Layout metadata={metadata}>
@@ -75,7 +55,7 @@ const body = blocks.map((block) => {
     titleLead={page.hero.titleLead}
     titleAccent={page.hero.titleAccent}
     body={page.hero.body}
-    photoLabel={page.hero.photoLabel ?? `${pageLabel} at Kuroda Autobody in Waipahu`}
+    photoLabel={page.hero.photoLabel ?? `${pageLabel} at ${site.name} in Waipahu`}
   />
 
   <GradientBand variant="blue" />
@@ -91,11 +71,8 @@ const body = blocks.map((block) => {
             eyebrow={faqs.eyebrow}
             title={faqs.titleLead}
             titleStrong={faqs.titleStrong}
-            items={faqs.items?.map(({ cta, ...item }) => ({ ...item, callToAction: cta }))}
-            groups={faqs.groups?.map((g) => ({
-              title: g.title,
-              items: g.items.map(({ cta, ...item }) => ({ ...item, callToAction: cta })),
-            }))}
+            items={faqs.items && toFaqWidgetItems(faqs.items)}
+            groups={faqs.groups?.map((g) => ({ title: g.title, items: toFaqWidgetItems(g.items) }))}
           />
         );
       }
@@ -166,7 +143,7 @@ const body = blocks.map((block) => {
               stats={s.stats ?? []}
               caption={s.caption ?? ''}
               isReversed={s.isReversed}
-              photoLabel={s.photoLabel ?? `${pageLabel} at Kuroda Autobody`}
+              photoLabel={s.photoLabel ?? `${pageLabel} at ${site.name}`}
             />
           );
         case 'quote':

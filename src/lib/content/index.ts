@@ -33,11 +33,12 @@ const STATIC_PATHS = getSitemapRoutes()
 
 export async function getPublicContentPaths(): Promise<string[]> {
   const postSlugs = await getBlogPostSlugs();
-  return [...STATIC_PATHS, ...postSlugs.map((slug) => `/blog/${slug.replace(/^\/+/, '')}`)];
+  return [...STATIC_PATHS, ...postSlugs.map((slug) => getBlogPermalink(slug))];
 }
 
+/** Article URL — trailing slash included (the site uses `trailingSlash: 'always'`). */
 export function getBlogPermalink(slug: string): string {
-  return `/blog/${slug}`;
+  return `/blog/${slug.replace(/^\/+|\/+$/g, '')}/`;
 }
 
 export async function getBlogPosts(): Promise<BlogPost[]> {

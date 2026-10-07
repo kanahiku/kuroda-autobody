@@ -35,104 +35,128 @@ const records = (value: unknown): Record<string, unknown>[] => (Array.isArray(va
 const optional = <K extends string>(key: K, value: unknown): Partial<Record<K, string>> =>
   filled(value) ? ({ [key]: value } as Record<K, string>) : {};
 
+type Block = Record<string, unknown>;
+/** Heading fields shared by every section except the quote band. */
+type CommonFields = { eyebrow?: string; headingLead: string; headingAccent?: string };
+
+function readQuote(block: Block): SectionDoc | null {
+  if (!filled(block.quote)) return null;
+  return {
+    _type: 'quoteSection',
+    ...optional('eyebrow', block.eyebrow),
+    quote: block.quote,
+    ...optional('attribution', block.attribution),
+  };
+}
+
+function readStory(block: Block, common: CommonFields): SectionDoc | null {
+  const paragraphs = texts(block.paragraphs);
+  if (!filled(block.headingAccent) || paragraphs.length === 0) return null;
+  const stats = records(block.stats).flatMap((stat) =>
+    filled(stat.value) && filled(stat.label) ? [{ value: stat.value, label: stat.label }] : []
+  );
+  return {
+    _type: 'storySection',
+    ...common,
+    headingAccent: block.headingAccent,
+    paragraphs,
+    ...optional('quote', block.quote),
+    ...optional('quoteAttribution', block.quoteAttribution),
+    isReversed: block.isReversed === true,
+    ...optional('imageAlt', block.imageAlt),
+    ...optional('caption', block.caption),
+    ...(stats.length ? { stats } : {}),
+  };
+}
+
+function readFeatures(block: Block, common: CommonFields): SectionDoc | null {
+  const items = records(block.items).flatMap((item) =>
+    filled(item.icon) && filled(item.title) && filled(item.description)
+      ? [
+          {
+            icon: item.icon as FeatureIcon,
+            title: item.title,
+            description: item.description,
+            ...optional('link', item.link),
+          },
+        ]
+      : []
+  );
+  if (items.length === 0) return null;
+  return {
+    _type: 'featuresSection',
+    ...common,
+    ...optional('lead', block.lead),
+    columns: block.columns === 3 ? 3 : 2,
+    items,
+    ...optional('note', block.note),
+    ...optional('noteLinkText', block.noteLinkText),
+    ...optional('noteLinkHref', block.noteLinkHref),
+  };
+}
+
+function readTable(block: Block, common: CommonFields): SectionDoc | null {
+  const columns = texts(block.columns);
+  const rows = records(block.rows)
+    .map((row) => ({ cells: Array.isArray(row.cells) ? row.cells.map((cell) => (filled(cell) ? cell : '')) : [] }))
+    .filter((row) => row.cells.length === columns.length);
+  if (columns.length === 0 || rows.length === 0) return null;
+  return { _type: 'tableSection', ...common, ...optional('lead', block.lead), columns, rows };
+}
+
+function readSteps(block: Block, common: CommonFields): SectionDoc | null {
+  const steps = records(block.steps).flatMap((step) =>
+    filled(step.title) && filled(step.description) ? [{ title: step.title, description: step.description }] : []
+  );
+  if (steps.length === 0) return null;
+  return { _type: 'stepsSection', ...common, ...optional('lead', block.lead), steps };
+}
+
+function readAction(block: Block, common: CommonFields): SectionDoc | null {
+  if (!filled(block.body) || !filled(block.ctaText) || !filled(block.ctaHref)) return null;
+  return { _type: 'actionSection', ...common, body: block.body, ctaText: block.ctaText, ctaHref: block.ctaHref };
+}
+
+function readCredentials(block: Block, common: CommonFields): SectionDoc | null {
+  const paragraphs = texts(block.paragraphs);
+  const credentials = records(block.credentials).flatMap((credential) =>
+    filled(credential.name)
+      ? [
+          {
+            name: credential.name,
+            ...optional('descriptor', credential.descriptor),
+            ...optional('logo', credential.logo),
+          },
+        ]
+      : []
+  );
+  if (!filled(block.eyebrow) || paragraphs.length === 0 || credentials.length === 0) return null;
+  return { _type: 'credentialsSection', ...common, eyebrow: block.eyebrow, paragraphs, credentials };
+}
+
 /** One Sanity block → a complete, typed block — or null when it lacks something the layout needs. */
-function readSection(block: Record<string, unknown>): SectionDoc | null {
+function readSection(block: Block): SectionDoc | null {
   const type = typeof block._type === 'string' ? block._type : '';
   const kind = type.replace(/Section$/, '');
   if (!(EDITABLE_SECTION_TYPES as readonly string[]).includes(kind)) return null;
-  if (type === 'quoteSection') {
-    return filled(block.quote)
-      ? {
-          _type: 'quoteSection',
-          ...optional('eyebrow', block.eyebrow),
-          quote: block.quote,
-          ...optional('attribution', block.attribution),
-        }
-      : null;
-  }
+  if (type === 'quoteSection') return readQuote(block);
   if (!filled(block.headingLead)) return null;
   const heading = { headingLead: block.headingLead, ...optional('headingAccent', block.headingAccent) };
   const common = { ...optional('eyebrow', block.eyebrow), ...heading };
 
   switch (type) {
-    case 'storySection': {
-      const paragraphs = texts(block.paragraphs);
-      if (!filled(block.headingAccent) || paragraphs.length === 0) return null;
-      const stats = records(block.stats).flatMap((stat) =>
-        filled(stat.value) && filled(stat.label) ? [{ value: stat.value, label: stat.label }] : []
-      );
-      return {
-        _type: 'storySection',
-        ...common,
-        headingAccent: block.headingAccent,
-        paragraphs,
-        ...optional('quote', block.quote),
-        ...optional('quoteAttribution', block.quoteAttribution),
-        isReversed: block.isReversed === true,
-        ...optional('imageAlt', block.imageAlt),
-        ...optional('caption', block.caption),
-        ...(stats.length ? { stats } : {}),
-      };
-    }
-    case 'featuresSection': {
-      const items = records(block.items).flatMap((item) =>
-        filled(item.icon) && filled(item.title) && filled(item.description)
-          ? [
-              {
-                icon: item.icon as FeatureIcon,
-                title: item.title,
-                description: item.description,
-                ...optional('link', item.link),
-              },
-            ]
-          : []
-      );
-      if (items.length === 0) return null;
-      return {
-        _type: 'featuresSection',
-        ...common,
-        ...optional('lead', block.lead),
-        columns: block.columns === 3 ? 3 : 2,
-        items,
-        ...optional('note', block.note),
-        ...optional('noteLinkText', block.noteLinkText),
-        ...optional('noteLinkHref', block.noteLinkHref),
-      };
-    }
-    case 'tableSection': {
-      const columns = texts(block.columns);
-      const rows = records(block.rows)
-        .map((row) => ({ cells: Array.isArray(row.cells) ? row.cells.map((cell) => (filled(cell) ? cell : '')) : [] }))
-        .filter((row) => row.cells.length === columns.length);
-      if (columns.length === 0 || rows.length === 0) return null;
-      return { _type: 'tableSection', ...common, ...optional('lead', block.lead), columns, rows };
-    }
-    case 'stepsSection': {
-      const steps = records(block.steps).flatMap((step) =>
-        filled(step.title) && filled(step.description) ? [{ title: step.title, description: step.description }] : []
-      );
-      if (steps.length === 0) return null;
-      return { _type: 'stepsSection', ...common, ...optional('lead', block.lead), steps };
-    }
+    case 'storySection':
+      return readStory(block, common);
+    case 'featuresSection':
+      return readFeatures(block, common);
+    case 'tableSection':
+      return readTable(block, common);
+    case 'stepsSection':
+      return readSteps(block, common);
     case 'actionSection':
-      if (!filled(block.body) || !filled(block.ctaText) || !filled(block.ctaHref)) return null;
-      return { _type: 'actionSection', ...common, body: block.body, ctaText: block.ctaText, ctaHref: block.ctaHref };
-    case 'credentialsSection': {
-      const paragraphs = texts(block.paragraphs);
-      const credentials = records(block.credentials).flatMap((credential) =>
-        filled(credential.name)
-          ? [
-              {
-                name: credential.name,
-                ...optional('descriptor', credential.descriptor),
-                ...optional('logo', credential.logo),
-              },
-            ]
-          : []
-      );
-      if (!filled(block.eyebrow) || paragraphs.length === 0 || credentials.length === 0) return null;
-      return { _type: 'credentialsSection', ...common, eyebrow: block.eyebrow, paragraphs, credentials };
-    }
+      return readAction(block, common);
+    case 'credentialsSection':
+      return readCredentials(block, common);
     default:
       return null;
   }

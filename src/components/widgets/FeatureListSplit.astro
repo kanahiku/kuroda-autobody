@@ -1,4 +1,5 @@
 ---
+import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
 /**
@@ -31,12 +32,7 @@ const { eyebrow, headingLead, headingAccent, caption, imageAlt, items } = Astro.
   <MaxWidthContainer class="py-14 md:pb-16 md:pt-16 lg:pb-[80px] xl:pt-[120px]">
     {/* Eyebrow → heading: gap-1 rule */}
     <div class="flex flex-col gap-1">
-      <p
-        class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
-      >
-        <span class="eyebrow-rule" aria-hidden="true"></span>
-        {eyebrow}
-      </p>
+      <Eyebrow>{eyebrow}</Eyebrow>
       <h2
         class="pt-3 font-display text-[30px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-[18px] md:text-[42px]"
       >

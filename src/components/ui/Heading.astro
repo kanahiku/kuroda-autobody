@@ -27,10 +27,11 @@
  *   <Heading variant="eyebrow">Our Services</Heading>
  *   <Heading variant="h2" color="inherit" class="text-accent">Custom colour</Heading>
  */
+import type { HTMLTag } from 'astro/types';
 import { twMerge } from 'tailwind-merge';
 
 type Variant = 'h1' | 'h2' | 'h3' | 'h4' | 'eyebrow';
-type Color   = 'default' | 'white' | 'muted' | 'inherit';
+type Color = 'default' | 'white' | 'muted' | 'inherit';
 
 export interface Props {
   /** Visual scale + default semantic element. Defaults to h2. */
@@ -48,23 +49,27 @@ const { variant = 'h2', as: asOverride, color = 'default', html, class: classNam
 
 // Default semantic element per variant
 const defaultElement: Record<Variant, string> = {
-  h1: 'h1', h2: 'h2', h3: 'h3', h4: 'h4', eyebrow: 'p',
+  h1: 'h1',
+  h2: 'h2',
+  h3: 'h3',
+  h4: 'h4',
+  eyebrow: 'p',
 };
-const Tag = (asOverride ?? defaultElement[variant as Variant]) as any;
+const Tag = (asOverride ?? defaultElement[variant as Variant]) as HTMLTag;
 
 // Visual scale per variant — all use Barlow Condensed (font-display)
 const scale: Record<string, string> = {
-  h1:      'text-h1 font-display font-normal leading-none',
-  h2:      'text-h2 font-display font-normal leading-none',
-  h3:      'text-h3 font-display font-normal leading-none',
-  h4:      'text-h4 font-display font-normal leading-none',
+  h1: 'text-h1 font-display font-normal leading-none',
+  h2: 'text-h2 font-display font-normal leading-none',
+  h3: 'text-h3 font-display font-normal leading-none',
+  h4: 'text-h4 font-display font-normal leading-none',
   eyebrow: 'type-eyebrow',
 };
 
 const colorClass = (() => {
   if (color === 'inherit') return '';
-  if (color === 'muted')   return 'text-muted';
-  if (color === 'white')   return 'text-page';
+  if (color === 'muted') return 'text-muted';
+  if (color === 'white') return 'text-page';
   return variant === 'eyebrow' ? 'text-accent' : 'text-heading';
 })();
 
@@ -74,4 +79,12 @@ const overrideCls = twMerge(colorClass, className);
 const cls = [scale[variant as string] ?? '', overrideCls].filter(Boolean).join(' ');
 ---
 
-{html ? <Tag class={cls} set:html={html} /> : <Tag class={cls}><slot /></Tag>}
+{
+  html ? (
+    <Tag class={cls} set:html={html} />
+  ) : (
+    <Tag class={cls}>
+      <slot />
+    </Tag>
+  )
+}

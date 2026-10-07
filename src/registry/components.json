@@ -85,6 +85,18 @@
         "class": "string — resize, e.g. size-5"
       },
       "notes": "One file for all breakpoints. Never inline SVG glyphs in widgets."
+    },
+    {
+      "id": "A-14",
+      "name": "OrnamentRule",
+      "figmaNames": ["Ornamental rule"],
+      "shape": "Centred hairline · ✦ glyph · hairline divider row (max-w-xs)",
+      "component": "OrnamentRule",
+      "import": "~/components/ui/OrnamentRule.astro",
+      "props": {
+        "class": "string — extra layout utilities"
+      },
+      "notes": "Used above and below the centred CTABanner (variant=center)."
     }
   ],
   "patterns": [
@@ -122,6 +134,7 @@
         "photoLabel?": "string",
         "image": "{src, alt}? — CMS cover photo (blog); omit for the grey placeholder",
         "showCtas": "boolean — hide both buttons (contact, legal, blog)",
+        "compact": "boolean — short title-only hero (~260px on desktop instead of 560px), used on the blog listing",
         "slot": "default slot renders under the body (e.g. article meta)"
       },
       "notes": "Hero for every interior page. Photo stays a grey placeholder until the client supplies assets."

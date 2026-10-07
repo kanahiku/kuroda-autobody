@@ -61,6 +61,15 @@ export default [
     },
   },
   {
-    ignores: ['dist', 'node_modules', '.github', 'types.generated.d.ts', '.astro', 'services/forms', 'studio'],
+    ignores: [
+      'dist',
+      '.vercel',
+      'node_modules',
+      '.github',
+      'types.generated.d.ts',
+      '.astro',
+      'services/forms',
+      'studio',
+    ],
   },
 ];

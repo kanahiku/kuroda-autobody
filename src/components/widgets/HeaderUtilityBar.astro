@@ -1,0 +1,37 @@
+---
+/**
+ * Slim bar above the main nav — Figma: bg-surface-subtle, px-80 py-10.
+ * Left: est. year + location • address. Right: hours • phone. All values come from CONTACT.
+ */
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import { CONTACT } from '~/config/contact';
+---
+
+<div class="w-full border-b border-heading/[0.08] bg-banner">
+  <MaxWidthContainer class="flex items-center justify-between py-2 md:py-[10px]">
+    <div class="flex items-center gap-4">
+      <span
+        class="font-body text-[10px] font-bold leading-3 tracking-[0.12em] text-heading uppercase md:text-[11px] md:leading-[inherit]"
+      >
+        EST. {CONTACT.established} &bull; {CONTACT.locationShort}
+      </span>
+      <span class="hidden h-3 w-px bg-heading/20 md:block" aria-hidden="true"></span>
+      <span class="hidden font-body text-[11px] tracking-[0.06em] text-body-70 uppercase md:inline">
+        {CONTACT.address.street}, {CONTACT.address.city}, {CONTACT.address.state}&ensp;({CONTACT.address.landmark})
+      </span>
+    </div>
+    <div class="flex items-center gap-4">
+      <span class="hidden font-body text-[11px] tracking-[0.06em] text-body-70 uppercase md:inline">
+        {CONTACT.hoursDisplay}
+      </span>
+      <span class="hidden h-3 w-px bg-heading/20 md:block" aria-hidden="true"></span>
+      <a
+        href={CONTACT.phone.href}
+        class="font-body text-[10px] font-bold leading-3 tracking-[0.06em] text-heading uppercase transition-colors hover:text-accent md:text-[11px] md:leading-[inherit] md:tracking-[0.12em]"
+        aria-label={`Call ${CONTACT.phone.display}`}
+      >
+        {CONTACT.phone.display}
+      </a>
+    </div>
+  </MaxWidthContainer>
+</div>

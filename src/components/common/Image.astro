@@ -29,10 +29,21 @@ import type { ImageMetadata } from 'astro';
 import type { HTMLAttributes } from 'astro/types';
 import { transformUrl, parseUrl } from 'unpic';
 import { findImage } from '~/utils/images';
+import {
+  cdnLayoutStyle,
+  defaultCdnSizes,
+  expandWidths,
+  isSanityCdnUrl,
+  placeholderStyle,
+  sanityCoverObjectPosition,
+  sanityImageUrl,
+  sanitySourceDimensions,
+  toNumber,
+  type ImageLayout as Layout,
+} from '~/utils/imageCdn';
 import HeroImagePlaceholder from '~/components/ui/HeroImagePlaceholder.astro';
 import { site } from '~/config/site';
 
-type Layout = 'constrained' | 'full-width' | 'fixed' | 'cover' | 'none';
 type Format = 'avif' | 'jpeg' | 'jpg' | 'png' | 'webp';
 
 interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'width' | 'height'> {
@@ -69,16 +80,13 @@ if (alt === undefined || alt === null) {
   );
 }
 
-// --- Prop coercion (tolerate stringified numbers) --------------------------
-const toNumber = (v: number | string | undefined): number | undefined =>
-  typeof v === 'string' ? (Number.isFinite(Number(v)) ? Number(v) : undefined) : v;
 let w = toNumber(width);
 let h = toNumber(height);
 
 // --- Resolve src (handles `~/assets/...` paths) ----------------------------
 const resolved = await findImage(src);
 
-const isSanityUrl = typeof resolved === 'string' && /^https?:\/\/cdn\.sanity\.io\//.test(resolved);
+const isSanityUrl = isSanityCdnUrl(resolved);
 
 // Unpic mis-detects cdn.sanity.io as Imgix. Sanity also 403s CORS requests
 // (`crossorigin="anonymous"`), so those assets are rendered as a plain <img>.
@@ -89,17 +97,7 @@ const isCdnUrl =
   parseUrl(resolved) !== undefined;
 
 const isRemoteImg = isCdnUrl || isSanityUrl;
-
-const sanitySourceDimensions = (): { width: number; height: number } | undefined => {
-  if (!isSanityUrl) return undefined;
-  const match = (resolved as string).match(/-(\d+)x(\d+)\.[a-z]+(?:\?|$)/i);
-  if (!match) return undefined;
-  return { width: Number(match[1]), height: Number(match[2]) };
-};
-
-const sanityDimensions = sanitySourceDimensions();
-const capToSourceWidth = (value: number): number =>
-  sanityDimensions?.width ? Math.min(value, sanityDimensions.width) : value;
+const sanityDimensions = isSanityUrl ? sanitySourceDimensions(resolved) : undefined;
 
 // Infer missing dimension(s) from ESM-imported ImageMetadata. If only one of
 // width/height is provided, derive the other from the source aspect ratio.
@@ -117,58 +115,6 @@ if (resolved && typeof resolved === 'object' && 'width' in resolved && 'height' 
 
 const aspectRatio = w && h ? w / h : undefined;
 
-const sanityCoverObjectPosition = (): string | undefined => {
-  if (!isSanityUrl || layout !== 'cover') return undefined;
-  const url = new URL(resolved as string);
-  const fpx = url.searchParams.get('fp-x');
-  const fpy = url.searchParams.get('fp-y');
-  if (fpx == null || fpy == null) return undefined;
-
-  const rect = url.searchParams.get('rect');
-  const dimMatch = url.pathname.match(/-(\d+)x(\d+)\.[a-z]+$/i);
-  if (rect && dimMatch) {
-    const assetW = Number(dimMatch[1]);
-    const assetH = Number(dimMatch[2]);
-    const [left, top, width, height] = rect.split(',').map(Number);
-    if (width > 0 && height > 0) {
-      const x = Math.min(1, Math.max(0, (Number(fpx) * assetW - left) / width));
-      const y = Math.min(1, Math.max(0, (Number(fpy) * assetH - top) / height));
-      return `object-position:${(x * 100).toFixed(2)}% ${(y * 100).toFixed(2)}%`;
-    }
-  }
-
-  return `object-position:${Number(fpx) * 100}% ${Number(fpy) * 100}%`;
-};
-
-const sanityImageUrl = (variantWidth?: number, variantHeight?: number): string => {
-  const url = new URL(resolved as string);
-  const hasEditorCrop = url.searchParams.has('rect');
-  const q = toNumber(quality);
-  const nextWidth = variantWidth ? capToSourceWidth(variantWidth) : undefined;
-  const nextHeight =
-    variantWidth && variantHeight && nextWidth && nextWidth !== variantWidth
-      ? Math.round((variantHeight * nextWidth) / variantWidth)
-      : variantHeight;
-
-  if (nextWidth) url.searchParams.set('w', String(nextWidth));
-
-  // Studio crop is already `rect` on the URL. Don't recrop to a different
-  // aspect ratio here — CSS object-fit covers the slot from that crop.
-  if (hasEditorCrop) {
-    url.searchParams.set('fit', 'max');
-    url.searchParams.delete('h');
-  } else if (layout === 'cover' && nextWidth && nextHeight) {
-    url.searchParams.set('h', String(nextHeight));
-    url.searchParams.set('fit', 'crop');
-  } else if (nextWidth || nextHeight) {
-    if (nextHeight) url.searchParams.set('h', String(nextHeight));
-    url.searchParams.set('fit', 'max');
-  }
-  url.searchParams.set('auto', 'format');
-  if (q) url.searchParams.set('q', String(q));
-  return url.toString();
-};
-
 // --- Local images: native <Image layout> ----------------------------------
 // `cover` has no native layout equivalent; render it as `none` plus an
 // object-fit style (the usage's own classes usually cover this too).
@@ -177,119 +123,34 @@ const localStyle =
   [layout === 'cover' ? 'object-fit:cover;width:100%;height:100%' : undefined, style].filter(Boolean).join(';') ||
   undefined;
 
-// --- CDN images: emit an equivalent minimal style --------------------------
-// The native <Image /> emits responsive styles for its layout, but the raw
-// CDN <img> does not, so we mirror the layout intent with a small style.
-const cdnLayoutStyle = (): string => {
-  const decls: string[] = [];
-  switch (layout) {
-    case 'fixed':
-      if (w) decls.push(`width:${w}px`);
-      if (h) decls.push(`height:${h}px`);
-      break;
-    case 'full-width':
-      decls.push('width:100%');
-      if (aspectRatio) decls.push(`aspect-ratio:${aspectRatio}`);
-      break;
-    case 'cover':
-      decls.push('width:100%', 'height:100%', 'object-fit:cover');
-      {
-        const position = sanityCoverObjectPosition();
-        if (position) decls.push(position);
-      }
-      break;
-    case 'none':
-      break;
-    case 'constrained':
-    default:
-      decls.push('width:100%');
-      if (w) decls.push(`max-width:${w}px`);
-      if (aspectRatio) decls.push(`aspect-ratio:${aspectRatio}`);
-      break;
-  }
-  return decls.join(';');
-};
-const cdnStyle = isRemoteImg ? [cdnLayoutStyle(), style].filter(Boolean).join(';') || undefined : undefined;
+// --- CDN images ------------------------------------------------------------
+const coverPosition = isSanityUrl && layout === 'cover' ? sanityCoverObjectPosition(resolved) : undefined;
+const cdnStyle = isRemoteImg
+  ? [cdnLayoutStyle({ layout, w, h, aspectRatio }, coverPosition), style].filter(Boolean).join(';') || undefined
+  : undefined;
 
-// --- CDN-side srcset -------------------------------------------------------
 const buildCdnUrl = (variantWidth?: number, variantHeight?: number): string | undefined =>
   isSanityUrl
-    ? sanityImageUrl(variantWidth, variantHeight)
+    ? sanityImageUrl(resolved, variantWidth, variantHeight, { layout, quality, dimensions: sanityDimensions })
     : transformUrl({
-        url: resolved as string,
+        url: String(resolved),
         width: variantWidth,
         height: variantHeight,
         fallback: 'astro',
       })?.toString();
 
-/**
- * Densify the user-provided srcset breakpoints so the browser can match the
- * actual display size more closely. Free for CDN URLs (variants are computed
- * provider-side, no local CPU cost).
- */
-const CDN_BREAKPOINTS = [320, 400, 500, 640, 720, 828, 960, 1080, 1200, 1440, 1600, 1920, 2048];
-const uniqueSortedWidths = (values: Array<number | undefined>): number[] =>
-  [...new Set(values.filter((value): value is number => Number.isFinite(value) && value > 0))].sort((a, b) => a - b);
-
-const expandWidths = (raw?: number[]): number[] | undefined => {
-  if (Array.isArray(raw) && raw.length > 0) {
-    const min = Math.min(...raw);
-    const max = Math.max(...raw);
-    const extras = CDN_BREAKPOINTS.filter((bp) => bp > min && bp < max);
-    return uniqueSortedWidths([...raw, ...extras]);
-  }
-
-  if (!isRemoteImg) return raw;
-
-  if (layout === 'fixed' && w) {
-    return uniqueSortedWidths([capToSourceWidth(w), capToSourceWidth(w * 2)]);
-  }
-
-  const maxWidth = capToSourceWidth(w ?? (layout === 'cover' || layout === 'full-width' ? 1920 : undefined) ?? 0);
-  if (!maxWidth) return CDN_BREAKPOINTS;
-
-  return uniqueSortedWidths([...CDN_BREAKPOINTS.filter((bp) => bp <= maxWidth), maxWidth]);
-};
-
-const defaultCdnSizes = (): string | undefined => {
-  if (typeof rest.sizes === 'string' && rest.sizes.trim()) return rest.sizes;
-
-  switch (layout) {
-    case 'fixed':
-      return w ? `${w}px` : undefined;
-    case 'cover':
-    case 'full-width':
-      return '100vw';
-    case 'constrained':
-      return w ? `(max-width: ${w}px) 100vw, ${w}px` : '100vw';
-    case 'none':
-    default:
-      return undefined;
-  }
-};
-
 const heightFromWidth = (variantWidth: number): number | undefined =>
   aspectRatio ? Math.round(variantWidth / aspectRatio) : undefined;
 
 const cdnSrc = isRemoteImg ? buildCdnUrl(w, h) : undefined;
-const cdnWidths = isRemoteImg ? expandWidths(widths) : undefined;
+const cdnWidths = isRemoteImg
+  ? expandWidths({ raw: widths, layout, w, isRemote: true, dimensions: sanityDimensions })
+  : undefined;
 const cdnSrcSet =
   isRemoteImg && cdnWidths?.length
     ? cdnWidths.map((bw) => `${buildCdnUrl(bw, heightFromWidth(bw))} ${bw}w`).join(', ')
     : undefined;
-const cdnSizes = cdnSrcSet ? defaultCdnSizes() : undefined;
-
-const placeholderStyle =
-  [
-    layout === 'cover' ? 'width:100%;height:100%;object-fit:cover' : undefined,
-    layout === 'full-width' ? 'width:100%' : undefined,
-    layout === 'constrained' ? 'width:100%' : undefined,
-    layout === 'constrained' && w ? `max-width:${w}px` : undefined,
-    aspectRatio ? `aspect-ratio:${aspectRatio}` : undefined,
-    style,
-  ]
-    .filter(Boolean)
-    .join(';') || undefined;
+const cdnSizes = cdnSrcSet ? defaultCdnSizes(layout, w, rest.sizes) : undefined;
 
 const canRenderRemote = Boolean(isRemoteImg && cdnSrc);
 const canRenderLocal = Boolean(resolved && typeof resolved === 'object' && w && h);
@@ -329,7 +190,7 @@ const canRenderLocal = Boolean(resolved && typeof resolved === 'object' && w && 
       label={alt ? `${alt} placeholder` : `${site.name} photo placeholder`}
       fill={layout === 'cover' || layout === 'full-width' || layout === 'none'}
       class={className ?? undefined}
-      style={placeholderStyle}
+      style={placeholderStyle({ layout, w, aspectRatio }, style)}
     />
   )
 }

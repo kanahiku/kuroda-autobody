@@ -19,25 +19,18 @@ const posts = await getBlogPosts();
 const description = `Collision repair guidance, insurance claim tips and repair insights from the ${site.name} team in ${CONTACT.address.city}, Oʻahu.`;
 
 const metadata = {
-  title: `Blog | ${site.name}`,
+  title: `Blogs | ${site.name}`,
   description,
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <PageHero
-    eyebrow="Blog"
-    titleLead="Repair Guidance "
-    titleAccent="& Insights"
-    body={description}
-    showCtas={false}
-    photoLabel={`${site.name} blog`}
-  />
+  <PageHero titleLead="Blogs" showCtas={false} compact photoLabel={`${site.name} blog`} />
 
   <GradientBand variant="blue" />
 
-  <BlogGrid posts={posts} featured />
+  <BlogGrid posts={posts} />
 
   <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" />
 </Layout>

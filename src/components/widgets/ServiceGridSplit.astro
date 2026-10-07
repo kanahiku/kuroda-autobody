@@ -1,4 +1,5 @@
 ---
+import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
 /**
@@ -60,12 +61,7 @@ const { eyebrow, headingLead, headingAccent, caption, figLabel, imageAlt, items 
       <div class="contents lg:flex lg:w-full lg:max-w-[544px] lg:flex-col lg:justify-self-end lg:pt-[30px]">
         {/* Eyebrow → heading: gap-1 rule */}
         <div class="order-1 flex flex-col gap-1 lg:order-none">
-          <p
-            class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase"
-          >
-            <span class="eyebrow-rule" aria-hidden="true"></span>
-            {eyebrow}
-          </p>
+          <Eyebrow>{eyebrow}</Eyebrow>
           <h2
             class="max-w-[544px] pt-3 font-display text-[30px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-[18px] md:text-[42px]"
           >

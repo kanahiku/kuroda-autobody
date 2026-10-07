@@ -13,7 +13,8 @@
 export const site = {
   name: 'Kuroda Autobody',
   url: 'https://kurodaautobody.com',
-  description: 'Kuroda Autobody — expert collision repair, paint, and auto body services. Quality craftsmanship you can trust.',
+  description:
+    'Kuroda Autobody — expert collision repair, paint, and auto body services. Quality craftsmanship you can trust.',
   footerTagline: 'Expert collision repair and auto body services. Quality craftsmanship you can trust.',
   trailingSlash: true,
 

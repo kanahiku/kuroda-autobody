@@ -1,0 +1,20 @@
+---
+/**
+ * Eyebrow atom — all-caps accent label with the 24 × 2px gradient rule (Figma 152:637).
+ * Type comes from the `eyebrow` token in brand.ts (`type-eyebrow`). Place it directly above a heading
+ * inside a `flex flex-col gap-1` container (see eyebrow-spacing rule).
+ *
+ * as: semantic element — `p` (default) or `h3` for a titled group of items.
+ */
+export interface Props {
+  as?: 'p' | 'h3';
+  class?: string;
+}
+
+const { as: Tag = 'p', class: className } = Astro.props;
+---
+
+<Tag class:list={['type-eyebrow flex items-center gap-[10px] text-accent', className]}>
+  <span class="eyebrow-rule" aria-hidden="true"></span>
+  <slot />
+</Tag>

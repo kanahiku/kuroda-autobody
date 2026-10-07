@@ -4,8 +4,4 @@ import { getJsonLdBlocks } from '~/config/schema';
 const blocks = getJsonLdBlocks(Astro.url.pathname);
 ---
 
-{
-  blocks.map((block) => (
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(block)} />
-  ))
-}
+{blocks.map((block) => <script type="application/ld+json" is:inline set:html={JSON.stringify(block)} />)}

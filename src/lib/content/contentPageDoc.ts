@@ -214,96 +214,150 @@ const joinLead = (text: string, accent?: string) => (accent ? `${text.trim()} ` 
 const logoKey = (src?: string): string | undefined =>
   Object.entries(CREDENTIAL_LOGOS).find(([, logo]) => logo.src === src)?.[0];
 
+type PageHero = ContentPage['hero'];
+type PageFaqs = NonNullable<ContentPage['faqs']>;
+type PageRelated = NonNullable<ContentPage['related']>;
+type PageCta = ContentPage['cta'];
+
+// ─── ContentPage → document ──────────────────────────────────────────────────
+
+const storyToDoc = (section: StorySection): StorySectionDoc => ({
+  _type: 'storySection',
+  ...opt('eyebrow', section.eyebrow),
+  headingLead: section.headingLead.trim(),
+  headingAccent: section.headingAccent,
+  paragraphs: section.paragraphs,
+  ...opt('quote', section.quote),
+  ...opt('quoteAttribution', section.quoteAttribution),
+  isReversed: Boolean(section.isReversed),
+  ...opt('imageAlt', section.photoLabel),
+  ...opt('caption', section.caption),
+  ...(section.stats?.length ? { stats: section.stats } : {}),
+});
+
+const featuresToDoc = (section: FeaturesSection): FeaturesSectionDoc => ({
+  _type: 'featuresSection',
+  ...opt('eyebrow', section.eyebrow),
+  ...head(section.headingLead, section.headingStrong),
+  ...opt('lead', section.lead),
+  columns: section.columns === 3 ? 3 : 2,
+  items: section.items.map(({ href, ...item }) => ({ ...item, ...opt('link', href) })),
+  ...opt('note', section.note),
+  ...opt('noteLinkText', section.noteLinkText),
+  ...opt('noteLinkHref', section.noteLinkHref),
+});
+
+const tableToDoc = (section: TableSection): TableSectionDoc => ({
+  _type: 'tableSection',
+  ...opt('eyebrow', section.eyebrow),
+  ...head(section.headingLead, section.headingStrong),
+  ...opt('lead', section.lead),
+  columns: section.columns,
+  rows: section.rows.map((cells) => ({ cells })),
+});
+
+const stepsToDoc = (section: StepsSection): StepsSectionDoc => ({
+  _type: 'stepsSection',
+  ...opt('eyebrow', section.eyebrow),
+  ...head(section.headingLead, section.headingStrong),
+  ...opt('lead', section.lead),
+  steps: section.steps,
+});
+
+const actionToDoc = (section: ActionSection): ActionSectionDoc => ({
+  _type: 'actionSection',
+  ...opt('eyebrow', section.eyebrow),
+  ...head(section.headingLead, section.headingStrong),
+  body: section.body,
+  ctaText: section.ctaText,
+  ctaHref: section.ctaHref,
+});
+
+const credentialsToDoc = (section: CredentialsSection): CredentialsSectionDoc => ({
+  _type: 'credentialsSection',
+  eyebrow: section.eyebrow,
+  ...head(section.headingLead, section.headingStrong),
+  paragraphs: section.paragraphs,
+  credentials: section.credentials.map((credential) => ({
+    name: credential.name,
+    ...opt('descriptor', credential.descriptor),
+    ...opt('logo', logoKey(credential.logo)),
+  })),
+});
+
+const quoteToDoc = (section: QuoteSection): QuoteSectionDoc => ({
+  _type: 'quoteSection',
+  ...opt('eyebrow', section.eyebrow),
+  quote: section.quote,
+  ...opt('attribution', section.attribution),
+});
+
 function sectionToDoc(section: ContentSection): SectionDoc {
   switch (section.type) {
     case 'story':
-      return {
-        _type: 'storySection',
-        ...opt('eyebrow', section.eyebrow),
-        headingLead: section.headingLead.trim(),
-        headingAccent: section.headingAccent,
-        paragraphs: section.paragraphs,
-        ...opt('quote', section.quote),
-        ...opt('quoteAttribution', section.quoteAttribution),
-        isReversed: Boolean(section.isReversed),
-        ...opt('imageAlt', section.photoLabel),
-        ...opt('caption', section.caption),
-        ...(section.stats?.length ? { stats: section.stats } : {}),
-      };
+      return storyToDoc(section);
     case 'features':
-      return {
-        _type: 'featuresSection',
-        ...opt('eyebrow', section.eyebrow),
-        ...head(section.headingLead, section.headingStrong),
-        ...opt('lead', section.lead),
-        columns: section.columns === 3 ? 3 : 2,
-        items: section.items.map(({ href, ...item }) => ({ ...item, ...opt('link', href) })),
-        ...opt('note', section.note),
-        ...opt('noteLinkText', section.noteLinkText),
-        ...opt('noteLinkHref', section.noteLinkHref),
-      };
+      return featuresToDoc(section);
     case 'table':
-      return {
-        _type: 'tableSection',
-        ...opt('eyebrow', section.eyebrow),
-        ...head(section.headingLead, section.headingStrong),
-        ...opt('lead', section.lead),
-        columns: section.columns,
-        rows: section.rows.map((cells) => ({ cells })),
-      };
+      return tableToDoc(section);
     case 'steps':
-      return {
-        _type: 'stepsSection',
-        ...opt('eyebrow', section.eyebrow),
-        ...head(section.headingLead, section.headingStrong),
-        ...opt('lead', section.lead),
-        steps: section.steps,
-      };
+      return stepsToDoc(section);
     case 'action':
-      return {
-        _type: 'actionSection',
-        ...opt('eyebrow', section.eyebrow),
-        ...head(section.headingLead, section.headingStrong),
-        body: section.body,
-        ctaText: section.ctaText,
-        ctaHref: section.ctaHref,
-      };
+      return actionToDoc(section);
     case 'credentials':
-      return {
-        _type: 'credentialsSection',
-        eyebrow: section.eyebrow,
-        ...head(section.headingLead, section.headingStrong),
-        paragraphs: section.paragraphs,
-        credentials: section.credentials.map((credential) => ({
-          name: credential.name,
-          ...opt('descriptor', credential.descriptor),
-          ...opt('logo', logoKey(credential.logo)),
-        })),
-      };
+      return credentialsToDoc(section);
     case 'quote':
-      return {
-        _type: 'quoteSection',
-        ...opt('eyebrow', section.eyebrow),
-        quote: section.quote,
-        ...opt('attribution', section.attribution),
-      } satisfies QuoteSectionDoc;
+      return quoteToDoc(section);
     default:
       throw new Error(`The Studio has no "${section.type}" block yet.`);
   }
 }
+
+const heroToDoc = (hero: PageHero, eyebrow: string): ContentPageDoc['hero'] => ({
+  eyebrow,
+  headingLead: hero.titleLead.trim(),
+  headingAccent: hero.titleAccent ?? '',
+  paragraphs: Array.isArray(hero.body) ? hero.body : [hero.body],
+  imageAlt: hero.photoLabel ?? '',
+});
+
+const faqsToDoc = (faqs: PageFaqs): FaqsDoc => ({
+  eyebrow: faqs.eyebrow,
+  headingLead: faqs.titleLead.trim(),
+  headingAccent: faqs.titleStrong,
+  ...(faqs.groups
+    ? { groups: faqs.groups.map((g) => ({ title: g.title, items: g.items.map(faqItemToDoc) })) }
+    : { items: faqs.items!.map(faqItemToDoc) }),
+});
+
+const relatedToDoc = (related: PageRelated): NonNullable<ContentPageDoc['related']> => ({
+  eyebrow: related.eyebrow,
+  headingLead: related.headingLead.trim(),
+  headingAccent: related.headingStrong,
+  paths: related.paths,
+});
+
+/**
+ * The Studio shows what the site shows today — the sitewide defaults unless the page overrides them.
+ * `{phone}` / `{phoneHref}` are filled in from site config when the page is rendered.
+ */
+const ctaToDoc = (cta: PageCta): ContentPageDoc['cta'] => ({
+  headingLead: cta.title.trim(),
+  headingAccent: cta.titleStrong,
+  description: cta.subtitle ?? CLOSING_CTA_SUBTITLE,
+  ctaOne: { text: cta.ctaText ?? SCHEDULE_CTA_LABEL, href: cta.ctaHref ?? PRIMARY_CTA_HREF },
+  ctaTwo: {
+    text: cta.secondaryCtaText ?? 'CALL {phone}',
+    href: cta.secondaryCtaHref ?? '{phoneHref}',
+  },
+});
 
 /** Built-in page → Sanity-shaped document (used for seeding and as the merge base). */
 export function toDoc(page: ContentPage): ContentPageDoc {
   return {
     path: page.path,
     seo: { title: page.seoTitle, description: page.metaDescription },
-    hero: {
-      eyebrow: page.eyebrow,
-      headingLead: page.hero.titleLead.trim(),
-      headingAccent: page.hero.titleAccent ?? '',
-      paragraphs: Array.isArray(page.hero.body) ? page.hero.body : [page.hero.body],
-      imageAlt: page.hero.photoLabel ?? '',
-    },
+    hero: heroToDoc(page.hero, page.eyebrow),
     ...(sectionsAreEditable(page.sections)
       ? {
           sections: page.sections.map((section) => ({
@@ -312,125 +366,144 @@ export function toDoc(page: ContentPage): ContentPageDoc {
           })),
         }
       : {}),
-    ...(faqsAreEditable(page.faqs)
-      ? {
-          faqs: {
-            eyebrow: page.faqs!.eyebrow,
-            headingLead: page.faqs!.titleLead.trim(),
-            headingAccent: page.faqs!.titleStrong,
-            ...(page.faqs!.groups
-              ? { groups: page.faqs!.groups.map((g) => ({ title: g.title, items: g.items.map(faqItemToDoc) })) }
-              : { items: page.faqs!.items!.map(faqItemToDoc) }),
-          },
-        }
-      : {}),
-    ...(page.related
-      ? {
-          related: {
-            eyebrow: page.related.eyebrow,
-            headingLead: page.related.headingLead.trim(),
-            headingAccent: page.related.headingStrong,
-            paths: page.related.paths,
-          },
-        }
-      : {}),
-    // The Studio shows what the site shows today — the sitewide defaults unless the page overrides them.
-    // `{phone}` / `{phoneHref}` are filled in from site config when the page is rendered.
-    cta: {
-      headingLead: page.cta.title.trim(),
-      headingAccent: page.cta.titleStrong,
-      description: page.cta.subtitle ?? CLOSING_CTA_SUBTITLE,
-      ctaOne: { text: page.cta.ctaText ?? SCHEDULE_CTA_LABEL, href: page.cta.ctaHref ?? PRIMARY_CTA_HREF },
-      ctaTwo: {
-        text: page.cta.secondaryCtaText ?? 'CALL {phone}',
-        href: page.cta.secondaryCtaHref ?? '{phoneHref}',
-      },
-    },
+    ...(faqsAreEditable(page.faqs) ? { faqs: faqsToDoc(page.faqs!) } : {}),
+    ...(page.related ? { related: relatedToDoc(page.related) } : {}),
+    cta: ctaToDoc(page.cta),
   };
 }
 
+// ─── Document → ContentPage ──────────────────────────────────────────────────
+
+const headingFromDoc = (section: HeadingDoc) => ({
+  headingLead: joinLead(section.headingLead, section.headingAccent),
+  ...opt('headingStrong', section.headingAccent),
+});
+
+const quoteFromDoc = (s: QuoteSectionDoc): QuoteSection => ({
+  type: 'quote',
+  ...opt('eyebrow', s.eyebrow),
+  quote: s.quote,
+  ...opt('attribution', s.attribution),
+});
+
+const storyFromDoc = (s: StorySectionDoc): StorySection => ({
+  type: 'story',
+  ...opt('eyebrow', s.eyebrow),
+  headingLead: joinLead(s.headingLead, s.headingAccent),
+  headingAccent: s.headingAccent,
+  paragraphs: s.paragraphs,
+  ...opt('quote', s.quote),
+  ...opt('quoteAttribution', s.quoteAttribution),
+  ...opt('photoLabel', s.imageAlt),
+  ...opt('caption', s.caption),
+  ...(s.stats?.length ? { stats: s.stats } : {}),
+  ...(s.isReversed ? { isReversed: true } : {}),
+});
+
+const featuresFromDoc = (s: FeaturesSectionDoc): FeaturesSection => ({
+  type: 'features',
+  ...opt('eyebrow', s.eyebrow),
+  ...headingFromDoc(s),
+  ...opt('lead', s.lead),
+  columns: s.columns,
+  items: s.items.map(({ link, ...item }) => ({ ...item, ...opt('href', link) })),
+  ...opt('note', s.note),
+  ...opt('noteLinkText', s.noteLinkText),
+  ...opt('noteLinkHref', s.noteLinkHref),
+});
+
+const tableFromDoc = (s: TableSectionDoc): TableSection => ({
+  type: 'table',
+  ...opt('eyebrow', s.eyebrow),
+  ...headingFromDoc(s),
+  ...opt('lead', s.lead),
+  columns: s.columns,
+  rows: s.rows.map((row) => row.cells),
+});
+
+const stepsFromDoc = (s: StepsSectionDoc): StepsSection => ({
+  type: 'steps',
+  ...opt('eyebrow', s.eyebrow),
+  ...headingFromDoc(s),
+  ...opt('lead', s.lead),
+  steps: s.steps,
+});
+
+const actionFromDoc = (s: ActionSectionDoc): ActionSection => ({
+  type: 'action',
+  ...opt('eyebrow', s.eyebrow),
+  ...headingFromDoc(s),
+  body: s.body,
+  ctaText: s.ctaText,
+  ctaHref: s.ctaHref,
+});
+
+const credentialsFromDoc = (s: CredentialsSectionDoc): CredentialsSection => ({
+  type: 'credentials',
+  eyebrow: s.eyebrow,
+  ...headingFromDoc(s),
+  paragraphs: s.paragraphs,
+  credentials: s.credentials.map((credential) => {
+    const logo = credential.logo ? CREDENTIAL_LOGOS[credential.logo] : undefined;
+    return {
+      name: credential.name,
+      ...opt('descriptor', credential.descriptor),
+      ...(logo ? { logo: logo.src, logoW: logo.w, logoH: logo.h } : {}),
+    };
+  }),
+});
+
 function sectionFromDoc(s: SectionDoc): ContentSection {
-  const heading = (section: HeadingDoc) => ({
-    headingLead: joinLead(section.headingLead, section.headingAccent),
-    ...opt('headingStrong', section.headingAccent),
-  });
   switch (s._type) {
     case 'quoteSection':
-      return {
-        type: 'quote',
-        ...opt('eyebrow', s.eyebrow),
-        quote: s.quote,
-        ...opt('attribution', s.attribution),
-      } satisfies QuoteSection;
+      return quoteFromDoc(s);
     case 'storySection':
-      return {
-        type: 'story',
-        ...opt('eyebrow', s.eyebrow),
-        headingLead: joinLead(s.headingLead, s.headingAccent),
-        headingAccent: s.headingAccent,
-        paragraphs: s.paragraphs,
-        ...opt('quote', s.quote),
-        ...opt('quoteAttribution', s.quoteAttribution),
-        ...opt('photoLabel', s.imageAlt),
-        ...opt('caption', s.caption),
-        ...(s.stats?.length ? { stats: s.stats } : {}),
-        ...(s.isReversed ? { isReversed: true } : {}),
-      } satisfies StorySection;
+      return storyFromDoc(s);
     case 'featuresSection':
-      return {
-        type: 'features',
-        ...opt('eyebrow', s.eyebrow),
-        ...heading(s),
-        ...opt('lead', s.lead),
-        columns: s.columns,
-        items: s.items.map(({ link, ...item }) => ({ ...item, ...opt('href', link) })),
-        ...opt('note', s.note),
-        ...opt('noteLinkText', s.noteLinkText),
-        ...opt('noteLinkHref', s.noteLinkHref),
-      } satisfies FeaturesSection;
+      return featuresFromDoc(s);
     case 'tableSection':
-      return {
-        type: 'table',
-        ...opt('eyebrow', s.eyebrow),
-        ...heading(s),
-        ...opt('lead', s.lead),
-        columns: s.columns,
-        rows: s.rows.map((row) => row.cells),
-      } satisfies TableSection;
+      return tableFromDoc(s);
     case 'stepsSection':
-      return {
-        type: 'steps',
-        ...opt('eyebrow', s.eyebrow),
-        ...heading(s),
-        ...opt('lead', s.lead),
-        steps: s.steps,
-      } satisfies StepsSection;
+      return stepsFromDoc(s);
     case 'actionSection':
-      return {
-        type: 'action',
-        ...opt('eyebrow', s.eyebrow),
-        ...heading(s),
-        body: s.body,
-        ctaText: s.ctaText,
-        ctaHref: s.ctaHref,
-      } satisfies ActionSection;
+      return actionFromDoc(s);
     case 'credentialsSection':
-      return {
-        type: 'credentials',
-        eyebrow: s.eyebrow,
-        ...heading(s),
-        paragraphs: s.paragraphs,
-        credentials: s.credentials.map((credential) => {
-          const logo = credential.logo ? CREDENTIAL_LOGOS[credential.logo] : undefined;
-          return {
-            name: credential.name,
-            ...opt('descriptor', credential.descriptor),
-            ...(logo ? { logo: logo.src, logoW: logo.w, logoH: logo.h } : {}),
-          };
-        }),
-      } satisfies CredentialsSection;
+      return credentialsFromDoc(s);
   }
 }
+
+const heroFromDoc = (hero: ContentPageDoc['hero']): PageHero => ({
+  titleLead: joinLead(hero.headingLead, hero.headingAccent),
+  ...opt('titleAccent', hero.headingAccent),
+  body: hero.paragraphs.length === 1 ? hero.paragraphs[0]! : hero.paragraphs,
+  ...opt('photoLabel', hero.imageAlt),
+});
+
+const faqsFromDoc = (doc: FaqsDoc, base: PageFaqs): PageFaqs => ({
+  eyebrow: doc.eyebrow,
+  titleLead: joinLead(doc.headingLead, doc.headingAccent),
+  titleStrong: doc.headingAccent,
+  ...(base.groups && doc.groups
+    ? { groups: doc.groups.map((g) => ({ title: g.title, items: g.items.map(faqItemFromDoc) })) }
+    : { items: (doc.items ?? []).map(faqItemFromDoc) }),
+});
+
+const relatedFromDoc = (doc: NonNullable<ContentPageDoc['related']>): PageRelated => ({
+  eyebrow: doc.eyebrow,
+  headingLead: joinLead(doc.headingLead, doc.headingAccent),
+  headingStrong: doc.headingAccent,
+  paths: doc.paths,
+});
+
+const ctaFromDoc = (cta: ContentPageDoc['cta']): PageCta => ({
+  title: joinLead(cta.headingLead, cta.headingAccent),
+  titleStrong: cta.headingAccent,
+  subtitle: cta.description,
+  ctaText: cta.ctaOne.text,
+  ctaHref: cta.ctaOne.href,
+  secondaryCtaText: cta.ctaTwo.text,
+  secondaryCtaHref: cta.ctaTwo.href,
+});
 
 /** Sanity-shaped document → the `ContentPage` that `ContentPageView` renders. `base` supplies what the Studio does not hold. */
 export function fromDoc(doc: ContentPageDoc, base: ContentPage): ContentPage {
@@ -447,43 +520,10 @@ export function fromDoc(doc: ContentPageDoc, base: ContentPage): ContentPage {
     seoTitle: doc.seo.title,
     metaDescription: doc.seo.description,
     eyebrow: doc.hero.eyebrow,
-    hero: {
-      titleLead: joinLead(doc.hero.headingLead, doc.hero.headingAccent),
-      ...opt('titleAccent', doc.hero.headingAccent),
-      body: doc.hero.paragraphs.length === 1 ? doc.hero.paragraphs[0]! : doc.hero.paragraphs,
-      ...opt('photoLabel', doc.hero.imageAlt),
-    },
+    hero: heroFromDoc(doc.hero),
     sections,
-    ...(base.faqs && doc.faqs && faqsAreEditable(base.faqs)
-      ? {
-          faqs: {
-            eyebrow: doc.faqs.eyebrow,
-            titleLead: joinLead(doc.faqs.headingLead, doc.faqs.headingAccent),
-            titleStrong: doc.faqs.headingAccent,
-            ...(base.faqs.groups && doc.faqs.groups
-              ? { groups: doc.faqs.groups.map((g) => ({ title: g.title, items: g.items.map(faqItemFromDoc) })) }
-              : { items: (doc.faqs.items ?? []).map(faqItemFromDoc) }),
-          },
-        }
-      : {}),
-    ...(base.related && doc.related
-      ? {
-          related: {
-            eyebrow: doc.related.eyebrow,
-            headingLead: joinLead(doc.related.headingLead, doc.related.headingAccent),
-            headingStrong: doc.related.headingAccent,
-            paths: doc.related.paths,
-          },
-        }
-      : {}),
-    cta: {
-      title: joinLead(doc.cta.headingLead, doc.cta.headingAccent),
-      titleStrong: doc.cta.headingAccent,
-      subtitle: doc.cta.description,
-      ctaText: doc.cta.ctaOne.text,
-      ctaHref: doc.cta.ctaOne.href,
-      secondaryCtaText: doc.cta.ctaTwo.text,
-      secondaryCtaHref: doc.cta.ctaTwo.href,
-    },
+    ...(base.faqs && doc.faqs && faqsAreEditable(base.faqs) ? { faqs: faqsFromDoc(doc.faqs, base.faqs) } : {}),
+    ...(base.related && doc.related ? { related: relatedFromDoc(doc.related) } : {}),
+    cta: ctaFromDoc(doc.cta),
   };
 }

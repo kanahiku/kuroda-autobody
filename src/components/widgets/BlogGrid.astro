@@ -1,4 +1,6 @@
 ---
+import SectionTitle from '~/components/ui/SectionTitle.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BlogCard from '~/components/ui/BlogCard.astro';
 import type { BlogPost } from '~/lib/content/types';
@@ -49,16 +51,8 @@ const hasHead = Boolean(eyebrow || headingLead || headingStrong || lead);
       hasHead && (
         <div class="flex flex-col gap-7 md:gap-8 xl:flex-row xl:items-start xl:gap-24">
           <div class="flex flex-col gap-1 xl:w-[480px] xl:shrink-0">
-            {eyebrow && (
-              <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
-                <span class="eyebrow-rule" aria-hidden="true" />
-                {eyebrow}
-              </p>
-            )}
-            <h2 class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]">
-              {headingLead}
-              {headingStrong && <span class="font-semibold">{headingStrong}</span>}
-            </h2>
+            {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+            <SectionTitle lead={headingLead} strong={headingStrong} class="pt-3 md:pt-4" />
           </div>
           {lead && (
             <p class="min-w-0 flex-1 font-body text-[15px] leading-[1.55] text-body-80 md:text-[16px] md:leading-7 lg:text-[17px] xl:pt-[34px]">
@@ -85,7 +79,7 @@ const hasHead = Boolean(eyebrow || headingLead || headingStrong || lead);
             </div>
           )}
           {gridPosts.length > 0 && (
-            <ul class="grid grid-cols-1 gap-x-8 gap-y-12 border-t border-default-50 pt-8 sm:grid-cols-2 md:pt-10 lg:grid-cols-3">
+            <ul class="grid grid-cols-1 gap-6 border-t border-default-50 pt-8 sm:grid-cols-2 xl:gap-8 md:pt-10 lg:grid-cols-3">
               {gridPosts.map((post) => (
                 <li>
                   <BlogCard post={post} />

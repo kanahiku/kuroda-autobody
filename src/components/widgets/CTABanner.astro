@@ -21,7 +21,9 @@ import Heading from '~/components/ui/Heading.astro';
 import Text from '~/components/ui/Text.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import OrnamentRule from '~/components/ui/OrnamentRule.astro';
 import { CONTACT } from '~/config/contact';
+import { site } from '~/config/site';
 import { CLOSING_CTA_SUBTITLE, PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
 
 export interface Props {
@@ -45,15 +47,7 @@ export interface Props {
   photoLabel?: string;
   /** Render the silver divider band above the section (default true; set false when the page places it). */
   showBand?: boolean;
-  disclaimer?: string;
   id?: string;
-
-  /** @deprecated Legacy template props — accepted but ignored. */
-  showAfterHoursNote?: boolean;
-  /** @deprecated Legacy template prop — accepted but ignored. */
-  license?: string;
-  /** @deprecated Legacy template props — accepted but ignored. */
-  extraLines?: string[];
 }
 
 const {
@@ -69,14 +63,13 @@ const {
   secondaryCtaHref = variant === 'split' ? CONTACT.phone.href : undefined,
   address,
   hours,
-  photoLabel = 'Kuroda Autobody team',
+  photoLabel = `${site.name} team`,
   showBand = true,
   id,
 } = Astro.props;
 const displayTitle = eyebrow ? `${eyebrow}: ${title}` : title;
 ---
 
-{/* ── Band · Silver — Figma 152:653 · 10px divider above CTA ── */}
 {showBand && <GradientBand variant="silver" />}
 
 {
@@ -166,7 +159,6 @@ const displayTitle = eyebrow ? `${eyebrow}: ${title}` : title;
       {...(id ? { id } : {})}
       class="not-prose relative w-full overflow-hidden bg-section-dark py-20 md:py-32 xl:py-40"
     >
-      {/* ── Decorative motif overlay ── */}
       <div
         class="pointer-events-none absolute inset-0 opacity-20"
         style="background-image: radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0); background-size: 28px 28px; color: var(--aw-color-bg-page);"
@@ -174,35 +166,24 @@ const displayTitle = eyebrow ? `${eyebrow}: ${title}` : title;
       />
 
       <MaxWidthContainer class="relative z-[1] flex flex-col items-center gap-8 text-center">
-        {/* ── Top ornamental rule ── */}
-        <div class="flex w-full max-w-xs items-center gap-4">
-          <div class="h-px flex-1 bg-page/20" />
-          <span class="font-script text-[22px] leading-none text-accent" aria-hidden="true">
-            ✦
-          </span>
-          <div class="h-px flex-1 bg-page/20" />
-        </div>
+        <OrnamentRule />
 
         <div class="flex w-full flex-col items-center gap-6">
-          {/* ── Display headline — h1 scale, full visual weight ── */}
           <Heading variant="h1" color="inherit" class="max-w-3xl text-balance text-page">
             {displayTitle}
           </Heading>
 
-          {/* ── Subtitle ── */}
           {subtitle && (
             <Text variant="body-lg" class="max-w-lg text-balance text-page/55">
               {subtitle}
             </Text>
           )}
 
-          {/* ── CTAs ── */}
           <div class="flex w-full flex-col items-stretch justify-center gap-3 sm:w-auto sm:flex-row sm:items-center">
             <Button variant="primary" text={ctaText} href={ctaHref} hideNote={true} class="w-full sm:w-auto" />
             {secondaryCtaText && secondaryCtaHref && (
               <Button
                 variant="ghost"
-                tone="dark"
                 text={secondaryCtaText}
                 href={secondaryCtaHref}
                 hideNote={true}
@@ -212,14 +193,7 @@ const displayTitle = eyebrow ? `${eyebrow}: ${title}` : title;
           </div>
         </div>
 
-        {/* ── Bottom ornamental rule ── */}
-        <div class="flex w-full max-w-xs items-center gap-4">
-          <div class="h-px flex-1 bg-page/20" />
-          <span class="font-script text-[22px] leading-none text-accent" aria-hidden="true">
-            ✦
-          </span>
-          <div class="h-px flex-1 bg-page/20" />
-        </div>
+        <OrnamentRule />
       </MaxWidthContainer>
     </section>
   )

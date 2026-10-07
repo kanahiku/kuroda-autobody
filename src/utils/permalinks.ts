@@ -3,6 +3,15 @@ import { SITE } from 'astrowind:config';
 import { trim } from '~/utils/utils';
 
 export const trimSlash = (s: string) => trim(trim(s, '/'));
+/** True when `href` is the current page or one of its ancestors (home only matches `/`). */
+export const isPathActive = (href: string | undefined, currentUrl: URL): boolean => {
+  if (!href) return false;
+  const currentPath = `/${trimSlash(currentUrl.pathname)}`;
+  const hrefPath = `/${trimSlash(new URL(href, currentUrl).pathname)}`;
+  if (hrefPath === '/') return currentPath === '/';
+  return currentPath === hrefPath || currentPath.startsWith(`${hrefPath}/`);
+};
+
 const createPath = (...params: string[]) => {
   const paths = params
     .map((el) => trimSlash(el))

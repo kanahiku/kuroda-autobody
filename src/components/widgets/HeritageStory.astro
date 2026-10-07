@@ -1,4 +1,6 @@
 ---
+import SectionTitle from '~/components/ui/SectionTitle.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
 import PullQuote from '~/components/ui/PullQuote.astro';
@@ -86,22 +88,8 @@ const {
     <div class="flex min-w-0 flex-1 flex-col">
       {/* Eyebrow → heading: gap-1 rule */}
       <div class="flex flex-col gap-1">
-        {
-          eyebrow && (
-            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
-              <span class="eyebrow-rule" aria-hidden="true" />
-              {eyebrow}
-            </p>
-          )
-        }
-        <h2
-          class:list={[
-            'font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:text-[48px] md:leading-[58px]',
-            eyebrow && 'pt-3 md:pt-4',
-          ]}
-        >
-          {headingLead}<span class="text-gradient-brand font-semibold">{headingAccent}</span>
-        </h2>
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        <SectionTitle lead={headingLead} strong={headingAccent} accent class={eyebrow ? 'pt-3 md:pt-4' : undefined} />
       </div>
 
       {

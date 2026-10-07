@@ -1,0 +1,18 @@
+---
+description: Backup strategy for code and content.
+alwaysApply: false
+---
+
+# Backup Rules (4 Rules)
+
+## 18. Release Tags
+Tag every release: git tag release/YYYY-MM-DD or v1.x.x. Always have rollback point.
+
+## 19. Rollback Ready
+Options: Vercel Instant Rollback or redeploy from tag.
+
+## 20. Sanity Export
+Export weekly via GitHub Actions. Before schema changes. On every release.
+
+## 21. Single Backup Location
+ALL backups in ONE S3 bucket. Retention: 4 weekly + 6 monthly.

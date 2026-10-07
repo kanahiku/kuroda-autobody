@@ -3,7 +3,7 @@ export const prerender = false;
 import { getRssString } from '@astrojs/rss';
 
 import { APP_BLOG } from 'astrowind:config';
-import { getBlogPosts } from '~/lib/content';
+import { getBlogPermalink, getBlogPosts } from '~/lib/content';
 import { site, siteOrigin } from '~/config/site';
 
 export const GET = async () => {
@@ -23,7 +23,7 @@ export const GET = async () => {
     site: origin,
 
     items: posts.map((post) => ({
-      link: `${origin}/blog/${post.slug}`,
+      link: `${origin}${getBlogPermalink(post.slug)}`,
       title: post.title,
       description: post.excerpt,
       pubDate: new Date(post.publishDate),

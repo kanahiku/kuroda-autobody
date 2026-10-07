@@ -2,6 +2,7 @@
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import Image from '~/components/common/Image.astro';
 import { CONTACT } from '~/config/contact';
+import { site } from '~/config/site';
 import { PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
 /**
  * PageHero — interior-page hero, same design language as the homepage hero.
@@ -36,6 +37,8 @@ export interface Props {
   image?: { src: string; alt?: string };
   /** Accessible label for the photo placeholder. */
   photoLabel?: string;
+  /** Short title-only hero (listing pages such as the blog): about half the height. */
+  compact?: boolean;
 }
 
 const {
@@ -50,15 +53,21 @@ const {
   secondaryCtaHref = CONTACT.phone.href,
   showCtas = true,
   image,
-  photoLabel = 'Kuroda Autobody',
+  photoLabel = site.name,
+  compact = false,
 } = Astro.props;
 ---
 
-<section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[560px]">
+<section
+  class:list={['relative w-full overflow-hidden bg-surface-inverse', compact ? 'md:min-h-[260px]' : 'md:min-h-[560px]']}
+>
   {/* Photo — right side, starts ~200px from left on desktop */}
   {/* TODO: replace the placeholder with <Image> when the photo is ready */}
   <div
-    class="absolute inset-x-0 top-0 h-[300px] overflow-hidden bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
+    class:list={[
+      'absolute inset-x-0 top-0 overflow-hidden bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto',
+      compact ? 'h-[150px]' : 'h-[300px]',
+    ]}
     role={image?.src ? undefined : 'img'}
     aria-label={image?.src ? undefined : photoLabel}
   >
@@ -83,13 +92,22 @@ const {
   </div>
 
   {/* Gradient overlays — same stack as the homepage hero */}
-  <div class="absolute inset-x-0 top-0 z-[1] h-[300px] bg-hero-fade-mobile md:hidden" aria-hidden="true"></div>
+  <div
+    class:list={['absolute inset-x-0 top-0 z-[1] bg-hero-fade-mobile md:hidden', compact ? 'h-[150px]' : 'h-[300px]']}
+    aria-hidden="true"
+  >
+  </div>
   <div class="absolute inset-0 z-[1] hidden bg-hero-fade-left md:block" aria-hidden="true"></div>
   <div class="absolute inset-0 z-[1] hidden bg-hero-fade-bottom md:block" aria-hidden="true"></div>
   <div class="absolute inset-0 z-[1] hidden bg-hero-fade-top md:block" aria-hidden="true"></div>
 
-  <MaxWidthContainer class="relative z-[2] flex flex-col md:min-h-[560px]">
-    <div class="flex flex-1 flex-col pb-10 pt-[240px] md:justify-center md:py-24">
+  <MaxWidthContainer class:list={['relative z-[2] flex flex-col', compact ? 'md:min-h-[260px]' : 'md:min-h-[560px]']}>
+    <div
+      class:list={[
+        'flex flex-1 flex-col md:justify-center',
+        compact ? 'pb-8 pt-[110px] md:py-14' : 'pb-10 pt-[240px] md:py-24',
+      ]}
+    >
       {
         eyebrow && (
           <div class="flex items-center gap-2">

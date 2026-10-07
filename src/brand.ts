@@ -79,73 +79,73 @@ export const brand = {
    */
   colors: {
     // ── Primary brand ──────────────────────────────────────────────────────
-    accent: '#047BC1',        // Kuroda Blue (blue/600) — links, icons, primary CTAs
-    accentHover: '#1A8FD6',   // Blue Hover (blue/500) — button hover
-    heading: '#08296C',       // Kuroda Navy (navy/900) — headings, nav text
+    accent: '#047BC1', // Kuroda Blue (blue/600) — links, icons, primary CTAs
+    accentHover: '#1A8FD6', // Blue Hover (blue/500) — button hover
+    heading: '#08296C', // Kuroda Navy (navy/900) — headings, nav text
 
     // ── Body text ──────────────────────────────────────────────────────────
-    muted: '#9EACB5',         // Slate (slate/400) — secondary body text
-    eyebrow: '#047BC1',       // Kuroda Blue — eyebrow accent labels
+    muted: '#9EACB5', // Slate (slate/400) — secondary body text
+    eyebrow: '#047BC1', // Kuroda Blue — eyebrow accent labels
 
     // ── Page & announcement bar ────────────────────────────────────────────
-    page: '#FFFFFF',          // White — page background
-    banner: '#F8F9FA',        // Silver 50 — top utility bar bg
-    bannerLine: '#E3E7EA',    // Silver 200 — bar border / divider
-    bannerText: '#231F20',    // Ink — bar text
-    bannerDot: '#9EACB5',     // Slate — bar separator dot
-    bannerNote: '#231F20',    // Ink — bar note copy
+    page: '#FFFFFF', // White — page background
+    banner: '#F8F9FA', // Silver 50 — top utility bar bg
+    bannerLine: '#E3E7EA', // Silver 200 — bar border / divider
+    bannerText: '#231F20', // Ink — bar text
+    bannerDot: '#9EACB5', // Slate — bar separator dot
+    bannerNote: '#231F20', // Ink — bar note copy
 
     // ── Nav ────────────────────────────────────────────────────────────────
-    navCta: '#047BC1',        // Kuroda Blue — nav "Get a Quote" button
+    navCta: '#047BC1', // Kuroda Blue — nav "Get a Quote" button
 
     // ── Section backgrounds ────────────────────────────────────────────────
-    sectionGrey: '#F3F5F7',   // Mist (mist/50) — alternating light section
-    sectionDark: '#08296C',   // Kuroda Navy — dark sections
+    sectionGrey: '#F3F5F7', // Mist (mist/50) — alternating light section
+    sectionDark: '#08296C', // Kuroda Navy — dark sections
 
     // ── Cards ──────────────────────────────────────────────────────────────
-    card: '#F8F9FA',          // Silver 50 — card surface
-    cardMist: '#E3E7EA',      // Silver 200 — card border / shadow accent
-    cardDark: '#061F52',      // Navy Pressed (navy/950) — dark card surface
-    featureCard: '#FFFFFF',   // White — feature / outlined card bg
+    card: '#F8F9FA', // Silver 50 — card surface
+    cardMist: '#E3E7EA', // Silver 200 — card border / shadow accent
+    cardDark: '#061F52', // Navy Pressed (navy/950) — dark card surface
+    featureCard: '#FFFFFF', // White — feature / outlined card bg
 
     // ── CTA band (gradient: Kuroda Blue → Kuroda Navy) ─────────────────────
-    ctaBg: '#047BC1',         // Gradient start (Kuroda Blue)
-    ctaEnd: '#08296C',        // Gradient end (Kuroda Navy)
+    ctaBg: '#047BC1', // Gradient start (Kuroda Blue)
+    ctaEnd: '#08296C', // Gradient end (Kuroda Navy)
 
     // ── Secondary / outline button on light surfaces ───────────────────────
-    ctaTan: '#08296C',        // Navy bg for secondary buttons on white pages
-    tanText: '#061F52',       // Navy Pressed hover bg
-    tanBody: '#FFFFFF',       // White text on navy secondary buttons
+    ctaTan: '#08296C', // Navy bg for secondary buttons on white pages
+    tanText: '#061F52', // Navy Pressed hover bg
+    tanBody: '#FFFFFF', // White text on navy secondary buttons
 
     // ── Semantic aliases ───────────────────────────────────────────────────
-    primary: '#047BC1',       // Kuroda Blue
-    secondary: '#9EACB5',     // Slate
-    navy: '#08296C',          // Kuroda Navy (used in button hover, dark surfaces)
-    black: '#231F20',         // Ink (near-black for body text)
+    primary: '#047BC1', // Kuroda Blue
+    secondary: '#9EACB5', // Slate
+    navy: '#08296C', // Kuroda Navy (used in button hover, dark surfaces)
+    black: '#231F20', // Ink (near-black for body text)
     white: '#FFFFFF',
-    cream: '#FFFFFF',         // White — button text on coloured backgrounds
-    nav: '#08296C',           // Navy — nav glass tint
+    cream: '#FFFFFF', // White — button text on coloured backgrounds
+    nav: '#08296C', // Navy — nav glass tint
 
     // ── Footer ─────────────────────────────────────────────────────────────
-    footerBg: '#061F52',      // Navy Pressed (navy/950) — darkest surface
+    footerBg: '#061F52', // Navy Pressed (navy/950) — darkest surface
 
     // ── Extended palette (gradient stops, hover states, icons) ─────────────
-    navyPressed: '#061F52',   // navy/950 — pressed state
-    navyMid: '#0A3F8C',       // navy/800 — gradient mid
-    heroTint: '#0B3F8F',      // navy/700 — hero overlay tint
-    blueDeep: '#0B4F9E',      // blue/700 — dark blue accent
-    blueLight: '#3A9BE0',     // blue/400 — light blue for icons / highlights
-    sky: '#7DBFED',           // sky/300 — lightest blue accent
-    skyIcon: '#7CBFEE',       // sky/400 — icon accent
-    ink: '#231F20',           // ink/900 — darkest neutral
-    slate: '#9EACB5',         // slate/400 — muted grey-blue
-    mist: '#F3F5F7',          // mist/50 — subtle surface
-    mistHover: '#E6EDF5',     // mist/100 — hover on mist surface
-    silver50: '#F8F9FA',      // silver/50
-    silver100: '#EEF0F2',     // silver/100
-    silver200: '#E3E7EA',     // silver/200
-    silver400: '#AEB7BF',     // silver/400
-    silver500: '#9AA5AF',     // silver/500
+    navyPressed: '#061F52', // navy/950 — pressed state
+    navyMid: '#0A3F8C', // navy/800 — gradient mid
+    heroTint: '#0B3F8F', // navy/700 — hero overlay tint
+    blueDeep: '#0B4F9E', // blue/700 — dark blue accent
+    blueLight: '#3A9BE0', // blue/400 — light blue for icons / highlights
+    sky: '#7DBFED', // sky/300 — lightest blue accent
+    skyIcon: '#7CBFEE', // sky/400 — icon accent
+    ink: '#231F20', // ink/900 — darkest neutral
+    slate: '#9EACB5', // slate/400 — muted grey-blue
+    mist: '#F3F5F7', // mist/50 — subtle surface
+    mistHover: '#E6EDF5', // mist/100 — hover on mist surface
+    silver50: '#F8F9FA', // silver/50
+    silver100: '#EEF0F2', // silver/100
+    silver200: '#E3E7EA', // silver/200
+    silver400: '#AEB7BF', // silver/400
+    silver500: '#9AA5AF', // silver/500
   },
 
   type: {
@@ -250,18 +250,18 @@ export const brand = {
    */
   radius: {
     /** 2px — tags, small chips */
-    xs:   '2px',
+    xs: '2px',
     /** 3px — pager dots */
-    sm:   '3px',
+    sm: '3px',
     /** 4px — buttons, cards, menu toggle (main base radius) */
-    md:   '4px',
+    md: '4px',
     /** 9999px — slider handle, fully-round pills */
     full: '9999px',
 
     /* Backward-compat aliases kept so existing --aw-radius usage still compiles. */
     base: '4px',
-    lg:   '6px',
-    xl:   '8px',
+    lg: '6px',
+    xl: '8px',
     hero: '0px',
   },
 
@@ -271,15 +271,14 @@ export const brand = {
    */
   shadows: {
     /** General card / surface shadow (existing homepage usage). */
-    soft:         '0px 4px 16px 0px rgba(0,0,0,0.18)',
+    soft: '0px 4px 16px 0px rgba(0,0,0,0.18)',
     /** Sticky/scrolled navbar elevation. */
     stickyHeader: '0px 4px 20px 0px rgba(8,41,108,0.10)',
     /** Hover state for cards and interactive tiles. */
-    cardHover:    '0px 12px 32px -4px rgba(8,41,108,0.14)',
+    cardHover: '0px 12px 32px -4px rgba(8,41,108,0.14)',
     /** Keyboard focus ring — 3px sky blue (#7DBFED). */
-    focusRing:    '0 0 0 3px #7DBFED',
+    focusRing: '0 0 0 3px #7DBFED',
   },
-
 } as const;
 
 export type Brand = typeof brand;
@@ -307,14 +306,8 @@ export function rgb(hex: string, alpha?: number): string {
   return `rgb(${channels} / ${a})`;
 }
 
-/**
- * Figma semantic color roles (node 152:248 — "Color roles.")
- * Naming follows the Figma CSS variable names exactly so components can
- * copy `var(--color-*)` references directly from Figma dev mode.
- *
- * Groups: action · border · brand · icon · surface · text
- */
-function semanticColorVars(c: Brand['colors']): string {
+/** Figma color roles — Action and border. */
+function actionAndBorderColorVars(c: Brand['colors']): string {
   return `
     /* ── Action ─────────────────────────────────────────────────────── */
     --color-action-focus-ring: ${rgb(c.sky)};
@@ -326,22 +319,27 @@ function semanticColorVars(c: Brand['colors']): string {
     --color-border-accent: ${rgb(c.accent)};
     --color-border-default: ${rgb(c.slate)};
     --color-border-default-35: ${rgb(c.slate, 0.35)};
-    --color-border-default-40: ${rgb(c.slate, 0.40)};
-    --color-border-default-50: ${rgb(c.slate, 0.50)};
-    --color-border-default-60: ${rgb(c.slate, 0.60)};
+    --color-border-default-40: ${rgb(c.slate, 0.4)};
+    --color-border-default-50: ${rgb(c.slate, 0.5)};
+    --color-border-default-60: ${rgb(c.slate, 0.6)};
     --color-border-on-dark: ${rgb(c.white)};
-    --color-border-on-dark-10: ${rgb(c.white, 0.10)};
+    --color-border-on-dark-10: ${rgb(c.white, 0.1)};
     --color-border-on-dark-12: ${rgb(c.white, 0.12)};
     --color-border-on-dark-14: ${rgb(c.white, 0.14)};
     --color-border-on-dark-15: ${rgb(c.white, 0.15)};
     --color-border-on-dark-18: ${rgb(c.white, 0.18)};
-    --color-border-on-dark-20: ${rgb(c.white, 0.20)};
+    --color-border-on-dark-20: ${rgb(c.white, 0.2)};
     --color-border-on-dark-55: ${rgb(c.white, 0.55)};
-    --color-border-on-dark-60: ${rgb(c.white, 0.60)};
+    --color-border-on-dark-60: ${rgb(c.white, 0.6)};
     --color-border-strong: ${rgb(c.heading)};
     --color-border-strong-25: ${rgb(c.heading, 0.25)};
 
-    /* ── Brand ──────────────────────────────────────────────────────── */
+`;
+}
+
+/** Figma color roles — Brand, icon and surface. */
+function brandIconSurfaceColorVars(c: Brand['colors']): string {
+  return `    /* ── Brand ──────────────────────────────────────────────────────── */
     --color-brand-blue: ${rgb(c.accent)};
     --color-brand-navy: ${rgb(c.heading)};
     --color-brand-sky: ${rgb(c.sky)};
@@ -363,25 +361,44 @@ function semanticColorVars(c: Brand['colors']): string {
     --color-surface-page: ${rgb(c.page)};
     --color-surface-subtle: ${rgb(c.mist)};
 
-    /* ── Text ───────────────────────────────────────────────────────── */
+`;
+}
+
+/** Figma color roles — Text. */
+function textColorVars(c: Brand['colors']): string {
+  return `    /* ── Text ───────────────────────────────────────────────────────── */
     --color-text-accent: ${rgb(c.accent)};
     --color-text-body: ${rgb(c.ink)};
     --color-text-body-55: ${rgb(c.ink, 0.55)};
-    --color-text-body-60: ${rgb(c.ink, 0.60)};
-    --color-text-body-70: ${rgb(c.ink, 0.70)};
+    --color-text-body-60: ${rgb(c.ink, 0.6)};
+    --color-text-body-70: ${rgb(c.ink, 0.7)};
     --color-text-body-78: ${rgb(c.ink, 0.78)};
-    --color-text-body-80: ${rgb(c.ink, 0.80)};
+    --color-text-body-80: ${rgb(c.ink, 0.8)};
     --color-text-heading: ${rgb(c.heading)};
-    --color-text-heading-80: ${rgb(c.heading, 0.80)};
+    --color-text-heading-80: ${rgb(c.heading, 0.8)};
     --color-text-on-dark: ${rgb(c.white)};
     --color-text-on-dark-55: ${rgb(c.white, 0.55)};
-    --color-text-on-dark-60: ${rgb(c.white, 0.60)};
-    --color-text-on-dark-70: ${rgb(c.white, 0.70)};
+    --color-text-on-dark-60: ${rgb(c.white, 0.6)};
+    --color-text-on-dark-70: ${rgb(c.white, 0.7)};
     --color-text-on-dark-72: ${rgb(c.white, 0.72)};
     --color-text-on-dark-82: ${rgb(c.white, 0.82)};
     --color-text-on-dark-85: ${rgb(c.white, 0.85)};
     --color-text-on-dark-accent: ${rgb(c.sky)};
-  `.trim();
+  `;
+}
+
+/**
+ * Figma semantic color roles (node 152:248 — "Color roles.")
+ * Naming follows the Figma CSS variable names exactly so components can
+ * copy `var(--color-*)` references directly from Figma dev mode.
+ *
+ * Groups: action · border · brand · icon · surface · text
+ */
+function semanticColorVars(c: Brand['colors']): string {
+  return [actionAndBorderColorVars, brandIconSurfaceColorVars, textColorVars]
+    .map((part) => part(c))
+    .join('')
+    .trim();
 }
 
 /** Per-variant CTA colors. */
@@ -421,14 +438,8 @@ function ctaButtonVars(c: Brand['colors']): string {
   return [primary, secondary, ghostLight, ghostDark].join('');
 }
 
-function rootVars(b: Brand): string {
-  const { colors: c, fonts: f, radius: r, type: t } = b;
-  // `b` is also used directly below for b.shadows
-  const accent = rgb(c.accent);
-  const accentHover = rgb(c.accentHover);
-  const heading = rgb(c.heading);
-  const muted = rgb(c.muted);
-
+/** Font families and Figma type-scale variables. */
+function fontAndTypeScaleVars({ fonts: f, type: t }: Brand): string {
   return `
     --aw-font-sans: var(${f.body.cssVariable});
     --aw-font-serif: var(${f.heading.cssVariable});
@@ -467,7 +478,12 @@ function rootVars(b: Brand): string {
     --type-font-size-caption: ${t.caption.size};
     --type-font-size-caption-mobile: ${t.caption.mobile};
 
-    /* ── Internal --aw-text-* vars used by Tailwind utilities ──────────────── */
+`;
+}
+
+/** Internal `--aw-text-*` variables read by Tailwind utilities. */
+function textUtilityVars({ type: t }: Brand): string {
+  return `    /* ── Internal --aw-text-* vars used by Tailwind utilities ──────────────── */
     --aw-text-display: ${t.display.size};
     --aw-text-display-mobile: ${t.display.mobile};
     --aw-leading-display: ${t.display.lineHeight};
@@ -513,7 +529,16 @@ function rootVars(b: Brand): string {
     --aw-text-quote-mobile: ${t.quote.mobile};
     --aw-leading-quote: ${t.quote.lineHeight};
 
-    --aw-color-primary: ${rgb(c.primary)};
+`;
+}
+
+/** Primary / text / surface colors. */
+function surfaceColorVars({ colors: c }: Brand): string {
+  const accent = rgb(c.accent);
+  const accentHover = rgb(c.accentHover);
+  const heading = rgb(c.heading);
+  const muted = rgb(c.muted);
+  return `    --aw-color-primary: ${rgb(c.primary)};
     --aw-color-secondary: ${rgb(c.secondary)};
     --aw-color-accent: ${accent};
     --aw-color-accent-hover: ${accentHover};
@@ -545,7 +570,12 @@ function rootVars(b: Brand): string {
     --aw-shadow-card-mist: 4px 4px 30px rgb(0 0 0 / 5%), 3px 3px 0 ${rgb(c.silver200)};
     --aw-color-nav-glass: ${rgb(c.navy, 0.06)};
 
-    --aw-color-card-heading-dark: ${rgb(c.white)};
+`;
+}
+
+/** Card variants (dark, light, outlined, glass). */
+function cardColorVars({ colors: c }: Brand): string {
+  return `    --aw-color-card-heading-dark: ${rgb(c.white)};
     --aw-color-card-body-dark: ${rgb(c.white, 0.7)};
     --aw-color-card-link-dark: ${rgb(c.sky)};
 
@@ -568,7 +598,13 @@ function rootVars(b: Brand): string {
     --aw-color-card-body-glass: ${rgb(c.white, 0.7)};
     --aw-color-card-link-glass: ${rgb(c.sky)};
 
-    ${ctaButtonVars(c)}
+`;
+}
+
+/** CTA buttons, links, headlines and timeline. */
+function componentColorVars({ colors: c }: Brand): string {
+  const accentHover = rgb(c.accentHover);
+  return `    ${ctaButtonVars(c)}
 
     --aw-color-btn-link: ${rgb(c.accent)};
     --aw-color-btn-link-hover: ${accentHover};
@@ -591,7 +627,12 @@ function rootVars(b: Brand): string {
     --aw-color-timeline-title-dark: ${rgb(c.white)};
     --aw-color-timeline-desc-dark: ${rgb(c.white, 0.65)};
 
-    --aw-color-testimonial-card-bg-light: ${rgb(c.white)};
+`;
+}
+
+/** Testimonial and FAQ colors. */
+function testimonialFaqColorVars({ colors: c }: Brand): string {
+  return `    --aw-color-testimonial-card-bg-light: ${rgb(c.white)};
     --aw-color-testimonial-card-border-light: ${rgb(c.silver200)};
     --aw-color-testimonial-text-light: var(--aw-color-text-muted);
     --aw-color-testimonial-name-light: var(--aw-color-text-heading);
@@ -619,7 +660,12 @@ function rootVars(b: Brand): string {
     --aw-color-faq-toggle-text-dark: ${rgb(c.white, 0.5)};
     --aw-color-faq-toggle-active-dark: ${rgb(c.sky)};
 
-    --aw-color-projects-card-bg-light: ${rgb(c.white)};
+`;
+}
+
+/** Projects, page and footer colors, plus the card shadow and border. */
+function projectsAndPageColorVars({ colors: c }: Brand): string {
+  return `    --aw-color-projects-card-bg-light: ${rgb(c.white)};
     --aw-color-projects-card-border-light: ${rgb(c.silver200)};
     --aw-color-projects-title-light: var(--aw-color-text-heading);
     --aw-color-projects-desc-light: var(--aw-color-text-muted);
@@ -637,7 +683,13 @@ function rootVars(b: Brand): string {
     --aw-shadow-header: 0 1px 0 ${rgb(c.silver200)};
     --aw-border-card: ${rgb(c.silver200)};
 
-    /* Layout — <MaxWidthContainer> / .site-frame / .max-w-container all read these */
+`;
+}
+
+/** Layout container, radius and shadow tokens. */
+function layoutRadiusShadowVars(b: Brand): string {
+  const { radius: r } = b;
+  return `    /* Layout — <MaxWidthContainer> / .site-frame / .max-w-container all read these */
     --aw-layout-max-width: ${b.layout.maxWidth};
     --aw-layout-padding-x: ${b.layout.paddingX};
     --aw-layout-padding-x-mobile: ${b.layout.paddingXMobile};
@@ -664,7 +716,12 @@ function rootVars(b: Brand): string {
     --shadow-card-hover: ${b.shadows.cardHover};
     --shadow-focus-ring: ${b.shadows.focusRing};
 
-    /* ── Gradients — Figma node 152:634 "Gradients & Bands" ──────────── */
+`;
+}
+
+/** Gradients and semantic color roles. */
+function gradientVars({ colors: c }: Brand): string {
+  return `    /* ── Gradients — Figma node 152:634 "Gradients & Bands" ──────────── */
     /* Brand (Blue → Navy): buttons · eyebrow rule · CTA surfaces         */
     --gradient-brand: linear-gradient(90deg, #047bc1 0%, #08296c 100%);
     --gradient-brand-vertical: linear-gradient(180deg, #047bc1 0%, #08296c 100%);
@@ -693,7 +750,24 @@ function rootVars(b: Brand): string {
     --gradient-hero-headline: linear-gradient(90deg, #9fd6fb 0%, #5bb2ec 100%);
 
     ${semanticColorVars(c)}
-  `.trim();
+  `;
+}
+
+function rootVars(b: Brand): string {
+  return [
+    fontAndTypeScaleVars,
+    textUtilityVars,
+    surfaceColorVars,
+    cardColorVars,
+    componentColorVars,
+    testimonialFaqColorVars,
+    projectsAndPageColorVars,
+    layoutRadiusShadowVars,
+    gradientVars,
+  ]
+    .map((part) => part(b))
+    .join('')
+    .trim();
 }
 
 function darkVars(b: Brand): string {
@@ -771,7 +845,7 @@ export function brandFontConfig() {
   const toEntry = (font: typeof heading | typeof body) => ({
     name: font.name,
     cssVariable: font.cssVariable,
-    provider: font.provider,
+    provider: font.provider as 'google' | 'local',
     weights: font.weights,
     styles: font.styles,
     subsets: font.subsets,

@@ -2,6 +2,8 @@
 /**
  * BlogCard — article teaser (Sanity `blogPost`).
  *
+ * Framed card: 1px border · photo on top · padded body (date → uppercase title → excerpt → "Read article").
+ *
  * variant: light (default, on white / mist) · dark (on navy surfaces)
  * layout:  stacked (default, grid card) · featured (wide, image left — used for the newest post)
  *
@@ -27,12 +29,21 @@ const isFeatured = layout === 'featured';
 <a
   href={href}
   class:list={[
-    'group flex h-full flex-col gap-5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent',
-    isFeatured && 'md:grid md:grid-cols-[1.15fr_1fr] md:items-center md:gap-10 xl:gap-14',
+    'group flex h-full flex-col border transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent',
+    isDark
+      ? 'border-white/[0.15] bg-white/[0.04] hover:border-white/40'
+      : 'border-default-50 bg-surface-page hover:border-accent',
+    isFeatured && 'md:grid md:grid-cols-[1.15fr_1fr] md:items-stretch',
   ]}
 >
   {/* Cover */}
-  <div class="relative w-full shrink-0 overflow-hidden bg-section-grey" style="aspect-ratio: 16 / 10;">
+  <div
+    class:list={[
+      'relative w-full shrink-0 overflow-hidden bg-section-grey',
+      isFeatured && 'md:h-full md:min-h-[320px]',
+    ]}
+    style={isFeatured ? undefined : 'aspect-ratio: 16 / 9;'}
+  >
     {/* TODO: placeholder stays until the post has a cover photo in Sanity */}
     {
       post.image?.src && (
@@ -54,23 +65,21 @@ const isFeatured = layout === 'featured';
   </div>
 
   {/* Copy */}
-  <div class="flex flex-1 flex-col gap-3">
-    <p
+  <div class:list={['flex flex-1 flex-col gap-3 p-6 md:p-7', isFeatured && 'md:justify-center md:gap-4 md:p-10']}>
+    <time
+      datetime={post.publishDate}
       class:list={[
-        'flex flex-wrap items-center gap-x-3 gap-y-1 font-body text-[11px] font-bold uppercase leading-4 tracking-[1.54px]',
-        isDark ? 'text-on-dark-accent' : 'text-accent',
+        'font-body text-[11px] font-bold uppercase leading-4 tracking-[1.54px]',
+        isDark ? 'text-on-dark-82' : 'text-body-55',
       ]}
     >
-      {post.category && <span>{post.category}</span>}
-      <time datetime={post.publishDate} class:list={[isDark ? 'text-on-dark-82' : 'text-body-55']}>
-        {getFormattedDate(new Date(post.publishDate))}
-      </time>
-    </p>
+      {getFormattedDate(new Date(post.publishDate))}
+    </time>
 
     <h3
       class:list={[
-        'font-display font-light leading-[1.2] tracking-[-0.02em] transition-colors duration-150 group-hover:text-accent',
-        isFeatured ? 'text-[26px] md:text-[34px] md:leading-[1.15]' : 'text-[20px] md:text-[22px]',
+        'font-display font-semibold uppercase leading-[1.2] tracking-[-0.01em] transition-colors duration-150 group-hover:text-accent',
+        isFeatured ? 'text-[22px] md:text-[28px] md:leading-[1.15]' : 'text-[18px] md:text-[20px]',
         isDark ? 'text-on-dark' : 'text-heading-full',
       ]}
     >
@@ -94,7 +103,7 @@ const isFeatured = layout === 'featured';
     <span
       class:list={[
         'mt-auto flex items-center gap-2 pt-2 font-body text-[12px] font-bold uppercase leading-4 tracking-[1.2px]',
-        isDark ? 'text-on-dark' : 'text-heading-full',
+        isDark ? 'text-on-dark-accent' : 'text-accent',
       ]}
     >
       Read article
@@ -104,7 +113,7 @@ const isFeatured = layout === 'featured';
         viewBox="0 0 16 16"
         fill="currentColor"
         aria-hidden="true"
-        class="shrink-0 text-accent transition-transform group-hover:translate-x-1"
+        class="shrink-0 transition-transform group-hover:translate-x-1"
       >
         <path d="M12.175 9H0V7H12.175L6.575 1.4L8 0L16 8L8 16L6.575 14.6L12.175 9Z"></path>
       </svg>

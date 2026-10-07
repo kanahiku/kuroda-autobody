@@ -1,8 +1,7 @@
 ---
 /**
  * Homepage — Figma node 136:196 (Desktop · Oct 5)
- * Sections: Hero · Ratings · Services · Why Kuroda · Before/After ·
- *           Heritage · Consumer Protection · Reviews · Certifications · CTA
+ * Sections: Hero · Ratings · Services · Why Kuroda · Before/After · Heritage · Protection · Reviews · Certifications · CTA
  *
  * Every word of copy comes from Sanity's `homePage` document (merged over the built-in fallback in
  * src/data/home.ts) via getHomeContent(). Photos are still grey placeholders; only their alt text
@@ -128,7 +127,6 @@ const LOGOS = {
     credentials={home.credentials.items.map(({ logo, ...item }) => ({ ...item, ...LOGOS[logo] }))}
   />
 
-  {/* ── Band · Silver ── */}
   <GradientBand variant="silver" />
 
   {/* ── Final CTA — Figma node 136:589 ── */}

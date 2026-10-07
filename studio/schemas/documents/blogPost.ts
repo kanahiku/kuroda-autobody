@@ -6,9 +6,7 @@ export const blogPost = defineType({
   title: 'Blog',
   type: 'document',
   icon: ComposeIcon,
-  groups: [
-    { name: 'content', title: 'Content' },
-  ],
+  groups: [{ name: 'content', title: 'Content' }],
   fields: [
     defineField({
       name: 'title',
@@ -135,8 +133,7 @@ export const blogPost = defineType({
                     name: 'href',
                     title: 'URL',
                     type: 'string',
-                    validation: (r) =>
-                      r.uri({ scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true }),
+                    validation: (r) => r.uri({ scheme: ['http', 'https', 'mailto', 'tel'], allowRelative: true }),
                   }),
                   defineField({
                     name: 'blank',

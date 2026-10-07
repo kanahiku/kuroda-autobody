@@ -7,6 +7,8 @@
  * Pass `groups` (titled categories of questions) instead of `items` for long FAQ pages; an item's
  * `callToAction` renders an outline button under its answer.
  */
+import SectionTitle from '~/components/ui/SectionTitle.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import Button from '~/components/ui/Button.astro';
 import type { Faqs, Item } from '~/types';
@@ -61,22 +63,8 @@ const Question = groups ? 'h4' : 'h3';
     {/* ── Head ── */}
     <div class="flex flex-col xl:w-[480px] xl:shrink-0">
       <div class="flex flex-col gap-1">
-        {
-          label && (
-            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
-              <span class="eyebrow-rule" aria-hidden="true" />
-              {label}
-            </p>
-          )
-        }
-        {
-          title && (
-            <h2 class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]">
-              {title}
-              {titleStrong && <span class="font-semibold">{titleStrong}</span>}
-            </h2>
-          )
-        }
+        {label && <Eyebrow>{label}</Eyebrow>}
+        {title && <SectionTitle lead={title} strong={titleStrong} class="pt-3 md:pt-4" />}
       </div>
       {
         subtitle && (
@@ -93,10 +81,9 @@ const Question = groups ? 'h4' : 'h3';
         lists.map((list, gi) => (
           <div>
             {list.title && (
-              <h3 class="mb-4 flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
-                <span class="eyebrow-rule" aria-hidden="true" />
+              <Eyebrow as="h3" class="mb-4">
                 {list.title}
-              </h3>
+              </Eyebrow>
             )}
             <div class="border-b border-default-50">
               {list.items.map(({ title: question, description, callToAction }) => (
