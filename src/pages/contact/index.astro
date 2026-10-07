@@ -1,7 +1,7 @@
 ---
 /**
  * /contact/ — location, hours, map, phone, and the estimate request form.
- * Composed from shared widgets only (PageHero, EstimateForm, DetailRows, MapDirections, ActionBand).
+ * Composed from shared widgets only (PageHero, EstimateForm, DetailRows with its map, ActionBand).
  * The estimate form is its own section right under the hero; the navy band's button scrolls back up to #estimate.
  * Copy: client content doc "Auto Body & Collision Repair in Waipio".
  */
@@ -9,7 +9,6 @@ import Layout from '~/layouts/PageLayout.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
 import PageHero from '~/components/widgets/PageHero.astro';
 import DetailRows from '~/components/widgets/DetailRows.astro';
-import MapDirections from '~/components/widgets/MapDirections.astro';
 import ActionBand from '~/components/widgets/ActionBand.astro';
 import EstimateForm from '~/components/widgets/EstimateForm.astro';
 import { CONTACT } from '~/config/contact';
@@ -55,9 +54,9 @@ const mapTitle = `Map of Kuroda Auto Body, ${CONTACT.address.oneLiner}`;
     ctaText="Get Directions"
     ctaHref={CONTACT.address.mapsDirectionsHref}
     ctaExternal={true}
+    mapSrc={CONTACT.address.mapsEmbedSrc}
+    mapTitle={mapTitle}
   />
-
-  <MapDirections mapSrc={CONTACT.address.mapsEmbedSrc} mapTitle={mapTitle} />
 
   <ActionBand
     eyebrow="Contact"

@@ -6,6 +6,7 @@ import Button from '~/components/ui/Button.astro';
  * White section: head (eyebrow + two-weight heading + optional lede) on the left,
  * hairline-ruled label / value rows on the right. No images.
  * `\n` in a row value renders as a line break; `ctaText`/`ctaHref` add a button under the rows.
+ * `mapSrc` adds an embedded map: beside the head + rows from xl up, stacked under them below.
  */
 export interface Row {
   label: string;
@@ -26,83 +27,122 @@ export interface Props {
   ctaHref?: string;
   /** Open the CTA in a new tab (external links such as Google Maps). */
   ctaExternal?: boolean;
+  /** Embed URL for a map iframe (e.g. CONTACT.address.mapsEmbedSrc). */
+  mapSrc?: string;
+  mapTitle?: string;
   id?: string;
 }
 
-const { eyebrow, headingLead = '', headingStrong, lead, rows, ctaText, ctaHref, ctaExternal = false, id } = Astro.props;
+const {
+  eyebrow,
+  headingLead = '',
+  headingStrong,
+  lead,
+  rows,
+  ctaText,
+  ctaHref,
+  ctaExternal = false,
+  mapSrc,
+  mapTitle = 'Map',
+  id,
+} = Astro.props;
 ---
 
 <section {...id ? { id } : {}} class="w-full bg-surface-page">
   <MaxWidthContainer
-    class="flex flex-col gap-7 py-14 md:gap-12 md:py-16 xl:flex-row xl:items-start xl:gap-24 xl:py-[120px]"
+    class:list={[
+      'flex flex-col gap-7 py-14 md:py-16 xl:flex-row xl:items-start xl:py-[120px]',
+      mapSrc ? 'md:gap-10 xl:gap-16' : 'md:gap-12 xl:gap-24',
+    ]}
   >
-    {/* ── Head ── */}
-    <div class="flex flex-col xl:w-[480px] xl:shrink-0">
-      <div class="flex flex-col gap-1">
+    {/* With a map, head + rows share one left column; otherwise the wrapper vanishes (display: contents). */}
+    <div class:list={[mapSrc ? 'flex min-w-0 flex-col gap-7 md:gap-10 xl:w-[600px] xl:shrink-0' : 'contents']}>
+      {/* ── Head ── */}
+      <div class:list={['flex flex-col', !mapSrc && 'xl:w-[480px] xl:shrink-0']}>
+        <div class="flex flex-col gap-1">
+          {
+            eyebrow && (
+              <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
+                <span class="eyebrow-rule" aria-hidden="true" />
+                {eyebrow}
+              </p>
+            )
+          }
+          <h2
+            class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
+          >
+            {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
+          </h2>
+        </div>
         {
-          eyebrow && (
-            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-none tracking-[1.54px] text-accent uppercase">
-              <span class="eyebrow-rule" aria-hidden="true" />
-              {eyebrow}
+          lead && (
+            <p class="mt-7 font-body text-[15px] leading-[1.55] text-body-80 md:mt-6 md:text-[16px] md:leading-7 lg:text-[17px]">
+              {lead}
             </p>
           )
         }
-        <h2
-          class="pt-3 font-display text-[34px] font-light leading-[1.12] tracking-[-0.02em] text-heading-full md:pt-4 md:text-[48px] md:leading-[58px]"
-        >
-          {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
-        </h2>
       </div>
-      {
-        lead && (
-          <p class="mt-7 font-body text-[15px] leading-[1.55] text-body-80 md:mt-6 md:text-[16px] md:leading-7 lg:text-[17px]">
-            {lead}
-          </p>
-        )
-      }
+
+      {/* ── Rows ── */}
+      <div class="min-w-0 flex-1">
+        <dl class="flex flex-col border-b border-default-50">
+          {
+            rows.map((row) => (
+              <div class="grid grid-cols-1 gap-1.5 border-t border-default-50 py-5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-6 md:py-6">
+                <dt class="font-body text-[10.5px] font-bold leading-[normal] tracking-[0.12em] text-body-60 uppercase sm:pt-[6px]">
+                  {row.label}
+                </dt>
+                <dd class="flex flex-col gap-1.5">
+                  {row.href ? (
+                    <a
+                      href={row.href}
+                      class="whitespace-pre-line font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full transition-colors duration-150 hover:text-accent md:text-[18px] md:leading-[30px]"
+                    >
+                      {row.value}
+                    </a>
+                  ) : (
+                    <p class="whitespace-pre-line font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full md:text-[18px] md:leading-[30px]">
+                      {row.value}
+                    </p>
+                  )}
+                  {row.note && (
+                    <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px]">{row.note}</p>
+                  )}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+        {
+          ctaText && ctaHref && (
+            <div class="mt-7 md:mt-10">
+              <Button
+                variant="primary"
+                text={ctaText}
+                href={ctaHref}
+                hideNote={true}
+                {...(ctaExternal ? { target: '_blank' } : {})}
+              />
+            </div>
+          )
+        }
+      </div>
     </div>
 
-    {/* ── Rows ── */}
-    <div class="min-w-0 flex-1">
-      <dl class="flex flex-col border-b border-default-50">
-        {
-          rows.map((row) => (
-            <div class="grid grid-cols-1 gap-1.5 border-t border-default-50 py-5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-6 md:py-6">
-              <dt class="font-body text-[10.5px] font-bold leading-[normal] tracking-[0.12em] text-body-60 uppercase sm:pt-[6px]">
-                {row.label}
-              </dt>
-              <dd class="flex flex-col gap-1.5">
-                {row.href ? (
-                  <a
-                    href={row.href}
-                    class="whitespace-pre-line font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full transition-colors duration-150 hover:text-accent md:text-[18px] md:leading-[30px]"
-                  >
-                    {row.value}
-                  </a>
-                ) : (
-                  <p class="whitespace-pre-line font-display text-[16px] font-normal leading-[1.5] tracking-[-0.01em] text-heading-full md:text-[18px] md:leading-[30px]">
-                    {row.value}
-                  </p>
-                )}
-                {row.note && <p class="font-body text-[14px] leading-[1.5] text-body-78 md:text-[15px]">{row.note}</p>}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
-      {
-        ctaText && ctaHref && (
-          <div class="mt-7 md:mt-10">
-            <Button
-              variant="primary"
-              text={ctaText}
-              href={ctaHref}
-              hideNote={true}
-              {...(ctaExternal ? { target: '_blank' } : {})}
-            />
-          </div>
-        )
-      }
-    </div>
+    {/* ── Map ── */}
+    {
+      mapSrc && (
+        <div class="min-h-[320px] w-full flex-1 bg-section-grey md:min-h-[420px] xl:min-h-[640px] xl:self-stretch">
+          <iframe
+            src={mapSrc}
+            title={mapTitle}
+            class="size-full min-h-[inherit] border-0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          />
+        </div>
+      )
+    }
   </MaxWidthContainer>
 </section>

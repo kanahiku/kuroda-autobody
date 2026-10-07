@@ -138,7 +138,8 @@
         "headingLead? / headingStrong?": "string",
         "lead?": "string",
         "rows": "{ label, value, href?, note? }[] — `\\n` in value renders as a line break",
-        "ctaText / ctaHref? / ctaExternal?": "string / string / boolean — primary button under the rows"
+        "ctaText / ctaHref? / ctaExternal?": "string / string / boolean — primary button under the rows",
+        "mapSrc? / mapTitle?": "string — embedded map iframe beside head + rows (xl) or under them"
       },
       "notes": "Use for any label/value facts list."
     },
@@ -155,7 +156,7 @@
         "mapSrc / mapTitle": "string",
         "caption?": "string",
         "lead?": "string",
-        "directions?": "{ title, description }[] — omit (with no lead) for a full-width map; the head is omitted when no eyebrow/headingLead",
+        "directions": "{ title, description }[]",
         "ctaText / ctaHref?": "string"
       },
       "notes": "Map is a real embed (CONTACT.address.mapsEmbedSrc), not a photo placeholder."
