@@ -137,7 +137,8 @@
         "eyebrow?": "string",
         "headingLead? / headingStrong?": "string",
         "lead?": "string",
-        "rows": "{ label, value, href?, note? }[]"
+        "rows": "{ label, value, href?, note? }[] — `\\n` in value renders as a line break",
+        "ctaText / ctaHref? / ctaExternal?": "string / string / boolean — primary button under the rows"
       },
       "notes": "Use for any label/value facts list."
     },
@@ -154,7 +155,7 @@
         "mapSrc / mapTitle": "string",
         "caption?": "string",
         "lead?": "string",
-        "directions": "{ title, description }[]",
+        "directions?": "{ title, description }[] — omit (with no lead) for a full-width map; the head is omitted when no eyebrow/headingLead",
         "ctaText / ctaHref?": "string"
       },
       "notes": "Map is a real embed (CONTACT.address.mapsEmbedSrc), not a photo placeholder."
@@ -313,6 +314,19 @@
         "surface?": "'subtle' | 'page' — default subtle (cards are white)"
       },
       "notes": "ContentPageView section type `reviews`. For a page-full of customer quotes (/reviews/). The 3-up platform summary on the homepage stays ReviewsColumns."
+    },
+    {
+      "id": "P-42",
+      "name": "Estimate request form",
+      "figmaNames": [],
+      "shape": "White section: two-weight heading left, lead form right (name, phone, email, vehicle, service checkboxes, details, Turnstile, submit). Self-contained client script posts to the shared forms worker.",
+      "component": "EstimateForm",
+      "import": "~/components/widgets/EstimateForm.astro",
+      "props": {
+        "eyebrow? / headingLead? / headingStrong?": "string — default \"Request an Estimate\"",
+        "id?": "string — anchor, default `estimate` (ActionBand/CTAs link to #estimate)"
+      },
+      "notes": "Used on /contact/. Keep the form id `contact-form` and the `data-*` attributes: the inline script and src/lib/forms.ts depend on them. The script must stay plain JavaScript (is:inline ships as-is, so no TypeScript syntax)."
     },
     {
       "id": "P-38",
