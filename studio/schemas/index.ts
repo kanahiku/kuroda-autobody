@@ -1,5 +1,6 @@
 import { blogPost } from './documents/blogPost';
 import { contactPage } from './documents/contactPage';
+import { onlineEstimatePage } from './documents/onlineEstimatePage';
 import { siteNavigation } from './documents/siteNavigation';
 import { contentPage } from './documents/contentPage';
 import { homePage } from './documents/homePage';
@@ -16,6 +17,7 @@ export const schemaTypes = [
   homePage,
   locationPage,
   contactPage,
+  onlineEstimatePage,
   contentPage,
   ratingsBar,
   pagePhotos,

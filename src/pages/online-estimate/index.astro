@@ -1,7 +1,8 @@
 ---
 /**
  * /online-estimate/ — photo estimate (Carwise) or in-person appointment.
- * Copy: src/data/onlineEstimate.ts. Carwise links: CARWISE in src/config/contact.ts — until they are set the
+ * Copy lives in Sanity's `onlineEstimatePage` document, merged over the built-in fallback (src/data/onlineEstimate.ts) by
+ * getOnlineEstimateContent(). Carwise links: CARWISE in src/config/contact.ts — until they are set the
  * buttons fall back to the estimate form on /contact/. Composed from shared widgets only.
  */
 import Layout from '~/layouts/PageLayout.astro';
@@ -10,9 +11,14 @@ import PageHero from '~/components/widgets/PageHero.astro';
 import FeatureColumns from '~/components/widgets/FeatureColumns.astro';
 import ActionBand from '~/components/widgets/ActionBand.astro';
 import { CARWISE, CONTACT } from '~/config/contact';
-import { onlineEstimate as copy } from '~/data/onlineEstimate';
+import { getOnlineEstimateContent } from '~/lib/content';
+
+const copy = await getOnlineEstimateContent();
 
 const metadata = { title: copy.seo.title, description: copy.seo.description, ignoreTitleTemplate: true };
+
+/** Headings are two fields (lead + accent); the lead gets its single trailing space here. */
+const lead = (text: string) => `${text.trim()} `;
 
 const FALLBACK_HREF = '/contact/#estimate';
 const photoHref = CARWISE.photoEstimateUrl || FALLBACK_HREF;
@@ -22,10 +28,11 @@ const appointmentHref = CARWISE.appointmentUrl || FALLBACK_HREF;
 <Layout metadata={metadata}>
   <PageHero
     eyebrow={copy.hero.eyebrow}
-    titleLead={copy.hero.titleLead}
-    titleAccent={copy.hero.titleAccent}
+    titleLead={lead(copy.hero.headingLead)}
+    titleAccent={copy.hero.headingAccent}
     body={copy.hero.body}
-    photoLabel={copy.hero.photoLabel}
+    photoLabel={copy.hero.imageAlt}
+    image={copy.hero.image}
     showCtas={false}
   />
 
@@ -33,8 +40,8 @@ const appointmentHref = CARWISE.appointmentUrl || FALLBACK_HREF;
 
   <FeatureColumns
     eyebrow={copy.options.eyebrow}
-    headingLead={copy.options.headingLead}
-    headingStrong={copy.options.headingStrong}
+    headingLead={lead(copy.options.headingLead)}
+    headingStrong={copy.options.headingAccent}
     columns={2}
     items={copy.options.items}
   />
@@ -42,16 +49,16 @@ const appointmentHref = CARWISE.appointmentUrl || FALLBACK_HREF;
   <FeatureColumns
     surface="subtle"
     eyebrow={copy.visit.eyebrow}
-    headingLead={copy.visit.headingLead}
-    headingStrong={copy.visit.headingStrong}
+    headingLead={lead(copy.visit.headingLead)}
+    headingStrong={copy.visit.headingAccent}
     columns={2}
     items={copy.visit.items}
   />
 
   <ActionBand
     eyebrow={copy.launch.eyebrow}
-    headingLead={copy.launch.headingLead}
-    headingStrong={copy.launch.headingStrong}
+    headingLead={lead(copy.launch.headingLead)}
+    headingStrong={copy.launch.headingAccent}
     body={copy.launch.body}
     ctaText={copy.launch.photoCtaText}
     ctaHref={photoHref}
@@ -61,9 +68,10 @@ const appointmentHref = CARWISE.appointmentUrl || FALLBACK_HREF;
     secondaryCtaExternal={Boolean(CARWISE.appointmentUrl)}
   >
     <p>
-      {copy.launch.callLead}<a href={CONTACT.phone.href} class="font-semibold text-white underline underline-offset-4"
-        >{CONTACT.phone.display}</a
-      >{copy.launch.callTrail}
+      {copy.launch.callLead.trim()}{' '}<a
+        href={CONTACT.phone.href}
+        class="font-semibold text-white underline underline-offset-4">{CONTACT.phone.display}</a
+      >{' '}{copy.launch.callTrail.trim()}
     </p>
   </ActionBand>
 </Layout>

@@ -90,6 +90,7 @@ export { getHomeContent } from './home';
 export { getPagePhotos } from './photos';
 export { getContentPageContent } from './contentPage';
 export { getContactContent } from './contact';
+export { getOnlineEstimateContent } from './onlineEstimate';
 export { getLocationContent } from './location';
 export { getRatingsContent } from './ratings';
 

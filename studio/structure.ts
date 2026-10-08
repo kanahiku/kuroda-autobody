@@ -32,6 +32,39 @@ const HAD_AN_ACCIDENT_TOPICS: [string, string][] = [
   ['Rental Cars', '/had-an-accident/rental-cars/'],
 ];
 
+/** Insurance carriers, in the order of the hub page. */
+const INSURANCE_COMPANIES: [string, string][] = [
+  ['GEICO', '/had-an-accident/insurance-companies/geico/'],
+  ['State Farm', '/had-an-accident/insurance-companies/state-farm/'],
+  ['Progressive', '/had-an-accident/insurance-companies/progressive/'],
+  ['USAA', '/had-an-accident/insurance-companies/usaa/'],
+  ['Allstate', '/had-an-accident/insurance-companies/allstate/'],
+];
+
+/** Manufacturer certification programs, in the same order as the site menu. */
+const CERTIFICATION_PROGRAMS: [string, string][] = [
+  ['Honda', '/certifications/honda/'],
+  ['Acura', '/certifications/acura/'],
+  ['Nissan', '/certifications/nissan/'],
+  ['GM', '/certifications/gm/'],
+  ['Chrysler', '/certifications/chrysler/'],
+];
+
+/** A sub-folder: its hub page first, then one entry per page. */
+const hubFolder = (S: StructureBuilder, title: string, hubPath: string, pages: [string, string][]) =>
+  S.listItem()
+    .title(title)
+    .icon(FolderIcon)
+    .child(
+      S.list()
+        .title(title)
+        .items([
+          contentPageItem(S, 'Overview (hub page)', hubPath),
+          S.divider(),
+          ...pages.map(([pageTitle, path]) => contentPageItem(S, pageTitle, path)),
+        ])
+    );
+
 /** The Why Kuroda pages, in the same order as the site menu. (The group has no hub page.) */
 const WHY_KURODA_PAGES: [string, string][] = [
   ['Our Repair Process', '/repair-process/'],
@@ -43,6 +76,9 @@ const WHY_KURODA_PAGES: [string, string][] = [
 const SERVICE_AREA_PAGES: [string, string][] = [
   ['Mililani & Koa Ridge', '/service-areas/mililani/'],
   ['Pearl City & Aiea', '/service-areas/pearl-city-aiea/'],
+  ['Ewa Beach', '/service-areas/ewa-beach/'],
+  ['Kapolei', '/service-areas/kapolei/'],
+  ['Honolulu', '/service-areas/honolulu/'],
 ];
 
 /**
@@ -81,6 +117,12 @@ export const structure = (S: StructureBuilder) =>
               contentPageItem(S, 'Overview (hub page)', '/had-an-accident/'),
               S.divider(),
               ...HAD_AN_ACCIDENT_TOPICS.map(([title, path]) => contentPageItem(S, title, path)),
+              hubFolder(
+                S,
+                'Insurance Companies We Work With',
+                '/had-an-accident/insurance-companies/',
+                INSURANCE_COMPANIES
+              ),
             ])
         ),
       S.listItem()
@@ -89,7 +131,12 @@ export const structure = (S: StructureBuilder) =>
         .child(
           S.list()
             .title('Why Kuroda')
-            .items(WHY_KURODA_PAGES.map(([title, path]) => contentPageItem(S, title, path)))
+            .items([
+              ...WHY_KURODA_PAGES.filter(([, path]) => path !== '/certifications/').map(([title, path]) =>
+                contentPageItem(S, title, path)
+              ),
+              hubFolder(S, 'Certifications & Training', '/certifications/', CERTIFICATION_PROGRAMS),
+            ])
         ),
       S.listItem()
         .title('Location page')
@@ -111,6 +158,12 @@ export const structure = (S: StructureBuilder) =>
         .title('Contact page')
         .schemaType('contactPage')
         .child(S.document().schemaType('contactPage').documentId('contactPage').title('Contact page')),
+      S.listItem()
+        .title('Online Estimate page')
+        .schemaType('onlineEstimatePage')
+        .child(
+          S.document().schemaType('onlineEstimatePage').documentId('onlineEstimatePage').title('Online Estimate page')
+        ),
       S.divider(),
       S.listItem()
         .title('Ratings bar (site-wide)')
@@ -151,6 +204,7 @@ export const singletonTypes = new Set<string>([
   'homePage',
   'locationPage',
   'contactPage',
+  'onlineEstimatePage',
   'contentPage',
   'ratingsBar',
   'pagePhotos',
