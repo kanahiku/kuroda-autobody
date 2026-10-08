@@ -1,4 +1,5 @@
 ---
+import Image from '~/components/common/Image.astro';
 import SectionTitle from '~/components/ui/SectionTitle.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
@@ -6,15 +7,13 @@ import BrandIcon from '~/components/ui/BrandIcon.astro';
 import PullQuote from '~/components/ui/PullQuote.astro';
 /**
  * HeritageStory — Figma node 136:444 ("Heritage 1938")
- * Mist-grey section: archive photo (grey placeholder) + caption on the left;
+ * Mist-grey section: archive photo (grey placeholder until uploaded in Sanity) + caption on the left;
  * eyebrow, two-tone heading with gradient accent, lede, pull quote and
  * three stats on the right.
  *
  * Variants by prop: leave out (or pass empty) `quote`, `stats`, `caption` or `eyebrow` to drop that block,
  * `paragraphs` for multi-paragraph copy (e.g. the Post-Repair Walkthrough), and `isReversed` to put the
  * photo on the right from `xl` up (alternate it on long pages like Our Story).
- *
- * Image: grey placeholder until client delivers the asset (see images.mdc).
  */
 export interface Stat {
   value: string;
@@ -32,6 +31,8 @@ export interface Props {
   paragraphs?: string[];
   /** Accessible label for the photo placeholder (defaults to `caption`). */
   photoLabel?: string;
+  /** Photo uploaded in Sanity; absent → grey placeholder. */
+  image?: { src: string; alt: string };
   quote?: string;
   quoteAttribution?: string;
   caption?: string;
@@ -49,6 +50,7 @@ const {
   body = '',
   paragraphs,
   photoLabel,
+  image,
   quote = '',
   quoteAttribution,
   caption = '',
@@ -67,12 +69,25 @@ const {
   >
     {/* ── Archive photo + caption ── */}
     <div class="flex flex-col gap-7 md:gap-4 xl:w-[470px] xl:shrink-0">
-      {/* TODO: replace with <Image> when the 1938 Aiea archive photo is ready */}
       <div
-        class="aspect-[342/380] w-full rounded-[4px] bg-placeholder-on-grey md:aspect-[16/9] xl:aspect-[470/560]"
-        role="img"
-        aria-label={photoLabel ?? caption}
+        class="relative aspect-[342/380] w-full overflow-hidden rounded-[4px] bg-placeholder-on-grey md:aspect-[16/9] xl:aspect-[470/560]"
+        role={image ? undefined : 'img'}
+        aria-label={image ? undefined : (photoLabel ?? caption)}
       >
+        {
+          image && (
+            <Image
+              src={image.src}
+              alt={image.alt || photoLabel || caption}
+              width={940}
+              height={1120}
+              widths={[342, 684, 940, 1200]}
+              sizes="(min-width: 1280px) 470px, 100vw"
+              layout="cover"
+              class="absolute inset-0 h-full w-full object-cover"
+            />
+          )
+        }
       </div>
       {
         caption && (

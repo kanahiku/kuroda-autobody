@@ -2,6 +2,7 @@ import { contactFallback, type ContactContent } from '../../data/contact';
 import { applyTokens } from './merge';
 import { getSingleton } from './singleton';
 import { siteTokens } from './tokens';
+import { withSanityPhotos } from './photos';
 
 /**
  * Contact page content = Sanity `contactPage` document merged over `contactFallback`
@@ -9,5 +10,5 @@ import { siteTokens } from './tokens';
  */
 export async function getContactContent(): Promise<ContactContent> {
   const content = await getSingleton('contactPage', contactFallback);
-  return applyTokens(content, siteTokens());
+  return withSanityPhotos(applyTokens(content, siteTokens()), 'contactPage', ['hero']);
 }

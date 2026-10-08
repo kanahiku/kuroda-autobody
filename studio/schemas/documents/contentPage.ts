@@ -337,6 +337,7 @@ const stepsSection = defineArrayMember({
       'description',
       'Numbered automatically, in this order. Between 1 and 10.'
     ),
+    ...photo('', 'Photo (optional)', false),
     surfaceField,
   ],
   preview: headingPreview('Numbered steps'),
@@ -578,7 +579,11 @@ export const contentPage = defineType({
       ]),
       hidden: ({ document }) => !document?.related,
     }),
-    section('cta', 'Closing call to action', 'cta', [...heading(40, 40), ...ctaCopy(200)]),
+    section('cta', 'Closing call to action', 'cta', [
+      ...heading(40, 40),
+      ...ctaCopy(200),
+      ...photo('', 'Closing photo', false),
+    ]),
   ],
   preview: {
     select: { lead: 'hero.headingLead', accent: 'hero.headingAccent', subtitle: 'path' },

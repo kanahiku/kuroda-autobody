@@ -4,8 +4,8 @@
  * Sections: Hero · Ratings · Services · Why Kuroda · Before/After · Heritage · Protection · Reviews · Certifications · CTA
  *
  * Every word of copy comes from Sanity's `homePage` document (merged over the built-in fallback in
- * src/data/home.ts) via getHomeContent(). Photos are still grey placeholders; only their alt text
- * is editable in Sanity. Layout, order, icon artwork and button destinations stay in code.
+ * src/data/home.ts) via getHomeContent(), which also attaches the photos uploaded in Sanity (`<section>.image`;
+ * grey placeholder when none). Layout, order, icon artwork and button destinations stay in code.
  */
 import Layout from '~/layouts/PageLayout.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
@@ -57,6 +57,7 @@ const LOGOS = {
     caption={home.services.caption}
     figLabel={home.services.figLabel}
     imageAlt={home.services.imageAlt}
+    image={home.services.image}
     items={home.services.items}
   />
 
@@ -70,6 +71,7 @@ const LOGOS = {
     headingAccent={home.why.headingAccent}
     caption={home.why.caption}
     imageAlt={home.why.imageAlt}
+    image={home.why.image}
     items={home.why.items}
   />
 
@@ -95,6 +97,7 @@ const LOGOS = {
     quoteAttribution={home.heritage.quoteAttribution}
     caption={home.heritage.caption}
     photoLabel={home.heritage.imageAlt}
+    image={home.heritage.image}
     stats={home.heritage.stats}
   />
 
@@ -145,5 +148,6 @@ const LOGOS = {
     address={`${CONTACT.address.street}, ${CONTACT.address.cityLine} (${CONTACT.address.landmark})`}
     hours={home.cta.hours}
     photoLabel={home.cta.imageAlt}
+    image={home.cta.image}
   />
 </Layout>

@@ -230,6 +230,8 @@ function normalizeBlogPost(post: SanityBlogPost): BlogPost {
     title: post.title,
     slug: post.slug,
     excerpt,
+    seoTitle: post.seoTitle?.trim() || undefined,
+    seoDescription: post.seoDescription?.trim() || undefined,
     publishDate: post.publishDate,
     author: post.author,
     category: post.category,
@@ -258,6 +260,8 @@ const BLOG_POST_CARD_PROJECTION = /* groq */ `
 
 const BLOG_POST_PROJECTION = /* groq */ `
   ${BLOG_POST_CARD_PROJECTION},
+  seoTitle,
+  seoDescription,
   body[] {
     ...,
     _type == "image" => {
@@ -356,4 +360,73 @@ export async function getSanityFeaturedTestimonials(limit = 3): Promise<Testimon
       name: item.name!.trim(),
       ...(item.detail?.trim() ? { detail: item.detail.trim() } : {}),
     }));
+}
+
+// ─── Page photos ──────────────────────────────────────────────────────────────
+
+/**
+ * Photos on a one-off page document (`homePage`, …): each named section holds an `image` field.
+ * Returns the sections that have a photo uploaded, with Studio crop / hotspot applied. The caller
+ * supplies the alt text (the section's `imageAlt` field).
+ */
+export async function getSanityPageImages(documentId: string, sections: readonly string[]) {
+  const projection = sections
+    .map((name) => `"${name}": ${name}.image{ crop, hotspot, asset, "src": asset->url }`)
+    .join(', ');
+  const doc = await sanityClient.fetch<Record<string, SanityImageFields | null> | null>(
+    `*[_id == $id][0]{ ${projection} }`,
+    { id: documentId }
+  );
+  const images: Record<string, ContentImage> = {};
+  for (const name of sections) {
+    const image = resolveContentImage(doc?.[name]);
+    if (image?.src) images[name] = image;
+  }
+  return images;
+}
+
+const IMAGE_PROJECTION = /* groq */ `crop, hotspot, asset, "src": asset->url`;
+
+/**
+ * Photos on a `contentPage` document: the hero, the closing call to action and any block that holds a
+ * photo (story / numbered-steps blocks), keyed by the block's `_key`.
+ */
+export async function getSanityContentPageImages(documentId: string) {
+  const doc = await sanityClient.fetch<{
+    hero?: SanityImageFields | null;
+    cta?: SanityImageFields | null;
+    sections?: { _key: string; image?: SanityImageFields | null }[] | null;
+  } | null>(
+    /* groq */ `*[_id == $id][0]{
+      "hero": hero.image{ ${IMAGE_PROJECTION} },
+      "cta": cta.image{ ${IMAGE_PROJECTION} },
+      "sections": sections[defined(image.asset)]{ _key, "image": image{ ${IMAGE_PROJECTION} } }
+    }`,
+    { id: documentId }
+  );
+  const sections: Record<string, ContentImage> = {};
+  for (const block of doc?.sections ?? []) {
+    const image = resolveContentImage(block.image);
+    if (image?.src) sections[block._key] = image;
+  }
+  return {
+    hero: resolveContentImage(doc?.hero),
+    cta: resolveContentImage(doc?.cta),
+    sections,
+  };
+}
+
+/**
+ * Hero + closing-CTA photos for a page that has no document of its own (reviews, legal pages, the blog
+ * list …): one row per route in the site-wide `pagePhotos` document.
+ */
+export async function getSanityPagePhotos(path: string) {
+  const row = await sanityClient.fetch<{ hero?: SanityImageFields | null; cta?: SanityImageFields | null } | null>(
+    /* groq */ `*[_id == "pagePhotos"][0].pages[path == $path][0]{
+      "hero": heroImage{ ${IMAGE_PROJECTION}, "alt": ^.heroAlt },
+      "cta": ctaImage{ ${IMAGE_PROJECTION}, "alt": ^.ctaAlt }
+    }`,
+    { path }
+  );
+  return { hero: resolveContentImage(row?.hero), cta: resolveContentImage(row?.cta) };
 }

@@ -166,7 +166,11 @@ export const locationPage = defineType({
     ]),
 
     // ── 7 · Closing call to action ───────────────────────────────────────────
-    section('cta', 'Closing call to action', 'cta', [...heading(30, 30), ...ctaCopy(200)]),
+    section('cta', 'Closing call to action', 'cta', [
+      ...heading(30, 30),
+      ...ctaCopy(200),
+      ...photo('', 'Closing photo', false),
+    ]),
   ],
   preview: {
     prepare: () => ({ title: 'Location page', subtitle: '/location/' }),

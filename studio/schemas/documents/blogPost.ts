@@ -34,6 +34,21 @@ export const blogPost = defineType({
       validation: (r) => r.required().max(280),
     }),
     defineField({
+      name: 'seoTitle',
+      title: 'SEO title tag',
+      type: 'string',
+      group: 'content',
+      description: 'Optional. The browser-tab / search-result title. Leave empty to use "Title | Kuroda Autobody".',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO meta description',
+      type: 'text',
+      rows: 3,
+      group: 'content',
+      description: 'Optional. Search-result description (120–160 characters). Leave empty to use the excerpt.',
+    }),
+    defineField({
       name: 'publishDate',
       title: 'Publish date',
       type: 'datetime',

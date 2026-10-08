@@ -1,13 +1,13 @@
 ---
+import Image from '~/components/common/Image.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
 /**
  * FeatureListSplit — Figma node 136:376 ("Why Kuroda")
  * Mist-grey section: eyebrow + full-width two-tone heading, then a photo
- * (grey placeholder) on the left and four numbered feature rows on the right.
+ * (grey placeholder until uploaded in Sanity) on the left and four numbered feature rows on the right.
  *
- * Image: grey placeholder until client delivers the asset (see images.mdc).
  */
 export interface FeatureItem {
   title: string;
@@ -20,12 +20,14 @@ export interface Props {
   headingLead: string;
   headingAccent: string;
   caption: string;
-  /** Accessible description of the (placeholder) photo. */
+  /** Accessible description of the photo (used by the placeholder until one is uploaded). */
   imageAlt: string;
+  /** Photo uploaded in Sanity; absent → grey placeholder. */
+  image?: { src: string; alt: string };
   items: FeatureItem[];
 }
 
-const { eyebrow, headingLead, headingAccent, caption, imageAlt, items } = Astro.props;
+const { eyebrow, headingLead, headingAccent, caption, imageAlt, image, items } = Astro.props;
 ---
 
 <section class="w-full bg-surface-subtle">
@@ -44,12 +46,25 @@ const { eyebrow, headingLead, headingAccent, caption, imageAlt, items } = Astro.
       class="mt-7 grid grid-cols-1 gap-x-20 gap-y-7 md:mt-10 md:gap-y-4 xl:mt-[70px] xl:grid-cols-[minmax(0,660px)_minmax(0,1fr)] xl:grid-rows-[auto_auto]"
     >
       {/* ── Photo (row 1, col 1) ── */}
-      {/* TODO: replace with <Image> when the shop-floor photo is ready */}
       <div
-        class="aspect-[342/240] w-full bg-placeholder-on-grey md:aspect-[660/500] xl:col-start-1 xl:row-start-1"
-        role="img"
-        aria-label={imageAlt}
+        class="relative aspect-[342/240] w-full overflow-hidden bg-placeholder-on-grey md:aspect-[660/500] xl:col-start-1 xl:row-start-1"
+        role={image ? undefined : 'img'}
+        aria-label={image ? undefined : imageAlt}
       >
+        {
+          image && (
+            <Image
+              src={image.src}
+              alt={image.alt || imageAlt}
+              width={1320}
+              height={1000}
+              widths={[342, 684, 1000, 1320]}
+              sizes="(min-width: 1280px) 660px, 100vw"
+              layout="cover"
+              class="absolute inset-0 h-full w-full object-cover"
+            />
+          )
+        }
       </div>
 
       {/* ── Caption (row 2, col 1) ── */}

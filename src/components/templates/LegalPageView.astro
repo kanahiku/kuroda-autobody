@@ -11,12 +11,14 @@ import Heading from '~/components/ui/Heading.astro';
 import Text from '~/components/ui/Text.astro';
 import { CONTACT } from '~/config/contact';
 import type { LegalPage } from '~/data/legalPages';
+import { getPagePhotos } from '~/lib/content';
 
 export interface Props {
   page: LegalPage;
 }
 
 const { page } = Astro.props;
+const photos = await getPagePhotos(page.path);
 
 const metadata = {
   title: page.seoTitle,
@@ -28,7 +30,13 @@ const linkClass = 'text-accent underline-offset-4 transition-colors hover:underl
 ---
 
 <Layout metadata={metadata}>
-  <PageHero eyebrow="Legal" titleLead={page.titleLead} titleAccent={page.titleAccent} showCtas={false} />
+  <PageHero
+    eyebrow="Legal"
+    titleLead={page.titleLead}
+    titleAccent={page.titleAccent}
+    showCtas={false}
+    image={photos.hero}
+  />
 
   <section class="w-full bg-surface-page">
     <MaxWidthContainer class="py-14 md:py-16 xl:py-[120px]">
@@ -66,5 +74,5 @@ const linkClass = 'text-accent underline-offset-4 transition-colors hover:underl
     </MaxWidthContainer>
   </section>
 
-  <CTABanner variant="split" title={page.cta.title} titleStrong={page.cta.titleStrong} />
+  <CTABanner variant="split" title={page.cta.title} titleStrong={page.cta.titleStrong} image={photos.cta} />
 </Layout>

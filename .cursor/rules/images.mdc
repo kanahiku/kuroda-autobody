@@ -1,12 +1,22 @@
 ---
-description: Image placement — always use grey placeholder boxes; NEVER use Figma MCP image URLs
+description: Image placement — photos come from Sanity (uploaded via scripts/upload-page-images.mjs); grey placeholders only where none is uploaded; NEVER use Figma MCP image URLs
 alwaysApply: true
 ---
 
 # Image placeholders — strict rule
 
-**Photography stays grey placeholder boxes.** This covers hero photos, split images, card thumbnails and
-before/after pictures. The client will supply real photos in a separate pass.
+**Photography lives in Sanity, not in the repo.** The client's photos (`new-images/Kuroda Website Images/<page>/`,
+mapped in `Image Manifest.csv`) are uploaded page by page with `scripts/upload-page-images.mjs "<folder>"`, which
+resizes them (2000px JPEG) and attaches them to the page document's photo field (+ alt text). Widgets take an
+`image={{ src, alt }}` prop and render it with `~/components/common/Image.astro`; with no photo uploaded they keep
+the grey placeholder. Never commit photo files to the repo.
+
+Run `scripts/upload-page-images.mjs all` (or one folder) to (re)apply every photo in the manifest. Where photos live:
+page documents hold their own (`hero.image`, `cta.image`, a story / steps block's `image`); pages with no document
+(Reviews, legal, blog list, blog articles) use rows of the site-wide `pagePhotos` document. All 31 folders are done.
+Pages with no folder in the manifest still show grey placeholders (see the hand-off list).
+
+The sections below are the original placeholder rules — they still apply to any photo that has no upload.
 
 ## Client-supplied brand assets — USE THESE (already delivered)
 

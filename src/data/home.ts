@@ -8,7 +8,8 @@
  *
  * Headings are two plain fields: `headingLead` (normal weight) + `headingAccent` (brand accent /
  * gradient, styled by the widget). Do not add trailing spaces — the loader handles spacing.
- * Photos stay grey placeholders; only their alt text is edited in Sanity for now (`*Alt`).
+ * Photos are not in this file: each section's `image` is uploaded in Sanity and attached by
+ * `getHomeContent()`; the alt text (`imageAlt`) is edited next to it. No upload → grey placeholder.
  */
 
 export type HeroTrustIcon = 'icar' | 'target' | 'shield' | 'home';
@@ -16,6 +17,12 @@ export type ServiceIcon = 'collision' | 'calibration' | 'paint' | 'alignment' | 
 export type WhyIcon = 'shield' | 'clock' | 'chat' | 'check';
 export type ProofIcon = 'document' | 'camera' | 'walk-around';
 export type CredentialLogo = 'icar-gold-class' | 'honda' | 'acura' | 'nissan' | 'gm' | 'fca';
+
+/** A photo uploaded in Sanity (`<section>.image`); absent → the page shows a grey placeholder. */
+export interface HomePhoto {
+  src: string;
+  alt: string;
+}
 
 export interface HomeContent {
   seo: { title: string; description: string };
@@ -29,6 +36,7 @@ export interface HomeContent {
     /** Phone number is appended from site config: "CALL KURODA (808) …". */
     callLabel: string;
     imageAlt: string;
+    image?: HomePhoto;
     trustItems: { icon: HeroTrustIcon; text: string }[];
   };
   services: {
@@ -38,6 +46,7 @@ export interface HomeContent {
     caption: string;
     figLabel: string;
     imageAlt: string;
+    image?: HomePhoto;
     items: { title: string; description: string; icon: ServiceIcon }[];
   };
   why: {
@@ -46,6 +55,7 @@ export interface HomeContent {
     headingAccent: string;
     caption: string;
     imageAlt: string;
+    image?: HomePhoto;
     items: { title: string; description: string; icon: WhyIcon }[];
   };
   beforeAfter: {
@@ -68,6 +78,7 @@ export interface HomeContent {
     quoteAttribution: string;
     caption: string;
     imageAlt: string;
+    image?: HomePhoto;
     stats: { value: string; label: string }[];
   };
   protection: {
@@ -106,6 +117,7 @@ export interface HomeContent {
     ctaTwo: { text: string; href: string };
     hours: string;
     imageAlt: string;
+    image?: HomePhoto;
   };
 }
 

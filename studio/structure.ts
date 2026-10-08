@@ -1,4 +1,4 @@
-import { DocumentTextIcon, FolderIcon } from '@sanity/icons';
+import { DocumentTextIcon, FolderIcon, ImagesIcon } from '@sanity/icons';
 import type { StructureBuilder } from 'sanity/structure';
 
 /** Document id for a content page — same rule as `contentPageId()` in src/lib/content/contentPageDoc.ts. */
@@ -117,6 +117,10 @@ export const structure = (S: StructureBuilder) =>
         .schemaType('ratingsBar')
         .child(S.document().schemaType('ratingsBar').documentId('ratingsBar').title('Ratings bar')),
       S.listItem()
+        .title('Page photos (reviews, legal, blog)')
+        .schemaType('pagePhotos')
+        .child(S.document().schemaType('pagePhotos').documentId('pagePhotos').title('Page photos')),
+      S.listItem()
         .title('Header & footer (site-wide)')
         .schemaType('siteNavigation')
         .child(S.document().schemaType('siteNavigation').documentId('siteNavigation').title('Header & footer')),
@@ -149,5 +153,6 @@ export const singletonTypes = new Set<string>([
   'contactPage',
   'contentPage',
   'ratingsBar',
+  'pagePhotos',
   'siteNavigation',
 ]);

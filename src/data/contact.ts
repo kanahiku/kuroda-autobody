@@ -22,6 +22,7 @@ export interface ContactContent {
     headingAccent: string;
     body: string;
     imageAlt: string;
+    image?: { src: string; alt: string };
   };
   /** Heading above the estimate form (the form's fields stay in code). */
   form: { headingLead: string; headingAccent: string };

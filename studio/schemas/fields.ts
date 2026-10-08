@@ -44,15 +44,14 @@ export const heading = (leadMax = 60, accentMax = 40) => [
   ),
 ];
 
-/** Photo upload + alt text. The site shows a grey placeholder until the real photos go live. */
+/** Photo upload + alt text. The site shows a grey placeholder wherever no photo is uploaded. */
 export const photo = (prefix = '', label = 'Photo', requireAlt = true) => [
   defineField({
     name: prefix ? `${prefix}Image` : 'image',
     title: label,
     type: 'image',
     options: { hotspot: true },
-    description:
-      'Optional for now — the site shows a grey placeholder until the photos go live. Upload it here when you have it.',
+    description: 'Optional — the site shows a grey placeholder until a photo is uploaded here.',
   }),
   defineField({
     name: prefix ? `${prefix}Alt` : 'imageAlt',

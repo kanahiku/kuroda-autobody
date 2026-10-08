@@ -1,0 +1,12 @@
+---
+/**
+ * /had-an-accident/insurance-companies/progressive/ — copy lives in Sanity's `contentPage` document, merged over the built-in page in
+ * src/data/insuranceCompanies.ts by getContentPageContent().
+ */
+import ContentPageView from '~/components/templates/ContentPageView.astro';
+import { getContentPageContent } from '~/lib/content';
+
+const page = await getContentPageContent('/had-an-accident/insurance-companies/progressive/');
+---
+
+<ContentPageView page={page} />

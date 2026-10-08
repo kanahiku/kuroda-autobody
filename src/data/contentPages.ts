@@ -8,16 +8,22 @@ import { reviewPages } from '~/data/reviews';
 import { ourStoryPages } from '~/data/ourStory';
 import { whyKurodaPages } from '~/data/whyKuroda';
 import { serviceAreaPages } from '~/data/serviceAreas';
+import { certificationProgramPages } from '~/data/certificationPrograms';
+import { serviceAreaWestPages } from '~/data/serviceAreasWest';
+import { insuranceCompanyPages } from '~/data/insuranceCompanies';
 
 export const contentPages: ContentPage[] = [
   ...collisionRepairPages,
   ...collisionRepairHubPages,
   ...hadAnAccidentPages,
   ...hadAnAccidentHubPages,
+  ...insuranceCompanyPages,
   ...ourStoryPages,
   ...reviewPages,
   ...whyKurodaPages,
+  ...certificationProgramPages,
   ...serviceAreaPages,
+  ...serviceAreaWestPages,
 ];
 
 export function getContentPage(path: string): ContentPage {

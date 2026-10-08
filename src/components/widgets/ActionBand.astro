@@ -4,6 +4,7 @@ import Button from '~/components/ui/Button.astro';
 /**
  * ActionBand — a mid-page navy band: eyebrow, two-tone heading, one paragraph and a single button.
  * Use it to point at a related page (e.g. warranty details) without the team photo of the split CTABanner.
+ * Optional second button (`secondaryCta*`) and a default slot for a closing line under the buttons.
  * The surface is always navy, so it does not take part in the page/subtle rhythm.
  */
 export interface Props {
@@ -15,10 +16,27 @@ export interface Props {
   body: string;
   ctaText: string;
   ctaHref: string;
+  /** Open the primary button in a new tab (external links). */
+  ctaExternal?: boolean;
+  secondaryCtaText?: string;
+  secondaryCtaHref?: string;
+  secondaryCtaExternal?: boolean;
   id?: string;
 }
 
-const { eyebrow, headingLead, headingStrong, body, ctaText, ctaHref, id } = Astro.props;
+const {
+  eyebrow,
+  headingLead,
+  headingStrong,
+  body,
+  ctaText,
+  ctaHref,
+  ctaExternal = false,
+  secondaryCtaText,
+  secondaryCtaHref,
+  secondaryCtaExternal = false,
+  id,
+} = Astro.props;
 ---
 
 <section {...id ? { id } : {}} class="w-full bg-surface-inverse">
@@ -46,8 +64,34 @@ const { eyebrow, headingLead, headingStrong, body, ctaText, ctaHref, id } = Astr
       {body}
     </p>
 
-    <div>
-      <Button variant="inverse" text={ctaText} href={ctaHref} hideNote={true} class="w-full sm:w-auto" />
+    <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+      <Button
+        variant="inverse"
+        text={ctaText}
+        href={ctaHref}
+        hideNote={true}
+        class="w-full sm:w-auto"
+        {...ctaExternal ? { target: '_blank' } : {}}
+      />
+      {
+        secondaryCtaText && secondaryCtaHref && (
+          <Button
+            variant="secondary"
+            text={secondaryCtaText}
+            href={secondaryCtaHref}
+            class="w-full sm:w-auto"
+            {...(secondaryCtaExternal ? { target: '_blank' } : {})}
+          />
+        )
+      }
     </div>
+
+    {
+      Astro.slots.has('default') && (
+        <div class="max-w-[680px] font-body text-[15px] leading-[1.55] text-on-dark-85 md:text-[16px] md:leading-7">
+          <slot />
+        </div>
+      )
+    }
   </MaxWidthContainer>
 </section>

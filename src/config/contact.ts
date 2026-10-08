@@ -78,3 +78,14 @@ export const CONTACT = {
 
   areaServed: "O'ahu, Hawaii",
 } as const;
+
+/**
+ * Carwise portal links used by /online-estimate/. Leave empty until the client supplies them — the
+ * buttons then fall back to the estimate form on /contact/.
+ */
+export const CARWISE = {
+  /** Photo-based online estimate tool. */
+  photoEstimateUrl: '',
+  /** In-person appointment scheduler. */
+  appointmentUrl: '',
+};

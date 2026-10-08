@@ -244,7 +244,8 @@
         "secondaryCtaText / secondaryCtaHref?": "string — ghost button in split",
         "address? / hours?": "string — split visit-info row",
         "photoLabel?": "string",
-        "showBand?": "boolean — render the silver band above (default true)"
+        "showBand?": "boolean — render the silver band above (default true)",
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
       },
       "notes": "One per page, always last section before Footer. Homepage places the silver GradientBand itself and passes showBand={false}."
     },
@@ -306,16 +307,19 @@
       "id": "P-40",
       "name": "Action band",
       "figmaNames": [],
-      "shape": "Full-width navy band: eyebrow, two-weight heading, one paragraph and a single inverse button. No photo.",
+      "shape": "Full-width navy band: eyebrow, two-weight heading, one paragraph and an inverse button (optional second ring button and closing-line slot). No photo.",
       "component": "ActionBand",
       "import": "~/components/widgets/ActionBand.astro",
       "props": {
         "eyebrow?": "string",
         "headingLead / headingStrong?": "string",
         "body": "string",
-        "ctaText / ctaHref": "string"
+        "ctaText / ctaHref": "string",
+        "ctaExternal?": "boolean — open the primary button in a new tab",
+        "secondaryCtaText / secondaryCtaHref / secondaryCtaExternal?": "optional second button (ring style)",
+        "default slot": "optional closing line under the buttons"
       },
-      "notes": "ContentPageView section type `action`. Always navy, so it does not advance the page/subtle surface rhythm. Use instead of the split CTABanner when a mid-page pointer needs no photo (e.g. warranty details on the Collision Repair hub)."
+      "notes": "ContentPageView section type `action` (single button only; the second button + slot are used by /online-estimate/). Always navy, so it does not advance the page/subtle surface rhythm. Use instead of the split CTABanner when a mid-page pointer needs no photo (e.g. warranty details on the Collision Repair hub)."
     },
     {
       "id": "P-41",
@@ -377,7 +381,8 @@
         "stats?": "{ value, label }[]",
         "paragraphs?": "string[] — replaces body",
         "photoLabel?": "string",
-        "isReversed?": "boolean — photo on the right from xl up (alternate on long story pages)"
+        "isReversed?": "boolean — photo on the right from xl up (alternate on long story pages)",
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
       },
       "notes": "Defaults hold the Kuroda copy from Figma. Pass quote=\"\", stats={[]}, caption=\"\" or eyebrow=\"\" to drop those blocks (e.g. Post-Repair Walkthrough). Photo stays a grey box until client supplies assets."
     },
@@ -413,7 +418,8 @@
         "headingLead?": "string — light-weight part",
         "headingAccent?": "string — semibold part",
         "caption?": "string",
-        "items?": "{ title, description, icon: shield|clock|chat|check }[]"
+        "items?": "{ title, description, icon: shield|clock|chat|check }[]",
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
       },
       "notes": "Defaults hold the Kuroda copy from Figma. Photo stays a grey box (bg-placeholder-on-grey) until client supplies assets."
     },
@@ -431,7 +437,8 @@
         "headingAccent?": "string — blue semibold part",
         "caption?": "string",
         "figLabel?": "string",
-        "items?": "{ title, description, icon: collision|calibration|paint|alignment|claims|rental }[]"
+        "items?": "{ title, description, icon: collision|calibration|paint|alignment|claims|rental }[]",
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
       },
       "notes": "Defaults hold the Kuroda copy from Figma. Photo must stay a grey box until the client supplies assets."
     },
@@ -493,7 +500,8 @@
         "eyebrow / headingLead / headingAccent / tagline / body": "string — all copy comes from Sanity `homePage.hero` (fallback in src/data/home.ts)",
         "primaryCtaText / callLabel": "string — destinations come from ~/config (PRIMARY_CTA_HREF, CONTACT.phone)",
         "imageAlt": "string — accessible label of the placeholder photo",
-        "trustItems": "{ icon: 'icar'|'target'|'shield'|'home', text }[] — exactly 4"
+        "trustItems": "{ icon: 'icar'|'target'|'shield'|'home', text }[] — exactly 4",
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
       },
       "notes": "Homepage only. Interior pages use PageHero. Homepage widgets (RatingsBar, ServiceGridSplit, FeatureListSplit, BeforeAfter, ConsumerProtection, ReviewsColumns) have no built-in copy: pass every prop from getHomeContent()."
     }

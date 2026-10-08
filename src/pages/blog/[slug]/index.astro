@@ -12,7 +12,7 @@ import BlogSidebar from '~/components/blog/BlogSidebar.astro';
 import BlogGrid from '~/components/widgets/BlogGrid.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
 import { getFormattedDate } from '~/utils/utils';
-import { getBlogPost, getBlogPosts } from '~/lib/content';
+import { getBlogPost, getBlogPosts, getPagePhotos } from '~/lib/content';
 import { getArticleToc, getReadingMinutes } from '~/lib/content/blogArticle';
 import { site } from '~/config/site';
 
@@ -28,11 +28,12 @@ if (!post) {
 
 const toc = getArticleToc(post);
 const readingMinutes = getReadingMinutes(post);
-const moreArticles = (await getBlogPosts()).filter((item) => item.slug !== post.slug).slice(0, 3);
+const [allPosts, photos] = await Promise.all([getBlogPosts(), getPagePhotos('/blog/*')]);
+const moreArticles = allPosts.filter((item) => item.slug !== post.slug).slice(0, 3);
 
 const metadata = {
-  title: `${post.title} | ${site.name}`,
-  description: post.excerpt,
+  title: post.seoTitle ?? `${post.title} | ${site.name}`,
+  description: post.seoDescription ?? post.excerpt,
   ignoreTitleTemplate: true,
 };
 ---
@@ -108,5 +109,5 @@ const metadata = {
     )
   }
 
-  <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" />
+  <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" image={photos.cta} />
 </Layout>

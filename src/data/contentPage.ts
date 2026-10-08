@@ -12,6 +12,12 @@ import type { BrandIconName } from '~/components/ui/BrandIcon.astro';
 
 type Surface = 'page' | 'subtle';
 
+/** A photo uploaded in Sanity; absent → the widget shows its grey placeholder. */
+export interface PagePhoto {
+  src: string;
+  alt: string;
+}
+
 export interface FeatureItem {
   icon: BrandIconName;
   title: string;
@@ -57,6 +63,10 @@ export interface StepsSection {
   headingStrong?: string;
   lead?: string;
   steps: { title: string; description: string }[];
+  /** Photo beside the heading (service pages' "Four-Step Process"). */
+  image?: PagePhoto;
+  /** Accessible label for the photo placeholder. */
+  photoLabel?: string;
   surface?: Surface;
 }
 
@@ -73,6 +83,8 @@ export interface StorySection {
   quoteAttribution?: string;
   /** Accessible label for the grey photo placeholder. */
   photoLabel?: string;
+  /** Uploaded photo (Sanity). */
+  image?: PagePhoto;
   /** Photo on the right (desktop). */
   isReversed?: boolean;
   /** Caption under the photo. */
@@ -159,6 +171,8 @@ export interface ContentPage {
     body: string | string[];
     /** Accessible label for the grey hero photo placeholder (default: the page name). */
     photoLabel?: string;
+    /** Hero photo uploaded in Sanity. */
+    image?: PagePhoto;
   };
   sections: ContentSection[];
   /** Omit when the copy has no FAQs. */
@@ -185,6 +199,8 @@ export interface ContentPage {
     ctaHref?: string;
     secondaryCtaText?: string;
     secondaryCtaHref?: string;
+    /** Closing-CTA photo uploaded in Sanity. */
+    image?: PagePhoto;
   };
 }
 

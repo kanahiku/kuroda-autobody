@@ -7,6 +7,7 @@ import type {
   FeatureItem,
   FaqItem,
   FeaturesSection,
+  PagePhoto,
   QuoteSection,
   StepsSection,
   StorySection,
@@ -77,6 +78,8 @@ export interface StorySectionDoc extends HeadingDoc {
   quoteAttribution?: string;
   isReversed: boolean;
   imageAlt?: string;
+  /** Uploaded photo — attached by the loader from Sanity, never written by the seed. */
+  image?: PagePhoto;
   caption?: string;
   stats?: { value: string; label: string }[];
 }
@@ -111,6 +114,8 @@ export interface StepsSectionDoc extends HeadingDoc {
   eyebrow?: string;
   lead?: string;
   steps: { title: string; description: string }[];
+  imageAlt?: string;
+  image?: PagePhoto;
 }
 
 export interface ActionSectionDoc extends HeadingDoc {
@@ -180,6 +185,7 @@ export interface ContentPageDoc {
     description: string;
     ctaOne: { text: string; href: string };
     ctaTwo: { text: string; href: string };
+    imageAlt: string;
   };
 }
 
@@ -350,6 +356,7 @@ const ctaToDoc = (cta: PageCta): ContentPageDoc['cta'] => ({
     text: cta.secondaryCtaText ?? 'CALL {phone}',
     href: cta.secondaryCtaHref ?? '{phoneHref}',
   },
+  imageAlt: '',
 });
 
 /** Built-in page → Sanity-shaped document (used for seeding and as the merge base). */
@@ -395,6 +402,7 @@ const storyFromDoc = (s: StorySectionDoc): StorySection => ({
   ...opt('quote', s.quote),
   ...opt('quoteAttribution', s.quoteAttribution),
   ...opt('photoLabel', s.imageAlt),
+  ...(s.image ? { image: s.image } : {}),
   ...opt('caption', s.caption),
   ...(s.stats?.length ? { stats: s.stats } : {}),
   ...(s.isReversed ? { isReversed: true } : {}),
@@ -427,6 +435,8 @@ const stepsFromDoc = (s: StepsSectionDoc): StepsSection => ({
   ...headingFromDoc(s),
   ...opt('lead', s.lead),
   steps: s.steps,
+  ...opt('photoLabel', s.imageAlt),
+  ...(s.image ? { image: s.image } : {}),
 });
 
 const actionFromDoc = (s: ActionSectionDoc): ActionSection => ({

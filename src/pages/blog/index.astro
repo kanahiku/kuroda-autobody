@@ -8,13 +8,13 @@ import PageHero from '~/components/widgets/PageHero.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
 import BlogGrid from '~/components/widgets/BlogGrid.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
-import { getBlogPosts } from '~/lib/content';
+import { getBlogPosts, getPagePhotos } from '~/lib/content';
 import { CONTACT } from '~/config/contact';
 import { site } from '~/config/site';
 
 export const prerender = false;
 
-const posts = await getBlogPosts();
+const [posts, photos] = await Promise.all([getBlogPosts(), getPagePhotos('/blog/')]);
 
 const description = `Collision repair guidance, insurance claim tips and repair insights from the ${site.name} team in ${CONTACT.address.city}, Oʻahu.`;
 
@@ -26,11 +26,11 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <PageHero titleLead="Blogs" showCtas={false} compact photoLabel={`${site.name} blog`} />
+  <PageHero titleLead="Blogs" showCtas={false} compact photoLabel={`${site.name} blog`} image={photos.hero} />
 
   <GradientBand variant="blue" />
 
   <BlogGrid posts={posts} />
 
-  <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" />
+  <CTABanner variant="split" title="Schedule Your " titleStrong="Estimate Today" image={photos.cta} />
 </Layout>

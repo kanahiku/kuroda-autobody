@@ -1,4 +1,5 @@
 ---
+import Image from '~/components/common/Image.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
 import { CONTACT } from '~/config/contact';
@@ -25,25 +26,43 @@ export interface Props {
   primaryCtaText: string;
   /** Phone number is appended from CONTACT: "CALL KURODA (808) …". */
   callLabel: string;
-  /** Accessible description of the (placeholder) hero photo. */
+  /** Accessible description of the hero photo (used for the grey placeholder until one is uploaded). */
   imageAlt: string;
+  /** Hero photo uploaded in Sanity; absent → grey placeholder. */
+  image?: { src: string; alt: string };
   trustItems: TrustItem[];
 }
 
-const { eyebrow, headingLead, headingAccent, tagline, body, primaryCtaText, callLabel, imageAlt, trustItems } =
+const { eyebrow, headingLead, headingAccent, tagline, body, primaryCtaText, callLabel, imageAlt, image, trustItems } =
   Astro.props;
 
 const trustIcon = { target: 'target-24', shield: 'shield-24', home: 'home-24' } as const;
 ---
 
 <section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[776px]">
-  {/* Photo placeholder — right side, starts ~200px from left on desktop */}
-  {/* TODO: replace with <Image> when the hero photo is ready */}
+  {/* Photo — right side, starts ~200px from left on desktop; grey placeholder until one is uploaded in Sanity */}
   <div
-    class="absolute inset-x-0 top-0 h-[460px] bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
-    role="img"
-    aria-label={imageAlt}
+    class="absolute inset-x-0 top-0 h-[460px] overflow-hidden bg-section-grey md:inset-y-0 md:left-[200px] md:right-0 md:h-auto"
+    role={image ? undefined : 'img'}
+    aria-label={image ? undefined : imageAlt}
   >
+    {
+      image && (
+        <Image
+          src={image.src}
+          alt={image.alt || imageAlt}
+          width={1240}
+          height={776}
+          widths={[640, 960, 1240, 1600, 2000]}
+          sizes="100vw"
+          layout="cover"
+          quality={75}
+          class="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+      )
+    }
   </div>
 
   {/* Gradient overlays (Figma node 136:219–221) */}

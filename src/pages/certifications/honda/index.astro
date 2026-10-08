@@ -1,0 +1,12 @@
+---
+/**
+ * /certifications/honda/ — copy lives in Sanity's `contentPage` document, merged over the built-in page in
+ * src/data/certificationPrograms.ts by getContentPageContent().
+ */
+import ContentPageView from '~/components/templates/ContentPageView.astro';
+import { getContentPageContent } from '~/lib/content';
+
+const page = await getContentPageContent('/certifications/honda/');
+---
+
+<ContentPageView page={page} />

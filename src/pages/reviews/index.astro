@@ -1,7 +1,7 @@
 ---
-/** /reviews/ — copy lives in src/data/reviews.ts (see contentPage.ts). */
+/** /reviews/ — copy lives in src/data/reviews.ts; hero / closing photos come from Sanity's `pagePhotos`. */
 import ContentPageView from '~/components/templates/ContentPageView.astro';
-import { getContentPage } from '~/data/contentPages';
+import { getContentPageContent } from '~/lib/content';
 ---
 
-<ContentPageView page={getContentPage('/reviews/')} />
+<ContentPageView page={await getContentPageContent('/reviews/')} />

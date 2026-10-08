@@ -5,17 +5,18 @@
  * variant="center" (default) — centred dark banner with ornamental rules.
  * variant="split"            — Figma 136:589 "Final CTA": diagonal Blue → Navy
  *                              surface with chevron motif, copy + buttons + visit
- *                              info on the left, 470px team photo (grey placeholder
- *                              until the client supplies it) on the right.
+ *                              info on the left, 470px team photo on the right (grey
+ *                              placeholder until one is uploaded in Sanity).
  *
  * Split-only props: eyebrow, titleStrong, subtitle (body), address, hours,
- * photoLabel, showBand. `title` is the light-weight lead; `titleStrong` the
+ * photoLabel, image, showBand. `title` is the light-weight lead; `titleStrong` the
  * semibold tail.
  *
  * Split defaults come from `~/config/cta` + CONTACT: subtitle = CLOSING_CTA_SUBTITLE,
  * buttons = Schedule an Estimate + Call (808) …. Pass them only to override.
  */
 
+import Image from '~/components/common/Image.astro';
 import Button from '~/components/ui/Button.astro';
 import Heading from '~/components/ui/Heading.astro';
 import Text from '~/components/ui/Text.astro';
@@ -45,6 +46,8 @@ export interface Props {
   hours?: string;
   /** split: accessible label for the photo placeholder. */
   photoLabel?: string;
+  /** split: team photo uploaded in Sanity; absent → grey placeholder. */
+  image?: { src: string; alt: string };
   /** Render the silver divider band above the section (default true; set false when the page places it). */
   showBand?: boolean;
   id?: string;
@@ -64,6 +67,7 @@ const {
   address,
   hours,
   photoLabel = `${site.name} team`,
+  image,
   showBand = true,
   id,
 } = Astro.props;
@@ -146,13 +150,46 @@ const displayTitle = eyebrow ? `${eyebrow}: ${title}` : title;
           )}
         </div>
 
-        {/* ── Team photo — grey placeholder, inside the container, flush with its right edge ── */}
-        {/* TODO: replace with <Image> when the team photo is ready */}
-        <div class="hidden w-full bg-section-grey lg:block" role="img" aria-label={photoLabel} />
+        {/* ── Team photo — inside the container, flush with its right edge (grey placeholder until uploaded) ── */}
+        <div
+          class="relative hidden w-full overflow-hidden bg-section-grey lg:block"
+          role={image ? undefined : 'img'}
+          aria-label={image ? undefined : photoLabel}
+        >
+          {image && (
+            <Image
+              src={image.src}
+              alt={image.alt || photoLabel}
+              width={940}
+              height={1120}
+              widths={[470, 940, 1200]}
+              sizes="470px"
+              layout="cover"
+              class="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
+        </div>
       </MaxWidthContainer>
 
       {/* Mobile: photo runs full-bleed under the copy (Figma 142:155 · 390 × 360) */}
-      <div class="relative z-[1] h-[360px] w-full bg-section-grey lg:hidden" role="img" aria-label={photoLabel} />
+      <div
+        class="relative z-[1] h-[360px] w-full overflow-hidden bg-section-grey lg:hidden"
+        role={image ? undefined : 'img'}
+        aria-label={image ? undefined : photoLabel}
+      >
+        {image && (
+          <Image
+            src={image.src}
+            alt={image.alt || photoLabel}
+            width={780}
+            height={720}
+            widths={[390, 780, 1200]}
+            sizes="100vw"
+            layout="cover"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        )}
+      </div>
     </section>
   ) : (
     <section

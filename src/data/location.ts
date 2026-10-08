@@ -23,6 +23,7 @@ export interface LocationContent {
     headingAccent: string;
     body: string;
     imageAlt: string;
+    image?: { src: string; alt: string };
   };
   details: {
     eyebrow: string;
@@ -66,6 +67,8 @@ export interface LocationContent {
     description: string;
     ctaOne: { text: string; href: string };
     ctaTwo: { text: string; href: string };
+    imageAlt: string;
+    image?: { src: string; alt: string };
   };
 }
 
@@ -199,5 +202,6 @@ export const locationFallback: LocationContent = {
       'Get expert guidance and reliable collision repair from a family-owned shop rooted in Hawaii since 1938.',
     ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: '/contact/' },
     ctaTwo: { text: 'CALL {phone}', href: '{phoneHref}' },
+    imageAlt: 'Kuroda Autobody front desk team greeting a customer',
   },
 };

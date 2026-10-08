@@ -2,6 +2,7 @@ import { locationFallback, type LocationContent } from '../../data/location';
 import { applyTokens } from './merge';
 import { getSingleton } from './singleton';
 import { siteTokens } from './tokens';
+import { withSanityPhotos } from './photos';
 
 /**
  * Location page content = Sanity `locationPage` document merged over `locationFallback`
@@ -9,5 +10,5 @@ import { siteTokens } from './tokens';
  */
 export async function getLocationContent(): Promise<LocationContent> {
   const content = await getSingleton('locationPage', locationFallback);
-  return applyTokens(content, siteTokens());
+  return withSanityPhotos(applyTokens(content, siteTokens()), 'locationPage', ['hero', 'cta']);
 }

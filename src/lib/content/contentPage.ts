@@ -13,7 +13,11 @@ import {
   type Surface,
 } from './contentPageDoc';
 import { applyTokens, mergeValue } from './merge';
+import { getPagePhotos } from './photos';
+import { getSanityContentPageImages } from './sanity';
+import { isSanityConfigured } from '../sanity/client';
 import { fetchDocument } from './singleton';
+import type { ContentImage } from './types';
 import { siteTokens } from './tokens';
 
 /**
@@ -109,7 +113,13 @@ function readSteps(block: Block, common: CommonFields): SectionDoc | null {
     filled(step.title) && filled(step.description) ? [{ title: step.title, description: step.description }] : []
   );
   if (steps.length === 0) return null;
-  return { _type: 'stepsSection', ...common, ...optional('lead', block.lead), steps };
+  return {
+    _type: 'stepsSection',
+    ...common,
+    ...optional('lead', block.lead),
+    steps,
+    ...optional('imageAlt', block.imageAlt),
+  };
 }
 
 function readAction(block: Block, common: CommonFields): SectionDoc | null {
@@ -162,11 +172,19 @@ function readSection(block: Block): SectionDoc | null {
   }
 }
 
+/** Story and numbered-steps blocks can hold an uploaded photo (found by the block's `_key`). */
+function withBlockPhoto(section: SectionDoc, block: Block, photos: Record<string, ContentImage>): SectionDoc {
+  const photo = typeof block._key === 'string' ? photos[block._key] : undefined;
+  if (!photo || (section._type !== 'storySection' && section._type !== 'stepsSection')) return section;
+  return { ...section, image: { src: photo.src, alt: filled(block.imageAlt) ? block.imageAlt : '' } };
+}
+
 /** Keep only complete blocks of a kind the site can render. */
-function readSections(value: unknown): SectionDoc[] | undefined {
+function readSections(value: unknown, photos: Record<string, ContentImage>): SectionDoc[] | undefined {
   const sections = records(value).flatMap((block) => {
-    const section = readSection(block);
-    if (!section) return [];
+    const read = readSection(block);
+    if (!read) return [];
+    const section = withBlockPhoto(read, block, photos);
     const pinned: Surface | undefined =
       block.surface === 'page' || block.surface === 'subtle' ? block.surface : undefined;
     return [section._type !== 'actionSection' && pinned ? { ...section, surface: pinned } : section];
@@ -203,20 +221,53 @@ function mergeFaqs(base: FaqsDoc, sanity: unknown): FaqsDoc {
   return { ...head, items: read.length ? read : items };
 }
 
+type PagePhotos = { hero?: ContentImage; cta?: ContentImage; sections: Record<string, ContentImage> };
+
+async function fetchDocPhotos(id: string): Promise<PagePhotos> {
+  const none: PagePhotos = { sections: {} };
+  if (!isSanityConfigured) return none;
+  return getSanityContentPageImages(id).catch((error) => {
+    console.warn(`Sanity photos for "${id}" unavailable — showing placeholders.`, error);
+    return none;
+  });
+}
+
+/** Hero / closing photos: the page document's own, else the site-wide `pagePhotos` row for pages with no document. */
+async function attachPhotos(page: ContentPage, path: string, own: PagePhotos, ctaAlt: string): Promise<ContentPage> {
+  const shared = own.hero && own.cta ? {} : await getPagePhotos(path);
+  const hero = own.hero ?? shared.hero;
+  const cta = own.cta ?? shared.cta;
+  return {
+    ...page,
+    hero: hero ? { ...page.hero, image: { src: hero.src, alt: hero.alt || page.hero.photoLabel || '' } } : page.hero,
+    cta: cta ? { ...page.cta, image: { src: cta.src, alt: cta.alt || ctaAlt } } : page.cta,
+  };
+}
+
 export async function getContentPageContent(path: string): Promise<ContentPage> {
   const fallback = getContentPage(path);
-  const sanityDoc = await fetchDocument(contentPageId(path));
-  if (!isRecord(sanityDoc)) return applyTokens(fallback, siteTokens());
+  const id = contentPageId(path);
+  const [sanityDoc, photos] = await Promise.all([fetchDocument(id), fetchDocPhotos(id)]);
+  if (!isRecord(sanityDoc)) return attachPhotos(applyTokens(fallback, siteTokens()), path, photos, '');
 
   const { sections: baseSections, faqs: baseFaqs, ...baseRest } = toDoc(fallback);
   const merged = mergeValue(baseRest, sanityDoc) as Omit<ContentPageDoc, 'sections' | 'faqs'>;
   const page: ContentPageDoc = {
     ...merged,
-    sections: readSections(sanityDoc.sections) ?? baseSections,
+    sections: readSections(sanityDoc.sections, photos.sections) ?? baseSections,
     ...(baseFaqs ? { faqs: mergeFaqs(baseFaqs, sanityDoc.faqs) } : {}),
   };
-  const result = applyTokens(fromDoc(page, fallback), siteTokens());
-
+  const result = await attachPhotos(
+    applyTokens(fromDoc(page, fallback), siteTokens()),
+    path,
+    {
+      ...photos,
+      // The alt text of the hero / closing photo is edited next to the upload.
+      hero: photos.hero && { ...photos.hero, alt: merged.hero.imageAlt },
+      cta: photos.cta && { ...photos.cta, alt: merged.cta.imageAlt },
+    },
+    merged.cta.imageAlt
+  );
   // Related links must be real routes — an unknown path would otherwise break the page.
   if (result.related) {
     const paths = result.related.paths.filter((p) => {

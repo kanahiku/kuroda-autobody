@@ -2,12 +2,13 @@
 import SectionTitle from '~/components/ui/SectionTitle.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import Image from '~/components/common/Image.astro';
 import { renderInline } from '~/lib/inline';
 /**
  * ProcessSteps — long ordered process (5+ steps).
  * White section: head (eyebrow + two-weight heading + lede) on the left, a hairline-ruled
  * ordered list on the right — gradient-outlined numeral, caps title, body per step
- * (same numeral treatment as ConsumerProtection, stacked as rows). No images.
+ * (same numeral treatment as ConsumerProtection, stacked as rows). Optional `image`: a photo under the head.
  */
 export interface Step {
   title: string;
@@ -20,12 +21,26 @@ export interface Props {
   headingStrong?: string;
   lead?: string;
   steps: Step[];
+  /** Photo under the head (uploaded in Sanity). Omit for none — the section has no placeholder. */
+  image?: { src: string; alt: string };
+  /** Accessible label if the photo has no alt text of its own. */
+  photoLabel?: string;
   /** Background surface (default page / white). */
   surface?: 'page' | 'subtle';
   id?: string;
 }
 
-const { eyebrow, headingLead = '', headingStrong, lead, steps, surface = 'page', id } = Astro.props;
+const {
+  eyebrow,
+  headingLead = '',
+  headingStrong,
+  lead,
+  steps,
+  image,
+  photoLabel = '',
+  surface = 'page',
+  id,
+} = Astro.props;
 const uid = `proc-${Math.random().toString(36).slice(2, 7)}`;
 ---
 
@@ -45,6 +60,22 @@ const uid = `proc-${Math.random().toString(36).slice(2, 7)}`;
             class="mt-7 font-body text-[15px] leading-[1.55] text-body-80 md:mt-6 md:text-[16px] md:leading-7 lg:text-[17px]"
             set:html={renderInline(lead)}
           />
+        )
+      }
+      {
+        image && (
+          <div class="relative mt-8 aspect-[342/240] w-full overflow-hidden rounded-[4px] bg-placeholder-on-grey md:mt-10 md:aspect-[16/9] xl:aspect-[480/360]">
+            <Image
+              src={image.src}
+              alt={image.alt || photoLabel}
+              width={960}
+              height={720}
+              widths={[480, 960, 1200]}
+              sizes="(min-width: 1280px) 480px, 100vw"
+              layout="cover"
+              class="absolute inset-0 h-full w-full object-cover"
+            />
+          </div>
         )
       }
     </div>

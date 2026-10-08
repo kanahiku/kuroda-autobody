@@ -97,6 +97,9 @@ export interface BlogPost {
   title: string;
   slug: string;
   excerpt: string;
+  /** Optional SEO overrides (article page only): title tag and meta description. */
+  seoTitle?: string;
+  seoDescription?: string;
   publishDate: string;
   author?: string;
   category?: string;
