@@ -109,6 +109,7 @@ export const contactPage = defineType({
         ...heading(40, 30),
         paragraph('body', 'Paragraph', 240),
         line('ctaText', 'Button label', 30, 'The button scrolls back up to the estimate form.'),
+        ...photo('', 'Closing photo'),
       ],
       'The navy band under the map.'
     ),

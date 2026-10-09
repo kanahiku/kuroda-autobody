@@ -2,13 +2,15 @@
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
+import Image from '~/components/common/Image.astro';
 /**
  * BeforeAfter — Figma node 136:412 ("Before & After")
  * White section: eyebrow + two-tone heading with a side paragraph, a wide
  * before/after comparison (grey placeholders, divider + handle + tags),
  * and three proof points with hairlines.
  *
- * Images: grey placeholders until client delivers assets (see images.mdc).
+ * Photos: the before / after pair uploaded in Sanity (`homePage.beforeAfter`). The after photo is clipped to the
+ * right of the divider, so the two shots (same framing) read as one split image. No upload → grey placeholder.
  */
 export interface ProofPoint {
   title: string;
@@ -23,8 +25,10 @@ export interface Props {
   body: string;
   beforeLabel: string;
   afterLabel: string;
-  /** Accessible description of the (placeholder) comparison photo. */
+  /** Accessible description of the comparison (used while the photos are placeholders). */
   imageAlt: string;
+  beforeImage?: { src: string; alt: string };
+  afterImage?: { src: string; alt: string };
   /** Divider position, % from the left. Figma: 50 */
   position?: number;
   points: ProofPoint[];
@@ -38,6 +42,8 @@ const {
   beforeLabel,
   afterLabel,
   imageAlt,
+  beforeImage,
+  afterImage,
   position = 50,
   points,
 } = Astro.props;
@@ -62,12 +68,42 @@ const {
       </p>
     </div>
 
-    {/* ── Comparison — grey placeholders, TODO: replace with before/after photos ── */}
+    {/* ── Comparison — before photo underneath, after photo clipped to the right of the divider ── */}
     <div
       class="relative h-[240px] w-full overflow-hidden rounded-[4px] bg-placeholder-on-grey md:h-[580px]"
       role="img"
       aria-label={imageAlt}
     >
+      {
+        beforeImage && (
+          <Image
+            src={beforeImage.src}
+            alt=""
+            width={2000}
+            height={1125}
+            widths={[800, 1200, 2000]}
+            sizes="(min-width: 1440px) 1312px, 100vw"
+            layout="cover"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        )
+      }
+      {
+        afterImage && (
+          <Image
+            src={afterImage.src}
+            alt=""
+            width={2000}
+            height={1125}
+            widths={[800, 1200, 2000]}
+            sizes="(min-width: 1440px) 1312px, 100vw"
+            layout="cover"
+            class="absolute inset-0 h-full w-full object-cover"
+            style={`clip-path: inset(0 0 0 ${position}%);`}
+          />
+        )
+      }
+
       {/* Divider */}
       <div
         class="absolute inset-y-0 w-[2px] -translate-x-1/2 bg-white"

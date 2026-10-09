@@ -67,6 +67,8 @@ export interface HomeContent {
     afterLabel: string;
     beforeAlt: string;
     afterAlt: string;
+    beforeImage?: HomePhoto;
+    afterImage?: HomePhoto;
     points: { title: string; description: string; icon: ProofIcon }[];
   };
   heritage: {

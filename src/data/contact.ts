@@ -42,6 +42,8 @@ export interface ContactContent {
     headingAccent: string;
     body: string;
     ctaText: string;
+    imageAlt: string;
+    image?: { src: string; alt: string };
   };
 }
 
@@ -87,5 +89,6 @@ export const contactFallback: ContactContent = {
     headingAccent: 'About a Repair?',
     body: 'Give us a call and our team will be happy to help. Ready to bring your vehicle in?',
     ctaText: 'Schedule an Estimate',
+    imageAlt: 'Front desk team greeting a customer at Kuroda Autobody',
   },
 };

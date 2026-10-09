@@ -317,6 +317,7 @@
         "ctaText / ctaHref": "string",
         "ctaExternal?": "boolean — open the primary button in a new tab",
         "secondaryCtaText / secondaryCtaHref / secondaryCtaExternal?": "optional second button (ring style)",
+        "image?": "{ src, alt } — optional photo beside the copy (right on lg+, below on phones)",
         "default slot": "optional closing line under the buttons"
       },
       "notes": "ContentPageView section type `action` (single button only; the second button + slot are used by /online-estimate/). Always navy, so it does not advance the page/subtle surface rhythm. Use instead of the split CTABanner when a mid-page pointer needs no photo (e.g. warranty details on the Collision Repair hub)."

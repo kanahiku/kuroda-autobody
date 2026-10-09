@@ -102,6 +102,7 @@ export const onlineEstimatePage = defineType({
         line('appointmentCtaText', 'Appointment button label', 40, 'Opens the Carwise appointment booking.'),
         line('callLead', 'Phone line — text before the number', 80, 'The shop phone number is added after this text.'),
         line('callTrail', 'Phone line — text after the number', 60),
+        ...photo('', 'Closing photo'),
       ],
       "The navy band at the bottom. The two buttons' links are set up by the developers."
     ),

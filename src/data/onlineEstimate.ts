@@ -43,6 +43,8 @@ export interface OnlineEstimateContent {
     /** Closing line; the phone number is rendered as a link between these two parts. */
     callLead: string;
     callTrail: string;
+    imageAlt: string;
+    image?: { src: string; alt: string };
   };
 }
 
@@ -108,5 +110,6 @@ export const onlineEstimateFallback: OnlineEstimateContent = {
     appointmentCtaText: 'Schedule In-Person Appointment',
     callLead: 'Questions about your claim? Call ',
     callTrail: ' for direct assistance.',
+    imageAlt: 'Front desk team greeting a customer at Kuroda Autobody',
   },
 };

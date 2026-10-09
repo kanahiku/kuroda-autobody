@@ -3,7 +3,7 @@ import { isSanityConfigured } from '../sanity/client';
 import { applyTokens } from './merge';
 import { getSingleton } from './singleton';
 import { siteTokens } from './tokens';
-import { getSanityFeaturedTestimonials } from './sanity';
+import { getSanityBeforeAfterImages, getSanityFeaturedTestimonials } from './sanity';
 import { withSanityPhotos } from './photos';
 
 /**
@@ -27,6 +27,12 @@ export async function getHomeContent(): Promise<HomeContent> {
         })
       : [],
   ]);
+
+  // The before / after pair lives in two fields of one section, so it is attached separately.
+  const pair = await getSanityBeforeAfterImages().catch(() => ({ before: undefined, after: undefined }));
+  const { beforeAlt, afterAlt } = home.beforeAfter;
+  if (pair.before?.src) home.beforeAfter.beforeImage = { src: pair.before.src, alt: beforeAlt };
+  if (pair.after?.src) home.beforeAfter.afterImage = { src: pair.after.src, alt: afterAlt };
 
   // The review cards come from the three featured testimonials; anything less keeps the built-in cards.
   if (testimonials.length === 3) {

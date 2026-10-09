@@ -1,11 +1,14 @@
 ---
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import Button from '~/components/ui/Button.astro';
+import Image from '~/components/common/Image.astro';
 /**
  * ActionBand — a mid-page navy band: eyebrow, two-tone heading, one paragraph and a single button.
  * Use it to point at a related page (e.g. warranty details) without the team photo of the split CTABanner.
  * Optional second button (`secondaryCta*`) and a default slot for a closing line under the buttons.
  * The surface is always navy, so it does not take part in the page/subtle rhythm.
+ * With an `image` (a photo uploaded in Sanity) the copy moves left and the photo sits on the right from `lg` up,
+ * under the copy on phones; with none the band is unchanged.
  */
 export interface Props {
   eyebrow?: string;
@@ -21,6 +24,8 @@ export interface Props {
   secondaryCtaText?: string;
   secondaryCtaHref?: string;
   secondaryCtaExternal?: boolean;
+  /** Optional photo beside the copy. */
+  image?: { src: string; alt: string };
   id?: string;
 }
 
@@ -35,61 +40,86 @@ const {
   secondaryCtaText,
   secondaryCtaHref,
   secondaryCtaExternal = false,
+  image,
   id,
 } = Astro.props;
 ---
 
 <section {...id ? { id } : {}} class="w-full bg-surface-inverse">
-  <MaxWidthContainer class="flex flex-col gap-7 py-14 md:gap-8 md:py-16 xl:py-[96px]">
-    {/* Eyebrow → heading: gap-1 rule */}
-    <div class="flex flex-col gap-1">
-      {
-        eyebrow && (
-          <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-[13px] tracking-[1.54px] text-on-dark-85 uppercase">
-            <span class="block h-[2px] w-6 shrink-0 rounded-[1px] bg-white" aria-hidden="true" />
-            {eyebrow}
-          </p>
-        )
-      }
-      <h2
-        class="pt-4 font-display text-[32px] font-light leading-[1.12] tracking-[-0.02em] text-on-dark md:max-w-[760px] md:text-[44px] md:leading-[52px]"
+  <MaxWidthContainer
+    class:list={[
+      'py-14 md:py-16 xl:py-[96px]',
+      image ? 'grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center lg:gap-16' : '',
+    ]}
+  >
+    <div class="flex flex-col gap-7 md:gap-8">
+      {/* Eyebrow → heading: gap-1 rule */}
+      <div class="flex flex-col gap-1">
+        {
+          eyebrow && (
+            <p class="flex items-center gap-[10px] font-body text-[11px] font-bold leading-[13px] tracking-[1.54px] text-on-dark-85 uppercase">
+              <span class="block h-[2px] w-6 shrink-0 rounded-[1px] bg-white" aria-hidden="true" />
+              {eyebrow}
+            </p>
+          )
+        }
+        <h2
+          class="pt-4 font-display text-[32px] font-light leading-[1.12] tracking-[-0.02em] text-on-dark md:max-w-[760px] md:text-[44px] md:leading-[52px]"
+        >
+          {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
+        </h2>
+      </div>
+
+      <p
+        class="max-w-[680px] font-body text-[15px] leading-[1.55] text-on-dark-85 md:text-[16px] md:leading-7 xl:text-[17px]"
       >
-        {headingLead}{headingStrong && <span class="font-semibold">{headingStrong}</span>}
-      </h2>
-    </div>
+        {body}
+      </p>
 
-    <p
-      class="max-w-[680px] font-body text-[15px] leading-[1.55] text-on-dark-85 md:text-[16px] md:leading-7 xl:text-[17px]"
-    >
-      {body}
-    </p>
+      <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+        <Button
+          variant="inverse"
+          text={ctaText}
+          href={ctaHref}
+          hideNote={true}
+          class="w-full sm:w-auto"
+          {...ctaExternal ? { target: '_blank' } : {}}
+        />
+        {
+          secondaryCtaText && secondaryCtaHref && (
+            <Button
+              variant="secondary"
+              text={secondaryCtaText}
+              href={secondaryCtaHref}
+              class="w-full sm:w-auto"
+              {...(secondaryCtaExternal ? { target: '_blank' } : {})}
+            />
+          )
+        }
+      </div>
 
-    <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
-      <Button
-        variant="inverse"
-        text={ctaText}
-        href={ctaHref}
-        hideNote={true}
-        class="w-full sm:w-auto"
-        {...ctaExternal ? { target: '_blank' } : {}}
-      />
       {
-        secondaryCtaText && secondaryCtaHref && (
-          <Button
-            variant="secondary"
-            text={secondaryCtaText}
-            href={secondaryCtaHref}
-            class="w-full sm:w-auto"
-            {...(secondaryCtaExternal ? { target: '_blank' } : {})}
-          />
+        Astro.slots.has('default') && (
+          <div class="max-w-[680px] font-body text-[15px] leading-[1.55] text-on-dark-85 md:text-[16px] md:leading-7">
+            <slot />
+          </div>
         )
       }
     </div>
 
     {
-      Astro.slots.has('default') && (
-        <div class="max-w-[680px] font-body text-[15px] leading-[1.55] text-on-dark-85 md:text-[16px] md:leading-7">
-          <slot />
+      image && (
+        <div class="relative aspect-[4/3] w-full overflow-hidden rounded-[4px] bg-section-grey">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={1200}
+            height={900}
+            widths={[600, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            layout="cover"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
         </div>
       )
     }

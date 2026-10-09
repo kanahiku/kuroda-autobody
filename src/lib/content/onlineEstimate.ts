@@ -10,5 +10,5 @@ import { withSanityPhotos } from './photos';
  */
 export async function getOnlineEstimateContent(): Promise<OnlineEstimateContent> {
   const content = await getSingleton('onlineEstimatePage', onlineEstimateFallback);
-  return withSanityPhotos(applyTokens(content, siteTokens()), 'onlineEstimatePage', ['hero']);
+  return withSanityPhotos(applyTokens(content, siteTokens()), 'onlineEstimatePage', ['hero', 'launch']);
 }

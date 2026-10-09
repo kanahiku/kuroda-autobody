@@ -10,5 +10,5 @@ import { withSanityPhotos } from './photos';
  */
 export async function getContactContent(): Promise<ContactContent> {
   const content = await getSingleton('contactPage', contactFallback);
-  return withSanityPhotos(applyTokens(content, siteTokens()), 'contactPage', ['hero']);
+  return withSanityPhotos(applyTokens(content, siteTokens()), 'contactPage', ['hero', 'band']);
 }

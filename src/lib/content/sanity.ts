@@ -416,6 +416,18 @@ export async function getSanityContentPageImages(documentId: string) {
   };
 }
 
+/** The homepage before / after pair (`homePage.beforeAfter.beforeImage` / `afterImage`). */
+export async function getSanityBeforeAfterImages() {
+  const doc = await sanityClient.fetch<{
+    before?: SanityImageFields | null;
+    after?: SanityImageFields | null;
+  } | null>(/* groq */ `*[_id == "homePage"][0]{
+      "before": beforeAfter.beforeImage{ ${IMAGE_PROJECTION} },
+      "after": beforeAfter.afterImage{ ${IMAGE_PROJECTION} }
+    }`);
+  return { before: resolveContentImage(doc?.before), after: resolveContentImage(doc?.after) };
+}
+
 /**
  * Hero + closing-CTA photos for a page that has no document of its own (reviews, legal pages, the blog
  * list …): one row per route in the site-wide `pagePhotos` document.
