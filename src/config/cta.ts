@@ -10,7 +10,7 @@ export const SCHEDULE_CTA_LABEL = 'SCHEDULE AN ESTIMATE';
 
 /** Default subtitle of the closing CTA band on interior pages. */
 export const CLOSING_CTA_SUBTITLE =
-  'Get expert guidance and reliable collision repair from a family-owned shop rooted in Hawaii since 1938.';
+  'Get expert guidance and reliable collision repair from a family-owned shop rooted in Hawaiʻi since 1938.';
 
 export const LOCATION_CTA_LABEL = 'VIEW ALL SERVICES';
 export const LOCATION_CTA_HREF = '/collision-repair/';

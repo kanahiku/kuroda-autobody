@@ -15,10 +15,10 @@ export const CONTACT = {
   locationShort: 'Waipahu, HI',
 
   /** Human-readable hours — shown in utility bar. */
-  hoursDisplay: 'MON–FRI 7AM–5PM',
+  hoursDisplay: 'MON TO FRI, 7AM TO 5PM',
 
   /** Same hours spelled out — shown in the footer's "Visit Us" column. */
-  hoursLine: 'Monday – Friday: 7:00 AM – 5:00 PM',
+  hoursLine: 'Monday to Friday, 7am to 5pm',
 
   /** Contractor license shown in footer or legal copy (set null if none). */
   license: null,
@@ -47,7 +47,7 @@ export const CONTACT = {
     zip: '96797',
     country: 'US',
     /** Business park / suite label — shown in utility bar address. */
-    landmark: 'Gentry Waipio Business Park',
+    landmark: 'Gentry Waipiʻo Business Park',
     /** "City, ST ZIP" — used in footer and CTABanner one-liner. */
     get cityLine() {
       const zip = this.zip ? ` ${this.zip}` : '';
@@ -76,7 +76,7 @@ export const CONTACT = {
     },
   ],
 
-  areaServed: "O'ahu, Hawaii",
+  areaServed: 'Oʻahu, Hawaiʻi',
 } as const;
 
 /**

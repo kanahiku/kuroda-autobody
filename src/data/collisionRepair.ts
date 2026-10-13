@@ -7,13 +7,13 @@ import type { ContentPage, ContentPageInput } from '~/data/contentPage';
 const pages: ContentPageInput[] = [
   {
     path: '/collision-repair/frame-structural-repair/',
-    seoTitle: 'Frame & Structural Repair in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Frame & Structural Repair in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       "Restore your vehicle's structural integrity after an accident. Kuroda Autobody uses Car-O-Liner 3D electronic measuring and GYS welding in Waipahu.",
     hero: {
       titleLead: 'Frame & Structural Repair ',
       titleAccent: 'in Waipahu',
-      body: 'Modern vehicles use advanced unibody and frame designs to absorb impact energy during a collision. When structural components are compromised, Kuroda Autobody provides precise assessment and realignment for drivers across Oahu to restore your vehicle to factory specifications.',
+      body: 'Modern vehicles use advanced unibody and frame designs to absorb impact energy during a collision. When structural components are compromised, Kuroda Autobody provides precise assessment and realignment for drivers across Oʻahu to restore your vehicle to factory specifications.',
     },
     sections: [
       {
@@ -113,7 +113,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Precision Engineering Backed by ',
         headingAccent: 'Decades of Experience',
         paragraphs: [
-          'Structural repair requires more than surface-level cosmetic fixes. Our approach combines advanced computerized diagnostic technology with decades of hands-on collision repair experience in Hawaii. Every structural adjustment is executed to match strict automotive safety standards, ensuring your vehicle protects you the way the manufacturer intended.',
+          'Structural repair requires more than surface-level cosmetic fixes. Our approach combines advanced computerized diagnostic technology with decades of hands-on collision repair experience in Hawaiʻi. Every structural adjustment is executed to match strict automotive safety standards, ensuring your vehicle protects you the way the manufacturer intended.',
         ],
       },
     ],
@@ -151,13 +151,13 @@ const pages: ContentPageInput[] = [
   },
   {
     path: '/collision-repair/auto-paint-refinishing/',
-    seoTitle: 'Auto Paint & Refinishing in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Auto Paint & Refinishing in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       "Restore your vehicle's factory finish with digital color matching and Sikkens waterborne paint at Kuroda Autobody in Waipahu.",
     hero: {
       titleLead: 'Auto Paint & Refinishing ',
       titleAccent: 'in Waipahu',
-      body: "Restoring a vehicle's exterior finish requires precision technology and careful application. Kuroda Autobody utilizes advanced color-matching systems and waterborne refinishing materials to deliver a seamless finish for drivers across Oahu.",
+      body: "Restoring a vehicle's exterior finish requires precision technology and careful application. Kuroda Autobody utilizes advanced color-matching systems and waterborne refinishing materials to deliver a seamless finish for drivers across Oʻahu.",
     },
     sections: [
       {
@@ -253,7 +253,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Mastering the Craft of ',
         headingAccent: 'Automotive Refinishing',
         paragraphs: [
-          'Achieving a flawless exterior finish requires more than basic painting tools. Our approach combines advanced Sikkens digital color-matching technology with decades of hands-on collision repair experience in Hawaii. Every step of the refinishing process is executed with careful attention to detail, ensuring your vehicle looks as good as it did before the accident.',
+          'Achieving a flawless exterior finish requires more than basic painting tools. Our approach combines advanced Sikkens digital color-matching technology with decades of hands-on collision repair experience in Hawaiʻi. Every step of the refinishing process is executed with careful attention to detail, ensuring your vehicle looks as good as it did before the accident.',
         ],
       },
     ],
@@ -291,13 +291,13 @@ const pages: ContentPageInput[] = [
   },
   {
     path: '/collision-repair/bumper-repair/',
-    seoTitle: 'Bumper Repair & Replacement in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Bumper Repair & Replacement in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
-      'Expert bumper repair and replacement services in Waipahu, Oahu. Kuroda Autobody restores appearance, fit, and modern sensor alignment.',
+      'Expert bumper repair and replacement services in Waipahu, Oʻahu. Kuroda Autobody restores appearance, fit, and modern sensor alignment.',
     hero: {
       titleLead: 'Bumper Repair & Replacement ',
       titleAccent: 'in Waipahu',
-      body: 'Modern vehicle bumpers absorb impact forces and house complex safety electronics such as parking sensors and collision cameras. When a bumper sustains impact damage, Kuroda Autobody provides expert repair or replacement for drivers across Oahu, restoring both exterior appearance and proper mechanical function.',
+      body: 'Modern vehicle bumpers absorb impact forces and house complex safety electronics such as parking sensors and collision cameras. When a bumper sustains impact damage, Kuroda Autobody provides expert repair or replacement for drivers across Oʻahu, restoring both exterior appearance and proper mechanical function.',
     },
     sections: [
       {
@@ -397,7 +397,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Precision Engineering Backed by ',
         headingAccent: 'Decades of Experience',
         paragraphs: [
-          "Bumper service requires more than a simple cosmetic cover swap. Our approach combines accurate structural assessment with decades of hands-on collision repair experience in Hawaii. Every repair is executed with careful attention to detail, ensuring your vehicle's safety features and exterior appearance are restored correctly.",
+          "Bumper service requires more than a simple cosmetic cover swap. Our approach combines accurate structural assessment with decades of hands-on collision repair experience in Hawaiʻi. Every repair is executed with careful attention to detail, ensuring your vehicle's safety features and exterior appearance are restored correctly.",
         ],
       },
     ],
@@ -435,13 +435,13 @@ const pages: ContentPageInput[] = [
   },
   {
     path: '/collision-repair/dent-repair/',
-    seoTitle: 'Dent & Body Repair in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Dent & Body Repair in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
-      "Expert auto body repair for dents, fenders, doors, and panels in Waipahu, Oahu. Kuroda Autobody restores your vehicle's finish and structure.",
+      "Expert auto body repair for dents, fenders, doors, and panels in Waipahu, Oʻahu. Kuroda Autobody restores your vehicle's finish and structure.",
     hero: {
       titleLead: 'Dent & Body Repair ',
       titleAccent: 'in Waipahu',
-      body: 'From minor door dings and fender scrapes to major body panel damage, vehicle exterior repairs require precision sheet metal work and meticulous alignment. Kuroda Autobody provides comprehensive auto body repair for drivers across Oahu, restoring the form and finish of your vehicle.',
+      body: 'From minor door dings and fender scrapes to major body panel damage, vehicle exterior repairs require precision sheet metal work and meticulous alignment. Kuroda Autobody provides comprehensive auto body repair for drivers across Oʻahu, restoring the form and finish of your vehicle.',
     },
     sections: [
       {
@@ -541,7 +541,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Mastering the Craft of ',
         headingAccent: 'Auto Body Repair',
         paragraphs: [
-          'Restoring body panels requires more than basic cosmetic patching. Our approach combines traditional metal-working skill with decades of hands-on collision repair experience in Hawaii. Every fender, door, and quarter panel is serviced with careful attention to detail, ensuring your vehicle looks and performs as intended.',
+          'Restoring body panels requires more than basic cosmetic patching. Our approach combines traditional metal-working skill with decades of hands-on collision repair experience in Hawaiʻi. Every fender, door, and quarter panel is serviced with careful attention to detail, ensuring your vehicle looks and performs as intended.',
         ],
       },
     ],
@@ -579,13 +579,13 @@ const pages: ContentPageInput[] = [
   },
   {
     path: '/collision-repair/adas-calibration/',
-    seoTitle: 'ADAS Calibration Services in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'ADAS Calibration Services in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       'Professional ADAS calibration coordination for cameras, radar, and sensors after a collision at Kuroda Autobody in Waipahu.',
     hero: {
       titleLead: 'ADAS Calibration ',
       titleAccent: 'in Waipahu',
-      body: 'Advanced Driver Assistance Systems connect cameras, radar units, and computer networks to help protect drivers on the road. When a collision disrupts these sensitive electronics, Kuroda Autobody coordinates professional calibration services for drivers across Oahu to ensure proper system performance.',
+      body: 'Advanced Driver Assistance Systems connect cameras, radar units, and computer networks to help protect drivers on the road. When a collision disrupts these sensitive electronics, Kuroda Autobody coordinates professional calibration services for drivers across Oʻahu to ensure proper system performance.',
     },
     sections: [
       {
@@ -685,7 +685,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Mastering the Craft of ',
         headingAccent: 'Electronic Coordination',
         paragraphs: [
-          "Restoring modern safety technology requires more than mechanical skill. Our approach combines meticulous collision repair experience with precise coordination of specialist calibration services in Hawaii. Every step is handled with careful attention to detail, ensuring your vehicle's electronic safety features operate exactly as intended.",
+          "Restoring modern safety technology requires more than mechanical skill. Our approach combines meticulous collision repair experience with precise coordination of specialist calibration services in Hawaiʻi. Every step is handled with careful attention to detail, ensuring your vehicle's electronic safety features operate exactly as intended.",
         ],
       },
     ],
@@ -723,13 +723,13 @@ const pages: ContentPageInput[] = [
   },
   {
     path: '/collision-repair/diagnostic-scanning/',
-    seoTitle: 'Vehicle Diagnostic Scanning in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Vehicle Diagnostic Scanning in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
-      'OEM and aftermarket diagnostic scanning for pre- and post-repair verification at Kuroda Autobody in Waipahu, Oahu.',
+      'OEM and aftermarket diagnostic scanning for pre- and post-repair verification at Kuroda Autobody in Waipahu, Oʻahu.',
     hero: {
       titleLead: 'Vehicle Diagnostic Scanning ',
       titleAccent: 'in Waipahu',
-      body: 'Behind every exterior dent lies a complex network of computerized modules and electronic sensors. When an accident disrupts these onboard systems, Kuroda Autobody performs rigorous diagnostic scanning for drivers across Oahu to uncover hidden faults and verify complete vehicle safety.',
+      body: 'Behind every exterior dent lies a complex network of computerized modules and electronic sensors. When an accident disrupts these onboard systems, Kuroda Autobody performs rigorous diagnostic scanning for drivers across Oʻahu to uncover hidden faults and verify complete vehicle safety.',
     },
     sections: [
       {
@@ -829,7 +829,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Mastering the Craft of ',
         headingAccent: 'Electronic Diagnostics',
         paragraphs: [
-          "Validating a repair requires more than visual inspection. Our approach combines advanced computerized scanning technology with decades of collision repair experience in Hawaii. Every diagnostic check is executed with careful attention to detail, ensuring your vehicle's computer networks function safely and correctly.",
+          "Validating a repair requires more than visual inspection. Our approach combines advanced computerized scanning technology with decades of collision repair experience in Hawaiʻi. Every diagnostic check is executed with careful attention to detail, ensuring your vehicle's computer networks function safely and correctly.",
         ],
       },
     ],
@@ -867,13 +867,13 @@ const pages: ContentPageInput[] = [
   },
   {
     path: '/collision-repair/auto-glass-replacement/',
-    seoTitle: 'Collision Auto Glass Replacement in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Collision Auto Glass Replacement in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
-      'Integrated auto glass and windshield replacement for collision repairs in Waipahu, Oahu. Kuroda Autobody restores structural safety and clear visibility.',
+      'Integrated auto glass and windshield replacement for collision repairs in Waipahu, Oʻahu. Kuroda Autobody restores structural safety and clear visibility.',
     hero: {
       titleLead: 'Auto Glass Replacement ',
       titleAccent: 'in Waipahu',
-      body: 'Windshields and side windows serve as vital structural components that support roof strength and airbag deployment during an accident. At Kuroda Autobody, auto glass replacements are handled as part of our comprehensive collision repair services, ensuring structural safety and clear visibility for drivers across Oahu.',
+      body: 'Windshields and side windows serve as vital structural components that support roof strength and airbag deployment during an accident. At Kuroda Autobody, auto glass replacements are handled as part of our comprehensive collision repair services, ensuring structural safety and clear visibility for drivers across Oʻahu.',
     },
     sections: [
       {
@@ -973,7 +973,7 @@ const pages: ContentPageInput[] = [
         headingLead: 'Mastering the Craft of ',
         headingAccent: 'Auto Glass Service',
         paragraphs: [
-          "Replacing auto glass requires more than a simple pane swap. Our approach combines careful coordination of glass replacement with decades of hands-on collision repair experience in Hawaii. Every glass service is executed with careful attention to detail, ensuring your vehicle's safety features and weather seals are restored correctly.",
+          "Replacing auto glass requires more than a simple pane swap. Our approach combines careful coordination of glass replacement with decades of hands-on collision repair experience in Hawaiʻi. Every glass service is executed with careful attention to detail, ensuring your vehicle's safety features and weather seals are restored correctly.",
         ],
       },
     ],

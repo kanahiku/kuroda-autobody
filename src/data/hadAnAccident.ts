@@ -8,13 +8,13 @@ const pages: ContentPageInput[] = [
   // ─── Your Right to Choose a Repair Shop ────────────────────────────────────
   {
     path: '/had-an-accident/your-right-to-choose/',
-    seoTitle: 'Your Right to Choose an Auto Body Shop in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Your Right to Choose an Auto Body Shop in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
-      'Choose your preferred auto body shop after a collision in Hawaii. Kuroda Autobody helps you navigate insurance claims with ease.',
+      'Choose your preferred auto body shop after a collision in Hawaiʻi. Kuroda Autobody helps you navigate insurance claims with ease.',
     hero: {
       titleLead: 'Your Right to Choose a Repair Shop ',
       titleAccent: 'in Waipahu',
-      body: 'When you experience a collision, figuring out where to take your car is one of the most important decisions you will make. While insurance companies often suggest preferred collision facilities or provide a list of shops, you do not have to choose a body shop simply because it appears on that list. Kuroda Autobody empowers drivers across Oahu to make the choice that prioritizes quality and proper restoration.',
+      body: 'When you experience a collision, figuring out where to take your car is one of the most important decisions you will make. While insurance companies often suggest preferred collision facilities or provide a list of shops, you do not have to choose a body shop simply because it appears on that list. Kuroda Autobody empowers drivers across Oʻahu to make the choice that prioritizes quality and proper restoration.',
     },
     sections: [
       {
@@ -100,13 +100,13 @@ const pages: ContentPageInput[] = [
   // ─── Insurance Claims ──────────────────────────────────────────────────────
   {
     path: '/had-an-accident/insurance-claims/',
-    seoTitle: 'Auto Insurance Claims Support in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Auto Insurance Claims Support in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       'We work with your insurance company on estimates, approvals and supplements. Kuroda Autobody in Waipahu handles estimates, approvals, and supplements.',
     hero: {
       titleLead: 'Working With Insurance Claims ',
       titleAccent: 'in Waipahu',
-      body: 'Dealing with insurance after an accident can feel confusing, but you do not have to go through it alone. Kuroda Autobody works with insurance companies every day to help guide drivers across Oahu through the process, coordinate repair estimates, and secure necessary approvals.',
+      body: 'Dealing with insurance after an accident can feel confusing, but you do not have to go through it alone. Kuroda Autobody works with insurance companies every day to help guide drivers across Oʻahu through the process, coordinate repair estimates, and secure necessary approvals.',
     },
     sections: [
       {
@@ -321,7 +321,7 @@ const pages: ContentPageInput[] = [
     hero: {
       titleLead: 'Understanding Your ',
       titleAccent: 'Auto Insurance Deductible',
-      body: "When filing an insurance claim after a collision, you will likely encounter your policy deductible. Knowing what a deductible is and how it applies helps you plan ahead for your vehicle's repair. Kuroda Autobody works with drivers across Oahu to make the payment and pickup process straightforward.",
+      body: "When filing an insurance claim after a collision, you will likely encounter your policy deductible. Knowing what a deductible is and how it applies helps you plan ahead for your vehicle's repair. Kuroda Autobody works with drivers across Oʻahu to make the payment and pickup process straightforward.",
     },
     sections: [
       {
@@ -387,7 +387,7 @@ const pages: ContentPageInput[] = [
     hero: {
       titleLead: 'Paying Out of Pocket for Auto Body Repair ',
       titleAccent: 'in Waipahu',
-      body: 'Not every vehicle repair goes through an insurance claim. Whether you are handling a minor scratch, avoiding a rate increase for a small dent, or simply preferring to pay directly, Kuroda Autobody makes self-pay repairs straightforward. We provide clear, honest estimates and expert craftsmanship for drivers across Oahu.',
+      body: 'Not every vehicle repair goes through an insurance claim. Whether you are handling a minor scratch, avoiding a rate increase for a small dent, or simply preferring to pay directly, Kuroda Autobody makes self-pay repairs straightforward. We provide clear, honest estimates and expert craftsmanship for drivers across Oʻahu.',
     },
     sections: [
       {
@@ -495,7 +495,7 @@ const pages: ContentPageInput[] = [
             icon: 'rental',
             title: 'On-Site Pickup and Drop-Off',
             description:
-              'You can pick up and drop off your rental vehicle right here at our shop, saving you extra trips around Oahu.',
+              'You can pick up and drop off your rental vehicle right here at our shop, saving you extra trips around Oʻahu.',
           },
           {
             icon: 'shield',
@@ -515,7 +515,7 @@ const pages: ContentPageInput[] = [
         type: 'quote',
         quote:
           '“I like that they have car rentals right there so all we do is jump into another car and off we go. They explain everything well and all questions are encouraged.”',
-        attribution: '— Darcie M., Kuroda Customer Survey, July 2026',
+        attribution: 'Darcie M., Kuroda Customer Survey, July 2026',
       },
     ],
     faqs: {

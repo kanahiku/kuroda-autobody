@@ -8,7 +8,7 @@ import type { ContentPage } from '~/data/contentPage';
 export const hadAnAccidentHubPages: ContentPage[] = [
   {
     path: '/had-an-accident/',
-    seoTitle: 'Had an Accident? Collision Repair Help in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Had an Accident? Collision Repair Help in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       'Not sure what to do after an accident? Kuroda Autobody in Waipahu explains your first steps, your right to choose a repair shop, insurance, rental cars and more.',
     eyebrow: 'Had an Accident?',
@@ -62,7 +62,7 @@ export const hadAnAccidentHubPages: ContentPage[] = [
         headingAccent: 'Your Choice.',
         paragraphs: [
           'Your insurance company may recommend a repair facility or provide a list of auto body shops, but you don’t have to choose a body shop simply because it appears on that list.',
-          'Choose a collision repair facility based on what matters to you—quality, experience, service and confidence that your vehicle will be repaired properly.',
+          'Choose a collision repair facility based on what matters to you: quality, experience, service and confidence that your vehicle will be repaired properly.',
           'Once you choose Kuroda, we’ll work with your insurance company throughout the collision repair process.',
         ],
         photoLabel: 'Choosing your repair shop',
@@ -124,7 +124,7 @@ export const hadAnAccidentHubPages: ContentPage[] = [
             {
               title: 'Where do I get my insurance claim number?',
               description:
-                'Your insurance company will provide a claim number after you report the accident and open a claim. Keep it handy—it helps us communicate with your insurer about your repair.',
+                'Your insurance company will provide a claim number after you report the accident and open a claim. Keep it handy. It helps us communicate with your insurer about your repair.',
             },
             {
               title: 'Can I get an estimate if I’m paying for the repair myself?',
@@ -198,7 +198,7 @@ export const hadAnAccidentHubPages: ContentPage[] = [
               cta: { text: 'View Warranty Details', href: '/warranty/' },
             },
             {
-              title: 'Is Kuroda Auto Body certified?',
+              title: 'Is Kuroda Autobody certified?',
               description:
                 'Kuroda is an I-CAR Gold Class collision repair facility, and our team includes ASE-certified technicians who receive ongoing industry training as vehicle technology and repair methods evolve.',
             },
@@ -233,13 +233,13 @@ export const hadAnAccidentHubPages: ContentPage[] = [
           title: 'Location & Hours',
           items: [
             {
-              title: 'Where is Kuroda Auto Body located?',
+              title: 'Where is Kuroda Autobody located?',
               description:
-                'Kuroda Auto Body is located in Gentry Waipio Business Park at 94-518 Puahi Street, Waipahu, HI 96797. The shop is conveniently located just off the freeway and serves customers from throughout Oahu.',
+                'Kuroda Autobody is located in Gentry Waipiʻo Business Park at 94-518 Puahi Street, Waipahu, HI 96797. The shop is conveniently located just off the freeway and serves customers from throughout Oʻahu.',
               cta: { text: 'Get Directions', href: '{directionsHref}' },
             },
             {
-              title: 'What are Kuroda Auto Body’s hours?',
+              title: 'What are Kuroda Autobody’s hours?',
               description: 'Kuroda is open Monday through Friday, 7am to 5pm, and closed Saturday and Sunday.',
             },
           ],

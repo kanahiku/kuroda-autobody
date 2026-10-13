@@ -414,7 +414,7 @@ const quoteSection = defineArrayMember({
       description: 'Include the quotation marks if you want them shown.',
       validation: (r) => r.required().max(320),
     }),
-    optionalLine('attribution', 'Who said it', 120, 'Optional. e.g. “— Darcie M., Kuroda Customer Survey, July 2026”.'),
+    optionalLine('attribution', 'Who said it', 120, 'Optional. e.g. “Darcie M., Kuroda Customer Survey, July 2026”.'),
     surfaceField,
   ],
   preview: {

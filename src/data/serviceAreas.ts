@@ -25,22 +25,22 @@ export const serviceAreaPages: ContentPage[] = [
   // ─── Hub ───────────────────────────────────────────────────────────────────
   {
     path: '/service-areas/',
-    seoTitle: 'Auto Body Shop Serving Oahu Communities | Kuroda Autobody',
+    seoTitle: 'Auto Body Shop Serving Oʻahu Communities | Kuroda Autobody',
     metaDescription:
-      'Kuroda Autobody provides expert collision repair from our Waipahu facility in Gentry Waipio Business Park, serving drivers throughout Oahu.',
+      'Kuroda Autobody provides expert collision repair from our Waipahu facility in Gentry Waipiʻo Business Park, serving drivers throughout Oʻahu.',
     eyebrow: 'Service areas',
     hero: {
       titleLead: 'Auto Body Shop Serving ',
-      titleAccent: 'Drivers Across Oahu',
-      body: 'Kuroda Autobody proudly provides expert collision repair, insurance coordination, and on-site rental vehicle pickup for drivers throughout Oahu. Centrally located in the Gentry Waipio Business Park, our shop is easily accessible for motorists looking for trusted craftsmanship and personal service.',
-      photoLabel: 'Kuroda Autobody shop, Gentry Waipio Business Park',
+      titleAccent: 'Drivers Across Oʻahu',
+      body: 'Kuroda Autobody proudly provides expert collision repair, insurance coordination, and on-site rental vehicle pickup for drivers throughout Oʻahu. Centrally located in the Gentry Waipiʻo Business Park, our shop is easily accessible for motorists looking for trusted craftsmanship and personal service.',
+      photoLabel: 'Kuroda Autobody shop, Gentry Waipiʻo Business Park',
     },
     sections: [
       {
         type: 'features',
         eyebrow: 'Across the island',
         headingLead: 'Auto Body Care ',
-        headingStrong: 'for Oahu Motorists',
+        headingStrong: 'for Oʻahu Motorists',
         lead: 'Drivers from across the island choose our Waipahu facility for complete collision and auto body care, including:',
         items: [
           {
@@ -75,18 +75,18 @@ export const serviceAreaPages: ContentPage[] = [
         eyebrow: 'Regional service areas',
         headingLead: 'Explore Our ',
         headingStrong: 'Regional Service Areas',
-        lead: 'We regularly serve communities across Central, West, and urban Oahu, providing dedicated support for local drivers:',
+        lead: 'We regularly serve communities across Central, West, and urban Oʻahu, providing dedicated support for local drivers:',
         items: [
           {
             icon: 'clock',
             title: 'Mililani & Koa Ridge',
-            description: 'Convenient access down the H-2 freeway for Central Oahu drivers.',
+            description: 'Convenient access down the H-2 freeway for Central Oʻahu drivers.',
             href: '/service-areas/mililani/',
           },
           {
             icon: 'check',
-            title: 'Pearl City & Aiea',
-            description: 'Honoring our deep historical roots in Aiea while serving neighboring communities.',
+            title: 'Pearl City & ʻAiea',
+            description: 'Honoring our deep historical roots in ʻAiea while serving neighboring communities.',
             href: '/service-areas/pearl-city-aiea/',
           },
         ],
@@ -101,14 +101,14 @@ export const serviceAreaPages: ContentPage[] = [
       titleStrong: 'About Our Service Areas',
       items: [
         {
-          title: 'Do you have other shop locations on Oahu?',
+          title: 'Do you have other shop locations on Oʻahu?',
           description:
-            'No. All of our repair work, estimates, and customer service are centralized at our 28,000-square-foot facility in the Gentry Waipio Business Park in Waipahu to ensure consistent, high-quality standards.',
+            'No. All of our repair work, estimates, and customer service are centralized at our 28,000-square-foot facility in the Gentry Waipiʻo Business Park in Waipahu to ensure consistent, high-quality standards.',
         },
         {
           title: 'Do I need to live nearby to bring my vehicle to Kuroda?',
           description:
-            'Not at all. Drivers from all over Oahu regularly make the drive to our Waipahu shop because of our long-standing reputation, warranty coverage, and on-site rental car availability.',
+            'Not at all. Drivers from all over Oʻahu regularly make the drive to our Waipahu shop because of our long-standing reputation, warranty coverage, and on-site rental car availability.',
         },
         {
           title: 'Can you help coordinate my insurance claim if I live outside Waipahu?',
@@ -118,7 +118,7 @@ export const serviceAreaPages: ContentPage[] = [
         {
           title: 'How do I get to your shop from other parts of the island?',
           description:
-            'Our facility is conveniently situated right off major routes like the H-1 and H-2 freeways in the Gentry Waipio Business Park, making it straightforward to reach from West, Central, and urban Oahu.',
+            'Our facility is conveniently situated right off major routes like the H-1 and H-2 freeways in the Gentry Waipiʻo Business Park, making it straightforward to reach from West, Central, and urban Oʻahu.',
         },
         {
           title: 'Can I arrange a rental car if I am coming from another community?',
@@ -140,7 +140,7 @@ export const serviceAreaPages: ContentPage[] = [
     hero: {
       titleLead: 'Auto Body Repair for ',
       titleAccent: 'Mililani & Koa Ridge Drivers',
-      body: "Drivers in Mililani and Koa Ridge looking for dependable auto body repair and personal service don't have to look far. Kuroda Autobody is located just down the road in the Gentry Waipio Business Park in Waipahu, offering a straightforward drive down the H-2 freeway for Central Oahu motorists.",
+      body: "Drivers in Mililani and Koa Ridge looking for dependable auto body repair and personal service don't have to look far. Kuroda Autobody is located just down the road in the Gentry Waipiʻo Business Park in Waipahu, offering a straightforward drive down the H-2 freeway for Central Oʻahu motorists.",
       photoLabel: 'Kuroda Autobody shop, a short drive from Mililani and Koa Ridge',
     },
     sections: [
@@ -148,15 +148,15 @@ export const serviceAreaPages: ContentPage[] = [
         type: 'story',
         surface: 'subtle',
         eyebrow: 'Our family story',
-        headingLead: 'Rooted in Hawaii, ',
-        headingAccent: 'Serving Central Oahu',
+        headingLead: 'Rooted in Hawaiʻi, ',
+        headingAccent: 'Serving Central Oʻahu',
         paragraphs: [
-          'Our family-owned business has deep roots in the islands. Kuroda originally started in Aiea in 1938 on Kamehameha Highway, across from the Sumida watercress farm. Over the decades, as Mililani, Koa Ridge, and surrounding Central Oahu communities grew, our family business grew right alongside them evolving into a modern 28,000-square-foot collision repair facility designed to handle today’s sophisticated vehicles.',
+          'Our family-owned business has deep roots in the islands. Kuroda originally started in ʻAiea in 1938 on Kamehameha Highway, across from the Sumida watercress farm. Over the decades, as Mililani, Koa Ridge, and surrounding Central Oʻahu communities grew, our family business grew right alongside them evolving into a modern 28,000-square-foot collision repair facility designed to handle today’s sophisticated vehicles.',
         ],
-        caption: 'Kuroda on Kamehameha Highway in Aiea, 1938.',
-        photoLabel: 'Kuroda on Kamehameha Highway in Aiea, 1938.',
+        caption: 'Kuroda on Kamehameha Highway in ʻAiea, 1938.',
+        photoLabel: 'Kuroda on Kamehameha Highway in ʻAiea, 1938.',
         stats: [
-          { value: '1938', label: 'Founded in Aiea' },
+          { value: '1938', label: 'Founded in ʻAiea' },
           { value: '28,000 SQ FT', label: 'Collision repair facility' },
           { value: 'H-2', label: 'Freeway access' },
         ],
@@ -166,7 +166,7 @@ export const serviceAreaPages: ContentPage[] = [
         eyebrow: 'Why Kuroda',
         headingLead: 'Why Mililani and Koa Ridge Motorists ',
         headingStrong: 'Choose Kuroda',
-        lead: 'When an accident happens, choosing the right repair shop makes all the difference. Central Oahu drivers trust our team for several key reasons:',
+        lead: 'When an accident happens, choosing the right repair shop makes all the difference. Central Oʻahu drivers trust our team for several key reasons:',
         items: [
           {
             icon: 'clock',
@@ -232,7 +232,7 @@ export const serviceAreaPages: ContentPage[] = [
         {
           title: 'How do I get to your shop from Mililani or Koa Ridge?',
           description:
-            'Head south down the H-2 freeway toward the Waipio interchange, and you will find our facility easily accessible in the Gentry Waipio Business Park at 94-518 Puahi Street.',
+            'Head south down the H-2 freeway toward the Waipiʻo interchange, and you will find our facility easily accessible in the Gentry Waipiʻo Business Park at 94-518 Puahi Street.',
         },
         {
           title: 'Can I get a rental car near your shop?',
@@ -246,52 +246,52 @@ export const serviceAreaPages: ContentPage[] = [
         },
       ],
     },
-    cta: { title: 'Plan Your ', titleStrong: 'Visit from Central Oahu' },
+    cta: { title: 'Plan Your ', titleStrong: 'Visit from Central Oʻahu' },
   },
 
-  // ─── Pearl City & Aiea ─────────────────────────────────────────────────────
+  // ─── Pearl City & ʻAiea ─────────────────────────────────────────────────────
   {
     path: '/service-areas/pearl-city-aiea/',
-    seoTitle: 'Auto Body Repair Serving Pearl City & Aiea | Kuroda Autobody',
+    seoTitle: 'Auto Body Repair Serving Pearl City & ʻAiea | Kuroda Autobody',
     metaDescription:
-      'Kuroda Autobody provides expert auto body repair for drivers in Pearl City and Aiea. Visit our Waipahu shop for trusted craftsmanship and local roots.',
+      'Kuroda Autobody provides expert auto body repair for drivers in Pearl City and ʻAiea. Visit our Waipahu shop for trusted craftsmanship and local roots.',
     eyebrow: 'Service areas',
     hero: {
       titleLead: 'Auto Body Repair for ',
-      titleAccent: 'Pearl City & Aiea Drivers',
-      body: 'Drivers in Pearl City and Aiea looking for trusted auto body repair and honest guidance have a reliable neighbor just minutes away. Kuroda Autobody is located nearby in the Gentry Waipio Business Park in Waipahu, making it quick and easy for Central and Leeward Oahu motorists to access expert vehicle care.',
-      photoLabel: 'Kuroda Autobody shop, minutes from Pearl City and Aiea',
+      titleAccent: 'Pearl City & ʻAiea Drivers',
+      body: 'Drivers in Pearl City and ʻAiea looking for trusted auto body repair and honest guidance have a reliable neighbor just minutes away. Kuroda Autobody is located nearby in the Gentry Waipiʻo Business Park in Waipahu, making it quick and easy for Central and Leeward Oʻahu motorists to access expert vehicle care.',
+      photoLabel: 'Kuroda Autobody shop, minutes from Pearl City and ʻAiea',
     },
     sections: [
       {
         type: 'story',
         surface: 'subtle',
         eyebrow: 'Our family story',
-        headingLead: 'Deep Roots in Aiea ',
+        headingLead: 'Deep Roots in ʻAiea ',
         headingAccent: 'and the Surrounding Community',
         paragraphs: [
-          'Kuroda has been part of this community since 1938, when we first opened on Kamehameha Highway in Aiea, across from the Sumida watercress farm. As Pearl City and Aiea grew, our family business grew with them. Today, we bring those same generational roots and values to our modern Waipahu facility.',
+          'Kuroda has been part of this community since 1938, when we first opened on Kamehameha Highway in ʻAiea, across from the Sumida watercress farm. As Pearl City and ʻAiea grew, our family business grew with them. Today, we bring those same generational roots and values to our modern Waipahu facility.',
         ],
-        caption: 'Kuroda on Kamehameha Highway in Aiea, 1938.',
-        photoLabel: 'Kuroda on Kamehameha Highway in Aiea, 1938.',
+        caption: 'Kuroda on Kamehameha Highway in ʻAiea, 1938.',
+        photoLabel: 'Kuroda on Kamehameha Highway in ʻAiea, 1938.',
         stats: [
-          { value: '1938', label: 'Founded in Aiea' },
-          { value: 'AIEA', label: 'Kamehameha Highway' },
+          { value: '1938', label: 'Founded in ʻAiea' },
+          { value: 'ʻAIEA', label: 'Kamehameha Highway' },
           { value: 'WAIPAHU', label: 'Modern facility today' },
         ],
       },
       {
         type: 'features',
         eyebrow: 'Why Kuroda',
-        headingLead: 'Why Pearl City and Aiea Motorists ',
+        headingLead: 'Why Pearl City and ʻAiea Motorists ',
         headingStrong: 'Choose Kuroda',
-        lead: 'When you need vehicle repairs after an accident or minor scrape, choosing an experienced shop brings peace of mind. Drivers throughout Pearl City and Aiea rely on our team for several distinct advantages:',
+        lead: 'When you need vehicle repairs after an accident or minor scrape, choosing an experienced shop brings peace of mind. Drivers throughout Pearl City and ʻAiea rely on our team for several distinct advantages:',
         items: [
           {
             icon: 'check',
             title: 'Local History and Trust',
             description:
-              'A family-owned business serving Hawaii drivers since 1938, carrying forward generations of honest work and community commitment.',
+              'A family-owned business serving Hawaiʻi drivers since 1938, carrying forward generations of honest work and community commitment.',
           },
           {
             icon: 'rental',
@@ -316,7 +316,7 @@ export const serviceAreaPages: ContentPage[] = [
       services(
         'Complete Auto Body ',
         'Services',
-        'Our technicians bring advanced training and specialized equipment to every repair, handling a full range of services for Pearl City and Aiea motorists:',
+        'Our technicians bring advanced training and specialized equipment to every repair, handling a full range of services for Pearl City and ʻAiea motorists:',
         [
           {
             icon: 'collision',
@@ -346,14 +346,14 @@ export const serviceAreaPages: ContentPage[] = [
       ),
     ],
     faqs: {
-      eyebrow: 'Pearl City & Aiea FAQ',
+      eyebrow: 'Pearl City & ʻAiea FAQ',
       titleLead: 'Frequently Asked Questions ',
-      titleStrong: 'for Pearl City & Aiea Customers',
+      titleStrong: 'for Pearl City & ʻAiea Customers',
       items: [
         {
-          title: 'How close is your shop to Pearl City and Aiea?',
+          title: 'How close is your shop to Pearl City and ʻAiea?',
           description:
-            'Our facility is located just a short drive away in the Gentry Waipio Business Park at 94-518 Puahi Street, making it easily accessible via major local routes.',
+            'Our facility is located just a short drive away in the Gentry Waipiʻo Business Park at 94-518 Puahi Street, making it easily accessible via major local routes.',
         },
         {
           title: 'Can I arrange a rental car near your shop?',
@@ -369,9 +369,9 @@ export const serviceAreaPages: ContentPage[] = [
     },
     cta: {
       title: 'Plan Your ',
-      titleStrong: 'Visit from Pearl City or Aiea',
+      titleStrong: 'Visit from Pearl City or ʻAiea',
       subtitle:
-        'Get expert guidance and reliable auto body repair from a family-owned shop rooted in Hawaii since 1938.',
+        'Get expert guidance and reliable auto body repair from a family-owned shop rooted in Hawaiʻi since 1938.',
     },
   },
 ];

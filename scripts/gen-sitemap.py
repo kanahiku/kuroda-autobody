@@ -32,6 +32,15 @@ rows = list(ws.iter_rows(values_only=True))
 header_idx = next(i for i, r in enumerate(rows) if r and r[0] == 'Category')
 
 
+# Pages that are on hold with the client (PDR, towing) or waiting on the photo shoot (gallery).
+# No route exists for them, so they stay out of the sitemap, header and footer until built.
+SKIP_SLUGS = {
+    '/collision-repair/paintless-dent-repair/',
+    '/had-an-accident/towing/',
+    '/gallery/',
+}
+
+
 def clean(v):
     return v.strip() if isinstance(v, str) and v.strip() else None
 
@@ -49,6 +58,8 @@ tree = []
 cat = sub1 = None
 for r in rows[header_idx + 1 :]:
     c, cs, s1, s1s, s2, s2s, batch = (clean(x) for x in r[:7])
+    if (s1s or s2s) in SKIP_SLUGS:
+        continue
     if c:
         cat = node(c, cs, batch)
         tree.append(cat)
