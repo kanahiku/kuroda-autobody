@@ -5,7 +5,7 @@
  * Layout: Kuroda Navy bg · link columns row · family row · legal bar.
  *   Brand (260px)       — logo + tagline
  *   Link columns        — one per `links` entry, built from the sitemap (src/data/navigation.ts)
- *   Visit Us            — Our Location link · address · hours · phone
+ *   Visit Us            — Our Location link · address · hours · phone · Follow us heading + icons
  *   Family of Companies — Capitol Auto Service (full-width row)
  *   Legal bar           — copyright + utility links (Legal & Utility category)
  *
@@ -19,6 +19,7 @@ import Logo from '~/components/Logo.astro';
 import { site } from '~/config/site';
 import { CONTACT } from '~/config/contact';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import SocialLinks from '~/components/ui/SocialLinks.astro';
 
 interface NavLink {
   text?: string;
@@ -129,6 +130,7 @@ const addressLine = `${street}, ${city}, ${state} ${zip} (${landmark})`;
         >
           {CONTACT.phone.display}
         </a>
+        <SocialLinks tone="dark" layout="stack" class="mt-4 md:mt-5" />
       </div>
     </div>
 

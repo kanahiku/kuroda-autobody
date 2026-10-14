@@ -9,7 +9,7 @@ import type { ContentPage } from '~/data/contentPage';
 export const collisionRepairHubPages: ContentPage[] = [
   {
     path: '/collision-repair/',
-    seoTitle: 'Collision Repair in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'Collision Repair in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       'From minor dents to major collision damage, Kuroda Autobody in Waipahu repairs your vehicle safely and properly with I-CAR Gold Class training, OEM program participation and a Limited Lifetime Warranty.',
     eyebrow: 'Collision Repair',
@@ -117,7 +117,7 @@ export const collisionRepairHubPages: ContentPage[] = [
           {
             title: 'Back on the Road',
             description:
-              'With your repair complete, it’s time to get back behind the wheel—with quality workmanship and warranty protection you can count on.',
+              'With your repair complete, it’s time to get back behind the wheel, with quality workmanship and warranty protection you can count on.',
           },
         ],
       },
@@ -126,7 +126,7 @@ export const collisionRepairHubPages: ContentPage[] = [
         eyebrow: 'Limited Lifetime Warranty',
         headingLead: 'We Stand Behind ',
         headingStrong: 'Our Work.',
-        body: 'Kuroda provides Limited Lifetime Warranty coverage on qualifying metalwork and refinishing repairs for as long as you own your vehicle. Other repairs and parts carry specific warranty terms—all reflecting our commitment to doing the job right.',
+        body: 'Kuroda provides Limited Lifetime Warranty coverage on qualifying metalwork and refinishing repairs for as long as you own your vehicle. Other repairs and parts carry specific warranty terms, all reflecting our commitment to doing the job right.',
         ctaText: 'View Warranty Details',
         ctaHref: '/warranty/',
       },

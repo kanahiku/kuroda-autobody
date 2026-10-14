@@ -91,13 +91,13 @@ const mobilePanelClass =
 
               {/* Desktop: phone text + CTA — Figma: gap-18 */}
               <div class="hidden items-center gap-[18px] md:flex">
-                <a
+                <Button
+                  variant="outline"
+                  size="sm"
                   href={CONTACT.phone.href}
-                  class="font-body font-bold text-[13px] leading-none tracking-[0.026em] text-heading transition-colors hover:text-accent"
+                  text={CONTACT.phone.display}
                   aria-label={`Call ${CONTACT.phone.display}`}
-                >
-                  {CONTACT.phone.display}
-                </a>
+                />
                 {showToggleTheme && <ToggleTheme iconClass="w-5 h-5" />}
                 <Button variant="primary" size="sm" href={cta.href} text={cta.text} />
               </div>
@@ -106,12 +106,14 @@ const mobilePanelClass =
             <div class={mobilePanelClass} data-mobile-panel>
               <MobileNavLinks links={links} />
               <div class="mt-2 flex flex-col gap-2 border-t border-heading/10 pt-3">
-                <a
+                <Button
+                  variant="outline"
+                  size="sm"
                   href={CONTACT.phone.href}
-                  class="flex w-full items-center justify-center gap-2 font-body font-bold text-[14px] tracking-[0.04em] text-heading uppercase py-3"
-                >
-                  {CONTACT.phone.display}
-                </a>
+                  text={CONTACT.phone.display}
+                  aria-label={`Call ${CONTACT.phone.display}`}
+                  class="w-full justify-center"
+                />
                 <Button variant="primary" size="sm" href={cta.href} text={cta.text} class="w-full justify-center" />
               </div>
             </div>

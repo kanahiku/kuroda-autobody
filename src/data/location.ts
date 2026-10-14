@@ -74,21 +74,21 @@ export interface LocationContent {
 
 export const locationFallback: LocationContent = {
   seo: {
-    title: 'Auto Body Shop in Waipahu & Waipio | Kuroda Autobody',
+    title: 'Auto Body Shop in Waipahu & Waipiʻo | Kuroda Autobody',
     description:
-      'Visit Kuroda Autobody in Gentry Waipio Business Park, Waipahu. Serving Oahu with collision repair, on-site rental pickup, and easy freeway access.',
+      'Visit Kuroda Autobody in Gentry Waipiʻo Business Park, Waipahu. Serving Oʻahu with collision repair, on-site rental pickup, and easy freeway access.',
   },
 
   hero: {
     eyebrow: 'Location & directions',
     headingLead: 'Kuroda Autobody Location & Directions',
     headingAccent: 'in Waipahu',
-    body: 'Kuroda Autobody operates out of a 28,000-square-foot facility in the Gentry Waipio Business Park, providing collision repair and insurance coordination for drivers across Oahu.',
-    imageAlt: 'Kuroda Autobody shop, Gentry Waipio Business Park',
+    body: 'Kuroda Autobody operates out of a 28,000-square-foot facility in the Gentry Waipiʻo Business Park, providing collision repair and insurance coordination for drivers across Oʻahu.',
+    imageAlt: 'Kuroda Autobody shop, Gentry Waipiʻo Business Park',
   },
 
   details: {
-    eyebrow: 'Gentry Waipio Business Park',
+    eyebrow: 'Gentry Waipiʻo Business Park',
     headingLead: 'Shop Location',
     headingAccent: 'and Hours',
     rows: [
@@ -111,17 +111,17 @@ export const locationFallback: LocationContent = {
     headingAccent: 'Driving Directions',
     mapTitle: 'Map of Kuroda Autobody, 94-518 Puahi Street, {cityLine}',
     caption: 'Kuroda Autobody, 94-518 Puahi Street, {cityLine}.',
-    lead: 'Our Waipahu location offers easy access for drivers traveling from throughout Central and West Oahu:',
+    lead: 'Our Waipahu location offers easy access for drivers traveling from throughout Central and West Oʻahu:',
     directions: [
       {
         title: 'From the H-1 Freeway',
         description:
-          'Take the exit toward Waikele/Waipahu, transition toward the Gentry Waipio Business Park area, and turn onto Puahi Street.',
+          'Take the exit toward Waikele/Waipahu, transition toward the Gentry Waipiʻo Business Park area, and turn onto Puahi Street.',
       },
       {
         title: 'From the H-2 Freeway',
         description:
-          'Head toward the Waipio/Mililani interchange, connect down toward the business park, and locate our facility on Puahi Street.',
+          'Head toward the Waipiʻo/Mililani interchange, connect down toward the business park, and locate our facility on Puahi Street.',
       },
     ],
     ctaText: 'GET DIRECTIONS',
@@ -148,19 +148,19 @@ export const locationFallback: LocationContent = {
   },
 
   communities: {
-    eyebrow: 'Serving Oahu',
+    eyebrow: 'Serving Oʻahu',
     headingLead: 'Communities We Serve',
-    headingAccent: 'Across Oahu',
+    headingAccent: 'Across Oʻahu',
     lead: 'While our shop is anchored in Waipahu, we serve drivers throughout the island, including:',
     items: [
       { label: 'Waipahu' },
-      { label: 'Waipio' },
+      { label: 'Waipiʻo' },
       { label: 'Waikele' },
-      { label: 'Aiea' },
+      { label: 'ʻAiea' },
       { label: 'Pearl City' },
       { label: 'Mililani' },
       { label: 'Koa Ridge' },
-      { label: 'Central and West Oahu' },
+      { label: 'Central and West Oʻahu' },
     ],
   },
 
@@ -171,7 +171,7 @@ export const locationFallback: LocationContent = {
     items: [
       {
         question: 'Where is Kuroda Autobody located?',
-        answer: 'We are located at 94-518 Puahi Street in the Gentry Waipio Business Park, {cityLine}.',
+        answer: 'We are located at 94-518 Puahi Street in the Gentry Waipiʻo Business Park, {cityLine}.',
       },
       {
         question: 'Do I need an appointment to visit the shop?',
@@ -199,7 +199,7 @@ export const locationFallback: LocationContent = {
     headingLead: 'Plan Your',
     headingAccent: 'Visit',
     description:
-      'Get expert guidance and reliable collision repair from a family-owned shop rooted in Hawaii since 1938.',
+      'Get expert guidance and reliable collision repair from a family-owned shop rooted in Hawaiʻi since 1938.',
     ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: '/contact/' },
     ctaTwo: { text: 'CALL {phone}', href: '{phoneHref}' },
     imageAlt: 'Kuroda Autobody front desk team greeting a customer',

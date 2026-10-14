@@ -1,13 +1,13 @@
 /**
- * Service Areas — Ewa Beach, Kapolei and Honolulu community pages (copy: Kuroda – Service Areas,
- * `_service-areas_<area>_.docx`). Rendered by `ContentPageView`. Same page frame as Pearl City & Aiea
+ * Service Areas — ʻEwa Beach, Kapolei and Honolulu community pages (copy: Kuroda – Service Areas,
+ * `_service-areas_<area>_.docx`). Rendered by `ContentPageView`. Same page frame as Pearl City & ʻAiea
  * (src/data/serviceAreas.ts): story → why Kuroda → services → FAQs → closing CTA, no related grid.
  */
 import type { ContentPage, FeatureItem } from '~/data/contentPage';
 
 interface AreaCopy {
   slug: string;
-  /** Name used in headings and FAQ labels, e.g. `Ewa Beach`. */
+  /** Name used in headings and FAQ labels, e.g. `ʻEwa Beach`. */
   name: string;
   seoTitle: string;
   metaDescription: string;
@@ -87,8 +87,8 @@ function areaPage(a: AreaCopy): ContentPage {
         headingLead: a.story.headingLead,
         headingAccent: a.story.headingAccent,
         paragraphs: [a.story.paragraph],
-        caption: 'Kuroda on Kamehameha Highway in Aiea, 1938.',
-        photoLabel: 'Kuroda on Kamehameha Highway in Aiea, 1938.',
+        caption: 'Kuroda on Kamehameha Highway in ʻAiea, 1938.',
+        photoLabel: 'Kuroda on Kamehameha Highway in ʻAiea, 1938.',
         stats: a.story.stats,
       },
       {
@@ -131,41 +131,41 @@ function areaPage(a: AreaCopy): ContentPage {
       title: 'Plan Your ',
       titleStrong: `Visit from ${a.name}`,
       subtitle:
-        'Get expert guidance and reliable auto body repair from a family-owned shop rooted in Hawaii since 1938.',
+        'Get expert guidance and reliable auto body repair from a family-owned shop rooted in Hawaiʻi since 1938.',
     },
   };
 }
 
-const FOUNDED = { value: '1938', label: 'Founded in Aiea' };
+const FOUNDED = { value: '1938', label: 'Founded in ʻAiea' };
 const FACILITY = { value: '28,000 SQ FT', label: 'Waipahu facility' };
 
 const areas: AreaCopy[] = [
-  // ─── Ewa Beach ─────────────────────────────────────────────────────────────
+  // ─── ʻEwa Beach ─────────────────────────────────────────────────────────────
   {
     slug: 'ewa-beach',
-    name: 'Ewa Beach',
-    seoTitle: 'Auto Body Shop Serving Ewa Beach | Kuroda Autobody',
+    name: 'ʻEwa Beach',
+    seoTitle: 'Auto Body Shop Serving ʻEwa Beach | Kuroda Autobody',
     metaDescription:
-      'Kuroda Autobody provides expert auto body repair for drivers in Ewa Beach. Visit our Waipahu shop for trusted craftsmanship and local roots.',
+      'Kuroda Autobody provides expert auto body repair for drivers in ʻEwa Beach. Visit our Waipahu shop for trusted craftsmanship and local roots.',
     intro:
-      'Drivers in Ewa Beach looking for trusted auto body repair and honest guidance have a reliable neighbor just a short commute away. Kuroda Autobody is located nearby in the Gentry Waipio Business Park in Waipahu, making it quick and easy for Leeward Oahu motorists to access expert vehicle care.',
-    photoLabel: 'Kuroda Autobody shop, a short commute from Ewa Beach',
+      'Drivers in ʻEwa Beach looking for trusted auto body repair and honest guidance have a reliable neighbor just a short commute away. Kuroda Autobody is located nearby in the Gentry Waipiʻo Business Park in Waipahu, making it quick and easy for Leeward Oʻahu motorists to access expert vehicle care.',
+    photoLabel: 'Kuroda Autobody shop, a short commute from ʻEwa Beach',
     story: {
       headingLead: 'Deep Roots Serving ',
-      headingAccent: 'the Ewa Community',
+      headingAccent: 'the ʻEwa Community',
       paragraph:
-        'Kuroda has been part of Oahu since 1938, when we first opened on Kamehameha Highway in Aiea, across from the Sumida watercress farm. As Ewa Beach transformed from historic plantation lands into bustling residential hubs like Ocean Pointe and Hoʻopili, our family business grew right alongside it. Today, we bring those same generational roots and values to our modern 28,000-square-foot Waipahu facility.',
+        'Kuroda has been part of Oʻahu since 1938, when we first opened on Kamehameha Highway in ʻAiea, across from the Sumida watercress farm. As ʻEwa Beach transformed from historic plantation lands into bustling residential hubs like Ocean Pointe and Hoʻopili, our family business grew right alongside it. Today, we bring those same generational roots and values to our modern 28,000-square-foot Waipahu facility.',
       stats: [FOUNDED, FACILITY, { value: 'H-1', label: 'Freeway access' }],
     },
     whyLead:
-      'Navigating daily bottlenecks along Fort Weaver Road and the H-1 corridor can be frustrating after an accident. Ewa Beach drivers choose our Waipahu facility because we eliminate travel hassles and streamline your recovery:',
+      'Navigating daily bottlenecks along Fort Weaver Road and the H-1 corridor can be frustrating after an accident. ʻEwa Beach drivers choose our Waipahu facility because we eliminate travel hassles and streamline your recovery:',
     access: {
       title: 'Strategic Off-Highway Access',
       description:
-        'Located just past the West Oahu congestion points, our Gentry Waipio facility provides a direct route up the H-1 or Kunia Road, saving you from driving into urban Honolulu.',
+        'Located just past the West Oʻahu congestion points, our Gentry Waipiʻo facility provides a direct route up the H-1 or Kunia Road, saving you from driving into urban Honolulu.',
     },
     directionsAnswer:
-      'Head north up Fort Weaver Road, transition past the H-1 freeway interchange toward Waipahu, and you will find our facility easily accessible in the Gentry Waipio Business Park at 94-518 Puahi Street.',
+      'Head north up Fort Weaver Road, transition past the H-1 freeway interchange toward Waipahu, and you will find our facility easily accessible in the Gentry Waipiʻo Business Park at 94-518 Puahi Street.',
   },
 
   // ─── Kapolei ───────────────────────────────────────────────────────────────
@@ -176,13 +176,13 @@ const areas: AreaCopy[] = [
     metaDescription:
       'Kuroda Autobody provides expert auto body repair for drivers in Kapolei and Ka Makana Aliʻi. Visit our Waipahu shop for trusted craftsmanship and local roots.',
     intro:
-      'Drivers in Kapolei looking for trusted auto body repair and honest guidance have a reliable neighbor just up the H-1 freeway. Kuroda Autobody is located nearby in the Gentry Waipio Business Park in Waipahu, making it quick and efficient for Second City motorists to access expert vehicle care without heading into town.',
+      'Drivers in Kapolei looking for trusted auto body repair and honest guidance have a reliable neighbor just up the H-1 freeway. Kuroda Autobody is located nearby in the Gentry Waipiʻo Business Park in Waipahu, making it quick and efficient for Second City motorists to access expert vehicle care without heading into town.',
     photoLabel: 'Kuroda Autobody shop, just up the H-1 from Kapolei',
     story: {
       headingLead: 'Deep Roots Serving ',
-      headingAccent: 'West Oahu',
+      headingAccent: 'West Oʻahu',
       paragraph:
-        "Kuroda has been part of Oahu since 1938, when we first opened on Kamehameha Highway in Aiea, across from the Sumida watercress farm. As Kapolei rapidly expanded from agricultural fields into Oahu's thriving Second City, anchored by growing neighborhoods around Ka Makana Aliʻi and Kakaiʻwa, our family business grew right alongside West Oahu. Today, we bring those same generational roots and values to our modern 28,000-square-foot Waipahu facility.",
+        "Kuroda has been part of Oʻahu since 1938, when we first opened on Kamehameha Highway in ʻAiea, across from the Sumida watercress farm. As Kapolei rapidly expanded from agricultural fields into Oʻahu's thriving Second City, anchored by growing neighborhoods around Ka Makana Aliʻi and Kakaiʻwa, our family business grew right alongside West Oʻahu. Today, we bring those same generational roots and values to our modern 28,000-square-foot Waipahu facility.",
       stats: [FOUNDED, FACILITY, { value: 'H-1', label: 'Freeway access' }],
     },
     whyLead:
@@ -190,10 +190,10 @@ const areas: AreaCopy[] = [
     access: {
       title: 'Efficient Freeway Access',
       description:
-        'Just a straight eastbound drive up the H-1 freeway from Kapolei brings you directly to our Gentry Waipio location, saving you from navigating downtown congestion.',
+        'Just a straight eastbound drive up the H-1 freeway from Kapolei brings you directly to our Gentry Waipiʻo location, saving you from navigating downtown congestion.',
     },
     directionsAnswer:
-      'Head east up the H-1 freeway from Kapolei toward the Waipio interchange, and you will find our facility easily accessible in the Gentry Waipio Business Park at 94-518 Puahi Street.',
+      'Head east up the H-1 freeway from Kapolei toward the Waipiʻo interchange, and you will find our facility easily accessible in the Gentry Waipiʻo Business Park at 94-518 Puahi Street.',
   },
 
   // ─── Honolulu ──────────────────────────────────────────────────────────────
@@ -204,13 +204,13 @@ const areas: AreaCopy[] = [
     metaDescription:
       'Kuroda Autobody provides expert auto body repair for drivers in Honolulu. Visit our Waipahu shop for trusted craftsmanship and local roots.',
     intro:
-      'Drivers in Honolulu looking for trusted auto body repair and honest guidance have a reliable destination just a short drive westbound. While many shops are packed into urban Honolulu, Kuroda Autobody is located nearby in the Gentry Waipio Business Park in Waipahu, offering a counter-commute escape from downtown congestion for expert vehicle care.',
+      'Drivers in Honolulu looking for trusted auto body repair and honest guidance have a reliable destination just a short drive westbound. While many shops are packed into urban Honolulu, Kuroda Autobody is located nearby in the Gentry Waipiʻo Business Park in Waipahu, offering a counter-commute escape from downtown congestion for expert vehicle care.',
     photoLabel: 'Kuroda Autobody shop, a short drive westbound from Honolulu',
     story: {
       headingLead: 'Deep Roots Serving ',
       headingAccent: 'the Islands Since 1938',
       paragraph:
-        'Kuroda has been part of Oahu since 1938, when we first opened on Kamehameha Highway in Aiea, across from the Sumida watercress farm. Over the decades, as Honolulu and surrounding island communities grew, our family business expanded right alongside them. Today, we bring those same generational roots and values from our historic beginnings to our modern 28,000-square-foot Waipahu facility.',
+        'Kuroda has been part of Oʻahu since 1938, when we first opened on Kamehameha Highway in ʻAiea, across from the Sumida watercress farm. Over the decades, as Honolulu and surrounding island communities grew, our family business expanded right alongside them. Today, we bring those same generational roots and values from our historic beginnings to our modern 28,000-square-foot Waipahu facility.',
       stats: [FOUNDED, FACILITY, { value: 'H-1', label: 'Westbound access' }],
     },
     whyLead:
@@ -218,10 +218,10 @@ const areas: AreaCopy[] = [
     access: {
       title: 'Counter-Commute Convenience',
       description:
-        'Head westbound up the H-1 freeway away from morning downtown gridlock to reach our Gentry Waipio facility quickly and easily.',
+        'Head westbound up the H-1 freeway away from morning downtown gridlock to reach our Gentry Waipiʻo facility quickly and easily.',
     },
     directionsAnswer:
-      'Head westbound up the H-1 freeway away from town toward the Waipio interchange, and you will find our facility easily accessible in the Gentry Waipio Business Park at 94-518 Puahi Street.',
+      'Head westbound up the H-1 freeway away from town toward the Waipiʻo interchange, and you will find our facility easily accessible in the Gentry Waipiʻo Business Park at 94-518 Puahi Street.',
   },
 ];
 

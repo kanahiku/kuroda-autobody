@@ -75,8 +75,8 @@ const WHY_KURODA_PAGES: [string, string][] = [
 /** The Service Areas pages, in the same order as the site menu (the other areas have no page yet). */
 const SERVICE_AREA_PAGES: [string, string][] = [
   ['Mililani & Koa Ridge', '/service-areas/mililani/'],
-  ['Pearl City & Aiea', '/service-areas/pearl-city-aiea/'],
-  ['Ewa Beach', '/service-areas/ewa-beach/'],
+  ['Pearl City & ʻAiea', '/service-areas/pearl-city-aiea/'],
+  ['ʻEwa Beach', '/service-areas/ewa-beach/'],
   ['Kapolei', '/service-areas/kapolei/'],
   ['Honolulu', '/service-areas/honolulu/'],
 ];

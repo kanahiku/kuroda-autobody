@@ -19,7 +19,7 @@ export const whyKurodaPages: ContentPage[] = [
   // ─── Our Repair Process ────────────────────────────────────────────────────
   {
     path: '/repair-process/',
-    seoTitle: 'The Collision Repair Process in Waipahu, Oahu | Kuroda Autobody',
+    seoTitle: 'The Collision Repair Process in Waipahu, Oʻahu | Kuroda Autobody',
     metaDescription:
       'Learn how Kuroda Autobody handles your collision repair from estimate to post-repair walkthrough. Step-by-step guidance at our Waipahu shop.',
     eyebrow: 'Why Kuroda',

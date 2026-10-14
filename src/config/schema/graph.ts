@@ -57,7 +57,7 @@ function buildPageNodes(page: PageSchema, entity: BusinessSchema): JsonLdNode[] 
     if (page.schemaType === 'Service') {
       main.serviceType = page.serviceType;
       main.provider = { '@id': businessId(entity.idFragment) };
-      main.areaServed = entity.areaServed || { '@type': 'AdministrativeArea', name: 'Oahu, Hawaii' };
+      main.areaServed = entity.areaServed || { '@type': 'AdministrativeArea', name: 'Oʻahu, Hawaiʻi' };
     }
 
     nodes.push(main);

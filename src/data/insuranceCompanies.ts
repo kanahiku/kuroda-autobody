@@ -66,7 +66,7 @@ function carrierPage(c: CarrierCopy, others: { name: string; path: string }[]): 
   const faqs: FaqItem[] = [
     {
       title: `Do I have to use ${c.article} ${name} network shop?`,
-      description: 'No. Hawaii law protects your right to select any independent repair shop of your choice.',
+      description: 'No. Hawaiʻi law protects your right to select any independent repair shop of your choice.',
     },
     c.adjustmentsFaq,
     {
@@ -194,7 +194,7 @@ const carriers: CarrierCopy[] = [
     metaDescription:
       'Processing your State Farm insurance claim at Kuroda Autobody in Waipahu. We manage adjuster coordination, parts reviews, and deductibles while protecting your right to independent shop choice.',
     rightToChoose: [
-      'State Farm claims representatives frequently recommend or route policyholders to shops within their Select Service program. Under Hawaii state regulations, you retain the absolute legal right to choose whichever auto body shop you trust to repair your vehicle, regardless of network suggestions.',
+      'State Farm claims representatives frequently recommend or route policyholders to shops within their Select Service program. Under Hawaiʻi state regulations, you retain the absolute legal right to choose whichever auto body shop you trust to repair your vehicle, regardless of network suggestions.',
       'You are never required to use a State Farm-recommended facility, and you do not need to collect multiple estimates before bringing your car to Kuroda Autobody.',
     ],
     expectLead:
@@ -380,9 +380,9 @@ const hub: ContentPage = {
       type: 'story',
       eyebrow: 'Your right to choose',
       headingLead: 'Your Right to Choose ',
-      headingAccent: 'Your Repair Shop in Hawaii',
+      headingAccent: 'Your Repair Shop in Hawaiʻi',
       paragraphs: [
-        'After an auto accident, insurance companies often suggest or direct policyholders toward specific collision shops on their preferred networks. Under Hawaii insurance regulations, you have the absolute legal right to choose whichever auto body shop you trust to repair your vehicle, regardless of who is paying for the claim.',
+        'After an auto accident, insurance companies often suggest or direct policyholders toward specific collision shops on their preferred networks. Under Hawaiʻi insurance regulations, you have the absolute legal right to choose whichever auto body shop you trust to repair your vehicle, regardless of who is paying for the claim.',
         "You are never required to use an insurance company's recommended facility, and you do not need to collect multiple estimates before bringing your car to Kuroda Autobody.",
       ],
       photoLabel: 'Kuroda Autobody front desk in Waipahu',

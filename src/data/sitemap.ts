@@ -1,6 +1,7 @@
 /**
  * Site map — GENERATED from the client workbook (Sitemap sheet). Do not edit by hand.
  * Regenerate: python3 scripts/gen-sitemap.py "<path to .xlsx>"
+ * Paintless Dent Repair, Towing and Repair Gallery are left out on purpose (pages not built; see gen-sitemap.py).
  *
  * Hierarchy (one level per spreadsheet column pair):
  *   Category (slug)  →  Sub category one (slug)  →  Sub category two (slug)
@@ -30,7 +31,6 @@ export const sitemap: SitemapNode[] = [
       { label: 'ADAS Calibration', slug: '/collision-repair/adas-calibration/', batch: 'Batch 1' },
       { label: 'Vehicle Diagnostic Scanning', slug: '/collision-repair/diagnostic-scanning/', batch: 'Batch 1' },
       { label: 'Auto Glass Replacement', slug: '/collision-repair/auto-glass-replacement/', batch: 'Batch 1' },
-      { label: 'Paintless Dent Repair', slug: '/collision-repair/paintless-dent-repair/', batch: 'Batch 2' },
     ],
   },
   {
@@ -48,7 +48,6 @@ export const sitemap: SitemapNode[] = [
       { label: 'Deductibles', slug: '/had-an-accident/deductibles/', batch: 'Batch 1' },
       { label: 'Paying Out of Pocket', slug: '/had-an-accident/paying-out-of-pocket/', batch: 'Batch 1' },
       { label: 'Rental Cars', slug: '/had-an-accident/rental-cars/', batch: 'Batch 1' },
-      { label: 'Towing', slug: '/had-an-accident/towing/', batch: 'Batch 2' },
       {
         label: 'Insurance Companies We Work With',
         slug: '/had-an-accident/insurance-companies/',
@@ -80,7 +79,6 @@ export const sitemap: SitemapNode[] = [
           { label: 'Chrysler', slug: '/certifications/chrysler/', batch: 'Batch 2' },
         ],
       },
-      { label: 'Repair Gallery', slug: '/gallery/', batch: 'Batch 2' },
     ],
   },
   { label: 'Reviews', slug: '/reviews/', batch: 'Approved' },
@@ -91,8 +89,8 @@ export const sitemap: SitemapNode[] = [
     batch: 'Batch 1',
     children: [
       { label: 'Mililani', slug: '/service-areas/mililani/', batch: 'Batch 1' },
-      { label: 'Pearl City & Aiea', slug: '/service-areas/pearl-city-aiea/', batch: 'Batch 1' },
-      { label: 'Ewa Beach', slug: '/service-areas/ewa-beach/', batch: 'Batch 2' },
+      { label: 'Pearl City & ʻAiea', slug: '/service-areas/pearl-city-aiea/', batch: 'Batch 1' },
+      { label: 'ʻEwa Beach', slug: '/service-areas/ewa-beach/', batch: 'Batch 2' },
       { label: 'Kapolei', slug: '/service-areas/kapolei/', batch: 'Batch 2' },
       { label: 'Honolulu', slug: '/service-areas/honolulu/', batch: 'Batch 2' },
     ],
@@ -108,7 +106,7 @@ export const sitemap: SitemapNode[] = [
         label: 'Posts',
         children: [
           {
-            label: 'Can I Choose My Own Body Shop After an Accident in Hawaii?',
+            label: 'Can I Choose My Own Body Shop After an Accident in Hawaiʻi?',
             slug: '/blog/choose-your-own-body-shop/',
             batch: 'Batch 3',
           },

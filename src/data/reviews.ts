@@ -9,14 +9,14 @@ import type { ContentPage } from '~/data/contentPage';
 export const reviewPages: ContentPage[] = [
   {
     path: '/reviews/',
-    seoTitle: 'Customer Reviews | Kuroda Autobody in Waipahu, Oahu',
+    seoTitle: 'Customer Reviews | Kuroda Autobody in Waipahu, Oʻahu',
     metaDescription:
-      'Read what Hawaii drivers say about Kuroda Autobody — reviews from Carwise, Google and our own customer surveys on quality repairs, communication and service.',
+      'Read what Hawaiʻi drivers say about Kuroda Autobody: reviews from Carwise, Google and our own customer surveys on quality repairs, communication and service.',
     eyebrow: 'Reviews',
     hero: {
-      titleLead: 'Hawaii Drivers ',
+      titleLead: 'Hawaiʻi Drivers ',
       titleAccent: 'Say It Best.',
-      body: 'The best measure of our work is what our customers say when the job is done. From quality repairs to personal service, we’re grateful for the trust Hawaii drivers have placed in Kuroda for generations.',
+      body: 'The best measure of our work is what our customers say when the job is done. From quality repairs to personal service, we’re grateful for the trust Hawaiʻi drivers have placed in Kuroda for generations.',
     },
     sections: [
       {
@@ -78,7 +78,7 @@ export const reviewPages: ContentPage[] = [
           },
           {
             quote:
-              '“This was the first time I ever made a claim. Kuroda Auto Body made it so easy to understand the procedure.”',
+              '“This was the first time I ever made a claim. Kuroda Autobody made it so easy to understand the procedure.”',
             name: 'Amy N.',
             detail: 'Kuroda Customer Survey, April 2026',
           },

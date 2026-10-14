@@ -51,15 +51,15 @@ export const contactFallback: ContactContent = {
   seo: {
     title: 'Contact Kuroda Autobody | Collision Repair in Waipahu, Oʻahu',
     description:
-      'Visit Kuroda Autobody in Gentry Waipio Business Park, Waipahu. Call {phone}, get directions, or request a collision repair estimate.',
+      'Visit Kuroda Autobody in Gentry Waipiʻo Business Park, Waipahu. Call {phone}, get directions, or request a collision repair estimate.',
   },
 
   hero: {
     eyebrow: 'Contact',
     headingLead: 'Auto Body & Collision Repair',
-    headingAccent: 'in Waipio',
-    body: 'Kuroda Auto Body is conveniently located in Gentry Waipio Business Park, just off the freeway and easily accessible from Aiea, Pearl City, Waipahu, Mililani and communities throughout Central and West Oahu.',
-    imageAlt: 'Kuroda Auto Body, Gentry Waipio Business Park',
+    headingAccent: 'in Waipiʻo',
+    body: 'Kuroda Autobody is conveniently located in Gentry Waipiʻo Business Park, just off the freeway and easily accessible from ʻAiea, Pearl City, Waipahu, Mililani and communities throughout Central and West Oʻahu.',
+    imageAlt: 'Kuroda Autobody, Gentry Waipiʻo Business Park',
   },
 
   form: { headingLead: 'Request an', headingAccent: 'Estimate' },
@@ -71,16 +71,16 @@ export const contactFallback: ContactContent = {
     rows: [
       {
         label: 'Location',
-        value: 'Kuroda Auto Body\nGentry Waipio Business Park\n94-518 Puahi Street\n{cityLine}',
+        value: 'Kuroda Autobody\nGentry Waipiʻo Business Park\n94-518 Puahi Street\n{cityLine}',
         link: 'none',
       },
-      { label: 'Monday–Friday', value: '7:00 AM–5:00 PM', link: 'none' },
-      { label: 'Saturday–Sunday', value: 'Closed', link: 'none' },
+      { label: 'Monday to Friday', value: '7am to 5pm', link: 'none' },
+      { label: 'Saturday to Sunday', value: 'Closed', link: 'none' },
       { label: 'Phone', value: '{phone}', link: 'phone' },
       { label: 'Fax', value: '{fax}', link: 'none' },
     ],
     ctaText: 'Get Directions',
-    mapTitle: 'Map of Kuroda Auto Body, {addressLine}',
+    mapTitle: 'Map of Kuroda Autobody, {addressLine}',
   },
 
   band: {

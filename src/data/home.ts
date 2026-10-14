@@ -151,9 +151,9 @@ export const homeFallback: HomeContent = {
     eyebrow: 'Our services',
     headingLead: 'Auto body & collision',
     headingAccent: 'services on Oʻahu.',
-    caption: 'Precision check — paint booth inspection.',
+    caption: 'Precision check: paint booth inspection.',
     figLabel: 'FIG. 01',
-    imageAlt: 'Precision check — paint booth inspection.',
+    imageAlt: 'Precision check: paint booth inspection.',
     items: [
       { title: 'Collision repair', description: 'Structural, panel and frame repair.', icon: 'collision' },
       { title: 'OEM calibration', description: 'Factory-standard ADAS calibration.', icon: 'calibration' },
@@ -168,8 +168,8 @@ export const homeFallback: HomeContent = {
     eyebrow: 'Why drivers choose Kuroda',
     headingLead: 'Less stress. Fewer questions.',
     headingAccent: "A car that's right again.",
-    caption: 'Our Waipahu shop, Gentry Waipio Business Park.',
-    imageAlt: 'Our Waipahu shop, Gentry Waipio Business Park.',
+    caption: 'Our Waipahu shop, Gentry Waipiʻo Business Park.',
+    imageAlt: 'Our Waipahu shop, Gentry Waipiʻo Business Park.',
     items: [
       { title: 'Repaired right', description: 'Backed by a written Limited Lifetime Warranty.', icon: 'shield' },
       { title: 'Kept moving', description: 'Realistic timing and efficient repairs.', icon: 'clock' },
@@ -182,7 +182,7 @@ export const homeFallback: HomeContent = {
     eyebrow: 'The Kuroda difference',
     headingLead: "We don't just tell you it's repaired.",
     headingAccent: 'We show you.',
-    body: 'Every repair ends with a walk-around — your work order, before/after photos and every question answered. Proof, not promises.',
+    body: 'Every repair ends with a walk-around: your work order, before/after photos and every question answered. Proof, not promises.',
     beforeLabel: 'Before',
     afterLabel: 'After',
     beforeAlt: 'Vehicle before repair',
@@ -196,28 +196,28 @@ export const homeFallback: HomeContent = {
 
   heritage: {
     eyebrow: 'A legacy beyond the business.',
-    headingLead: 'Rooted in Hawaii.',
+    headingLead: 'Rooted in Hawaiʻi.',
     headingAccent: '1938.',
-    body: 'Founded as a small service station in Aiea, now run by the third and fourth generations of the Kuroda family in Waipahu.',
+    body: 'Founded as a small service station in ʻAiea, now run by the third and fourth generations of the Kuroda family in Waipahu.',
     quote: '“Do it right, treat people right, and treat every car as if our own family were driving it.”',
-    quoteAttribution: '— The Kuroda family principle',
-    caption: 'Our founding family service station in Aiea, 1938.',
-    imageAlt: 'Our founding family service station in Aiea, 1938.',
+    quoteAttribution: 'The Kuroda family principle',
+    caption: 'Our founding family service station in ʻAiea, 1938.',
+    imageAlt: 'Our founding family service station in ʻAiea, 1938.',
     stats: [
-      { value: '1938', label: 'Founded in Aiea' },
-      { value: 'WAIPIO', label: 'Modern business park' },
+      { value: '1938', label: 'Founded in ʻAiea' },
+      { value: 'WAIPIʻO', label: 'Modern business park' },
       { value: '4TH GEN', label: 'Active leadership' },
     ],
   },
 
   protection: {
-    eyebrow: 'Hawaii consumer protection',
+    eyebrow: 'Hawaiʻi consumer protection',
     headingLead: 'Your car.',
     headingAccent: 'Your repair shop.',
-    lead: 'Under Hawaii law, you have the absolute legal right to choose where your vehicle is repaired — even if your insurer suggests another shop.',
+    lead: 'Under Hawaiʻi law, you have the absolute legal right to choose where your vehicle is repaired, even if your insurer suggests another shop.',
     note: 'Simply tell your adjuster you choose Kuroda.',
     steps: [
-      { title: 'Request Kuroda', description: 'Tell your claims rep you choose Kuroda Auto Body.' },
+      { title: 'Request Kuroda', description: 'Tell your claims rep you choose Kuroda Autobody.' },
       {
         title: 'We handle the adjuster',
         description: 'Estimates, photos and supplements, handled directly with your carrier.',
@@ -239,7 +239,7 @@ export const homeFallback: HomeContent = {
         platform: 'Google verified',
         count: '182 reviews',
         quote:
-          '“Kuroda Auto Body made an unfortunate situation simple. Honest communication, spotless repair, and they guided me through everything.”',
+          '“Kuroda Autobody made an unfortunate situation simple. Honest communication, spotless repair, and they guided me through everything.”',
         source: 'Independent Google score',
       },
       {
@@ -280,10 +280,10 @@ export const homeFallback: HomeContent = {
     eyebrowMobile: 'Estimates • Claims • Warranty',
     headingLead: 'Ready to get your car',
     headingAccent: 'repaired right?',
-    description: 'Visit us at Gentry Waipio Business Park or call for an honest estimate.',
+    description: 'Visit us at Gentry Waipiʻo Business Park or call for an honest estimate.',
     ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: '/contact/' },
     ctaTwo: { text: 'CALL KURODA: {phone}', href: '{phoneHref}' },
-    hours: 'Monday – Friday: 7:00 AM – 5:00 PM',
+    hours: 'Monday to Friday, 7am to 5pm',
     imageAlt: 'The Kuroda Autobody team',
   },
 };

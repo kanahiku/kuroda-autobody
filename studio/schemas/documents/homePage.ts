@@ -158,7 +158,7 @@ export const homePage = defineType({
       ...heading(30, 20),
       paragraph('body', 'Paragraph', 240),
       paragraph('quote', 'Pull quote', 160, 'Include the quotation marks “ ”.'),
-      line('quoteAttribution', 'Quote attribution', 60, 'e.g. “— The Kuroda family principle”.'),
+      line('quoteAttribution', 'Quote attribution', 60, 'e.g. “The Kuroda family principle”.'),
       ...photo('', 'Archive photo'),
       line('caption', 'Photo caption', 80),
       items(

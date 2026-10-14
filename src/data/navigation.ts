@@ -100,12 +100,12 @@ export const navigationData: NavigationContent = {
     links: footerColumns,
     secondaryLinks: utilityLinks,
     tagline: 'Family-owned collision repair in Waipahu, Oʻahu since {established}.',
-    footNote: '© {year} Kuroda Auto Body, Inc. All rights reserved.',
+    footNote: '© {year} Kuroda Autobody, Inc. All rights reserved.',
     visit: { title: 'VISIT US', mobileTitle: 'LOCATION & HOURS.', linkText: 'Our Location' },
     family: {
       eyebrow: 'OUR FAMILY OF COMPANIES.',
       name: 'Capitol Auto Service',
-      description: 'Comprehensive mechanical, safety checks & automotive maintenance in Oahu.',
+      description: 'Comprehensive mechanical, safety checks & automotive maintenance in Oʻahu.',
     },
   },
 };

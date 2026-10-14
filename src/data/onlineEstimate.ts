@@ -78,7 +78,7 @@ export const onlineEstimateFallback: OnlineEstimateContent = {
         icon: 'walk-around',
         title: 'Book an In-Person Appointment',
         description:
-          'For a thorough, hands-on evaluation—especially after a significant collision—schedule an in-person appointment at our 28,000-square-foot Waipahu facility. Our team will perform a physical inspection to catch hidden damage and coordinate your claim details.',
+          'For a thorough, hands-on evaluation, especially after a significant collision, schedule an in-person appointment at our 28,000-square-foot Waipahu facility. Our team will perform a physical inspection to catch hidden damage and coordinate your claim details.',
       },
     ],
   },

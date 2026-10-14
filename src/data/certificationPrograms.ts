@@ -31,7 +31,7 @@ interface OemCopy {
 }
 
 const SITE_LEAD =
-  'Operating from our single 28,000-square-foot facility in the Gentry Waipio Business Park since 1938, we combine Hawaii family-owned heritage with rigorous technical standards:';
+  'Operating from our single 28,000-square-foot facility in the Gentry Waipiʻo Business Park since 1938, we combine Hawaiʻi family-owned heritage with rigorous technical standards:';
 
 const ORDER = ['honda', 'acura', 'nissan', 'gm', 'chrysler'];
 
@@ -117,7 +117,7 @@ const oemCopy: OemCopy[] = [
     name: 'Honda',
     seoTitle: 'Honda OEM Collision Repair Program | Kuroda Autobody Waipahu',
     metaDescription:
-      'Kuroda Autobody participates in the Honda OEM collision repair program in Waipahu, Oahu, using factory ACE body structure guidelines to restore your vehicle safely.',
+      'Kuroda Autobody participates in the Honda OEM collision repair program in Waipahu, Oʻahu, using factory ACE body structure guidelines to restore your vehicle safely.',
     intro:
       'Modern Honda vehicles from the Civic and Accord to the CR-V and Pilot are engineered around proprietary safety frameworks like the Advanced Compatibility Engineering (ACE) body structure. Kuroda Autobody participates in the Honda OEM collision repair program, granting our Waipahu technicians direct, unhindered access to official factory repair manuals, structural dimensions, and brand-specific technical standards.',
     photoLabel: 'Honda vehicle in the Kuroda Autobody collision repair shop',
@@ -189,7 +189,7 @@ const oemCopy: OemCopy[] = [
     name: 'Acura',
     seoTitle: 'Acura OEM Collision Repair Program | Kuroda Autobody Waipahu',
     metaDescription:
-      'Kuroda Autobody participates in the Acura OEM collision repair program in Waipahu, Oahu, delivering precision luxury vehicle restoration.',
+      'Kuroda Autobody participates in the Acura OEM collision repair program in Waipahu, Oʻahu, delivering precision luxury vehicle restoration.',
     intro:
       'Acura luxury vehicles from the Integra and TLX to the RDX and MDX combine high-performance powertrain engineering with sophisticated multi-material body construction. Kuroda Autobody participates in the Acura OEM collision repair program, providing our Waipahu technicians with direct digital access to official brand-specific repair standards, structural blueprints, and technical guidelines.',
     photoLabel: 'Acura vehicle in the Kuroda Autobody collision repair shop',
@@ -263,7 +263,7 @@ const oemCopy: OemCopy[] = [
     name: 'Nissan',
     seoTitle: 'Nissan OEM Collision Repair Program | Kuroda Autobody Waipahu',
     metaDescription:
-      'Kuroda Autobody participates in the Nissan OEM collision repair program in Waipahu, Oahu, using factory Zone Body construction guidelines to restore your vehicle safely.',
+      'Kuroda Autobody participates in the Nissan OEM collision repair program in Waipahu, Oʻahu, using factory Zone Body construction guidelines to restore your vehicle safely.',
     intro:
       'Modern Nissan vehicles from the Altima and Rogue to the Pathfinder and Frontier are engineered around specialized frameworks like Nissan’s Zone Body construction. Kuroda Autobody participates in the Nissan OEM collision repair program, providing our Waipahu technicians with direct digital access to official factory repair guidelines, structural dimensions, and brand-specific technical standards.',
     photoLabel: 'Nissan vehicle in the Kuroda Autobody collision repair shop',
@@ -336,7 +336,7 @@ const oemCopy: OemCopy[] = [
     heroName: 'General Motors',
     seoTitle: 'GM OEM Collision Repair Program | Kuroda Autobody Waipahu',
     metaDescription:
-      'Kuroda Autobody participates in the General Motors OEM collision repair program in Waipahu, Oahu, providing factory-aligned repairs for Chevrolet, GMC, Buick, and Cadillac.',
+      'Kuroda Autobody participates in the General Motors OEM collision repair program in Waipahu, Oʻahu, providing factory-aligned repairs for Chevrolet, GMC, Buick, and Cadillac.',
     intro:
       'General Motors vehicles spanning Chevrolet, GMC, Buick, and Cadillac models encompass diverse structural architectures, from high-strength steel passenger cars to fully boxed, hydroformed frame rails on heavy-duty trucks and SUVs. Kuroda Autobody participates in the General Motors OEM collision repair program, ensuring our Waipahu facility maintains direct access to brand-specific repair standards and technical specifications.',
     photoLabel: 'GM vehicle in the Kuroda Autobody collision repair shop',
@@ -408,7 +408,7 @@ const oemCopy: OemCopy[] = [
     name: 'Chrysler',
     seoTitle: 'Chrysler OEM Collision Repair Program | Kuroda Autobody Waipahu',
     metaDescription:
-      'Kuroda Autobody participates in the Chrysler OEM collision repair program in Waipahu, Oahu, using factory standards to restore your vehicle safely.',
+      'Kuroda Autobody participates in the Chrysler OEM collision repair program in Waipahu, Oʻahu, using factory standards to restore your vehicle safely.',
     intro:
       'Chrysler vehicles alongside the broader family of Stellantis cars, minivans, and crossovers are engineered with robust structural frameworks and sophisticated electronic driver-assist features. Kuroda Autobody participates in the Chrysler OEM collision repair program, ensuring our Waipahu facility maintains direct access to official factory service portals, structural dimensions, and technical specifications.',
     photoLabel: 'Chrysler vehicle in the Kuroda Autobody collision repair shop',
@@ -445,7 +445,7 @@ const oemCopy: OemCopy[] = [
         'We work directly with your insurance provider, submitting precise documentation and supplement requests grounded in official Chrysler structural and unibody repair guidelines.'
       ),
       rental(
-        'Eligible customers enjoy seamless on-site Enterprise rental car access right at our Waipahu location—ideal for keeping families moving while minivans, sedans, or crossovers are in the shop.'
+        'Eligible customers enjoy seamless on-site Enterprise rental car access right at our Waipahu location, ideal for keeping families moving while minivans, sedans, or crossovers are in the shop.'
       ),
       warranty(
         'All qualifying workmanship on your Chrysler vehicle is backed by our lifetime warranty for as long as you own the vehicle.'
