@@ -1,7 +1,44 @@
 ---
 import { getJsonLdBlocks } from '~/config/schema';
+import { getCustomSchema } from '~/config/schema/customOverrides';
 
-const blocks = getJsonLdBlocks(Astro.url.pathname);
+interface Props {
+  /**
+   * Custom JSON-LD schema override from page metadata (blog posts).
+   * When provided, takes highest precedence for the page's schema markup.
+   */
+  schemaOverride?: string | Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const { schemaOverride } = Astro.props;
+
+function parseSchemaOverride(
+  override?: string | Record<string, unknown> | Array<Record<string, unknown>>
+): Record<string, unknown> | Array<Record<string, unknown>> | null {
+  if (!override) return null;
+  if (typeof override === 'object') return override;
+  try {
+    return JSON.parse(override);
+  } catch {
+    console.warn('Invalid JSON-LD schemaOverride:', override);
+    return null;
+  }
+}
+
+// 1. Blog post (or any page) override passed via metadata.
+const explicitOverride = parseSchemaOverride(schemaOverride);
+
+// 2. Authored blocks from the schema document. One lookup, no generator work.
+const docxOverride = explicitOverride ? null : getCustomSchema(Astro.url.pathname);
+
+// 3. Fallback generator. Legal pages are absent from pages.ts, so they emit nothing.
+const blocks = explicitOverride
+  ? Array.isArray(explicitOverride)
+    ? explicitOverride
+    : [explicitOverride]
+  : docxOverride
+    ? [docxOverride]
+    : getJsonLdBlocks(Astro.url.pathname);
 ---
 
 {blocks.map((block) => <script type="application/ld+json" is:inline set:html={JSON.stringify(block)} />)}
