@@ -351,6 +351,36 @@
       "notes": "Own section directly under the PageHero on /contact/. Keep the form id `contact-form` and the `data-*` attributes: the inline script and src/lib/forms.ts depend on them. The script must stay plain JavaScript (is:inline ships as-is, so no TypeScript syntax)."
     },
     {
+      "id": "P-44",
+      "name": "Careers apply",
+      "figmaNames": [],
+      "shape": "Subtle section: heading left, application form right (name, email, phone, position dropdown, résumé upload, note, Turnstile, submit).",
+      "component": "CareersApply",
+      "import": "~/components/widgets/CareersApply.astro",
+      "props": {
+        "openings": "JobOpening[] — from getJobOpenings(); each becomes a Position dropdown option",
+        "formHeading / generalOption / resumeHint / submitLabel": "string — form copy; generalOption is the always-present Position choice",
+        "id?": "string — anchor, default `apply`"
+      },
+      "notes": "/careers/ only. Posts multipart to /api/careers/ (src/pages/api/careers.ts) which emails CAREERS.recipients with the résumé attached. Keep form id `careers-form` + the data-* attributes (src/scripts/careers-form.ts). Field classes shared with EstimateForm via ui/formStyles.ts."
+    },
+    {
+      "id": "P-45",
+      "name": "Open positions",
+      "figmaNames": [],
+      "shape": "White section: two-weight heading on top, full-width hairline-ruled list below — per Sanity job: title, accent 'Full time · Place' line, short description, 'Full job description' <details> accordion (long JD, bullets via '- '), Apply Now button. Renders nothing with no openings.",
+      "component": "OpenPositions",
+      "import": "~/components/widgets/OpenPositions.astro",
+      "props": {
+        "openings": "JobOpening[] — from getJobOpenings() (Sanity `jobOpening`)",
+        "eyebrow? / headingLead? / headingStrong?": "string",
+        "applyLabel? / detailsLabel?": "string — button label (default 'Apply Now') / accordion label (default 'Full job description')",
+        "formId?": "string — scroll target, default `apply`",
+        "surface?": "'page' | 'subtle'"
+      },
+      "notes": "Button has data-apply-position=<title>; careers-form.ts pre-selects it in CareersApply's dropdown and smooth-scrolls to the form."
+    },
+    {
       "id": "P-38",
       "name": "Quote band",
       "figmaNames": [],

@@ -92,6 +92,17 @@ export interface Testimonial {
   detail?: string;
 }
 
+/** An open position as stored in Sanity (`jobOpening`), shown on /careers/. */
+export interface JobOpening {
+  title: string;
+  /** Short line under the title, e.g. "Full time · Waipahu". */
+  summary?: string;
+  /** Short plain-text teaser; blank lines separate paragraphs. */
+  description?: string;
+  /** The complete job description, shown in the accordion. Each line is a paragraph; "- " lines are bullets; short unpunctuated lines are sub-headings. */
+  fullDescription?: string;
+}
+
 /** A blog article as stored in Sanity (`blogPost`). Listing queries omit `contentBlocks`. */
 export interface BlogPost {
   title: string;

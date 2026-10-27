@@ -8,6 +8,7 @@ import { locationPage } from './documents/locationPage';
 import { pagePhotos } from './documents/pagePhotos';
 import { ratingsBar } from './documents/ratingsBar';
 import { testimonial } from './documents/testimonial';
+import { jobOpening } from './documents/jobOpening';
 
 /**
  * Sanity manages the homepage, location page, contact page and content-page (Our Story …) copy, the site-wide ratings bar and header & footer navigation, the blog and the customer testimonials shown on /reviews/ and the homepage.
@@ -24,4 +25,5 @@ export const schemaTypes = [
   siteNavigation,
   blogPost,
   testimonial,
+  jobOpening,
 ];

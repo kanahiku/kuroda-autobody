@@ -1,0 +1,50 @@
+---
+/**
+ * /careers/ — simple application page: hero, Open Positions (from Sanity `jobOpening`; the section is
+ * omitted when there are none) then the "Apply Now" form (contact details + résumé upload), then the closing CTA.
+ * Copy lives in src/data/careers.ts; recipients and upload limits in CAREERS (src/config/contact.ts).
+ * Composed from shared widgets only (PageHero, CareersApply, CTABanner).
+ */
+import Layout from '~/layouts/PageLayout.astro';
+import PageHero from '~/components/widgets/PageHero.astro';
+import OpenPositions from '~/components/widgets/OpenPositions.astro';
+import CareersApply from '~/components/widgets/CareersApply.astro';
+import CTABanner from '~/components/widgets/CTABanner.astro';
+import GradientBand from '~/components/ui/GradientBand.astro';
+import { careersCopy as copy } from '~/data/careers';
+import { getJobOpenings, getPagePhotos } from '~/lib/content';
+
+const [openings, photos] = await Promise.all([getJobOpenings(), getPagePhotos(copy.path)]);
+
+const metadata = { title: copy.seo.title, description: copy.seo.description, ignoreTitleTemplate: true };
+---
+
+<Layout metadata={metadata}>
+  <PageHero
+    eyebrow={copy.hero.eyebrow}
+    titleLead={copy.hero.titleLead}
+    titleAccent={copy.hero.titleAccent}
+    body={copy.hero.body}
+    image={photos.hero}
+    showCtas={false}
+  />
+
+  <GradientBand variant="blue" />
+
+  <OpenPositions
+    openings={openings}
+    headingLead={copy.openings.headingLead}
+    headingStrong={copy.openings.headingStrong}
+    applyLabel={copy.openings.applyLabel}
+  />
+
+  <CareersApply
+    openings={openings}
+    formHeading={copy.form.heading}
+    generalOption={copy.form.generalOption}
+    resumeHint={copy.form.resumeHint}
+    submitLabel={copy.form.submitLabel}
+  />
+
+  <CTABanner variant="split" title={copy.cta.title} titleStrong={copy.cta.titleStrong} image={photos.cta} />
+</Layout>

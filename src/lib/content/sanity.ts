@@ -1,6 +1,6 @@
 import { sanityClient } from '../sanity/client';
 import { resolveContentImage, type SanityImageFields } from '../sanity/image';
-import type { BlogContentBlock, BlogPost, ContentImage, Testimonial } from './types';
+import type { BlogContentBlock, BlogPost, ContentImage, JobOpening, Testimonial } from './types';
 
 type FetchedImage = ContentImage & SanityImageFields;
 
@@ -359,6 +359,29 @@ export async function getSanityFeaturedTestimonials(limit = 3): Promise<Testimon
       quote: item.quote!.trim(),
       name: item.name!.trim(),
       ...(item.detail?.trim() ? { detail: item.detail.trim() } : {}),
+    }));
+}
+
+// ─── Job openings ─────────────────────────────────────────────────────────────
+
+const JOB_OPENINGS_QUERY = /* groq */ `
+  *[_type == "jobOpening" && defined(title) && coalesce(isOpen, true)] | order(order asc, _createdAt asc) {
+    title,
+    summary,
+    description,
+    fullDescription
+  }
+`;
+
+export async function getSanityJobOpenings(): Promise<JobOpening[]> {
+  const items = await sanityClient.fetch<Array<Partial<JobOpening> | null>>(JOB_OPENINGS_QUERY);
+  return (items ?? [])
+    .filter((item): item is Partial<JobOpening> => Boolean(item?.title?.trim()))
+    .map((item) => ({
+      title: item.title!.trim(),
+      ...(item.summary?.trim() ? { summary: item.summary.trim() } : {}),
+      ...(item.description?.trim() ? { description: item.description.trim() } : {}),
+      ...(item.fullDescription?.trim() ? { fullDescription: item.fullDescription.trim() } : {}),
     }));
 }
 
