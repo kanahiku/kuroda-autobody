@@ -80,6 +80,21 @@ export const CONTACT = {
 } as const;
 
 /**
+ * Careers page (/careers/) — where résumé applications are emailed, and the upload limits.
+ * The server (src/pages/api/careers.ts) and the browser (src/scripts/careers-form.ts) both read these.
+ */
+export const CAREERS = {
+  /** Every application is sent to all of these addresses. */
+  recipients: ['cori@kurodaautobody.com', 'info@kurodaautobody.com'],
+  /** Shown on the page as the "prefer email?" fallback. */
+  publicEmail: 'info@kurodaautobody.com',
+  /** Vercel Functions cap a request body at 4.5 MB, so the résumé limit stays under that. */
+  maxResumeBytes: 4 * 1024 * 1024,
+  /** Accepted résumé file extensions (PDF or Word). */
+  resumeExtensions: ['pdf', 'doc', 'docx'],
+} as const;
+
+/**
  * Carwise portal links used by /online-estimate/. Leave empty until the client supplies them — the
  * buttons then fall back to the estimate form on /contact/.
  */

@@ -1,10 +1,11 @@
-import type { BlogPost, Testimonial } from './types';
+import type { BlogPost, JobOpening, Testimonial } from './types';
 import { isSanityConfigured } from '../sanity/client';
 import {
   getSanityBlogPost,
   getSanityBlogPosts,
   getSanityBlogPostSlugs,
   getSanityFeaturedTestimonials,
+  getSanityJobOpenings,
   getSanityTestimonials,
 } from './sanity';
 import { getSitemapRoutes, normalizePath } from '../sitemap';
@@ -86,6 +87,17 @@ export async function getFeaturedTestimonials(limit = 3): Promise<Testimonial[]>
   return [];
 }
 
+/** Open positions for /careers/. [] when none are posted (or Sanity is unreachable) — the page then shows its general-application copy. */
+export async function getJobOpenings(): Promise<JobOpening[]> {
+  if (!isSanityConfigured) return [];
+  try {
+    return await getSanityJobOpenings();
+  } catch (error) {
+    console.warn('Sanity job openings unavailable.', error);
+  }
+  return [];
+}
+
 export { getHomeContent } from './home';
 export { getPagePhotos } from './photos';
 export { getContentPageContent } from './contentPage';
@@ -94,4 +106,4 @@ export { getOnlineEstimateContent } from './onlineEstimate';
 export { getLocationContent } from './location';
 export { getRatingsContent } from './ratings';
 
-export type { BlogPost, Testimonial };
+export type { BlogPost, JobOpening, Testimonial };

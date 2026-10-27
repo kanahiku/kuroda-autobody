@@ -141,6 +141,7 @@ export const sitemap: SitemapNode[] = [
       { label: 'Privacy Policy', slug: '/privacy-policy/', batch: 'Client / legal' },
       { label: 'Terms', slug: '/terms/', batch: 'Client / legal' },
       { label: 'Accessibility Statement', slug: '/accessibility/', batch: 'Client / legal' },
+      { label: 'Careers', slug: '/careers/', batch: 'Client / legal' },
     ],
   },
 ];

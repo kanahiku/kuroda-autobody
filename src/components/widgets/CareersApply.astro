@@ -1,0 +1,136 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import SectionTitle from '~/components/ui/SectionTitle.astro';
+import { fieldClass, labelClass } from '~/components/ui/formStyles';
+import { CAREERS, CONTACT } from '~/config/contact';
+import { SITE_SLUG, TURNSTILE_SITE_KEY } from '~/lib/forms';
+import type { JobOpening } from '~/lib/content';
+/**
+ * CareersApply — "Apply Now" section: heading left, application form right (same shape as EstimateForm).
+ * The form posts multipart data (with the résumé file) to /api/careers/ (src/pages/api/careers.ts), which
+ * emails CAREERS.recipients. Each Sanity opening (`jobOpening`) becomes an option in the "Position" dropdown;
+ * the "Apply Now" buttons in OpenPositions pre-select one (src/scripts/careers-form.ts).
+ * Keep the form id `careers-form` and the `data-*` attributes: src/scripts/careers-form.ts depends on them.
+ */
+export interface Props {
+  openings: JobOpening[];
+  formHeading: string;
+  /** Always-present first option of the Position dropdown. */
+  generalOption: string;
+  resumeHint: string;
+  submitLabel: string;
+  id?: string;
+}
+
+const { openings, formHeading, generalOption, resumeHint, submitLabel, id = 'apply' } = Astro.props;
+
+const accept = CAREERS.resumeExtensions.map((ext) => `.${ext}`).join(',');
+const fileClass = `${fieldClass} cursor-pointer file:mr-4 file:cursor-pointer file:rounded-[4px] file:border-0 file:bg-surface-inverse file:px-4 file:py-2 file:font-body file:text-[13px] file:font-semibold file:text-on-dark`;
+
+const fields: {
+  id: string;
+  label: string;
+  type: 'text' | 'email' | 'tel';
+  autocomplete: string;
+  placeholder: string;
+}[] = [
+  { id: 'name', label: 'Full name', type: 'text', autocomplete: 'name', placeholder: 'Your full name' },
+  { id: 'email', label: 'Email', type: 'email', autocomplete: 'email', placeholder: 'you@example.com' },
+  { id: 'phone', label: 'Phone', type: 'tel', autocomplete: 'tel', placeholder: CONTACT.phone.display },
+];
+---
+
+<section id={id} class="w-full scroll-mt-24 bg-surface-subtle">
+  <MaxWidthContainer
+    class="flex flex-col gap-7 py-14 md:gap-10 md:py-16 xl:flex-row xl:items-start xl:gap-24 xl:py-[96px]"
+  >
+    <div class="flex flex-col gap-1 xl:w-[480px] xl:shrink-0">
+      <SectionTitle lead={formHeading} />
+    </div>
+
+    <div class="min-w-0 flex-1">
+      <form
+        id="careers-form"
+        data-endpoint="/api/careers/"
+        data-site={SITE_SLUG}
+        data-turnstile-sitekey={TURNSTILE_SITE_KEY}
+        data-phone={CONTACT.phone.display}
+        data-max-bytes={CAREERS.maxResumeBytes}
+        data-extensions={CAREERS.resumeExtensions.join(',')}
+        class="flex flex-col gap-5"
+        enctype="multipart/form-data"
+        novalidate
+      >
+        {/* Honeypot */}
+        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
+
+        {
+          fields.map((field) => (
+            <div>
+              <label for={`careers-${field.id}`} class={labelClass}>
+                {field.label} <span class="text-accent">*</span>
+              </label>
+              <input
+                type={field.type}
+                id={`careers-${field.id}`}
+                name={field.id}
+                required
+                autocomplete={field.autocomplete}
+                placeholder={field.placeholder}
+                class={fieldClass}
+              />
+            </div>
+          ))
+        }
+
+        <div>
+          <label for="careers-position" class={labelClass}>Position</label>
+          <select id="careers-position" name="position" class={fieldClass}>
+            <option value={generalOption}>{generalOption}</option>
+            {openings.map((job) => <option value={job.title}>{job.title}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label for="careers-resume" class={labelClass}>
+            Upload your résumé <span class="text-accent">*</span>
+          </label>
+          <input type="file" id="careers-resume" name="resume" required accept={accept} class={fileClass} />
+          <p class="mt-2 font-body text-[12px] leading-4 text-body-60">{resumeHint}</p>
+        </div>
+
+        <div>
+          <label for="careers-message" class={labelClass}>
+            Anything you would like us to know <span class="font-normal text-body-60">(optional)</span>
+          </label>
+          <textarea id="careers-message" name="message" rows={3} class={fieldClass}></textarea>
+        </div>
+
+        {/* Turnstile bot check */}
+        <div data-turnstile></div>
+
+        <div>
+          <button type="submit" class="btn-primary cta-lg w-full disabled:opacity-60 sm:w-auto">{submitLabel}</button>
+        </div>
+
+        <p
+          id="careers-status"
+          class="hidden text-left text-[14px] font-medium text-body-78 md:text-[15px]"
+          aria-live="polite"
+        >
+        </p>
+
+        <p class="font-body text-[13px] leading-5 text-body-60">
+          Prefer email? Send your résumé to
+          <a href={`mailto:${CAREERS.publicEmail}`} class="text-accent underline-offset-4 hover:underline"
+            >{CAREERS.publicEmail}</a
+          >.
+        </p>
+      </form>
+    </div>
+  </MaxWidthContainer>
+</section>
+
+<script>
+  import '~/scripts/careers-form';
+</script>

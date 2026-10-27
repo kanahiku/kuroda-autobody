@@ -197,6 +197,17 @@ export const structure = (S: StructureBuilder) =>
               { field: '_createdAt', direction: 'asc' },
             ])
         ),
+      S.listItem()
+        .title('Job openings (Careers)')
+        .schemaType('jobOpening')
+        .child(
+          S.documentTypeList('jobOpening')
+            .title('Job openings')
+            .defaultOrdering([
+              { field: 'order', direction: 'asc' },
+              { field: '_createdAt', direction: 'asc' },
+            ])
+        ),
     ]);
 
 /** One-off documents: edited from the sidebar, never created, duplicated or deleted (content pages are created by scripts/seed-pages.mjs). */

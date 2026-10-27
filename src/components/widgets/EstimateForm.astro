@@ -2,6 +2,7 @@
 import SectionTitle from '~/components/ui/SectionTitle.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import { fieldClass, labelClass } from '~/components/ui/formStyles';
 import { CONTACT } from '~/config/contact';
 import { collisionRepairPages } from '~/data/collisionRepair';
 import { sitemapLabel } from '~/lib/sitemap';
@@ -30,10 +31,6 @@ const {
 } = Astro.props;
 
 const services = collisionRepairPages.map((page) => sitemapLabel(page.path));
-
-const fieldClass =
-  'block w-full rounded-[4px] border border-default-35 bg-surface-page px-4 py-3 font-body text-[15px] text-heading-full placeholder:text-body-55 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20';
-const labelClass = 'mb-2 block font-body text-[13px] font-bold leading-none text-heading-full';
 
 /** Required contact inputs, rendered in a 2-column grid. */
 const fields: Array<{
