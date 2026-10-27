@@ -39,6 +39,11 @@ const INSURANCE_COMPANIES: [string, string][] = [
   ['Progressive', '/had-an-accident/insurance-companies/progressive/'],
   ['USAA', '/had-an-accident/insurance-companies/usaa/'],
   ['Allstate', '/had-an-accident/insurance-companies/allstate/'],
+  ['AAA', '/had-an-accident/insurance-companies/aaa/'],
+  ['First Insurance', '/had-an-accident/insurance-companies/first-insurance/'],
+  ['Island Insurance', '/had-an-accident/insurance-companies/island-insurance/'],
+  ['Liberty Mutual', '/had-an-accident/insurance-companies/liberty-mutual/'],
+  ['National Interstate', '/had-an-accident/insurance-companies/national-interstate/'],
 ];
 
 /** Manufacturer certification programs, in the same order as the site menu. */

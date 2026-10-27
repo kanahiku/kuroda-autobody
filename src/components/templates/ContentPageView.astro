@@ -88,6 +88,7 @@ const body = placeBlocks(page);
             headingLead={related.headingLead}
             headingStrong={related.headingStrong}
             items={relatedItems}
+            viewAll={related.viewAll}
           />
         );
       }
@@ -103,6 +104,7 @@ const body = placeBlocks(page);
               lead={s.lead}
               columns={s.columns ?? 2}
               items={s.items}
+              groups={s.groups}
               note={s.note}
               noteLinkText={s.noteLinkText}
               noteLinkHref={s.noteLinkHref}

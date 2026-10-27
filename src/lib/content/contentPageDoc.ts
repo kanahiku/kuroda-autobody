@@ -84,6 +84,8 @@ export interface StorySectionDoc extends HeadingDoc {
   stats?: { value: string; label: string }[];
 }
 
+type FeaturesItemDoc = { icon: FeatureItem['icon']; title: string; description: string; link?: string };
+
 export interface FeaturesSectionDoc extends HeadingDoc {
   _type: 'featuresSection';
   surface?: Surface;
@@ -91,7 +93,8 @@ export interface FeaturesSectionDoc extends HeadingDoc {
   eyebrow?: string;
   lead?: string;
   columns: 2 | 3;
-  items: { icon: FeatureItem['icon']; title: string; description: string; link?: string }[];
+  items: FeaturesItemDoc[];
+  groups?: { title: string; lead?: string; items: FeaturesItemDoc[] }[];
   note?: string;
   noteLinkText?: string;
   noteLinkHref?: string;
@@ -241,13 +244,25 @@ const storyToDoc = (section: StorySection): StorySectionDoc => ({
   ...(section.stats?.length ? { stats: section.stats } : {}),
 });
 
+const featureItemToDoc = ({ href, ...item }: FeatureItem): FeaturesItemDoc => ({ ...item, ...opt('link', href) });
+const featureItemFromDoc = ({ link, ...item }: FeaturesItemDoc): FeatureItem => ({ ...item, ...opt('href', link) });
+
 const featuresToDoc = (section: FeaturesSection): FeaturesSectionDoc => ({
   _type: 'featuresSection',
   ...opt('eyebrow', section.eyebrow),
   ...head(section.headingLead, section.headingStrong),
   ...opt('lead', section.lead),
   columns: section.columns === 3 ? 3 : 2,
-  items: section.items.map(({ href, ...item }) => ({ ...item, ...opt('link', href) })),
+  items: section.items.map(featureItemToDoc),
+  ...(section.groups?.length
+    ? {
+        groups: section.groups.map((g) => ({
+          title: g.title,
+          ...opt('lead', g.lead),
+          items: g.items.map(featureItemToDoc),
+        })),
+      }
+    : {}),
   ...opt('note', section.note),
   ...opt('noteLinkText', section.noteLinkText),
   ...opt('noteLinkHref', section.noteLinkHref),
@@ -414,7 +429,16 @@ const featuresFromDoc = (s: FeaturesSectionDoc): FeaturesSection => ({
   ...headingFromDoc(s),
   ...opt('lead', s.lead),
   columns: s.columns,
-  items: s.items.map(({ link, ...item }) => ({ ...item, ...opt('href', link) })),
+  items: s.items.map(featureItemFromDoc),
+  ...(s.groups?.length
+    ? {
+        groups: s.groups.map((g) => ({
+          title: g.title,
+          ...opt('lead', g.lead),
+          items: g.items.map(featureItemFromDoc),
+        })),
+      }
+    : {}),
   ...opt('note', s.note),
   ...opt('noteLinkText', s.noteLinkText),
   ...opt('noteLinkHref', s.noteLinkHref),
@@ -533,7 +557,9 @@ export function fromDoc(doc: ContentPageDoc, base: ContentPage): ContentPage {
     hero: heroFromDoc(doc.hero),
     sections,
     ...(base.faqs && doc.faqs && faqsAreEditable(base.faqs) ? { faqs: faqsFromDoc(doc.faqs, base.faqs) } : {}),
-    ...(base.related && doc.related ? { related: relatedFromDoc(doc.related) } : {}),
+    ...(base.related && doc.related
+      ? { related: { ...relatedFromDoc(doc.related), viewAll: base.related.viewAll } }
+      : {}),
     cta: ctaFromDoc(doc.cta),
   };
 }

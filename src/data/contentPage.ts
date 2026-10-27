@@ -35,6 +35,8 @@ export interface FeaturesSection {
   lead?: string;
   columns?: 2 | 3;
   items: FeatureItem[];
+  /** Titled sub-sections under the main heading; when set, they replace `items` (leave it `[]`). */
+  groups?: { title: string; lead?: string; items: FeatureItem[] }[];
   /** Closing sentence under the grid; `noteLinkText` renders as an inline link before the final period. */
   note?: string;
   noteLinkText?: string;
@@ -186,7 +188,14 @@ export interface ContentPage {
     groups?: { title: string; items: FaqItem[] }[];
   };
   /** "Explore …" link grid — `paths` resolve to sitemap labels. Omit to end on the closing CTA. */
-  related?: { eyebrow: string; headingLead: string; headingStrong: string; paths: string[] };
+  related?: {
+    eyebrow: string;
+    headingLead: string;
+    headingStrong: string;
+    paths: string[];
+    /** Separate link shown below the grid (e.g. "View All Insurance Companies"). */
+    viewAll?: { label: string; href: string };
+  };
   /**
    * Closing CTA. Only the heading is required; the description and the two buttons default to the sitewide
    * ones (src/config/cta.ts, CONTACT) — set them to override.
