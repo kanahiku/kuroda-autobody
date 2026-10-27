@@ -1,9 +1,10 @@
 ---
 /**
  * Slim bar above the main nav — Figma: bg-surface-subtle, px-80 py-10.
- * Left: est. year + location • address. Right: hours • phone. All values come from CONTACT.
+ * Left: est. year + location • address. Right: hours • Follow us + social icons (the phone is in the main nav).
  */
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import SocialLinks from '~/components/ui/SocialLinks.astro';
 import { CONTACT } from '~/config/contact';
 ---
 
@@ -25,13 +26,7 @@ import { CONTACT } from '~/config/contact';
         {CONTACT.hoursDisplay}
       </span>
       <span class="hidden h-3 w-px bg-heading/20 md:block" aria-hidden="true"></span>
-      <a
-        href={CONTACT.phone.href}
-        class="font-body text-[10px] font-bold leading-3 tracking-[0.06em] text-heading uppercase transition-colors hover:text-accent md:text-[11px] md:leading-[inherit] md:tracking-[0.12em]"
-        aria-label={`Call ${CONTACT.phone.display}`}
-      >
-        {CONTACT.phone.display}
-      </a>
+      <SocialLinks tone="light" />
     </div>
   </MaxWidthContainer>
 </div>

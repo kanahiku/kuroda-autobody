@@ -14,6 +14,7 @@ import CTABanner from '~/components/widgets/CTABanner.astro';
 import { getFormattedDate } from '~/utils/utils';
 import { getBlogPost, getBlogPosts, getPagePhotos } from '~/lib/content';
 import { getArticleToc, getReadingMinutes } from '~/lib/content/blogArticle';
+import { blogPostSchema } from '~/config/schema';
 import { site } from '~/config/site';
 
 export const prerender = false;
@@ -35,6 +36,7 @@ const metadata = {
   title: post.seoTitle ?? `${post.title} | ${site.name}`,
   description: post.seoDescription ?? post.excerpt,
   ignoreTitleTemplate: true,
+  schemaOverride: blogPostSchema(post),
 };
 ---
 
