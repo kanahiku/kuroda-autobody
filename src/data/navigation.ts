@@ -73,7 +73,7 @@ const footerColumns = [
   footerColumn('Had an Accident?'),
   {
     title: 'KURODA',
-    links: ['Our Story', 'Why Kuroda', 'Reviews', 'Service Areas', 'Blog', 'Contact'].flatMap((label) => {
+    links: ['Our Story', 'Why Kuroda', 'Reviews', 'Service Areas', 'Blog', 'Careers', 'Contact'].flatMap((label) => {
       const category = getCategory(label)!;
       // "Why Kuroda" is label-only: its child pages go straight into the column.
       return (category.slug ? [category] : getChildPages(category)).map((node) => ({

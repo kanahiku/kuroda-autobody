@@ -117,6 +117,7 @@ export const sitemap: SitemapNode[] = [
     ],
   },
   { label: 'Contact', slug: '/contact/', batch: 'Approved' },
+  { label: 'Careers', slug: '/careers/', batch: 'Client / legal' },
   { label: 'Online Estimate', slug: '/online-estimate/', batch: 'Batch 2' },
   {
     label: 'Blog',
@@ -162,7 +163,6 @@ export const sitemap: SitemapNode[] = [
       { label: 'Privacy Policy', slug: '/privacy-policy/', batch: 'Client / legal' },
       { label: 'Terms', slug: '/terms/', batch: 'Client / legal' },
       { label: 'Accessibility Statement', slug: '/accessibility/', batch: 'Client / legal' },
-      { label: 'Careers', slug: '/careers/', batch: 'Client / legal' },
     ],
   },
 ];
