@@ -73,8 +73,8 @@ function readStory(block: Block, common: CommonFields): SectionDoc | null {
   };
 }
 
-function readFeatures(block: Block, common: CommonFields): SectionDoc | null {
-  const items = records(block.items).flatMap((item) =>
+const featureItems = (value: unknown) =>
+  records(value).flatMap((item) =>
     filled(item.icon) && filled(item.title) && filled(item.description)
       ? [
           {
@@ -86,13 +86,23 @@ function readFeatures(block: Block, common: CommonFields): SectionDoc | null {
         ]
       : []
   );
-  if (items.length === 0) return null;
+
+function readFeatures(block: Block, common: CommonFields): SectionDoc | null {
+  const items = featureItems(block.items);
+  const groups = records(block.groups).flatMap((group) => {
+    const groupItems = featureItems(group.items);
+    return filled(group.title) && groupItems.length
+      ? [{ title: group.title, ...optional('lead', group.lead), items: groupItems }]
+      : [];
+  });
+  if (items.length === 0 && groups.length === 0) return null;
   return {
     _type: 'featuresSection',
     ...common,
     ...optional('lead', block.lead),
     columns: block.columns === 3 ? 3 : 2,
     items,
+    ...(groups.length ? { groups } : {}),
     ...optional('note', block.note),
     ...optional('noteLinkText', block.noteLinkText),
     ...optional('noteLinkHref', block.noteLinkHref),

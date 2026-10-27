@@ -58,6 +58,27 @@ export const sitemap: SitemapNode[] = [
           { label: 'Progressive', slug: '/had-an-accident/insurance-companies/progressive/', batch: 'Batch 2' },
           { label: 'USAA', slug: '/had-an-accident/insurance-companies/usaa/', batch: 'Batch 2' },
           { label: 'Allstate', slug: '/had-an-accident/insurance-companies/allstate/', batch: 'Batch 2' },
+          { label: 'AAA', slug: '/had-an-accident/insurance-companies/aaa/', batch: 'Batch 2' },
+          {
+            label: 'National Interstate',
+            slug: '/had-an-accident/insurance-companies/national-interstate/',
+            batch: 'Batch 2',
+          },
+          {
+            label: 'Liberty Mutual',
+            slug: '/had-an-accident/insurance-companies/liberty-mutual/',
+            batch: 'Batch 2',
+          },
+          {
+            label: 'Island Insurance',
+            slug: '/had-an-accident/insurance-companies/island-insurance/',
+            batch: 'Batch 2',
+          },
+          {
+            label: 'First Insurance',
+            slug: '/had-an-accident/insurance-companies/first-insurance/',
+            batch: 'Batch 2',
+          },
         ],
       },
     ],

@@ -237,7 +237,73 @@ const featuresSection = defineArrayMember({
         }),
       ],
       description: 'Between 2 and 8. Add, remove or drag to reorder.',
-      validation: (r) => r.required().min(2).max(8),
+      hidden: ({ parent }) => Boolean(parent?.groups?.length),
+      validation: (r) =>
+        r.custom((value, ctx) => {
+          const groups = (ctx.parent as { groups?: unknown[] } | undefined)?.groups;
+          if (groups?.length) return true;
+          return Array.isArray(value) && value.length >= 2 && value.length <= 8
+            ? true
+            : 'Add between 2 and 8 features.';
+        }),
+    }),
+    defineField({
+      name: 'groups',
+      title: 'Sub-sections',
+      type: 'array',
+      description: 'Optional. Titled groups of features shown under the main heading (they replace the list above).',
+      hidden: ({ parent }) => !parent?.groups?.length,
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'featureGroup',
+          fields: [
+            line('title', 'Sub-heading', 60),
+            optionalText('lead', 'Description', 320, 'Optional. Shown under the sub-heading.'),
+            defineField({
+              name: 'items',
+              title: 'Features',
+              type: 'array',
+              of: [
+                defineArrayMember({
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'icon',
+                      title: 'Icon',
+                      type: 'string',
+                      options: { list: ICONS.map(([value, title]) => ({ value, title })), layout: 'dropdown' },
+                      validation: (r) => r.required(),
+                    }),
+                    line('title', 'Title', 50),
+                    defineField({
+                      name: 'description',
+                      title: 'Description',
+                      type: 'text',
+                      rows: 3,
+                      validation: (r) => r.required().max(320),
+                    }),
+                    defineField({
+                      name: 'link',
+                      title: 'Link (optional)',
+                      type: 'string',
+                      validation: (r) =>
+                        r.regex(SITE_LINK, { name: 'a page address like /warranty/ or a full web address' }),
+                    }),
+                  ],
+                  preview: {
+                    select: { title: 'title', subtitle: 'description' },
+                    prepare: ({ title, subtitle }: Record<string, string | undefined>) => ({ title, subtitle }),
+                  },
+                }),
+              ],
+              validation: (r) => r.required().min(1).max(8),
+            }),
+          ],
+          preview: { select: { title: 'title' } },
+        }),
+      ],
+      validation: (r) => r.min(1).max(4),
     }),
     optionalLine(
       'note',

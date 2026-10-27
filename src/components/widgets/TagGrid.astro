@@ -24,9 +24,21 @@ export interface Props {
   /** Columns from md up (default 4). */
   columns?: 3 | 4;
   id?: string;
+  /** Separate link below the grid. */
+  viewAll?: { label: string; href: string };
 }
 
-const { eyebrow, headingLead = '', headingStrong, lead, items, surface = 'subtle', columns = 4, id } = Astro.props;
+const {
+  eyebrow,
+  headingLead = '',
+  headingStrong,
+  lead,
+  items,
+  surface = 'subtle',
+  columns = 4,
+  id,
+  viewAll,
+} = Astro.props;
 ---
 
 <section {...id ? { id } : {}} class:list={['w-full', surface === 'page' ? 'bg-surface-page' : 'bg-surface-subtle']}>
@@ -78,5 +90,15 @@ const { eyebrow, headingLead = '', headingStrong, lead, items, surface = 'subtle
         ))
       }
     </ul>
+    {
+      viewAll && (
+        <a
+          href={viewAll.href}
+          class="font-body text-[14px] font-bold uppercase tracking-[1.4px] text-accent underline-offset-4 hover:underline"
+        >
+          {viewAll.label} →
+        </a>
+      )
+    }
   </MaxWidthContainer>
 </section>
