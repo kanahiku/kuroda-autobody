@@ -1,0 +1,1536 @@
+{
+  "/": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://kurodaautobody.com/#website",
+        "url": "https://kurodaautobody.com/",
+        "name": "Kuroda Autobody",
+        "publisher": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "AutoBodyShop",
+        "@id": "https://kurodaautobody.com/#autobodyshop",
+        "name": "Kuroda Autobody",
+        "alternateName": "Kuroda Auto Body",
+        "legalName": "Kuroda Auto Body, Inc.",
+        "url": "https://kurodaautobody.com/",
+        "logo": "https://kurodaautobody.com/brand/logo-horizontal-color.png",
+        "image": "https://kurodaautobody.com/brand/logo-horizontal-color.png",
+        "description": "Family-owned collision repair shop in Waipahu, Oʻahu since 1938. I-CAR Gold Class facility with ASE-certified technicians, OEM collision repair program participation for Honda, Acura, Nissan, GM and Chrysler, on-site rental car coordination and a Limited Lifetime Warranty on qualifying metalwork and refinishing.",
+        "telephone": "+1-808-676-1941",
+        "faxNumber": "+1-808-680-0200",
+        "foundingDate": "1938",
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "ʻAiea, Hawaiʻi"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "94-518 Puahi Street",
+          "addressLocality": "Waipahu",
+          "addressRegion": "HI",
+          "postalCode": "96797",
+          "addressCountry": "US"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday"
+            ],
+            "opens": "07:00",
+            "closes": "17:00"
+          }
+        ],
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Waipahu"
+          },
+          {
+            "@type": "City",
+            "name": "Mililani"
+          },
+          {
+            "@type": "City",
+            "name": "Pearl City"
+          },
+          {
+            "@type": "City",
+            "name": "ʻAiea"
+          },
+          {
+            "@type": "City",
+            "name": "ʻEwa Beach"
+          },
+          {
+            "@type": "City",
+            "name": "Kapolei"
+          },
+          {
+            "@type": "City",
+            "name": "Honolulu"
+          }
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Collision Repair Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/frame-structural-repair/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/auto-paint-refinishing/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/bumper-repair/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/dent-repair/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/adas-calibration/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/diagnostic-scanning/#service"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@id": "https://kurodaautobody.com/collision-repair/auto-glass-replacement/#service"
+              }
+            }
+          ]
+        },
+        "sameAs": [
+          "https://www.instagram.com/kurodaautobody/",
+          "https://www.facebook.com/profile.php?id=100063456943749"
+        ]
+      }
+    ]
+  },
+  "/collision-repair": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/#service",
+        "name": "Collision Repair",
+        "serviceType": "Collision repair",
+        "description": "Collision and auto body repair for most makes and models, from minor dents to major collision damage, including structural and frame repair, bumper repair, paint and refinishing, ADAS calibration coordination, diagnostic scanning and auto glass coordination.",
+        "url": "https://kurodaautobody.com/collision-repair/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/frame-structural-repair": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/frame-structural-repair/#service",
+        "name": "Frame & Structural Repair",
+        "serviceType": "Frame and structural repair",
+        "description": "Precise assessment and realignment of damaged unibody and frame structures, using Car-O-Liner 3D electronic measuring and OEM-approved GYS welding equipment to restore vehicles to factory specifications.",
+        "url": "https://kurodaautobody.com/collision-repair/frame-structural-repair/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/frame-structural-repair/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Frame & Structural Repair",
+            "item": "https://kurodaautobody.com/collision-repair/frame-structural-repair/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/auto-paint-refinishing": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/auto-paint-refinishing/#service",
+        "name": "Auto Paint & Refinishing",
+        "serviceType": "Auto paint and refinishing",
+        "description": "Automotive paint and refinishing using the Sikkens digital color-matching system and Sikkens Autowave waterborne paint, with careful blending into adjacent panels for a seamless factory finish.",
+        "url": "https://kurodaautobody.com/collision-repair/auto-paint-refinishing/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/auto-paint-refinishing/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Auto Paint & Refinishing",
+            "item": "https://kurodaautobody.com/collision-repair/auto-paint-refinishing/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/bumper-repair": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/bumper-repair/#service",
+        "name": "Bumper Repair & Replacement",
+        "serviceType": "Bumper repair and replacement",
+        "description": "Repair or replacement of damaged bumpers and related exterior components to restore appearance, fit and function.",
+        "url": "https://kurodaautobody.com/collision-repair/bumper-repair/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/bumper-repair/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Bumper Repair & Replacement",
+            "item": "https://kurodaautobody.com/collision-repair/bumper-repair/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/dent-repair": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/dent-repair/#service",
+        "name": "Dent & Body Repair",
+        "serviceType": "Dent and auto body repair",
+        "description": "Auto body repair for door dings, fender scrapes and major body panel damage, including sheet metal realignment, OEM-compliant panel replacement and gap and fit alignment to factory clearances.",
+        "url": "https://kurodaautobody.com/collision-repair/dent-repair/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/dent-repair/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Dent & Body Repair",
+            "item": "https://kurodaautobody.com/collision-repair/dent-repair/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/adas-calibration": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/adas-calibration/#service",
+        "name": "ADAS Calibration",
+        "serviceType": "ADAS calibration coordination",
+        "description": "Coordination of Advanced Driver Assistance System (ADAS) calibrations after collision repairs, performed on site with qualified specialists or through the manufacturer dealership and verified with diagnostic scans.",
+        "url": "https://kurodaautobody.com/collision-repair/adas-calibration/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/adas-calibration/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "ADAS Calibration",
+            "item": "https://kurodaautobody.com/collision-repair/adas-calibration/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/diagnostic-scanning": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/diagnostic-scanning/#service",
+        "name": "Vehicle Diagnostic Scanning",
+        "serviceType": "Vehicle diagnostic scanning",
+        "description": "Pre-repair and post-repair diagnostic scanning using original-equipment scan tools for Toyota, Honda, Nissan, Kia, Hyundai, Subaru, Mazda, Ford, GM and Chrysler, plus Bosch and Autoland aftermarket systems.",
+        "url": "https://kurodaautobody.com/collision-repair/diagnostic-scanning/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/diagnostic-scanning/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Vehicle Diagnostic Scanning",
+            "item": "https://kurodaautobody.com/collision-repair/diagnostic-scanning/"
+          }
+        ]
+      }
+    ]
+  },
+  "/collision-repair/auto-glass-replacement": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/collision-repair/auto-glass-replacement/#service",
+        "name": "Auto Glass Replacement",
+        "serviceType": "Auto glass replacement coordination",
+        "description": "Coordination of auto glass repairs when collision damage affects a vehicle's glass, handled as part of the overall collision repair process.",
+        "url": "https://kurodaautobody.com/collision-repair/auto-glass-replacement/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/collision-repair/auto-glass-replacement/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Collision Repair",
+            "item": "https://kurodaautobody.com/collision-repair/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Auto Glass Replacement",
+            "item": "https://kurodaautobody.com/collision-repair/auto-glass-replacement/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/your-right-to-choose": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/your-right-to-choose/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Your Right to Choose a Repair Shop",
+            "item": "https://kurodaautobody.com/had-an-accident/your-right-to-choose/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-claims": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-claims/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Claims",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-claims/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-estimate-differences": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-estimate-differences/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "When the Insurance Estimate Is Different",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-estimate-differences/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/deductibles": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/deductibles/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Deductibles",
+            "item": "https://kurodaautobody.com/had-an-accident/deductibles/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/paying-out-of-pocket": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/paying-out-of-pocket/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Paying Out of Pocket",
+            "item": "https://kurodaautobody.com/had-an-accident/paying-out-of-pocket/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/rental-cars": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/rental-cars/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Rental Cars",
+            "item": "https://kurodaautobody.com/had-an-accident/rental-cars/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-companies": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-companies/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Companies We Work With",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-companies/geico": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-companies/geico/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Companies We Work With",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "GEICO",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/geico/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-companies/state-farm": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-companies/state-farm/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Companies We Work With",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "State Farm",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/state-farm/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-companies/progressive": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-companies/progressive/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Companies We Work With",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Progressive",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/progressive/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-companies/usaa": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-companies/usaa/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Companies We Work With",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "USAA",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/usaa/"
+          }
+        ]
+      }
+    ]
+  },
+  "/had-an-accident/insurance-companies/allstate": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/had-an-accident/insurance-companies/allstate/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Had an Accident?",
+            "item": "https://kurodaautobody.com/had-an-accident/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Insurance Companies We Work With",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Allstate",
+            "item": "https://kurodaautobody.com/had-an-accident/insurance-companies/allstate/"
+          }
+        ]
+      }
+    ]
+  },
+  "/repair-process": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/repair-process/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Our Repair Process",
+            "item": "https://kurodaautobody.com/repair-process/"
+          }
+        ]
+      }
+    ]
+  },
+  "/warranty": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/warranty/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Limited Lifetime Warranty",
+            "item": "https://kurodaautobody.com/warranty/"
+          }
+        ]
+      }
+    ]
+  },
+  "/certifications": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/certifications/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Certifications & Training",
+            "item": "https://kurodaautobody.com/certifications/"
+          }
+        ]
+      }
+    ]
+  },
+  "/certifications/honda": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/certifications/honda/#service",
+        "name": "Honda OEM Collision Repair",
+        "serviceType": "Collision repair",
+        "description": "Collision repair for Honda vehicles following official Honda factory repair procedures, structural dimensions and Advanced Compatibility Engineering (ACE) body structure guidelines through the Honda OEM collision repair program.",
+        "url": "https://kurodaautobody.com/certifications/honda/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/certifications/honda/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Certifications & Training",
+            "item": "https://kurodaautobody.com/certifications/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Honda",
+            "item": "https://kurodaautobody.com/certifications/honda/"
+          }
+        ]
+      }
+    ]
+  },
+  "/certifications/acura": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/certifications/acura/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Certifications & Training",
+            "item": "https://kurodaautobody.com/certifications/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Acura",
+            "item": "https://kurodaautobody.com/certifications/acura/"
+          }
+        ]
+      }
+    ]
+  },
+  "/certifications/nissan": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/certifications/nissan/#service",
+        "name": "Nissan OEM Collision Repair",
+        "serviceType": "Collision repair",
+        "description": "Collision repair for Nissan vehicles following official Nissan factory repair guidelines, Zone Body construction blueprints and Safety Shield 360 calibration readiness procedures through the Nissan OEM collision repair program.",
+        "url": "https://kurodaautobody.com/certifications/nissan/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/certifications/nissan/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Certifications & Training",
+            "item": "https://kurodaautobody.com/certifications/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Nissan",
+            "item": "https://kurodaautobody.com/certifications/nissan/"
+          }
+        ]
+      }
+    ]
+  },
+  "/certifications/gm": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/certifications/gm/#service",
+        "name": "General Motors OEM Collision Repair",
+        "serviceType": "Collision repair",
+        "description": "Collision repair for Chevrolet, GMC, Buick and Cadillac vehicles following official General Motors repair information, including unibody and full-frame truck and SUV procedures, through the GM OEM collision repair program.",
+        "url": "https://kurodaautobody.com/certifications/gm/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/certifications/gm/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Certifications & Training",
+            "item": "https://kurodaautobody.com/certifications/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "GM",
+            "item": "https://kurodaautobody.com/certifications/gm/"
+          }
+        ]
+      }
+    ]
+  },
+  "/certifications/chrysler": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/certifications/chrysler/#service",
+        "name": "Chrysler OEM Collision Repair",
+        "serviceType": "Collision repair",
+        "description": "Collision repair for Chrysler vehicles following official Chrysler factory repair procedures, structural specifications and approved joining methods through the Chrysler OEM collision repair program.",
+        "url": "https://kurodaautobody.com/certifications/chrysler/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": {
+          "@type": "Place",
+          "name": "Oʻahu, Hawaiʻi"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/certifications/chrysler/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Certifications & Training",
+            "item": "https://kurodaautobody.com/certifications/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Chrysler",
+            "item": "https://kurodaautobody.com/certifications/chrysler/"
+          }
+        ]
+      }
+    ]
+  },
+  "/location": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/location/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Location",
+            "item": "https://kurodaautobody.com/location/"
+          }
+        ]
+      }
+    ]
+  },
+  "/service-areas": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/service-areas/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://kurodaautobody.com/service-areas/"
+          }
+        ]
+      }
+    ]
+  },
+  "/service-areas/mililani": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/service-areas/mililani/#service",
+        "name": "Auto Body Repair for Mililani & Koa Ridge Drivers",
+        "serviceType": "Auto body and collision repair",
+        "description": "Collision and auto body repair for drivers in Mililani and Koa Ridge, a short drive down the H-2 freeway to Kuroda Autobody in the Gentry Waipiʻo Business Park.",
+        "url": "https://kurodaautobody.com/service-areas/mililani/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Mililani"
+          },
+          {
+            "@type": "Place",
+            "name": "Koa Ridge"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/service-areas/mililani/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://kurodaautobody.com/service-areas/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Mililani",
+            "item": "https://kurodaautobody.com/service-areas/mililani/"
+          }
+        ]
+      }
+    ]
+  },
+  "/service-areas/pearl-city-aiea": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/service-areas/pearl-city-aiea/#service",
+        "name": "Auto Body Repair for Pearl City & ʻAiea Drivers",
+        "serviceType": "Auto body and collision repair",
+        "description": "Collision and auto body repair for drivers in Pearl City and ʻAiea, where Kuroda first opened on Kamehameha Highway in 1938.",
+        "url": "https://kurodaautobody.com/service-areas/pearl-city-aiea/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Pearl City"
+          },
+          {
+            "@type": "City",
+            "name": "ʻAiea"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/service-areas/pearl-city-aiea/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://kurodaautobody.com/service-areas/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Pearl City & ʻAiea",
+            "item": "https://kurodaautobody.com/service-areas/pearl-city-aiea/"
+          }
+        ]
+      }
+    ]
+  },
+  "/service-areas/ewa-beach": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/service-areas/ewa-beach/#service",
+        "name": "Auto Body Repair for ʻEwa Beach Drivers",
+        "serviceType": "Auto body and collision repair",
+        "description": "Collision and auto body repair for drivers in ʻEwa Beach, with direct access via Fort Weaver Road and the H-1 to the Gentry Waipiʻo Business Park.",
+        "url": "https://kurodaautobody.com/service-areas/ewa-beach/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "ʻEwa Beach"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/service-areas/ewa-beach/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://kurodaautobody.com/service-areas/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "ʻEwa Beach",
+            "item": "https://kurodaautobody.com/service-areas/ewa-beach/"
+          }
+        ]
+      }
+    ]
+  },
+  "/service-areas/kapolei": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://kurodaautobody.com/service-areas/kapolei/#service",
+        "name": "Auto Body Repair for Kapolei Drivers",
+        "serviceType": "Auto body and collision repair",
+        "description": "Collision and auto body repair for drivers in Kapolei, a straight drive east on the H-1 freeway to the Gentry Waipiʻo Business Park.",
+        "url": "https://kurodaautobody.com/service-areas/kapolei/",
+        "provider": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Kapolei"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/service-areas/kapolei/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://kurodaautobody.com/service-areas/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Kapolei",
+            "item": "https://kurodaautobody.com/service-areas/kapolei/"
+          }
+        ]
+      }
+    ]
+  },
+  "/service-areas/honolulu": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/service-areas/honolulu/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Service Areas",
+            "item": "https://kurodaautobody.com/service-areas/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Honolulu",
+            "item": "https://kurodaautobody.com/service-areas/honolulu/"
+          }
+        ]
+      }
+    ]
+  },
+  "/about": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/about/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Our Story",
+            "item": "https://kurodaautobody.com/about/"
+          }
+        ]
+      }
+    ]
+  },
+  "/reviews": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/reviews/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Reviews",
+            "item": "https://kurodaautobody.com/reviews/"
+          }
+        ]
+      }
+    ]
+  },
+  "/blog": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": "https://kurodaautobody.com/blog/#blog",
+        "name": "Kuroda Autobody Blog",
+        "url": "https://kurodaautobody.com/blog/",
+        "description": "Guides from Kuroda Autobody on collision repair, insurance claims and what to expect after an accident on Oʻahu.",
+        "publisher": {
+          "@id": "https://kurodaautobody.com/#autobodyshop"
+        },
+        "inLanguage": "en-US"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/blog/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://kurodaautobody.com/blog/"
+          }
+        ]
+      }
+    ]
+  },
+  "/contact": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://kurodaautobody.com/contact/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://kurodaautobody.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contact",
+            "item": "https://kurodaautobody.com/contact/"
+          }
+        ]
+      }
+    ]
+  }
+}

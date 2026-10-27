@@ -1,0 +1,64 @@
+---
+/**
+ * Social profile icons from `src/config/social.ts`.
+ *   layout="row"   — header utility bar: label inline with the hours text, icons beside it
+ *   layout="stack" — footer column: `type-eyebrow` heading (same as Visit Us), icons below
+ */
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
+import { site } from '~/config/site';
+import { SOCIAL } from '~/config/social';
+
+export interface Props {
+  tone?: 'light' | 'dark';
+  layout?: 'row' | 'stack';
+  label?: string;
+  class?: string;
+}
+
+const { tone = 'light', layout = 'row', label = 'Follow us', class: className = '' } = Astro.props;
+
+const isDark = tone === 'dark';
+const isStack = layout === 'stack';
+const Root = isStack ? 'nav' : 'div';
+
+const labelClass = isStack
+  ? 'type-eyebrow text-on-dark-55'
+  : 'font-body text-[10px] leading-none tracking-[0.06em] text-body-70 uppercase md:text-[11px]';
+
+const linkClass = isDark
+  ? 'size-9 border-white/25 text-on-dark-85 hover:border-white hover:bg-white hover:text-heading focus-visible:outline-white'
+  : 'size-6 border-heading/25 text-heading hover:border-accent hover:bg-accent hover:text-white focus-visible:outline-accent';
+
+const iconClass = isDark ? 'size-[18px]' : 'size-3.5';
+---
+
+{
+  SOCIAL.nav.length > 0 && (
+    <Root
+      class={twMerge(isStack ? 'flex flex-col gap-2.5' : 'flex items-center gap-2', className)}
+      aria-label={isStack ? label : undefined}
+    >
+      {isStack ? <p class={labelClass}>{label}</p> : <span class={labelClass}>{label}</span>}
+      {isStack && <div class="hidden h-px w-full bg-white/[0.15] md:block" aria-hidden="true" />}
+      <ul class="m-0 flex list-none items-center gap-1.5 p-0">
+        {SOCIAL.nav.map(({ label: name, icon, href }) => (
+          <li class="flex">
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={twMerge(
+                'inline-flex shrink-0 items-center justify-center rounded-full border transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2',
+                linkClass
+              )}
+              aria-label={`${site.name} on ${name} (opens in a new tab)`}
+            >
+              <Icon name={icon} class={twMerge('block', iconClass)} aria-hidden="true" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Root>
+  )
+}

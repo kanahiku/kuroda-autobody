@@ -3,8 +3,9 @@ import type { BreadcrumbItem, PageSchema } from './types';
 const HOME: BreadcrumbItem = { name: 'Home', path: '/' };
 
 /**
- * Per-page schema.org data. Add an entry when Figma MCP creates a new route.
- * System routes below ship with every site (contact, reviews, blog, legal).
+ * Fallback schema for routes that are not in customOverrides.json.
+ * The 41 pages from the schema document live in that file and replace this generator.
+ * Privacy, Terms, and Accessibility are omitted on purpose: the document gives them no schema.
  */
 export const pages: PageSchema[] = [
   {
@@ -38,29 +39,5 @@ export const pages: PageSchema[] = [
     description: null,
     faq: [],
     breadcrumb: [HOME, { name: 'Blog', path: '/blog' }],
-  },
-  {
-    name: 'Privacy Policy',
-    path: '/privacy-policy',
-    schemaType: 'WebPage',
-    description: null,
-    faq: [],
-    breadcrumb: [HOME, { name: 'Privacy Policy', path: '/privacy-policy' }],
-  },
-  {
-    name: 'Terms',
-    path: '/terms',
-    schemaType: 'WebPage',
-    description: null,
-    faq: [],
-    breadcrumb: [HOME, { name: 'Terms', path: '/terms' }],
-  },
-  {
-    name: 'Accessibility',
-    path: '/accessibility',
-    schemaType: 'WebPage',
-    description: null,
-    faq: [],
-    breadcrumb: [HOME, { name: 'Accessibility', path: '/accessibility' }],
   },
 ];

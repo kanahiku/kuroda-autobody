@@ -10,6 +10,9 @@ export interface MetaData {
 
   description?: string;
 
+  /** Replaces the page's JSON-LD when set. Used by blog posts. */
+  schemaOverride?: string | Record<string, unknown> | Array<Record<string, unknown>>;
+
   openGraph?: MetaDataOpenGraph;
   twitter?: MetaDataTwitter;
 }

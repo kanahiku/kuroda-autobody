@@ -26,6 +26,6 @@ export const business: BusinessSchema = {
   hasCredential: [],
   memberOf: null,
   award: [],
-  sameAs: SOCIAL.sameAs as unknown as string[],
+  sameAs: SOCIAL.sameAs,
   areaServed: { '@type': 'AdministrativeArea', name: CONTACT.areaServed },
 };
