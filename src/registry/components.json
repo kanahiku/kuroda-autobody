@@ -422,7 +422,7 @@
       "name": "Before & after",
       "figmaNames": ["Before & After"],
       "figmaNode": "136:412",
-      "shape": "White section: eyebrow + two-tone heading with side paragraph; full-width before/after comparison (grey placeholder, centre divider, round handle, Before/After tags); three proof points (icon + Unbounded title + line) with hairlines on top.",
+      "shape": "White section: eyebrow + two-tone heading with side paragraph; two before/after cards (before and after photos side by side, Before/After tags, title caption); three proof points (icon + Unbounded title + line) with hairlines on top.",
       "component": "BeforeAfter",
       "import": "~/components/widgets/BeforeAfter.astro",
       "props": {
@@ -431,10 +431,10 @@
         "headingAccent?": "string — semibold part",
         "body?": "string",
         "beforeLabel? / afterLabel?": "string",
-        "position?": "number — divider position in %, default 50",
+        "comparisons": "{ title, beforeAlt, afterAlt, beforeImage?, afterImage? }[] — one card per pair (Sanity homePage.beforeAfter.comparisons)",
         "points?": "{ title, description, icon: document|camera|walk }[]"
       },
-      "notes": "Static comparison for now. Make the divider draggable once real before/after photos exist. Comparison stays a grey box until then."
+      "notes": "Photos come from Sanity per card; a missing photo stays a grey box."
     },
     {
       "id": "P-26",

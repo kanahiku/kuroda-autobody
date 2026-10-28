@@ -28,11 +28,12 @@ export async function getHomeContent(): Promise<HomeContent> {
       : [],
   ]);
 
-  // The before / after pair lives in two fields of one section, so it is attached separately.
-  const pair = await getSanityBeforeAfterImages().catch(() => ({ before: undefined, after: undefined }));
-  const { beforeAlt, afterAlt } = home.beforeAfter;
-  if (pair.before?.src) home.beforeAfter.beforeImage = { src: pair.before.src, alt: beforeAlt };
-  if (pair.after?.src) home.beforeAfter.afterImage = { src: pair.after.src, alt: afterAlt };
+  // The before / after photos sit inside the cards list, so they are attached separately (by card order).
+  const photos = await getSanityBeforeAfterImages().catch(() => []);
+  home.beforeAfter.comparisons.forEach((card, i) => {
+    if (photos[i]?.before?.src) card.beforeImage = { src: photos[i].before!.src, alt: card.beforeAlt };
+    if (photos[i]?.after?.src) card.afterImage = { src: photos[i].after!.src, alt: card.afterAlt };
+  });
 
   // The review cards come from the three featured testimonials; anything less keeps the built-in cards.
   if (testimonials.length === 3) {

@@ -65,10 +65,13 @@ export interface HomeContent {
     body: string;
     beforeLabel: string;
     afterLabel: string;
-    beforeAlt: string;
-    afterAlt: string;
-    beforeImage?: HomePhoto;
-    afterImage?: HomePhoto;
+    comparisons: {
+      title: string;
+      beforeAlt: string;
+      afterAlt: string;
+      beforeImage?: HomePhoto;
+      afterImage?: HomePhoto;
+    }[];
     points: { title: string; description: string; icon: ProofIcon }[];
   };
   heritage: {
@@ -185,8 +188,18 @@ export const homeFallback: HomeContent = {
     body: 'Every repair ends with a walk-around: your work order, before/after photos and every question answered. Proof, not promises.',
     beforeLabel: 'Before',
     afterLabel: 'After',
-    beforeAlt: 'Vehicle before repair',
-    afterAlt: 'Vehicle after repair',
+    comparisons: [
+      {
+        title: 'Scion xB front bumper',
+        beforeAlt: 'Red Scion xB with a scraped and cracked front bumper before repair',
+        afterAlt: 'The same red Scion xB with a flawless front bumper after repair',
+      },
+      {
+        title: 'Toyota Tacoma side panel',
+        beforeAlt: 'Gray Toyota Tacoma with a dented rear door and bed side before repair',
+        afterAlt: 'The same Toyota Tacoma with straight, repainted side panels after repair',
+      },
+    ],
     points: [
       { title: 'Documented work', description: 'An annotated record of every repair.', icon: 'document' },
       { title: 'Before & after photos', description: 'HD photos reviewed with you at delivery.', icon: 'camera' },

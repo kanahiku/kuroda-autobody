@@ -140,8 +140,17 @@ export const homePage = defineType({
       paragraph('body', 'Paragraph', 200),
       line('beforeLabel', '“Before” tag', 15),
       line('afterLabel', '“After” tag', 15),
-      ...photo('before', 'Before photo'),
-      ...photo('after', 'After photo'),
+      items(
+        'comparisons',
+        'Before & after cards',
+        2,
+        [
+          line('title', 'Card title', 40, 'Vehicle or repair shown, e.g. “Scion xB front bumper”.'),
+          ...photo('before', 'Before photo'),
+          ...photo('after', 'After photo'),
+        ],
+        'title'
+      ),
       items(
         'points',
         'Proof points',

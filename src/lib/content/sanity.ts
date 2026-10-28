@@ -439,16 +439,18 @@ export async function getSanityContentPageImages(documentId: string) {
   };
 }
 
-/** The homepage before / after pair (`homePage.beforeAfter.beforeImage` / `afterImage`). */
+/** Photos of the homepage before / after cards (`homePage.beforeAfter.comparisons[]`), in card order. */
 export async function getSanityBeforeAfterImages() {
-  const doc = await sanityClient.fetch<{
-    before?: SanityImageFields | null;
-    after?: SanityImageFields | null;
-  } | null>(/* groq */ `*[_id == "homePage"][0]{
-      "before": beforeAfter.beforeImage{ ${IMAGE_PROJECTION} },
-      "after": beforeAfter.afterImage{ ${IMAGE_PROJECTION} }
+  const cards = await sanityClient.fetch<
+    { before?: SanityImageFields | null; after?: SanityImageFields | null }[] | null
+  >(/* groq */ `*[_id == "homePage"][0].beforeAfter.comparisons[]{
+      "before": beforeImage{ ${IMAGE_PROJECTION} },
+      "after": afterImage{ ${IMAGE_PROJECTION} }
     }`);
-  return { before: resolveContentImage(doc?.before), after: resolveContentImage(doc?.after) };
+  return (cards ?? []).map((card) => ({
+    before: resolveContentImage(card?.before),
+    after: resolveContentImage(card?.after),
+  }));
 }
 
 /**

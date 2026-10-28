@@ -5,17 +5,23 @@ import BrandIcon from '~/components/ui/BrandIcon.astro';
 import Image from '~/components/common/Image.astro';
 /**
  * BeforeAfter — Figma node 136:412 ("Before & After")
- * White section: eyebrow + two-tone heading with a side paragraph, a wide
- * before/after comparison (grey placeholders, divider + handle + tags),
- * and three proof points with hairlines.
+ * White section: eyebrow + two-tone heading with a side paragraph, two before/after cards
+ * (before | after photos side by side with tags + title), and three proof points with hairlines.
  *
- * Photos: the before / after pair uploaded in Sanity (`homePage.beforeAfter`). The after photo is clipped to the
- * right of the divider, so the two shots (same framing) read as one split image. No upload → grey placeholder.
+ * Photos: uploaded per card in Sanity (`homePage.beforeAfter.comparisons`). No upload → grey placeholder.
  */
 export interface ProofPoint {
   title: string;
   description: string;
   icon: 'document' | 'camera' | 'walk-around';
+}
+
+export interface Comparison {
+  title: string;
+  beforeAlt: string;
+  afterAlt: string;
+  beforeImage?: { src: string; alt: string };
+  afterImage?: { src: string; alt: string };
 }
 
 export interface Props {
@@ -25,28 +31,12 @@ export interface Props {
   body: string;
   beforeLabel: string;
   afterLabel: string;
-  /** Accessible description of the comparison (used while the photos are placeholders). */
-  imageAlt: string;
-  beforeImage?: { src: string; alt: string };
-  afterImage?: { src: string; alt: string };
-  /** Divider position, % from the left. Figma: 50 */
-  position?: number;
+  /** One card per before / after pair (Sanity `homePage.beforeAfter.comparisons`). */
+  comparisons: Comparison[];
   points: ProofPoint[];
 }
 
-const {
-  eyebrow,
-  headingLead,
-  headingAccent,
-  body,
-  beforeLabel,
-  afterLabel,
-  imageAlt,
-  beforeImage,
-  afterImage,
-  position = 50,
-  points,
-} = Astro.props;
+const { eyebrow, headingLead, headingAccent, body, beforeLabel, afterLabel, comparisons, points } = Astro.props;
 ---
 
 <section class="w-full bg-surface-page">
@@ -68,70 +58,52 @@ const {
       </p>
     </div>
 
-    {/* ── Comparison — before photo underneath, after photo clipped to the right of the divider ── */}
-    <div
-      class="relative h-[240px] w-full overflow-hidden rounded-[4px] bg-placeholder-on-grey md:h-[580px]"
-      role="img"
-      aria-label={imageAlt}
-    >
+    {/* ── Comparison cards — each card shows its before and after photo side by side ── */}
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
       {
-        beforeImage && (
-          <Image
-            src={beforeImage.src}
-            alt=""
-            width={2000}
-            height={1125}
-            widths={[800, 1200, 2000]}
-            sizes="(min-width: 1440px) 1312px, 100vw"
-            layout="cover"
-            class="absolute inset-0 h-full w-full object-cover"
-          />
-        )
+        comparisons.map((card) => (
+          <figure class="flex flex-col gap-3">
+            <div class="grid grid-cols-2 gap-1 overflow-hidden rounded-[4px]">
+              {(
+                [
+                  { label: beforeLabel, image: card.beforeImage, alt: card.beforeAlt, after: false },
+                  { label: afterLabel, image: card.afterImage, alt: card.afterAlt, after: true },
+                ] as const
+              ).map((side) => (
+                <div
+                  class="relative aspect-[3/4] bg-placeholder-on-grey md:aspect-[4/5]"
+                  role={side.image ? undefined : 'img'}
+                  aria-label={side.image ? undefined : side.alt}
+                >
+                  {side.image && (
+                    <Image
+                      src={side.image.src}
+                      alt={side.image.alt}
+                      width={1000}
+                      height={1250}
+                      widths={[400, 700, 1000]}
+                      sizes="(min-width: 1440px) 328px, (min-width: 768px) 25vw, 50vw"
+                      layout="cover"
+                      class="absolute inset-0 h-full w-full object-cover"
+                    />
+                  )}
+                  <span
+                    class:list={[
+                      'absolute left-3 top-3 rounded-[2px] px-3 py-[7px] font-body text-[10.5px] font-bold leading-none tracking-[1.47px] uppercase',
+                      side.after ? 'bg-gradient-brand text-on-dark' : 'bg-surface-page text-heading-full',
+                    ]}
+                  >
+                    {side.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <figcaption class="font-display text-[14px] font-semibold leading-none tracking-[0.02em] text-heading-full uppercase">
+              {card.title}
+            </figcaption>
+          </figure>
+        ))
       }
-      {
-        afterImage && (
-          <Image
-            src={afterImage.src}
-            alt=""
-            width={2000}
-            height={1125}
-            widths={[800, 1200, 2000]}
-            sizes="(min-width: 1440px) 1312px, 100vw"
-            layout="cover"
-            class="absolute inset-0 h-full w-full object-cover"
-            style={`clip-path: inset(0 0 0 ${position}%);`}
-          />
-        )
-      }
-
-      {/* Divider */}
-      <div
-        class="absolute inset-y-0 w-[2px] -translate-x-1/2 bg-white"
-        style={`left: ${position}%;`}
-        aria-hidden="true"
-      >
-      </div>
-
-      {/* Handle */}
-      <div
-        class="absolute top-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white font-body text-[16px] font-bold leading-none text-heading-full shadow-[0_4px_12px_rgba(8,41,108,0.25)] md:size-12 md:text-[18px]"
-        style={`left: ${position}%;`}
-        aria-hidden="true"
-      >
-        ‹ ›
-      </div>
-
-      {/* Tags */}
-      <span
-        class="absolute left-3 top-3 rounded-[2px] md:left-6 md:top-6 bg-surface-page px-3 py-[7px] font-body text-[10.5px] font-bold leading-none tracking-[1.47px] text-heading-full uppercase"
-      >
-        {beforeLabel}
-      </span>
-      <span
-        class="absolute right-3 top-3 rounded-[2px] md:right-6 md:top-6 bg-gradient-brand px-3 py-[7px] font-body text-[10.5px] font-bold leading-none tracking-[1.47px] text-on-dark uppercase"
-      >
-        {afterLabel}
-      </span>
     </div>
 
     {/* ── Proof points ── */}
