@@ -93,6 +93,12 @@ export const locationFallback: LocationContent = {
     headingAccent: 'and Hours',
     rows: [
       { label: 'Shop address', value: '94-518 Puahi Street, {cityLine}', link: 'directions' },
+      {
+        label: 'Entrance',
+        value: 'Corner of Puahi and Ukee Streets — entrance on Ukee Street',
+        note: 'GPS directs you to Puahi Street, where we do not have an entrance.',
+        link: 'none',
+      },
       { label: 'Business park', value: '{landmark}', link: 'none' },
       { label: 'Phone', value: '{phone}', link: 'phone' },
       { label: 'Fax', value: '{fax}', link: 'none' },
@@ -122,6 +128,11 @@ export const locationFallback: LocationContent = {
         title: 'From the H-2 Freeway',
         description:
           'Head toward the Waipiʻo/Mililani interchange, connect down toward the business park, and locate our facility on Puahi Street.',
+      },
+      {
+        title: 'Using GPS',
+        description:
+          'We are on the corner of Puahi and Ukee Streets. GPS will take you to Puahi Street, but our entrance is on Ukee Street, so continue to the corner and turn onto Ukee.',
       },
     ],
     ctaText: 'GET DIRECTIONS',
@@ -171,7 +182,13 @@ export const locationFallback: LocationContent = {
     items: [
       {
         question: 'Where is Kuroda Autobody located?',
-        answer: 'We are located at 94-518 Puahi Street in the Gentry Waipiʻo Business Park, {cityLine}.',
+        answer:
+          'We are located at 94-518 Puahi Street in the Gentry Waipiʻo Business Park, {cityLine}, on the corner of Puahi and Ukee Streets. Our entrance is on Ukee Street.',
+      },
+      {
+        question: 'My GPS takes me to Puahi Street. Where do I enter?',
+        answer:
+          'GPS directs you to Puahi Street, but we do not have an entrance on that side. We are on the corner of Puahi and Ukee Streets — enter from Ukee Street.',
       },
       {
         question: 'Do I need an appointment to visit the shop?',
