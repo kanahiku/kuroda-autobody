@@ -92,20 +92,20 @@ export const locationFallback: LocationContent = {
     headingLead: 'Shop Location',
     headingAccent: 'and Hours',
     rows: [
-      { label: 'Shop address', value: '94-518 Puahi Street, {cityLine}', link: 'directions' },
+      { label: 'Shop Address', value: '94-518 Puahi Street, {cityLine}', link: 'directions' },
       {
-        label: 'Entrance',
-        value: 'Corner of Puahi and Ukee Streets — entrance on Ukee Street',
-        note: 'GPS directs you to Puahi Street, where we do not have an entrance.',
+        label: 'Entrance & GPS Note',
+        value:
+          "We're located at the corner of Puahi and Ukee Streets. Our entrance is on Ukee Street. GPS may direct you to Puahi Street, but there is no entrance on that side.",
         link: 'none',
       },
-      { label: 'Business park', value: '{landmark}', link: 'none' },
+      { label: 'Business Park', value: '{landmark}', link: 'none' },
       { label: 'Phone', value: '{phone}', link: 'phone' },
       { label: 'Fax', value: '{fax}', link: 'none' },
       {
         label: 'Hours',
-        value: 'Monday through Friday, 7:00 AM to 5:00 PM',
-        note: 'Closed Saturday and Sunday. Estimates are by appointment.',
+        value: 'Monday through Friday, 7:00 AM to 5:00 PM (Closed Saturday and Sunday).',
+        note: 'Estimates are by appointment.',
         link: 'none',
       },
     ],
