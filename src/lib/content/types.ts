@@ -116,6 +116,8 @@ export interface BlogPost {
   category?: string;
   tags?: string[];
   image?: ContentImage;
+  /** Closing-CTA photo for this article (article page only); falls back to the shared blog CTA photo. */
+  ctaImage?: ContentImage;
   /** Article body in document order, including inline images from Sanity. Empty on listing queries. */
   contentBlocks: BlogContentBlock[];
 }

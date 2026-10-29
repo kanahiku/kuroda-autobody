@@ -40,8 +40,9 @@ type SanityPortableBlock = {
   text?: string;
 } & SanityImageFields;
 
-type SanityBlogPost = Omit<BlogPost, 'image' | 'contentBlocks' | 'tags'> & {
+type SanityBlogPost = Omit<BlogPost, 'image' | 'ctaImage' | 'contentBlocks' | 'tags'> & {
   image?: ContentImage;
+  ctaImage?: { src?: string | null; alt?: string | null } | null;
   tags?: string[] | null;
   body?: SanityPortableBlock[] | null;
 };
@@ -237,6 +238,7 @@ function normalizeBlogPost(post: SanityBlogPost): BlogPost {
     category: post.category,
     tags: (post.tags ?? []).filter((t): t is string => Boolean(t?.trim())),
     image: resolveContentImage(post.image as FetchedImage | undefined),
+    ctaImage: post.ctaImage?.src ? { src: post.ctaImage.src, alt: post.ctaImage.alt || post.title } : undefined,
     contentBlocks,
   };
 }
@@ -262,6 +264,7 @@ const BLOG_POST_PROJECTION = /* groq */ `
   ${BLOG_POST_CARD_PROJECTION},
   seoTitle,
   seoDescription,
+  "ctaImage": { "src": ctaImage.asset->url, "alt": ctaImage.alt },
   body[] {
     ...,
     _type == "image" => {
