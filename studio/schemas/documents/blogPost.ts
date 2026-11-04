@@ -115,7 +115,8 @@ export const blogPost = defineType({
       title: 'Closing CTA photo (upload)',
       type: 'image',
       group: 'content',
-      description: 'Photo beside "Schedule Your Estimate Today" at the end of the article. Empty → the shared blog photo.',
+      description:
+        'Photo beside "Schedule Your Estimate Today" at the end of the article. Empty → the shared blog photo.',
       options: { hotspot: true },
       fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),

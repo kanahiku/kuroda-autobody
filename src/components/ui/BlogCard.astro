@@ -18,9 +18,11 @@ export interface Props {
   post: BlogPost;
   variant?: 'dark' | 'light';
   layout?: 'stacked' | 'featured';
+  /** Semantic element for the title — use h2 when no section heading precedes the card. */
+  titleTag?: 'h2' | 'h3';
 }
 
-const { post, variant = 'light', layout = 'stacked' } = Astro.props;
+const { post, variant = 'light', layout = 'stacked', titleTag: TitleTag = 'h3' } = Astro.props;
 const href = getBlogPermalink(post.slug);
 const isDark = variant === 'dark';
 const isFeatured = layout === 'featured';
@@ -76,7 +78,7 @@ const isFeatured = layout === 'featured';
       {getFormattedDate(new Date(post.publishDate))}
     </time>
 
-    <h3
+    <TitleTag
       class:list={[
         'font-display font-semibold uppercase leading-[1.2] tracking-[-0.01em] transition-colors duration-150 group-hover:text-accent',
         isFeatured ? 'text-[22px] md:text-[28px] md:leading-[1.15]' : 'text-[18px] md:text-[20px]',
@@ -84,7 +86,7 @@ const isFeatured = layout === 'featured';
       ]}
     >
       {post.title}
-    </h3>
+    </TitleTag>
 
     {
       post.excerpt && (

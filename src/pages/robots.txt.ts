@@ -8,14 +8,7 @@ export const GET: APIRoute = ({ request }) => {
   const origin = canonicalSiteOrigin();
 
   const body = indexable
-    ? [
-        'User-agent: *',
-        'Allow: /',
-        '',
-        `Sitemap: ${origin}/sitemap.xml`,
-        `Sitemap: ${origin}/sitemap-index.xml`,
-        '',
-      ].join('\n')
+    ? ['User-agent: *', 'Allow: /', '', `Sitemap: ${origin}/sitemap.xml`, ''].join('\n')
     : ['User-agent: *', 'Disallow: /', ''].join('\n');
 
   return new Response(body, {

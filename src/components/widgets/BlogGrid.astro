@@ -42,6 +42,8 @@ const [first, ...rest] = posts;
 const showFeatured = featured && Boolean(first);
 const gridPosts = showFeatured ? rest : posts;
 const hasHead = Boolean(eyebrow || headingLead || headingStrong || lead);
+// Cards are h2 when no section heading precedes them, so the outline never skips a level.
+const cardTitleTag = hasHead ? 'h3' : 'h2';
 ---
 
 <section {...id ? { id } : {}} class:list={['w-full', surface === 'subtle' ? 'bg-surface-subtle' : 'bg-surface-page']}>
@@ -75,14 +77,14 @@ const hasHead = Boolean(eyebrow || headingLead || headingStrong || lead);
         <>
           {showFeatured && first && (
             <div class="border-t border-default-50 pt-8 md:pt-10">
-              <BlogCard post={first} layout="featured" />
+              <BlogCard post={first} layout="featured" titleTag={cardTitleTag} />
             </div>
           )}
           {gridPosts.length > 0 && (
             <ul class="grid grid-cols-1 gap-6 border-t border-default-50 pt-8 sm:grid-cols-2 xl:gap-8 md:pt-10 lg:grid-cols-3">
               {gridPosts.map((post) => (
                 <li>
-                  <BlogCard post={post} />
+                  <BlogCard post={post} titleTag={cardTitleTag} />
                 </li>
               ))}
             </ul>

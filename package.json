@@ -20,7 +20,11 @@
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
     "fix:prettier": "prettier -w .",
-    "studio": "cd studio && npm run dev"
+    "studio": "cd studio && npm run dev",
+    "seo:check": "tsx scripts/seo-check.ts",
+    "links:check": "tsx scripts/links-check.ts",
+    "sanity:export": "tsx --env-file=.env scripts/sanity-export.ts",
+    "prelaunch": "npm run build && npm run seo:check && npm run links:check"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

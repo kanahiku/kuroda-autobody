@@ -33,3 +33,6 @@ studio/.sanity/
 
 # client photo drop (uploaded to Sanity, never committed)
 new-images/
+
+# Sanity export backups
+backups/
