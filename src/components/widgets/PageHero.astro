@@ -3,7 +3,7 @@ import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import Image from '~/components/common/Image.astro';
 import { CONTACT } from '~/config/contact';
 import { site } from '~/config/site';
-import { PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
+import { isScheduleEstimateCta, SCHEDULE_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
 /**
  * PageHero — interior-page hero, same design language as the homepage hero.
  * Navy surface, photo (grey placeholder) on the right with the three Kuroda fade
@@ -48,7 +48,7 @@ const {
   tagline,
   body,
   ctaText = SCHEDULE_CTA_LABEL,
-  ctaHref = PRIMARY_CTA_HREF,
+  ctaHref = SCHEDULE_CTA_HREF,
   secondaryCtaText = `CALL ${CONTACT.phone.display}`,
   secondaryCtaHref = CONTACT.phone.href,
   showCtas = true,
@@ -56,6 +56,9 @@ const {
   photoLabel = site.name,
   compact = false,
 } = Astro.props;
+
+const schedule = isScheduleEstimateCta(ctaText);
+const primaryHref = schedule ? SCHEDULE_CTA_HREF : ctaHref;
 ---
 
 <section
@@ -151,7 +154,11 @@ const {
         showCtas && (ctaText || secondaryCtaText) && (
           <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center md:mt-10">
             {ctaText && ctaHref && (
-              <a href={ctaHref} class="btn-primary">
+              <a
+                href={primaryHref}
+                class="btn-primary"
+                {...(schedule ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
                 {ctaText}
               </a>
             )}

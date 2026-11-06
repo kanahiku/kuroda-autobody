@@ -37,7 +37,7 @@ import { twMerge } from 'tailwind-merge';
 import PhoneIcon from '~/components/ui/PhoneIcon.astro';
 import type { CallToAction } from '~/types';
 import CTANote from '~/components/ui/CTANote.astro';
-import { PRIMARY_CTA_NOTE } from '~/config/cta';
+import { isScheduleEstimateCta, PRIMARY_CTA_NOTE, SCHEDULE_CTA_HREF } from '~/config/cta';
 
 export interface Props extends Omit<CallToAction, 'variant'> {
   /**
@@ -80,8 +80,14 @@ const {
   type,
   hideNote = false,
   noteTone = 'light',
+  href,
   ...rest
 } = Astro.props;
+
+/** “Schedule an Estimate” always leaves the site for Carwise, whatever href the caller passed. */
+const schedule = isScheduleEstimateCta(text);
+const linkHref = schedule ? SCHEDULE_CTA_HREF : href;
+const linkTarget = schedule ? '_blank' : target;
 
 // Map Figma variant names → CSS utility classes (with backward-compat aliases).
 const variantClass: Record<string, string> = {
@@ -132,7 +138,12 @@ const buttonClass = twMerge(
             ))}
         </button>
       ) : (
-        <a class={buttonClass} {...(target ? { target, rel: 'noopener noreferrer' } : {})} {...rest}>
+        <a
+          class={buttonClass}
+          {...(linkHref ? { href: linkHref } : {})}
+          {...(linkTarget ? { target: linkTarget, rel: 'noopener noreferrer' } : {})}
+          {...rest}
+        >
           <Fragment set:html={text} />
           {shouldRenderIcon &&
             (isPhoneIcon ? (
@@ -155,7 +166,12 @@ const buttonClass = twMerge(
         ))}
     </button>
   ) : (
-    <a class={buttonClass} {...(target ? { target, rel: 'noopener noreferrer' } : {})} {...rest}>
+    <a
+      class={buttonClass}
+      {...(linkHref ? { href: linkHref } : {})}
+      {...(linkTarget ? { target: linkTarget, rel: 'noopener noreferrer' } : {})}
+      {...rest}
+    >
       <Fragment set:html={text} />
       {shouldRenderIcon &&
         (isPhoneIcon ? (

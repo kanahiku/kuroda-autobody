@@ -63,6 +63,7 @@ const fields: Array<{
       data-endpoint={FORM_ENDPOINT}
       data-site={SITE_SLUG}
       data-turnstile-sitekey={TURNSTILE_SITE_KEY}
+      data-turnstile-appearance="interaction-only"
       data-phone={CONTACT.phone.display}
       class="flex min-w-0 flex-1 flex-col gap-4"
       enctype="multipart/form-data"
@@ -122,7 +123,7 @@ const fields: Array<{
           class={fieldClass}></textarea>
       </div>
 
-      {/* Turnstile bot check */}
+      {/* Turnstile bot check. interaction-only: no checkbox unless Cloudflare needs one. */}
       <div data-turnstile></div>
 
       <div>

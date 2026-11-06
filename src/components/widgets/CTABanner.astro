@@ -25,7 +25,7 @@ import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import OrnamentRule from '~/components/ui/OrnamentRule.astro';
 import { CONTACT } from '~/config/contact';
 import { site } from '~/config/site';
-import { CLOSING_CTA_SUBTITLE, PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
+import { CLOSING_CTA_SUBTITLE, SCHEDULE_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
 
 export interface Props {
   variant?: 'center' | 'split';
@@ -61,7 +61,7 @@ const {
   titleStrong,
   subtitle = variant === 'split' ? CLOSING_CTA_SUBTITLE : undefined,
   ctaText = variant === 'split' ? SCHEDULE_CTA_LABEL : 'Request a Quote',
-  ctaHref = variant === 'split' ? PRIMARY_CTA_HREF : '/contact',
+  ctaHref = variant === 'split' ? SCHEDULE_CTA_HREF : '/contact',
   secondaryCtaText = variant === 'split' ? `CALL ${CONTACT.phone.display}` : undefined,
   secondaryCtaHref = variant === 'split' ? CONTACT.phone.href : undefined,
   address,

@@ -19,6 +19,7 @@
  * Relative `.ts` imports only, so the seed script can load it under plain Node. Texts may use `{tokens}`
  * (e.g. `{year}`, see src/lib/content/tokens.ts).
  */
+import { SCHEDULE_CTA_HREF } from '../config/cta.ts';
 import type { FooterLink, NavigationContent, NavLink, NavSubLink } from '../lib/content/types';
 import { getCategory, getChildPages, normalizePath, type SitemapNode } from '../lib/sitemap.ts';
 
@@ -94,7 +95,7 @@ export const navigationData: NavigationContent = {
   header: {
     links: headerLinks,
     actions: [],
-    cta: { text: 'Schedule an Estimate', href: '/contact/' },
+    cta: { text: 'Schedule an Estimate', href: SCHEDULE_CTA_HREF },
   },
   footer: {
     links: footerColumns,

@@ -11,6 +11,7 @@
  * Photos are not in this file: each section's `image` is uploaded in Sanity and attached by
  * `getHomeContent()`; the alt text (`imageAlt`) is edited next to it. No upload → grey placeholder.
  */
+import { SCHEDULE_CTA_HREF } from '../config/cta.ts';
 
 export type HeroTrustIcon = 'icar' | 'target' | 'shield' | 'home';
 export type ServiceIcon = 'collision' | 'calibration' | 'paint' | 'alignment' | 'claims' | 'rental';
@@ -294,7 +295,7 @@ export const homeFallback: HomeContent = {
     headingLead: 'Ready to get your car',
     headingAccent: 'repaired right?',
     description: 'Visit us at Gentry Waipiʻo Business Park or call for an honest estimate.',
-    ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: '/contact/' },
+    ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: SCHEDULE_CTA_HREF },
     ctaTwo: { text: 'CALL KURODA: {phone}', href: '{phoneHref}' },
     hours: 'Monday to Friday, 7am to 5pm',
     imageAlt: 'The Kuroda Autobody team',

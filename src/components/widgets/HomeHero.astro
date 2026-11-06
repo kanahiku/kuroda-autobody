@@ -3,7 +3,7 @@ import Image from '~/components/common/Image.astro';
 import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
 import BrandIcon from '~/components/ui/BrandIcon.astro';
 import { CONTACT } from '~/config/contact';
-import { PRIMARY_CTA_HREF } from '~/config/cta';
+import { isScheduleEstimateCta, PRIMARY_CTA_HREF, SCHEDULE_CTA_HREF } from '~/config/cta';
 /**
  * HomeHero — Figma node 136:217 ("Hero")
  * Navy hero: eyebrow, two-weight H1 (normal lead + gradient accent), tagline, lead body, two buttons,
@@ -37,6 +37,8 @@ const { eyebrow, headingLead, headingAccent, tagline, body, primaryCtaText, call
   Astro.props;
 
 const trustIcon = { target: 'target-24', shield: 'shield-24', home: 'home-24' } as const;
+const schedule = isScheduleEstimateCta(primaryCtaText);
+const primaryHref = schedule ? SCHEDULE_CTA_HREF : PRIMARY_CTA_HREF;
 ---
 
 <section class="relative w-full overflow-hidden bg-surface-inverse md:min-h-[776px]">
@@ -118,7 +120,7 @@ const trustIcon = { target: 'target-24', shield: 'shield-24', home: 'home-24' } 
 
       {/* Buttons — gap-12 */}
       <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <a href={PRIMARY_CTA_HREF} class="btn-primary">
+        <a href={primaryHref} class="btn-primary" {...schedule ? { target: '_blank', rel: 'noopener noreferrer' } : {}}>
           {primaryCtaText}
         </a>
         <a href={CONTACT.phone.href} class="btn-secondary">

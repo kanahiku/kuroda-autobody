@@ -11,6 +11,7 @@
  * photo's alt text is edited in Sanity for now.
  */
 import type { BrandIconName } from '../components/ui/BrandIcon.astro';
+import { SCHEDULE_CTA_HREF } from '../config/cta.ts';
 
 /** Where a facts-row value links to. */
 export type RowLink = 'none' | 'directions' | 'phone';
@@ -217,7 +218,7 @@ export const locationFallback: LocationContent = {
     headingAccent: 'Visit',
     description:
       'Get expert guidance and reliable collision repair from a family-owned shop rooted in Hawaiʻi since 1938.',
-    ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: '/contact/' },
+    ctaOne: { text: 'SCHEDULE AN ESTIMATE', href: SCHEDULE_CTA_HREF },
     ctaTwo: { text: 'CALL {phone}', href: '{phoneHref}' },
     imageAlt: 'Kuroda Autobody front desk team greeting a customer',
   },

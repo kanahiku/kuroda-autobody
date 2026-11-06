@@ -1,4 +1,4 @@
-import { CLOSING_CTA_SUBTITLE, PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '../../config/cta.ts';
+import { CLOSING_CTA_SUBTITLE, SCHEDULE_CTA_HREF, SCHEDULE_CTA_LABEL } from '../../config/cta.ts';
 import type {
   ActionSection,
   ContentPage,
@@ -367,7 +367,7 @@ const ctaToDoc = (cta: PageCta): ContentPageDoc['cta'] => ({
   headingLead: cta.title.trim(),
   headingAccent: cta.titleStrong,
   description: cta.subtitle ?? CLOSING_CTA_SUBTITLE,
-  ctaOne: { text: cta.ctaText ?? SCHEDULE_CTA_LABEL, href: cta.ctaHref ?? PRIMARY_CTA_HREF },
+  ctaOne: { text: cta.ctaText ?? SCHEDULE_CTA_LABEL, href: cta.ctaHref ?? SCHEDULE_CTA_HREF },
   ctaTwo: {
     text: cta.secondaryCtaText ?? 'CALL {phone}',
     href: cta.secondaryCtaHref ?? '{phoneHref}',

@@ -5,7 +5,8 @@
  * getContactContent(). The estimate form's fields stay in EstimateForm.astro; the phone, address and map
  * come from site config (`~/config/contact`).
  * Composed from shared widgets only (PageHero, EstimateForm, DetailRows with its map, ActionBand).
- * The estimate form is its own section right under the hero; the navy band's button scrolls back up to #estimate.
+ * The estimate form is its own section right under the hero. The navy band's Schedule an Estimate
+ * button opens the Carwise shop page in a new tab.
  */
 import Layout from '~/layouts/PageLayout.astro';
 import GradientBand from '~/components/ui/GradientBand.astro';
@@ -14,6 +15,7 @@ import DetailRows from '~/components/widgets/DetailRows.astro';
 import ActionBand from '~/components/widgets/ActionBand.astro';
 import EstimateForm from '~/components/widgets/EstimateForm.astro';
 import { CONTACT } from '~/config/contact';
+import { isScheduleEstimateCta, SCHEDULE_CTA_HREF } from '~/config/cta';
 import { getContactContent } from '~/lib/content';
 
 const page = await getContactContent();
@@ -67,7 +69,8 @@ const ROW_LINKS = {
     headingStrong={page.band.headingAccent}
     body={page.band.body}
     ctaText={page.band.ctaText}
-    ctaHref="#estimate"
+    ctaHref={isScheduleEstimateCta(page.band.ctaText) ? SCHEDULE_CTA_HREF : '#estimate'}
+    ctaExternal={isScheduleEstimateCta(page.band.ctaText)}
     image={page.band.image}
   />
 </Layout>

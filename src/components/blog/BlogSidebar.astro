@@ -5,7 +5,7 @@
  */
 import type { TocItem } from '~/lib/content/blogArticle';
 import { CONTACT } from '~/config/contact';
-import { PRIMARY_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
+import { SCHEDULE_CTA_HREF, SCHEDULE_CTA_LABEL } from '~/config/cta';
 
 export interface Props {
   toc: TocItem[];
@@ -101,7 +101,7 @@ const tocLink =
         <p class="font-display text-[20px] font-light leading-[1.2] tracking-[-0.02em] text-on-dark">
           Talk to the {CONTACT.address.city} team
         </p>
-        <a href={PRIMARY_CTA_HREF} class="btn-primary justify-center">
+        <a href={SCHEDULE_CTA_HREF} class="btn-primary justify-center" target="_blank" rel="noopener noreferrer">
           {SCHEDULE_CTA_LABEL}
         </a>
         <a

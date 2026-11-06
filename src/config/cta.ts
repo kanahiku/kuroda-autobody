@@ -5,8 +5,19 @@ export const PRIMARY_CTA_NOTE = '';
 export const PRIMARY_CTA_LABEL = 'GET A FREE ESTIMATE';
 export const PRIMARY_CTA_HREF = '/contact/';
 
-/** Interior-page hero + closing CTA band — label of the primary button (links to PRIMARY_CTA_HREF). */
+/** Interior-page hero + closing CTA band — label of the primary button. */
 export const SCHEDULE_CTA_LABEL = 'SCHEDULE AN ESTIMATE';
+
+/**
+ * Every “Schedule an Estimate” button, sitewide. Carwise’s shop page, opened in a new tab.
+ * The label match is what the widgets key off, so a Sanity document that still points the
+ * button at /contact/ still lands here.
+ */
+export const SCHEDULE_CTA_HREF = 'https://www.carwise.com/auto-body-shops/kuroda-auto-body-waipahu-hi-96797/505458';
+
+/** True only for that button label, any casing. */
+export const isScheduleEstimateCta = (text: unknown): text is string =>
+  typeof text === 'string' && text.replace(/\s+/g, ' ').trim().toLowerCase() === 'schedule an estimate';
 
 /** Default subtitle of the closing CTA band on interior pages. */
 export const CLOSING_CTA_SUBTITLE =

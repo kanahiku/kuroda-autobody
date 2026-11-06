@@ -12,6 +12,7 @@ import HeaderEmbedded from '~/components/widgets/HeaderEmbedded.astro';
 import { getHomePermalink } from '~/utils/permalinks';
 import { site } from '~/config/site';
 import { CONTACT } from '~/config/contact';
+import { SCHEDULE_CTA_HREF } from '~/config/cta';
 import type { CallToAction } from '~/types';
 import type { NavLink } from '~/lib/content/types';
 
@@ -33,7 +34,7 @@ const {
   links = [],
   actions = [],
   phone,
-  cta = { text: 'Schedule an Estimate', href: '/contact/' },
+  cta = { text: 'Schedule an Estimate', href: SCHEDULE_CTA_HREF },
   isSticky = false,
   showToggleTheme = false,
   embedded = false,

@@ -4,6 +4,7 @@
  * answers that end in a button carry a `cta`. `{directionsHref}` is filled in from site config (see lib/content/tokens.ts). No related-links grid (not in the doc).
  */
 import type { ContentPage } from '~/data/contentPage';
+import { SCHEDULE_CTA_HREF } from '~/config/cta';
 
 export const hadAnAccidentHubPages: ContentPage[] = [
   {
@@ -104,7 +105,7 @@ export const hadAnAccidentHubPages: ContentPage[] = [
               title: 'How do I get a collision repair estimate?',
               description:
                 'Schedule an estimate online at a convenient time. We’ll inspect your vehicle, assess the collision damage and determine what repairs are needed.',
-              cta: { text: 'Schedule an Estimate', href: '/contact/' },
+              cta: { text: 'Schedule an Estimate', href: SCHEDULE_CTA_HREF },
             },
             {
               title: 'Do I have to use the auto body shop my insurance company recommends?',

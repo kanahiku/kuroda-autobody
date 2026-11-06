@@ -4,10 +4,13 @@
  */
 
 export interface TurnstileApi {
-  render(container: Element, options: { sitekey: string }): string;
+  render(container: Element, options: { sitekey: string; appearance?: TurnstileAppearance }): string;
   getResponse(widgetId: string): string;
   reset(widgetId: string): void;
 }
+
+/** Cloudflare widget visibility. `interaction-only` stays hidden unless a visitor must click. */
+type TurnstileAppearance = 'always' | 'execute' | 'interaction-only';
 
 declare global {
   interface Window {
@@ -49,6 +52,10 @@ export async function renderTurnstile(form: HTMLFormElement): Promise<string> {
   if (!slot || !sitekey) return '';
   try {
     const turnstile = await loadTurnstile();
+    const appearance = form.dataset.turnstileAppearance;
+    if (appearance === 'always' || appearance === 'execute' || appearance === 'interaction-only') {
+      return turnstile.render(slot, { sitekey, appearance });
+    }
     return turnstile.render(slot, { sitekey });
   } catch (err) {
     console.error(err);
