@@ -29,8 +29,9 @@ export const asText = (value: FormDataEntryValue | null): string => (typeof valu
 
 /** US numbers: 10 digits, or 11 with a leading 1. Empty and anything else are rejected. */
 export function phoneMessage(value: string): string {
-  const digits = value.replace(/\D/g, '');
-  if (!digits) return 'Enter a phone number.';
+  const trimmed = value.trim();
+  if (!trimmed) return 'Enter a phone number.';
+  const digits = trimmed.replace(/\D/g, '');
   const national = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
   if (national.length !== 10) return 'Enter a valid 10-digit phone number.';
   return '';
@@ -90,4 +91,10 @@ export async function renderTurnstile(form: HTMLFormElement): Promise<string> {
 export function setStatus(status: HTMLElement, tone: keyof typeof STATUS_TONE, text: string) {
   status.className = `${STATUS_BASE} ${STATUS_TONE[tone]}`;
   status.textContent = text;
+}
+
+/** Removes the line under the submit button. Field errors stay on the field. */
+export function hideStatus(status: HTMLElement) {
+  status.textContent = '';
+  status.className = 'hidden';
 }

@@ -3,7 +3,7 @@
  * Posts JSON to the shared forms worker with a Cloudflare Turnstile token.
  */
 
-import { asText, phoneMessage, renderTurnstile, setFieldError, setStatus } from './form-shared';
+import { asText, hideStatus, phoneMessage, renderTurnstile, setFieldError, setStatus } from './form-shared';
 
 function composeEstimateMessage(data: FormData): string {
   const lines: string[] = [];
@@ -52,9 +52,17 @@ function formProblem(data: FormData): { message: string; field: string } | null 
   return null;
 }
 
+function applyFieldErrors(form: HTMLFormElement, problem: { message: string; field: string } | null) {
+  form.querySelectorAll<HTMLInputElement>('input[name]').forEach((input) => {
+    if (input.name === 'website' || input.type === 'checkbox') return;
+    setFieldError(input, problem?.field === input.name ? problem.message : '');
+  });
+}
+
 function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string) {
-  const phoneInput = form.querySelector<HTMLInputElement>('#phone');
-  phoneInput?.addEventListener('input', () => setFieldError(phoneInput, ''));
+  form.querySelectorAll<HTMLInputElement>('input[name]').forEach((input) => {
+    input.addEventListener('input', () => setFieldError(input, ''));
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -65,11 +73,10 @@ function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string
     if (asText(data.get('website'))) return;
 
     const problem = formProblem(data);
-    setFieldError(phoneInput, problem?.field === 'phone' ? problem.message : '');
+    applyFieldErrors(form, problem);
     if (problem) {
-      setStatus(status, 'error', problem.message);
-      status.classList.remove('hidden');
-      form.querySelector<HTMLInputElement>(`#${problem.field}`)?.focus();
+      hideStatus(status);
+      form.querySelector<HTMLInputElement>(`[name="${problem.field}"]`)?.focus();
       return;
     }
 

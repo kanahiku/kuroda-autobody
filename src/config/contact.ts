@@ -85,7 +85,7 @@ export const CONTACT = {
  */
 export const CAREERS = {
   /** Every application is sent to all of these addresses. */
-  recipients: ['info@kurodaautobody.com'],
+  recipients: ['info@kurodaautobody.com', 'cori@kurodaautobody.com', 'deepak@kanahiku.com'],
   /** Shown on the page as the "prefer email?" fallback. */
   publicEmail: 'info@kurodaautobody.com',
   /** Vercel Functions cap a request body at 4.5 MB, so the résumé limit stays under that. */

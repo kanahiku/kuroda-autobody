@@ -2,7 +2,7 @@
  * Client script for the careers application form (`#careers-form`, see CareersApply.astro).
  * Posts multipart form data (including the résumé file) to /api/careers/ with a Turnstile token.
  */
-import { asText, phoneMessage, renderTurnstile, setFieldError, setStatus } from './form-shared';
+import { asText, hideStatus, phoneMessage, renderTurnstile, setFieldError, setStatus } from './form-shared';
 
 /** Returns a user-facing problem with the chosen résumé, or '' when it is fine. */
 function resumeProblem(form: HTMLFormElement, file: FormDataEntryValue | null): string {
@@ -29,9 +29,28 @@ async function postApplication(form: HTMLFormElement, data: FormData, turnstileT
   return Boolean(res.ok && payload?.ok);
 }
 
+function applicationProblem(form: HTMLFormElement, data: FormData): { message: string; field: string } | null {
+  if (!asText(data.get('name'))) return { message: 'Enter your name.', field: 'name' };
+  const email = asText(data.get('email'));
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { message: 'Enter a valid email address.', field: 'email' };
+  const phone = phoneMessage(asText(data.get('phone')));
+  if (phone) return { message: phone, field: 'phone' };
+  const resume = resumeProblem(form, data.get('resume'));
+  if (resume) return { message: resume, field: 'resume' };
+  return null;
+}
+
+function applyFieldErrors(form: HTMLFormElement, problem: { message: string; field: string } | null) {
+  form.querySelectorAll<HTMLInputElement>('input[name]').forEach((input) => {
+    if (input.name === 'website') return;
+    setFieldError(input, problem?.field === input.name ? problem.message : '');
+  });
+}
+
 function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string) {
-  const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
-  phoneInput?.addEventListener('input', () => setFieldError(phoneInput, ''));
+  form.querySelectorAll<HTMLInputElement>('input[name]').forEach((input) => {
+    input.addEventListener('input', () => setFieldError(input, ''));
+  });
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -40,23 +59,11 @@ function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string
 
     if (asText(data.get('website'))) return; // honeypot
 
-    status.classList.remove('hidden');
-    const phone = phoneMessage(asText(data.get('phone')));
-    setFieldError(phoneInput, phone);
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      setStatus(status, 'error', phone || 'Please fill in your name, email, phone and résumé.');
-      if (phone) phoneInput?.focus();
-      return;
-    }
-    if (phone) {
-      setStatus(status, 'error', phone);
-      phoneInput?.focus();
-      return;
-    }
-    const problem = resumeProblem(form, data.get('resume'));
+    const problem = applicationProblem(form, data);
+    applyFieldErrors(form, problem);
     if (problem) {
-      setStatus(status, 'error', problem);
+      hideStatus(status);
+      form.querySelector<HTMLInputElement>(`[name="${problem.field}"]`)?.focus();
       return;
     }
 

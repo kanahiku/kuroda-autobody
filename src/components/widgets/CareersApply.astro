@@ -78,18 +78,14 @@ const fields: {
                 required
                 autocomplete={field.autocomplete}
                 placeholder={field.placeholder}
-                aria-describedby={field.id === 'phone' ? 'careers-phone-error' : undefined}
+                aria-describedby={`careers-${field.id}-error`}
                 class={fieldClass}
               />
-              {
-                field.id === 'phone' && (
-                  <p
-                    id="careers-phone-error"
-                    data-field-error
-                    class="mt-2 hidden font-body text-[13px] font-medium leading-4 text-red-700"
-                  />
-                )
-              }
+              <p
+                id={`careers-${field.id}-error`}
+                data-field-error
+                class="mt-2 hidden font-body text-[13px] font-medium leading-4 text-red-700"
+              ></p>
             </div>
           ))
         }
@@ -106,8 +102,9 @@ const fields: {
           <label for="careers-resume" class={labelClass}>
             Upload your résumé <span class="text-accent">*</span>
           </label>
-          <input type="file" id="careers-resume" name="resume" required accept={accept} class={fileClass} />
+          <input type="file" id="careers-resume" name="resume" required accept={accept} aria-describedby="careers-resume-error" class={fileClass} />
           <p class="mt-2 font-body text-[12px] leading-4 text-body-60">{resumeHint}</p>
+          <p id="careers-resume-error" data-field-error class="mt-2 hidden font-body text-[13px] font-medium leading-4 text-red-700"></p>
         </div>
 
         <div>
@@ -121,20 +118,12 @@ const fields: {
           {/* Inside the button row so a hidden Turnstile check does not open a gap above the button. */}
           <div data-turnstile class="empty:hidden"></div>
           <button type="submit" class="btn-primary cta-lg w-full disabled:opacity-60 sm:w-auto">{submitLabel}</button>
+          <p id="careers-status" class="hidden" aria-live="polite"></p>
         </div>
 
-        <p
-          id="careers-status"
-          class="hidden text-left text-[14px] font-medium text-body-78 md:text-[15px]"
-          aria-live="polite"
-        >
-        </p>
-
-        <p class="mt-2 font-body text-[13px] leading-5 text-body-60">
+        <p class="font-body text-[13px] leading-5 text-body-60">
           Prefer email? Send your résumé to{' '}
-          <a href={`mailto:${CAREERS.publicEmail}`} class="text-accent underline-offset-4 hover:underline">
-            {CAREERS.publicEmail}
-          </a>.
+          <a href={`mailto:${CAREERS.publicEmail}`} class="text-accent underline-offset-4 hover:underline">{CAREERS.publicEmail}</a>.
         </p>
       </form>
     </div>

@@ -86,14 +86,10 @@ const fields: Array<{
                 required
                 autocomplete={field.autocomplete}
                 placeholder={field.placeholder}
-                aria-describedby={field.id === 'phone' ? 'phone-error' : undefined}
+                aria-describedby={`${field.id}-error`}
                 class={fieldClass}
               />
-              {
-                field.id === 'phone' && (
-                  <p id="phone-error" data-field-error class="mt-2 hidden font-body text-[13px] font-medium leading-4 text-red-700"></p>
-                )
-              }
+              <p id={`${field.id}-error`} data-field-error class="mt-2 hidden font-body text-[13px] font-medium leading-4 text-red-700"></p>
             </div>
           ))
         }
@@ -134,14 +130,8 @@ const fields: Array<{
         {/* Inside the button row so a hidden Turnstile check does not open a gap above the button. */}
         <div data-turnstile class="empty:hidden"></div>
         <button type="submit" class="btn-primary cta-lg w-full disabled:opacity-60 sm:w-auto">Request Estimate</button>
+        <p id="form-status" class="hidden" aria-live="polite"></p>
       </div>
-
-      <p
-        id="form-status"
-        class="hidden text-left text-[14px] font-medium text-body-78 md:text-[15px]"
-        aria-live="polite"
-      >
-      </p>
     </form>
   </MaxWidthContainer>
 </section>
