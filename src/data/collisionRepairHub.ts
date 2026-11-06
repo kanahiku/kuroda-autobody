@@ -2,7 +2,7 @@
  * Collision Repair hub (/collision-repair/) — copy from the client's content doc.
  * Rendered by `ContentPageView`; the doc has no FAQs, so `faqs` and `related` are omitted.
  * Wording rule: OEMs are "participates in … programs" — never "certified" until the client confirms.
- * The ASE Certified logo has not been supplied yet, so its tile shows a grey placeholder.
+ * Credential logos are the client PNGs in public/oem/, chosen in Sanity by key.
  */
 import type { ContentPage } from '~/data/contentPage';
 
@@ -181,7 +181,7 @@ export const collisionRepairHubPages: ContentPage[] = [
         ],
         credentials: [
           { name: 'I-CAR Gold Class', logo: '/oem/icar-gold-class.png', logoW: 220, logoH: 110 },
-          { name: 'ASE Certified' },
+          { name: 'ASE Certified', logo: '/oem/ase.png', logoW: 220, logoH: 220 },
         ],
       },
       {

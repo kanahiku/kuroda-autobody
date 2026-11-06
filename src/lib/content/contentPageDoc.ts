@@ -51,6 +51,7 @@ export const contentPageId = (path: string): string =>
  */
 export const CREDENTIAL_LOGOS: Record<string, { src: string; w: number; h: number }> = {
   'icar-gold-class': { src: '/oem/icar-gold-class.png', w: 220, h: 110 },
+  ase: { src: '/oem/ase.png', w: 220, h: 220 },
   honda: { src: '/oem/honda.png', w: 141, h: 110 },
   acura: { src: '/oem/acura.png', w: 141, h: 110 },
   nissan: { src: '/oem/nissan.png', w: 141, h: 110 },

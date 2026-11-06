@@ -26,6 +26,7 @@ const GROUPS = [
 const LOGOS: [string, string][] = [
   ['', 'No logo yet (grey box)'],
   ['icar-gold-class', 'I-CAR Gold Class'],
+  ['ase', 'ASE Certified'],
   ['honda', 'Honda'],
   ['acura', 'Acura'],
   ['nissan', 'Nissan'],
