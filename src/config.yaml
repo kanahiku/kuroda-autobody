@@ -3,7 +3,7 @@
 
 site:
   name: Kuroda Autobody
-  site: 'https://kurodaautobody.com'
+  site: 'https://www.kurodaautobody.com'
   base: '/'
   trailingSlash: true
   googleSiteVerificationId: ''

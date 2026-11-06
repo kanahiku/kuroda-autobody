@@ -2,7 +2,7 @@
  * Client script for the careers application form (`#careers-form`, see CareersApply.astro).
  * Posts multipart form data (including the résumé file) to /api/careers/ with a Turnstile token.
  */
-import { asText, renderTurnstile, setStatus } from './form-shared';
+import { asText, phoneMessage, renderTurnstile, setFieldError, setStatus } from './form-shared';
 
 /** Returns a user-facing problem with the chosen résumé, or '' when it is fine. */
 function resumeProblem(form: HTMLFormElement, file: FormDataEntryValue | null): string {
@@ -30,6 +30,9 @@ async function postApplication(form: HTMLFormElement, data: FormData, turnstileT
 }
 
 function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string) {
+  const phoneInput = form.querySelector<HTMLInputElement>('input[name="phone"]');
+  phoneInput?.addEventListener('input', () => setFieldError(phoneInput, ''));
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -38,9 +41,17 @@ function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string
     if (asText(data.get('website'))) return; // honeypot
 
     status.classList.remove('hidden');
+    const phone = phoneMessage(asText(data.get('phone')));
+    setFieldError(phoneInput, phone);
     if (!form.checkValidity()) {
       form.reportValidity();
-      setStatus(status, 'error', 'Please fill in your name, email, phone and résumé.');
+      setStatus(status, 'error', phone || 'Please fill in your name, email, phone and résumé.');
+      if (phone) phoneInput?.focus();
+      return;
+    }
+    if (phone) {
+      setStatus(status, 'error', phone);
+      phoneInput?.focus();
       return;
     }
     const problem = resumeProblem(form, data.get('resume'));

@@ -39,12 +39,6 @@ export default defineConfig({
     },
   }),
 
-  redirects: {
-    '/our-locations': '/locations',
-    '/work-with-us': '/careers',
-    '/terms-of-service': '/terms',
-  },
-
   // Hover/tap only. Prefetching every nav + footer URL on load contended with
   // the hero image and pushed LCP past 10s on a cold homepage.
   prefetch: {

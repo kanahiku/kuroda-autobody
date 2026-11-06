@@ -3,7 +3,7 @@
  * Posts JSON to the shared forms worker with a Cloudflare Turnstile token.
  */
 
-import { asText, renderTurnstile, setStatus } from './form-shared';
+import { asText, phoneMessage, renderTurnstile, setFieldError, setStatus } from './form-shared';
 
 function composeEstimateMessage(data: FormData): string {
   const lines: string[] = [];
@@ -42,7 +42,20 @@ async function postEstimate(form: HTMLFormElement, data: FormData, turnstileToke
   return Boolean(res.ok && payload?.ok);
 }
 
+function formProblem(data: FormData): { message: string; field: string } | null {
+  if (!asText(data.get('name'))) return { message: 'Enter your name.', field: 'name' };
+  const phone = phoneMessage(asText(data.get('phone')));
+  if (phone) return { message: phone, field: 'phone' };
+  const email = asText(data.get('email'));
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { message: 'Enter a valid email address.', field: 'email' };
+  if (!asText(data.get('vehicle'))) return { message: 'Enter the year, make and model.', field: 'vehicle' };
+  return null;
+}
+
 function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string) {
+  const phoneInput = form.querySelector<HTMLInputElement>('#phone');
+  phoneInput?.addEventListener('input', () => setFieldError(phoneInput, ''));
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -50,6 +63,15 @@ function bindSubmit(form: HTMLFormElement, status: HTMLElement, widgetId: string
 
     // Honeypot check
     if (asText(data.get('website'))) return;
+
+    const problem = formProblem(data);
+    setFieldError(phoneInput, problem?.field === 'phone' ? problem.message : '');
+    if (problem) {
+      setStatus(status, 'error', problem.message);
+      status.classList.remove('hidden');
+      form.querySelector<HTMLInputElement>(`#${problem.field}`)?.focus();
+      return;
+    }
 
     const turnstile = window.turnstile;
     const turnstileToken =

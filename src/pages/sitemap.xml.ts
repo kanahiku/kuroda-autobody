@@ -40,7 +40,9 @@ ${urls}
     status: 200,
     headers: {
       'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': 'public, max-age=60, s-maxage=300',
+      // Do not CDN-cache this. On Vercel the sitemap and robots handlers share
+      // one internal render URL, so a public cache here was served as /robots.txt.
+      'Cache-Control': 'private, no-store',
       ...(!isIndexable ? { 'X-Robots-Tag': 'noindex, nofollow' } : {}),
     },
   });

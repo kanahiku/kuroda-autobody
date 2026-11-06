@@ -12,7 +12,8 @@
  */
 export const site = {
   name: 'Kuroda Autobody',
-  url: 'https://kurodaautobody.com',
+  // www is the host that returns 200. The apex 308s to www in Vercel.
+  url: 'https://www.kurodaautobody.com',
   description:
     'Kuroda Autobody: expert collision repair, paint, and auto body services. Quality craftsmanship you can trust.',
   footerTagline: 'Expert collision repair and auto body services. Quality craftsmanship you can trust.',

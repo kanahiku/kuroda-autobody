@@ -1,0 +1,11 @@
+---
+/**
+ * Unknown URLs. This has to be a real route: on Vercel, an unmatched path is
+ * rewritten to the server with status 404 and that response was the sitemap
+ * document instead of this page.
+ */
+export const prerender = false;
+
+Astro.response.status = 404;
+return Astro.rewrite('/404');
+---

@@ -65,13 +65,14 @@ const fields: Array<{
       data-turnstile-sitekey={TURNSTILE_SITE_KEY}
       data-turnstile-appearance="interaction-only"
       data-phone={CONTACT.phone.display}
-      class="flex min-w-0 flex-1 flex-col gap-4"
+      class="flex min-w-0 flex-1 flex-col gap-8"
       enctype="multipart/form-data"
+      novalidate
     >
       {/* Honeypot */}
       <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" />
 
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-2">
         {
           fields.map((field) => (
             <div>
@@ -85,8 +86,14 @@ const fields: Array<{
                 required
                 autocomplete={field.autocomplete}
                 placeholder={field.placeholder}
+                aria-describedby={field.id === 'phone' ? 'phone-error' : undefined}
                 class={fieldClass}
               />
+              {
+                field.id === 'phone' && (
+                  <p id="phone-error" data-field-error class="mt-2 hidden font-body text-[13px] font-medium leading-4 text-red-700"></p>
+                )
+              }
             </div>
           ))
         }
@@ -123,10 +130,9 @@ const fields: Array<{
           class={fieldClass}></textarea>
       </div>
 
-      {/* Turnstile bot check. interaction-only: no checkbox unless Cloudflare needs one. */}
-      <div data-turnstile></div>
-
       <div>
+        {/* Inside the button row so a hidden Turnstile check does not open a gap above the button. */}
+        <div data-turnstile class="empty:hidden"></div>
         <button type="submit" class="btn-primary cta-lg w-full disabled:opacity-60 sm:w-auto">Request Estimate</button>
       </div>
 
