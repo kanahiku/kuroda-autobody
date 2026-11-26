@@ -176,6 +176,11 @@ export interface ContentPage {
     /** Hero photo uploaded in Sanity. */
     image?: PagePhoto;
   };
+  /**
+   * A film under the hero (VideoBand). The video file itself is uploaded in Sanity (`siteVideos.aboutFilm`);
+   * nothing is shown until it is.
+   */
+  film?: { eyebrow?: string; headingLead?: string; headingStrong?: string; title: string };
   sections: ContentSection[];
   /** Omit when the copy has no FAQs. */
   faqs?: {

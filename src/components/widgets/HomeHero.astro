@@ -31,10 +31,23 @@ export interface Props {
   /** Hero photo uploaded in Sanity; absent → grey placeholder. */
   image?: { src: string; alt: string };
   trustItems: TrustItem[];
+  /** Silent loop (Sanity `siteVideos`) played behind the blue tint; absent → the photo / grey placeholder only. */
+  video?: { src: string; poster?: string };
 }
 
-const { eyebrow, headingLead, headingAccent, tagline, body, primaryCtaText, callLabel, imageAlt, image, trustItems } =
-  Astro.props;
+const {
+  eyebrow,
+  headingLead,
+  headingAccent,
+  tagline,
+  body,
+  primaryCtaText,
+  callLabel,
+  imageAlt,
+  image,
+  trustItems,
+  video,
+} = Astro.props;
 
 const trustIcon = { target: 'target-24', shield: 'shield-24', home: 'home-24' } as const;
 const schedule = isScheduleEstimateCta(primaryCtaText);
@@ -66,6 +79,26 @@ const primaryHref = schedule ? SCHEDULE_CTA_HREF : PRIMARY_CTA_HREF;
           loading="eager"
           fetchpriority="high"
         />
+      )
+    }
+    {
+      video && (
+        <>
+          {/* Muted looping clip — no controls, no sound; hidden when the visitor prefers reduced motion (poster / photo shows). */}
+          <video
+            class="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+            src={video.src}
+            poster={video.poster}
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            disablepictureinpicture
+            aria-hidden="true"
+            tabindex="-1"
+          />
+        </>
       )
     }
   </div>

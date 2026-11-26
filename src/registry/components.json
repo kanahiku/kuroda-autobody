@@ -532,9 +532,26 @@
         "primaryCtaText / callLabel": "string — destinations come from ~/config (PRIMARY_CTA_HREF, CONTACT.phone)",
         "imageAlt": "string — accessible label of the placeholder photo",
         "trustItems": "{ icon: 'icar'|'target'|'shield'|'home', text }[] — exactly 4",
-        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder",
+        "video": "{ src, poster? } — silent looping clip from Sanity `siteVideos.heroLoop`, played behind a blue tint (`bg-hero-video-tint`); omitted → photo only"
       },
       "notes": "Homepage only. Interior pages use PageHero. Homepage widgets (RatingsBar, ServiceGridSplit, FeatureListSplit, BeforeAfter, ConsumerProtection, ReviewsColumns) have no built-in copy: pass every prop from getHomeContent()."
+    },
+    {
+      "id": "P-46",
+      "name": "Click-to-play film",
+      "figmaNames": ["Our Story film"],
+      "shape": "16:9 cover image with a play button; click plays the video with sound and native controls",
+      "component": "VideoBand",
+      "import": "~/components/widgets/VideoBand.astro",
+      "props": {
+        "src": "string — MP4 URL (Sanity `siteVideos.aboutFilm`)",
+        "poster": "string — cover image",
+        "eyebrow / headingLead / headingStrong": "string — optional heading",
+        "title": "string — accessible name",
+        "surface": "'page' | 'subtle'"
+      },
+      "notes": "Rendered by ContentPageView when a page has `film` (src/data/contentPage.ts) and a video is uploaded. preload=none, so nothing downloads before the click."
     }
   ]
 }

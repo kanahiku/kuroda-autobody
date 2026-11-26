@@ -746,6 +746,9 @@ function gradientVars({ colors: c }: Brand): string {
     /* Hero · Fade mobile — Figma 140:63, photo (top 470px) melts into navy */
     --gradient-hero-fade-mobile: linear-gradient(180deg, rgba(8,41,108,0.45) 0%, rgba(11,79,158,0.25) 30%, rgba(8,41,108,0.85) 68%, rgb(8,41,108) 100%);
 
+    /* Hero · Video tint — flat navy + Kuroda-blue wash over the muted loop so the footage reads as a quiet backdrop */
+    --gradient-hero-video-tint: linear-gradient(0deg, rgba(4,123,193,0.28), rgba(4,123,193,0.28)), linear-gradient(0deg, rgba(8,41,108,0.55), rgba(8,41,108,0.55));
+
     /* Hero · Headline — sky-blue gradient for the bold span in the H1   */
     --gradient-hero-headline: linear-gradient(90deg, #9fd6fb 0%, #5bb2ec 100%);
 

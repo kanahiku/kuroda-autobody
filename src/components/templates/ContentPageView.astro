@@ -25,11 +25,12 @@ import CredentialLogos from '~/components/widgets/CredentialLogos.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import TagGrid from '~/components/widgets/TagGrid.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
+import VideoBand from '~/components/widgets/VideoBand.astro';
 import type { ContentPage } from '~/data/contentPage';
 import { placeBlocks, toFaqWidgetItems } from '~/lib/pageBlocks';
 import { site } from '~/config/site';
 import { sitemapLabel } from '~/lib/sitemap';
-import { getTestimonials } from '~/lib/content';
+import { getSiteVideos, getTestimonials } from '~/lib/content';
 
 export interface Props {
   page: ContentPage;
@@ -42,6 +43,8 @@ const metadata = { title: page.seoTitle, ignoreTitleTemplate: true, description:
 // `reviews` sections with `source: 'sanity'` use Studio testimonials; the section's own `reviews` is the fallback.
 const needsTestimonials = page.sections.some((s) => s.type === 'reviews' && s.source === 'sanity');
 const testimonials = needsTestimonials ? await getTestimonials() : [];
+
+const film = page.film ? (await getSiteVideos()).about : undefined;
 
 const pageLabel = sitemapLabel(page.path);
 const relatedItems = (page.related?.paths ?? []).map((path) => ({ label: sitemapLabel(path), href: path }));
@@ -60,6 +63,20 @@ const body = placeBlocks(page);
   />
 
   <GradientBand variant="blue" />
+
+  {
+    page.film && film && (
+      <VideoBand
+        src={film.src}
+        poster={film.poster}
+        eyebrow={page.film.eyebrow}
+        headingLead={page.film.headingLead}
+        headingStrong={page.film.headingStrong}
+        title={page.film.title}
+        surface="subtle"
+      />
+    )
+  }
 
   {
     body.map(({ block, surface }) => {

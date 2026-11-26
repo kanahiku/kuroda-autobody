@@ -21,6 +21,12 @@ export const ourStoryPages: ContentPage[] = [
         'Today, the Kuroda automotive tradition spans four generations, carrying forward a family business that has been part of Hawaiʻi for nearly 90 years.',
       ],
     },
+    film: {
+      eyebrow: 'Meet the Team',
+      headingLead: 'See Kuroda ',
+      headingStrong: 'at Work.',
+      title: 'Kuroda Autobody — the people and the shop in Waipahu',
+    },
     sections: [
       {
         type: 'story',

@@ -1,0 +1,112 @@
+---
+import MaxWidthContainer from '~/components/ui/MaxWidthContainer.astro';
+import SectionTitle from '~/components/ui/SectionTitle.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+
+/**
+ * VideoBand — a film the visitor chooses to play: cover image + play button; click → the video plays with
+ * sound and native controls (play/pause, volume, fullscreen). Nothing downloads until the click (`preload="metadata"`).
+ * Used under the Our Story hero; the file comes from Sanity (`siteVideos.aboutFilm`).
+ */
+export interface Props {
+  src: string;
+  /** Cover image shown until the video is played. */
+  poster?: string;
+  eyebrow?: string;
+  headingLead?: string;
+  headingStrong?: string;
+  /** Accessible name of the film. */
+  title: string;
+  surface?: 'page' | 'subtle';
+}
+
+const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page' } = Astro.props;
+---
+
+<section class:list={['w-full', surface === 'subtle' ? 'bg-surface-subtle' : 'bg-surface-page']} data-video-band>
+  <MaxWidthContainer class="flex flex-col gap-8 py-16 xl:py-[96px]">
+    {
+      (eyebrow || headingLead) && (
+        <div class="flex flex-col gap-1">
+          {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+          {headingLead && (
+            <SectionTitle lead={headingLead} strong={headingStrong} class={eyebrow ? 'pt-3 md:pt-4' : undefined} />
+          )}
+        </div>
+      )
+    }
+
+    <div
+      class="relative mx-auto w-full max-w-[1120px] overflow-hidden rounded-[4px] bg-surface-inverse"
+      style="aspect-ratio: 16 / 9;"
+    >
+      <video
+        class="absolute inset-0 h-full w-full object-cover"
+        src={src}
+        poster={poster}
+        preload="metadata"
+        playsinline
+        controlslist="nodownload"
+        aria-label={title}
+        data-film
+      >
+      </video>
+      <button
+        type="button"
+        class="group absolute inset-0 flex items-center justify-center bg-hero-video-tint transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
+        aria-label={`Play video: ${title}`}
+        data-film-play
+      >
+        <span
+          class="flex h-[84px] w-[84px] items-center justify-center rounded-full bg-surface-accent shadow-lg transition-transform group-hover:scale-105 md:h-[104px] md:w-[104px]"
+        >
+          <svg viewBox="0 0 24 24" class="ml-1 h-9 w-9 fill-white md:h-11 md:w-11" aria-hidden="true" data-film-icon>
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
+          <span
+            class="hidden h-9 w-9 animate-spin rounded-full border-4 border-white/40 border-t-white md:h-11 md:w-11"
+            aria-hidden="true"
+            data-film-spinner></span>
+        </span>
+      </button>
+    </div>
+  </MaxWidthContainer>
+</section>
+
+<script>
+  // The button stays up (with a spinner) until the video is really playing, and ignores clicks meanwhile — hiding it
+  // at once left a still frame while the file buffered, so a second click landed on the video and paused it.
+  document.querySelectorAll<HTMLElement>('[data-video-band]').forEach((band) => {
+    const video = band.querySelector<HTMLVideoElement>('[data-film]');
+    const button = band.querySelector<HTMLButtonElement>('[data-film-play]');
+    const icon = band.querySelector<HTMLElement>('[data-film-icon]');
+    const spinner = band.querySelector<HTMLElement>('[data-film-spinner]');
+    if (!video || !button || !icon || !spinner) return;
+
+    const setLoading = (loading: boolean) => {
+      spinner.classList.toggle('hidden', !loading);
+      icon.classList.toggle('hidden', loading);
+      button.setAttribute('aria-busy', String(loading));
+    };
+    const showButton = () => {
+      video.controls = false;
+      button.style.display = '';
+      setLoading(false);
+    };
+
+    button.addEventListener('click', () => {
+      if (button.getAttribute('aria-busy') === 'true') return;
+      video.muted = false;
+      video.volume = 1;
+      setLoading(true);
+      void video.play().catch(showButton);
+    });
+    video.addEventListener('playing', () => {
+      video.controls = true;
+      button.style.display = 'none';
+      setLoading(false);
+    });
+    video.addEventListener('error', showButton);
+    video.addEventListener('ended', showButton);
+  });
+</script>

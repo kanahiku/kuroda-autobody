@@ -183,6 +183,10 @@ export const structure = (S: StructureBuilder) =>
         .schemaType('pagePhotos')
         .child(S.document().schemaType('pagePhotos').documentId('pagePhotos').title('Page photos')),
       S.listItem()
+        .title('Site videos (homepage loop, Our Story film)')
+        .schemaType('siteVideos')
+        .child(S.document().schemaType('siteVideos').documentId('siteVideos').title('Site videos')),
+      S.listItem()
         .title('Header & footer (site-wide)')
         .schemaType('siteNavigation')
         .child(S.document().schemaType('siteNavigation').documentId('siteNavigation').title('Header & footer')),
@@ -229,5 +233,6 @@ export const singletonTypes = new Set<string>([
   'ratingsBar',
   'siteNotice',
   'pagePhotos',
+  'siteVideos',
   'siteNavigation',
 ]);

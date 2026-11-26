@@ -470,3 +470,28 @@ export async function getSanityPagePhotos(path: string) {
   );
   return { hero: resolveContentImage(row?.hero), cta: resolveContentImage(row?.cta) };
 }
+
+// ─── Site videos ──────────────────────────────────────────────────────────────
+
+export type SanitySiteVideos = {
+  heroLoop?: string | null;
+  heroPoster?: SanityImageFields | null;
+  aboutFilm?: string | null;
+  aboutPoster?: SanityImageFields | null;
+};
+
+/** The two films (file URLs on the Sanity CDN) and their still frames, from the one `siteVideos` document. */
+export async function getSanitySiteVideos() {
+  const doc = await sanityClient.fetch<SanitySiteVideos | null>(/* groq */ `*[_id == "siteVideos"][0]{
+    "heroLoop": heroLoop.asset->url,
+    "heroPoster": heroPosterImage{ ${IMAGE_PROJECTION} },
+    "aboutFilm": aboutFilm.asset->url,
+    "aboutPoster": aboutPosterImage{ ${IMAGE_PROJECTION} }
+  }`);
+  return {
+    heroLoop: doc?.heroLoop || undefined,
+    heroPoster: resolveContentImage(doc?.heroPoster)?.src,
+    aboutFilm: doc?.aboutFilm || undefined,
+    aboutPoster: resolveContentImage(doc?.aboutPoster)?.src,
+  };
+}

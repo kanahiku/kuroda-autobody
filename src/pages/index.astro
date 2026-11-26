@@ -20,9 +20,9 @@ import ReviewsColumns from '~/components/widgets/ReviewsColumns.astro';
 import CredentialLogos from '~/components/widgets/CredentialLogos.astro';
 import CTABanner from '~/components/widgets/CTABanner.astro';
 import { CONTACT } from '~/config/contact';
-import { getHomeContent } from '~/lib/content';
+import { getHomeContent, getSiteVideos } from '~/lib/content';
 
-const home = await getHomeContent();
+const [home, videos] = await Promise.all([getHomeContent(), getSiteVideos()]);
 
 const meta = { title: home.seo.title, description: home.seo.description };
 
@@ -41,7 +41,7 @@ const LOGOS = {
 ---
 
 <Layout metadata={meta}>
-  <HomeHero {...home.hero} />
+  <HomeHero {...home.hero} video={videos.hero} />
 
   {/* ── Band · Blue — Figma 159:109 · 10px divider below hero ── */}
   <GradientBand variant="blue" />

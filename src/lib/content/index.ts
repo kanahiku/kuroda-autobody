@@ -105,5 +105,6 @@ export { getContactContent } from './contact';
 export { getOnlineEstimateContent } from './onlineEstimate';
 export { getLocationContent } from './location';
 export { getRatingsContent } from './ratings';
+export { getSiteVideos, type SiteVideo } from './videos';
 
 export type { BlogPost, JobOpening, Testimonial };

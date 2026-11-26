@@ -1343,6 +1343,11 @@ nav > ul > li > div > button.aw-link-active {
   background: var(--gradient-hero-fade-top);
 }
 
+/** Hero · Video tint — blue wash over the muted hero loop */
+@utility bg-hero-video-tint {
+  background: var(--gradient-hero-video-tint);
+}
+
 /** Brand gradient, top → bottom — vertical rules (pull quote) */
 @utility bg-gradient-brand-vertical {
   background: var(--gradient-brand-vertical);
