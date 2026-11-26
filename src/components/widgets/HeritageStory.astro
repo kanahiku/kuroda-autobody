@@ -41,6 +41,8 @@ export interface Props {
   surface?: 'subtle' | 'page';
   /** Photo on the right (desktop). Stacks photo-first on mobile either way. */
   isReversed?: boolean;
+  /** Inline text link placed right after the first paragraph (e.g. "Our Story"). */
+  link?: { text: string; href: string };
 }
 
 const {
@@ -57,6 +59,7 @@ const {
   stats = [],
   surface = 'subtle',
   isReversed = false,
+  link,
 } = Astro.props;
 ---
 
@@ -116,6 +119,17 @@ const {
             ]}
           >
             {text}
+            {i === 0 && link && (
+              <>
+                {' '}
+                <a
+                  href={link.href}
+                  class="font-semibold text-accent underline underline-offset-4 transition-colors hover:text-heading-full"
+                >
+                  {link.text}
+                </a>
+              </>
+            )}
           </p>
         ))
       }

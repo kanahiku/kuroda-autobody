@@ -413,7 +413,8 @@
         "paragraphs?": "string[] — replaces body",
         "photoLabel?": "string",
         "isReversed?": "boolean — photo on the right from xl up (alternate on long story pages)",
-        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder"
+        "image": "{ src, alt } — photo uploaded in Sanity; omitted → grey placeholder",
+        "link": "{ text, href } — optional inline text link placed right after the first paragraph (homepage: “Our Story” → /about/)"
       },
       "notes": "Defaults hold the Kuroda copy from Figma. Pass quote=\"\", stats={[]}, caption=\"\" or eyebrow=\"\" to drop those blocks (e.g. Post-Repair Walkthrough). Photo stays a grey box until client supplies assets."
     },

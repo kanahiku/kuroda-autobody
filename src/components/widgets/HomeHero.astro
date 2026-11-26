@@ -205,10 +205,54 @@ const primaryHref = schedule ? SCHEDULE_CTA_HREF : PRIMARY_CTA_HREF;
 </section>
 
 <script>
-  // Offset = space above the hero (utility bar + nav), so the hero fills exactly the rest of the first fold.
-  const hero = document.querySelector<HTMLElement>('[data-home-hero]');
-  const setOffset = () =>
-    hero?.style.setProperty('--hero-offset', `${hero.getBoundingClientRect().top + window.scrollY}px`);
-  setOffset();
+  // Runs on first load AND after every client-side navigation (ClientRouter swaps the page without a reload, so a
+  // plain top-level script would only work the first time the homepage is shown).
+  const offsetOf = (hero: HTMLElement) => hero.getBoundingClientRect().top + window.scrollY;
+  const setOffset = () => {
+    const hero = document.querySelector<HTMLElement>('[data-home-hero]');
+    // Offset = space above the hero (utility bar + nav), so the hero fills exactly the rest of the first fold.
+    hero?.style.setProperty('--hero-offset', `${offsetOf(hero)}px`);
+  };
+
+  const startVideo = () => {
+    const old = document.querySelector<HTMLVideoElement>('[data-home-hero] video');
+    if (!old) return;
+    if (old.dataset.ready) {
+      if (old.paused) void old.play().catch(() => {});
+      return;
+    }
+    // A <video muted autoplay> inserted by a page swap keeps `muted` as an attribute only, so some browsers treat it
+    // as unmuted and refuse autoplay. Replace it with a fresh element whose `muted` property is set before it is
+    // attached, then start it — retrying when data is ready and on the first tap / scroll / key if still blocked.
+    const video = old.cloneNode(false) as HTMLVideoElement;
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.dataset.ready = '1';
+    old.replaceWith(video);
+    const play = () =>
+      video.play().catch((err: unknown) => {
+        console.warn('[hero video] autoplay blocked:', (err as Error)?.name);
+      });
+    void play();
+    video.addEventListener('canplay', () => void play(), { once: true });
+    const onGesture = () => {
+      if (video.paused) void play();
+    };
+    for (const type of ['pointerdown', 'touchstart', 'keydown', 'scroll'] as const) {
+      window.addEventListener(type, onGesture, { once: true, passive: true });
+    }
+  };
+
+  const initHero = () => {
+    setOffset();
+    startVideo();
+  };
+
+  // Module scripts on a swapped-in page can run after `astro:page-load` already fired, so also init right away.
+  initHero();
+  document.addEventListener('astro:page-load', initHero);
+  document.addEventListener('astro:after-swap', startVideo);
+  window.addEventListener('pageshow', startVideo);
   window.addEventListener('resize', setOffset);
 </script>
