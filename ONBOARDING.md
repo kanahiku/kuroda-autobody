@@ -163,7 +163,7 @@ Verify at 1440×800, 1366×768, 1920×1080 (desktop) and 390×844, 430×932, 375
 
 | System                                  | Where                                                                     |
 | --------------------------------------- | ------------------------------------------------------------------------- |
-| Sanity (homepage + blog + testimonials) | `studio/`, `src/lib/content/`, `/api/revalidate`                          |
+| Sanity (homepage + blog + testimonials) | `studio/`, `src/lib/content/`, `/api/revalidate.json`                     |
 | Forms → Resend                          | `/contact` → Cloudflare Worker (`services/forms/`) → Resend               |
 | Turnstile                               | `PUBLIC_TURNSTILE_SITE_KEY` on the form; Worker secret `TURNSTILE_SECRET` |
 | GTM                                     | `site.analytics.googleTagManagerId` → `Layout.astro`                      |
@@ -234,13 +234,13 @@ GTM and Search Console are **not** env vars — they go in `src/config/site.ts`.
 
 Webhook (instant publish, no rebuild):
 
-| Field         | Value                                     |
-| ------------- | ----------------------------------------- |
-| URL           | `https://clientdomain.com/api/revalidate` |
-| Method        | `POST`                                    |
-| Trigger       | Create, Update, Delete                    |
-| Filter        | `!(_id in path("drafts.**"))`             |
-| Authorization | `Bearer <SANITY_REVALIDATE_SECRET>`       |
+| Field         | Value                                              |
+| ------------- | -------------------------------------------------- |
+| URL           | `https://www.clientdomain.com/api/revalidate.json` |
+| Method        | `POST`                                             |
+| Trigger       | Create, Update, Delete                             |
+| Filter        | `!(_id in path("drafts.**"))`                      |
+| Authorization | `Bearer <SANITY_REVALIDATE_SECRET>`                |
 
 ---
 
