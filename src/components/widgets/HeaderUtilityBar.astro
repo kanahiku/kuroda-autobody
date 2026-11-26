@@ -13,9 +13,9 @@ const notice = await getActiveNotice();
 
 {
   notice && (
-    <div class="w-full bg-surface-inverse" role="status">
-      <MaxWidthContainer class="flex items-center justify-center gap-2 py-2 text-center">
-        <p class="font-body text-[11px] leading-4 tracking-[0.06em] text-on-dark md:text-[12px]">
+    <div class="w-full bg-[image:var(--gradient-hero-headline)]" role="status">
+      <MaxWidthContainer class="flex items-center justify-center gap-2 py-3 text-center md:py-4">
+        <p class="font-body text-[13px] leading-5 tracking-[0.06em] text-heading md:text-[16px] md:leading-6">
           <strong class="font-bold uppercase tracking-[0.12em]">{notice.label}:</strong> {notice.message}
         </p>
       </MaxWidthContainer>
