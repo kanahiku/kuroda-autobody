@@ -541,7 +541,7 @@
       "id": "P-46",
       "name": "Click-to-play film",
       "figmaNames": ["Our Story film"],
-      "shape": "16:9 cover image with a play button; click plays the video with sound and native controls",
+      "shape": "16:9 cover image with a play button; click plays the video (always muted) with native controls",
       "component": "VideoBand",
       "import": "~/components/widgets/VideoBand.astro",
       "props": {

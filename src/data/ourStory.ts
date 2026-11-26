@@ -22,7 +22,6 @@ export const ourStoryPages: ContentPage[] = [
       ],
     },
     film: {
-      eyebrow: 'Meet the Team',
       headingLead: 'See Kuroda ',
       headingStrong: 'at Work.',
       title: 'Kuroda Autobody — the people and the shop in Waipahu',

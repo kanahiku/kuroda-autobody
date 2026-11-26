@@ -4,8 +4,9 @@ import SectionTitle from '~/components/ui/SectionTitle.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 
 /**
- * VideoBand — a film the visitor chooses to play: cover image + play button; click → the video plays with
- * sound and native controls (play/pause, volume, fullscreen). Nothing downloads until the click (`preload="metadata"`).
+ * VideoBand — a film the visitor chooses to play: cover image + play button; click → the video plays, always
+ * silent (`muted`, and the uploaded file has no audio track), with native controls (play/pause, fullscreen).
+ * Only the metadata loads before the click (`preload="metadata"`).
  * Used under the Our Story hero; the file comes from Sanity (`siteVideos.aboutFilm`).
  */
 export interface Props {
@@ -45,6 +46,7 @@ const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page
         src={src}
         poster={poster}
         preload="metadata"
+        muted
         playsinline
         controlslist="nodownload"
         aria-label={title}
@@ -53,7 +55,7 @@ const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page
       </video>
       <button
         type="button"
-        class="group absolute inset-0 flex items-center justify-center bg-hero-video-tint transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
+        class="group absolute inset-0 flex cursor-pointer items-center justify-center bg-hero-video-tint transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
         aria-label={`Play video: ${title}`}
         data-film-play
       >
@@ -74,8 +76,9 @@ const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page
 </section>
 
 <script>
-  // The button stays up (with a spinner) until the video is really playing, and ignores clicks meanwhile — hiding it
-  // at once left a still frame while the file buffered, so a second click landed on the video and paused it.
+  // Click → the video starts (always silent: the file has no audio track and the element is muted). The big button turns into a spinner until playback really begins and never
+  // blocks the native controls: if playback cannot start (slow network, autoplay policy, unsupported browser) the
+  // overlay is dropped and the visitor gets the browser's own play button instead of a dead end.
   document.querySelectorAll<HTMLElement>('[data-video-band]').forEach((band) => {
     const video = band.querySelector<HTMLVideoElement>('[data-film]');
     const button = band.querySelector<HTMLButtonElement>('[data-film-play]');
@@ -83,30 +86,29 @@ const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page
     const spinner = band.querySelector<HTMLElement>('[data-film-spinner]');
     if (!video || !button || !icon || !spinner) return;
 
+    let giveUp = 0;
     const setLoading = (loading: boolean) => {
       spinner.classList.toggle('hidden', !loading);
       icon.classList.toggle('hidden', loading);
-      button.setAttribute('aria-busy', String(loading));
+      button.style.pointerEvents = loading ? 'none' : '';
     };
-    const showButton = () => {
-      video.controls = false;
-      button.style.display = '';
+    const handOver = () => {
+      window.clearTimeout(giveUp);
+      video.controls = true;
+      button.style.display = 'none';
       setLoading(false);
     };
 
     button.addEventListener('click', () => {
-      if (button.getAttribute('aria-busy') === 'true') return;
-      video.muted = false;
-      video.volume = 1;
       setLoading(true);
-      void video.play().catch(showButton);
+      giveUp = window.setTimeout(handOver, 6000);
+      video.play().catch(handOver);
     });
-    video.addEventListener('playing', () => {
-      video.controls = true;
-      button.style.display = 'none';
-      setLoading(false);
+    video.addEventListener('playing', handOver);
+    video.addEventListener('error', handOver);
+    video.addEventListener('ended', () => {
+      video.controls = false;
+      button.style.display = '';
     });
-    video.addEventListener('error', showButton);
-    video.addEventListener('ended', showButton);
   });
 </script>
