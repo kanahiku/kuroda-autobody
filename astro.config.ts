@@ -31,7 +31,9 @@ export default defineConfig({
   output: 'server',
   trailingSlash: 'always',
   adapter: vercel({
-    edgeMiddleware: true,
+    // Off: the edge middleware forwards POST bodies to `/_render`, which `trailingSlash: true` (vercel.json)
+    // redirects to `/_render/` → "one-time-use body" crash. That broke /api/revalidate and /api/careers.
+    edgeMiddleware: false,
     isr: {
       expiration: 60 * 5,
       bypassToken: isrBypassToken,
