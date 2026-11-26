@@ -90,6 +90,17 @@ const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page
       if (!video || !button || !icon || !spinner) return;
 
       video.muted = true; // starts muted; visitors can unmute with the native controls. (The attribute alone is lost on ClientRouter swaps.)
+      // Start buffering as the film nears the viewport so the first click plays at once (the tag itself only loads
+      // metadata, which keeps the page light for visitors who never scroll here).
+      const preloader = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return;
+          video.preload = 'auto';
+          preloader.disconnect();
+        },
+        { rootMargin: '800px 0px' }
+      );
+      preloader.observe(band);
       let giveUp = 0;
       const setLoading = (loading: boolean) => {
         spinner.classList.toggle('hidden', !loading);
@@ -103,13 +114,43 @@ const { src, poster, eyebrow, headingLead, headingStrong, title, surface = 'page
         setLoading(false);
       };
 
+      // Click → play. If the browser rejects it or the file is slow to arrive, retry once with a fresh load, then
+      // put the overlay back (never leave the visitor on a dead 0:00 player) and say why in the console.
+      const start = (attempt: number) => {
+        window.clearTimeout(giveUp);
+        giveUp = window.setTimeout(
+          () => {
+            if (!video.paused && video.readyState >= 3) return;
+            if (attempt === 0) {
+              video.load();
+              start(1);
+            } else {
+              console.warn('[film] could not start — readyState', video.readyState, 'network', video.networkState);
+              showOverlay();
+            }
+          },
+          attempt === 0 ? 8000 : 15000
+        );
+        video.play().catch((err: unknown) => {
+          console.warn('[film] play() rejected:', (err as Error)?.name, (err as Error)?.message);
+          if (attempt === 0) {
+            video.load();
+            start(1);
+          } else {
+            showOverlay();
+          }
+        });
+      };
       button.addEventListener('click', () => {
         setLoading(true);
-        giveUp = window.setTimeout(handOver, 10000);
-        video.play().catch(handOver);
+        if (video.error) video.load();
+        start(0);
       });
       video.addEventListener('playing', handOver);
-      video.addEventListener('error', handOver);
+      video.addEventListener('error', () => {
+        console.warn('[film] media error:', video.error?.code, video.error?.message);
+        showOverlay();
+      });
       // Paused (or finished) → the blue tint and big play circle come back; clicking it resumes.
       let pauseTimer = 0;
       const showOverlay = () => {
